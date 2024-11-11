@@ -56,8 +56,10 @@ jobs:
           node-version: ${{ matrix.nodejs_version  }}
           check-latest: false
 
-      - name: Unit test
-        run: echo "It works!"
+      - name: Test
+        run: |
+          npm ci
+          npm test
 
   lint:
     name: Lint
