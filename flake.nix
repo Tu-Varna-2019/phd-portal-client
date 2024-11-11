@@ -39,7 +39,19 @@
             };
           };
           git-hooks.hooks = {
-            mdsh.enable = true;
+            # Common
+            markdownlint.enable = true;
+            actionlint.enable = true;
+            checkmake.enable = true;
+            cspell.enable = true;
+            cspell.files = "\.md$";
+
+            prettier.enable = true;
+
+            #JS
+            denofmt.enable = true;
+            denolint.enable = true;
+            eslint.enable = true;
           };
 
           devenv.root =
