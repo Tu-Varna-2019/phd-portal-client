@@ -10,9 +10,13 @@ insert_final_newline = true
 charset = utf-8
 trim_trailing_whitespace = true
 
-[*.py]
+[*.js]
 indent_style = space
 indent_size = 4
+
+[lib/**.js]
+indent_style = space
+indent_size = 2
 
 [*.{yml,yaml}]
 indent_style = space
