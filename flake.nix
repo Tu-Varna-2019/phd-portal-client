@@ -43,10 +43,10 @@
             markdownlint.enable = true;
             actionlint.enable = true;
             checkmake.enable = true;
-            cspell.enable = true;
-            cspell.files = "\.md$";
-
             prettier.enable = true;
+
+            # Nix
+            statix.enable = true;
 
             #JS
             denofmt.enable = true;
