@@ -1,0 +1,89 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+    branches:
+      - master
+    paths:
+      - "**"
+      - "!.gitignore"
+      - "!README.md"
+
+jobs:
+  checkout:
+    name: Checkout repo
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Save repo to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: phd-portal-client
+          path: .
+          overwrite: true
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 0
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: checkout
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        nodejs_version: [20]
+
+    steps:
+      - name: Download repo artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phd-portal-client
+          path: .
+
+      - name: Set up NodeJS ${{ matrix.nodejs_version  }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.nodejs_version  }}
+          check-latest: false
+
+      # - name: Test
+      #   run: |
+      #     npm ci
+      #     npm test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        nodejs_version: [20]
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Download repo artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: phd-portal-client
+          path: .
+
+      - name: Lint
+        uses: super-linter/super-linter@v7.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
