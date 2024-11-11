@@ -34,3 +34,4 @@ yarn-error.log*
 .devenv
 .envrc
 .env
+.pre-commit-config.yaml

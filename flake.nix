@@ -38,6 +38,9 @@
               install.enable = true;
             };
           };
+          git-hooks.hooks = {
+            mdsh.enable = true;
+          };
 
           devenv.root =
             let

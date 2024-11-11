@@ -83,12 +83,6 @@ jobs:
           name: phd-portal-client
           path: .
 
-      - name: Set up NodeJS ${{ matrix.nodejs_version  }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.nodejs_version  }}
-          check-latest: false
-
       - name: Lint
         uses: super-linter/super-linter@v7.1.0
         env:
