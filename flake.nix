@@ -49,7 +49,7 @@
             statix.enable = true;
 
             #JS
-            denofmt.enable = true;
+            # denofmt.enable = true;
             denolint.enable = true;
             eslint.enable = true;
           };

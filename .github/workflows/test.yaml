@@ -29,7 +29,6 @@ jobs:
           name: phd-portal-client
           path: .
           overwrite: true
-          include-hidden-files: true
           if-no-files-found: error
           retention-days: 0
 
@@ -70,20 +69,32 @@ jobs:
       fail-fast: false
       matrix:
         nodejs_version: [20]
+        eslint_version: [8.56.0]
+        prettier_version: [3.3.3]
 
     permissions:
-      contents: read
-      packages: read
-      statuses: write
+      checks: write
+      contents: write
 
     steps:
-      - name: Download repo artifact
-        uses: actions/download-artifact@v4
+      - name: Check out Git repository
+        uses: actions/checkout@v4
         with:
-          name: phd-portal-client
-          path: .
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up NodeJS ${{ matrix.nodejs_version  }}
+        uses: actions/setup-node@v4
+        with:
+          check-latest: false
+          node-version: "${{ matrix.nodejs_version }}"
+
+      - name: Install dependencies
+        run: |
+          npm install eslint@${{ matrix.eslint_version }} prettier@${{ matrix.prettier_version  }} --save-dev --legacy-peer-deps
+          npm install --legacy-peer-deps
 
       - name: Lint
-        uses: super-linter/super-linter@v7.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: wearerequired/lint-action@v2.3.0
+        with:
+          eslint: true
+          prettier: true

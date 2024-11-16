@@ -1,22 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+/* eslint-disable */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+  ],
   theme: {
     extend: {
       colors: {
-        textColor: "#FED13D",
-        secondary: "#262626",
-        popup: "#202022",
-      },
-      blur: {
-        mk: "5px",
-        xs: "2px",
-      },
-      fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        teko: ["Teko", "sans-serif"],
-      },
-    },
+        background: "var(--background)",
+        foreground: "var(--foreground)"
+      }
+    }
   },
-  plugins: [],
-}
+  plugins: []
+};
