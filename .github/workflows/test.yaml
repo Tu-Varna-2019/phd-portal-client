@@ -70,6 +70,7 @@ jobs:
       matrix:
         nodejs_version: [20]
         eslint_version: [8.56.0]
+        prettier_version: [3.3.3]
 
     permissions:
       contents: read
@@ -90,7 +91,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install eslint@${{ matrix.eslint_version }} --save-dev --legacy-peer-deps
+          npm install eslint@${{ matrix.eslint_version }} prettier@${{ matrix.prettier_version  }} --save-dev --legacy-peer-deps
           npm install --legacy-peer-deps
 
       - name: Lint
