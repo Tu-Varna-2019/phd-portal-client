@@ -29,7 +29,6 @@ jobs:
           name: phd-portal-client
           path: .
           overwrite: true
-          include-hidden-files: true
           if-no-files-found: error
           retention-days: 0
 
@@ -77,11 +76,10 @@ jobs:
       statuses: write
 
     steps:
-      - name: Download repo artifact
-        uses: actions/download-artifact@v4
+      - name: Check out Git repository (again, since lint requires .git dir to be present)
+        uses: actions/checkout@v4
         with:
-          name: phd-portal-client
-          path: .
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Lint
         uses: super-linter/super-linter@v7.1.0
