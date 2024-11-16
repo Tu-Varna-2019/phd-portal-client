@@ -73,9 +73,8 @@ jobs:
         prettier_version: [3.3.3]
 
     permissions:
-      contents: read
-      packages: read
-      statuses: write
+      checks: write
+      contents: write
 
     steps:
       - name: Check out Git repository
