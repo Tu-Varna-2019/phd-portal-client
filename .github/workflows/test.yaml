@@ -85,7 +85,7 @@ jobs:
       - name: Set up NodeJS ${{ matrix.nodejs_version  }}
         uses: actions/setup-node@v4
         with:
-          check-latest: false
+          check-latest: true
           node-version: "${{ matrix.nodejs_version }}"
 
       - name: Install ESLint
