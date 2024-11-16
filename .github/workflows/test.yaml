@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
       matrix:
         nodejs_version: [20]
-        eslint_version: [9.15.0]
+        eslint_version: [8.56.0]
 
     permissions:
       contents: read
