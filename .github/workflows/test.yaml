@@ -94,7 +94,7 @@ jobs:
           npm install --legacy-peer-deps
 
       - name: Lint
-        uses: wearerequired/lint-action@v2
+        uses: wearerequired/lint-action@v2.3.0
         with:
           eslint: true
           prettier: true
