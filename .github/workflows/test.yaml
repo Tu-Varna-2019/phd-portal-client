@@ -85,8 +85,8 @@ jobs:
       - name: Set up NodeJS ${{ matrix.nodejs_version  }}
         uses: actions/setup-node@v4
         with:
-          check-latest: true
-          node-version: "${{ matrix.nodejs_version }}"
+          check-latest: false
+          node-version: "latest"
 
       - name: Lint
         uses: wearerequired/lint-action@v2
