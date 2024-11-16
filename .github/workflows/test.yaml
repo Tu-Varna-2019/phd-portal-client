@@ -89,7 +89,7 @@ jobs:
           node-version: "${{ matrix.nodejs_version }}"
 
       - name: Install ESLint
-        run: npm install eslint@${{ matrix.eslint_version }} --save-dev
+        run: npm install eslint@${{ matrix.eslint_version }} --save-dev --legacy-peer-deps
 
       - name: Lint
         uses: wearerequired/lint-action@v2
