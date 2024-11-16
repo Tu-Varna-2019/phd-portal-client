@@ -69,6 +69,7 @@ jobs:
       fail-fast: false
       matrix:
         nodejs_version: [20]
+        eslint_version: [9.15.0]
 
     permissions:
       contents: read
@@ -85,7 +86,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           check-latest: false
-          node-version-file: "package.json"
+          node-version: "${{ matrix.nodejs_version }}"
+
+      - name: Install ESLint
+        run: npm install eslint@${{ matrix.eslint_version }} --save-dev
 
       - name: Lint
         uses: wearerequired/lint-action@v2
