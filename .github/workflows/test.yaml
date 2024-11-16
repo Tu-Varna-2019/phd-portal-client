@@ -90,8 +90,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install eslint@${{ matrix.eslint_version }} --save-dev
-          npm install
+          npm install eslint@${{ matrix.eslint_version }} --save-dev --legacy-peer-deps
+          npm install --legacy-peer-deps
 
       - name: Lint
         uses: wearerequired/lint-action@v2
