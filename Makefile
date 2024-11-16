@@ -2,11 +2,16 @@
 # TARGETS
 ###############
 
-.PHONY: run
+.PHONY: all clean run test
+all: clean run test
+
 run:
-	npm start
+	pnpm run dev
+
+test:
+	pnpm run test
+
+clean:
+	rm -rf .next
 
 
-.PHONY: build
-run:
-	npm run build

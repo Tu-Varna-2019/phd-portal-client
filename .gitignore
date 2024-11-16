@@ -35,3 +35,4 @@ yarn-error.log*
 .envrc
 .env
 .pre-commit-config.yaml
+.next

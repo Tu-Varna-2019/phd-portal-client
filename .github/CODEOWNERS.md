@@ -1,3 +1,3 @@
 # Iliyan Kostov
 
-* <iliyan.kostov@email.ikostov.org>
+- <iliyan.kostov@email.ikostov.org>
