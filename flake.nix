@@ -50,7 +50,7 @@
 
             #JS
             # denofmt.enable = true;
-            denolint.enable = true;
+            # denolint.enable = true;
             eslint.enable = true;
           };
 

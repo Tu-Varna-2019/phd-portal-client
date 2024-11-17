@@ -36,3 +36,5 @@ yarn-error.log*
 .env
 .pre-commit-config.yaml
 .next
+
+certificates
