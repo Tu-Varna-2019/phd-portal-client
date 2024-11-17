@@ -5,29 +5,7 @@
 
 import { LogLevel } from "@azure/msal-browser";
 
-const TENANT_NAME = "backswyb2c";
-
-/**
- * Enter here the user flows and custom policies for your B2C application
- * To learn more about user flows, visit: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
- * To learn more about custom policies, visit: https://docs.microsoft.com/en-us/azure/active-directory-b2c/custom-policy-overview
- */
-export const b2cPolicies = {
-  names: {
-    signUpSignIn: "B2C_1_susi_v2",
-    forgotPassword: "B2C_1_reset_v3",
-    editProfile: "B2C_1_edit_profile_v2"
-  },
-  authorities: {
-    signUpSignIn: {
-      authority: `https://${TENANT_NAME}.b2clogin.com/${TENANT_NAME}.onmicrosoft.com/b2c_1_susi`
-    },
-    editProfile: {
-      authority: `https://${TENANT_NAME}.b2clogin.com/${TENANT_NAME}.onmicrosoft.com/b2c_1_edit_profile_v2`
-    }
-  },
-  authorityDomain: `${TENANT_NAME}.b2clogin.com`
-};
+const TENANT_ID = "31886941-8a86-4f93-8f42-d140eaea36ad";
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
@@ -38,12 +16,10 @@ export const msalConfig = {
   auth: {
     /* eslint-disable no-undef */
     clientId: `${process.env.NEXT_PUBLIC_CLIENT_ID}`,
-    authority: b2cPolicies.authorities.signUpSignIn.authority,
-    knownAuthorities: [b2cPolicies.authorityDomain],
-    redirectUri: "/",
+    authority: `https://login.microsoftonline.com/${TENANT_ID}/`,
+    redirectUri: "/authentication/login-callback",
     postLogoutRedirectUri: "/",
     navigateToLoginRequestUrl: false
-    // grant_type: "authorization_code",
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -77,32 +53,16 @@ export const msalConfig = {
 };
 
 /**
- * Add here the endpoints and scopes when obtaining an access token for protected web APIs. For more information, see:
- * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md
- */
-export const protectedResources = {
-  tuvarna: {
-    endpoint: "http://localhost:3000/api/tuvarna",
-    scopes: {
-      read: [`https://${TENANT_NAME}.onmicrosoft.com/tasks.read`],
-      write: [`https://${TENANT_NAME}.onmicrosoft.com/tasks.write`]
-    }
-  }
-};
-
-/**
  * Scopes you add here will be prompted for user consent during sign-in.
  * By default, MSAL.js will add OIDC scopes (openid, profile, email) to any login request.
  * For more information about OIDC scopes, visit:
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-  scopes: [
-    ...protectedResources.tuvarna.scopes.read,
-    ...protectedResources.tuvarna.scopes.write
-  ]
+  scopes: []
 };
 
+// TODO: Remove this!
 export const graphConfig = {
   graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
 };

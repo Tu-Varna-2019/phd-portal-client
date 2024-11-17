@@ -6,7 +6,7 @@
 all: clean run test
 
 run:
-	pnpm run dev
+	pnpm run dev --experimental-https
 
 test:
 	pnpm run test
