@@ -1,0 +1,12 @@
+.devenv
+.direnv
+.git
+.github
+.next
+docs
+node_modules
+.env
+.env.local
+flake.nix
+flake.lock
+sonar-project.properties

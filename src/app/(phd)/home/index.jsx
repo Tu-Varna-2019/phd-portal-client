@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { PageLayout } from "@/components/layout";
-import { loginRequest } from "@/components/auth/authConfig";
-import { callMsGraph } from "@/components/auth/graph";
+import { loginRequest } from "@/lib/auth/authConfig";
+import { callMsGraph } from "@/lib/auth/graph";
 import { ProfileData } from "@/components/profile_data/index";
 
 import {

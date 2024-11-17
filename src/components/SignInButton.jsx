@@ -1,5 +1,5 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
-import { loginRequest, msalConfig } from "./auth/authConfig";
+import { loginRequest, msalConfig } from "@/lib/auth/authConfig";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
