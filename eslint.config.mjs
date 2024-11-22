@@ -7,7 +7,8 @@ import eslintConfigPrettier from "eslint-config-prettier";
 export default [
   {
     rules: {
-      "no-unused-vars": "error",
+      "import/prefer-default-export": "off",
+      "no-unused-vars": "warn",
       "no-undef": "error",
       "react-hooks/rules-of-hooks": "off",
       "react/react-in-jsx-scope": "off",

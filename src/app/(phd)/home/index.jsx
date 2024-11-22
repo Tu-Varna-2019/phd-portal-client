@@ -13,6 +13,7 @@ import {
 } from "@azure/msal-react";
 import "./App.css";
 import { Button } from "@mui/material";
+import Dashboard from "@/components/dashboard/Dashboard";
 /**
  * Renders information about the signed-in user or a button to retrieve data about the user
  */
@@ -74,7 +75,7 @@ const MainContent = () => {
 export default function App() {
   return (
     <PageLayout>
-      <MainContent />
+      <Dashboard />
     </PageLayout>
   );
 }
