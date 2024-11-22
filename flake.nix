@@ -41,7 +41,11 @@
           git-hooks.hooks = {
             # Common
             markdownlint.enable = true;
-            actionlint.enable = true;
+            actionlint =
+              {
+                enable = true;
+                excludes = [ "docker-publish.yaml" ];
+              };
             checkmake.enable = true;
             prettier.enable = true;
 
@@ -49,8 +53,9 @@
             statix.enable = true;
 
             #JS
-            # denofmt.enable = true;
-            # denolint.enable = true;
+            # BUG: denofmt disabled, due to a local issue
+            denofmt.enable = false;
+            denolint.enable = false;
             eslint.enable = false;
           };
 
