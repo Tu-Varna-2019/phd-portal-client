@@ -30,6 +30,7 @@ jobs:
           path: .
           overwrite: true
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 0
 
   test:
@@ -77,10 +78,11 @@ jobs:
       contents: write
 
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v4
+      - name: Download repo artifact
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          name: phd-portal-client
+          path: .
 
       - name: Set up NodeJS ${{ matrix.nodejs_version  }}
         uses: actions/setup-node@v4
