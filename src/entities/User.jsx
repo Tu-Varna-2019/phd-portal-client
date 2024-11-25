@@ -5,8 +5,11 @@ export default class User {
     this.email = email;
   }
 
-  setUser(props) {
-    console.log(`Recived graphData for authenticated user: ${props}`);
-    this.email = props.graphData.account.username;
+  static fromGraphData(response) {
+    return new User({
+      id: 1,
+      name: "John",
+      email: response.graphData.account.username
+    });
   }
 }

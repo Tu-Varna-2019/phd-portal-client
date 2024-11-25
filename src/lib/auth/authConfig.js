@@ -14,8 +14,7 @@ const TENANT_ID = "31886941-8a86-4f93-8f42-d140eaea36ad";
  */
 export const msalConfig = {
   auth: {
-    /* eslint-disable no-undef */
-    clientId: `${process.env.NEXT_PUBLIC_CLIENT_ID}`,
+    clientId: "2e32e834-5b18-4f82-a0b8-32e623d944b4",
     authority: `https://login.microsoftonline.com/${TENANT_ID}/`,
     redirectUri: "/authentication/login-callback",
     postLogoutRedirectUri: "/",

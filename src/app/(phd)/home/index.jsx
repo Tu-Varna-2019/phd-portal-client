@@ -1,30 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
-import { PageLayout } from "@/components/layout";
-import { loginRequest } from "@/lib/auth/authConfig";
 import { callMsGraph } from "@/lib/auth/graph";
-import { ProfileData } from "@/components/profile_data/index";
+import User from "@/entities/User.jsx";
+import { setUser } from "@/features/user/userSlice.jsx";
 
+import { loginRequest } from "@/lib/auth/authConfig";
+import React, { useEffect, useState } from "react";
+
+import { useMsal } from "@azure/msal-react";
+import { useDispatch } from "react-redux";
 import {
   AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-  useMsal
+  UnauthenticatedTemplate
 } from "@azure/msal-react";
 import "./App.css";
-import { Button } from "@mui/material";
 import Dashboard from "@/components/dashboard/Dashboard";
-/**
- * Renders information about the signed-in user or a button to retrieve data about the user
- */
+import { useSelector } from "react-redux";
+import { Button } from "@mui/material";
 
-const ProfileContent = () => {
+const MainContent = () => {
   const { instance, accounts } = useMsal();
   const [graphData, setGraphData] = useState(null);
   const [user, setUser] = useState(Object());
+  const userSelector = useSelector((state) => state.user.data);
 
   function RequestProfileData() {
-    // Silently acquires an access token which is then attached to a request for MS Graph data
     instance
       .acquireTokenSilent({
         ...loginRequest,
@@ -40,33 +40,18 @@ const ProfileContent = () => {
   }
 
   return (
-    <>
-      <h5 className="profileContent">Welcome {accounts[0].name}</h5>
-      {graphData ? (
-        <ProfileData graphData={user} />
-      ) : (
-        <Button variant="secondary" onClick={RequestProfileData}>
-          Request Profile
-        </Button>
-      )}
-    </>
-  );
-};
-
-/**
- * If a user is authenticated the ProfileContent component above is rendered. Otherwise a message indicating a user is not authenticated is rendered.
- */
-const MainContent = () => {
-  return (
     <div className="App">
       <AuthenticatedTemplate>
-        <ProfileContent />
+        <Dashboard />
       </AuthenticatedTemplate>
 
       <UnauthenticatedTemplate>
         <h5 className="card-title">
           Please sign-in to see your profile information.
         </h5>
+        <Button variant="secondary" onClick={RequestProfileData}>
+          Request Profile
+        </Button>
       </UnauthenticatedTemplate>
     </div>
   );
@@ -74,8 +59,8 @@ const MainContent = () => {
 
 export default function App() {
   return (
-    <PageLayout>
-      <Dashboard />
-    </PageLayout>
+    <>
+      <MainContent />
+    </>
   );
 }

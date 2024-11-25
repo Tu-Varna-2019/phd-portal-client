@@ -16,26 +16,21 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 export default function OptionsMenu() {
+  // TODO: Move this part
+  const { instance, accounts } = useMsal();
+  const [graphData, setGraphData] = React.useState(null);
+  const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (menuItem) => {
-    switch (menuItem) {
-      case "Login":
-        console.log("ok");
-        break;
-      default:
-        console.log("default");
-        break;
-    }
-    setAnchorEl(null);
-  };
   return (
     <React.Fragment>
       <MenuButton
@@ -65,7 +60,7 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={() => handleMenuItemClick("Login")}>Log in</MenuItem>
+        <MenuItem onClick={handleClose}>Log in</MenuItem>
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />

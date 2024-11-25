@@ -1,0 +1,19 @@
+0 verbose cli /nix/store/0xvgzkl74v6jrh79ibh7ss770dh4hb69-nodejs-22.10.0/bin/node /home/ikostov2/.nix-profile/bin/npm
+1 info using npm@10.9.0
+2 info using node@v22.10.0
+3 silly config load:file:/nix/store/0xvgzkl74v6jrh79ibh7ss770dh4hb69-nodejs-22.10.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/ikostov2/repos/tuvarna/masters/phd-portal-client/.npmrc
+5 silly config load:file:/home/ikostov2/.npmrc
+6 silly config load:file:/nix/store/0xvgzkl74v6jrh79ibh7ss770dh4hb69-nodejs-22.10.0/etc/npmrc
+7 verbose title npm install react-redux
+8 verbose argv "install" "react-redux"
+9 verbose logfile logs-max:10 dir:/home/ikostov2/repos/tuvarna/masters/phd-portal-client/.buildcache/node/_logs/2024-11-25T18_37_26_729Z-
+10 verbose logfile /home/ikostov2/repos/tuvarna/masters/phd-portal-client/.buildcache/node/_logs/2024-11-25T18_37_26_729Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest @azure/msal-browser@^3.27.0
+15 silly packumentCache full:https://nexus3.cite.conti.de/repository/npm/@azure%2fmsal-browser cache-miss
+16 http fetch GET https://nexus3.cite.conti.de/repository/npm/npm attempt 1 failed with ENOTFOUND
+17 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+18 http fetch GET https://nexus3.cite.conti.de/repository/npm/@azure%2fmsal-browser attempt 1 failed with ENOTFOUND
