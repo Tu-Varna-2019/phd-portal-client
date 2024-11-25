@@ -24,6 +24,18 @@ export default function OptionsMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleMenuItemClick = (menuItem) => {
+    switch (menuItem) {
+      case "Login":
+        console.log("ok");
+        break;
+      default:
+        console.log("default");
+        break;
+    }
+    setAnchorEl(null);
+  };
   return (
     <React.Fragment>
       <MenuButton
@@ -53,6 +65,7 @@ export default function OptionsMenu() {
           }
         }}
       >
+        <MenuItem onClick={() => handleMenuItemClick("Login")}>Log in</MenuItem>
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <Divider />
