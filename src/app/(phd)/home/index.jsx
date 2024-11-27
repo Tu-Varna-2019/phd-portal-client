@@ -1,81 +1,80 @@
 "use client";
 
-import React, { useState } from "react";
-import { PageLayout } from "@/components/layout";
-import { loginRequest } from "@/lib/auth/authConfig";
 import { callMsGraph } from "@/lib/auth/graph";
-import { ProfileData } from "@/components/profile_data/index";
-
+import { setUser } from "@/features/user/userSlice.jsx";
+import { loginRequest } from "@/lib/auth/authConfig";
+import { useEffect, useState } from "react";
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
+  useIsAuthenticated,
   useMsal
 } from "@azure/msal-react";
 import "./App.css";
-import { Button } from "@mui/material";
 import Dashboard from "@/components/dashboard/Dashboard";
-/**
- * Renders information about the signed-in user or a button to retrieve data about the user
- */
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
 
-const ProfileContent = () => {
+export default function App() {
   const { instance, accounts } = useMsal();
   const [graphData, setGraphData] = useState(null);
-  const [user, setUser] = useState(Object());
 
-  function RequestProfileData() {
-    // Silently acquires an access token which is then attached to a request for MS Graph data
+  const dispatch = useDispatch();
+  const isAuthenticated = useIsAuthenticated();
+
+  useEffect(() => {
+    // BUG: Needs 1 second delay to initialize msalInstance
+    const delayTimeout = setTimeout(() => {
+      if (instance && accounts.length > 0) {
+        requestProfileData();
+      }
+    }, 1000);
+    return () => clearTimeout(delayTimeout);
+  }, [instance, accounts]);
+
+  function requestProfileData() {
     instance
       .acquireTokenSilent({
         ...loginRequest,
         account: accounts[0]
       })
       .then((response) => {
-        // console.log(response);
-        setUser(response);
+        dispatch(setUser({ response }));
+
         callMsGraph(response.accessToken).then((response) =>
           setGraphData(response)
         );
       });
   }
 
+  const handleLogin = (loginType) => {
+    if (loginType === "popup") {
+      instance.loginPopup(loginRequest).catch((e) => {
+        console.log(e);
+      });
+    } else if (loginType === "redirect") {
+      instance.loginRedirect(loginRequest).catch((e) => {
+        console.log(e);
+      });
+    }
+  };
+
   return (
     <>
-      <h5 className="profileContent">Welcome {accounts[0].name}</h5>
-      {graphData ? (
-        <ProfileData graphData={user} />
-      ) : (
-        <Button variant="secondary" onClick={RequestProfileData}>
-          Request Profile
-        </Button>
-      )}
+      <div className="App">
+        <AuthenticatedTemplate>
+          <Dashboard />
+        </AuthenticatedTemplate>
+
+        <UnauthenticatedTemplate>
+          <h5 className="card-title">
+            Please sign-in to see your profile information.
+          </h5>
+          <Button variant="secondary" onClick={() => handleLogin("popup")}>
+            Request Profile
+          </Button>
+        </UnauthenticatedTemplate>
+      </div>
     </>
-  );
-};
-
-/**
- * If a user is authenticated the ProfileContent component above is rendered. Otherwise a message indicating a user is not authenticated is rendered.
- */
-const MainContent = () => {
-  return (
-    <div className="App">
-      <AuthenticatedTemplate>
-        <ProfileContent />
-      </AuthenticatedTemplate>
-
-      <UnauthenticatedTemplate>
-        <h5 className="card-title">
-          Please sign-in to see your profile information.
-        </h5>
-      </UnauthenticatedTemplate>
-    </div>
-  );
-};
-
-export default function App() {
-  return (
-    <PageLayout>
-      <Dashboard />
-    </PageLayout>
   );
 }

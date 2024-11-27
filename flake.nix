@@ -43,7 +43,8 @@
             markdownlint.enable = true;
             actionlint =
               {
-                enable = true;
+                # BUG: Disabled, due to not being able to recognize `include-hidden-files` in github checkout
+                enable = false;
                 excludes = [ "docker-publish.yaml" ];
               };
             checkmake.enable = true;

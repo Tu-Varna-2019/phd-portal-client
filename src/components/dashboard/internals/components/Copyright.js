@@ -12,6 +12,7 @@ export default function Copyright(props) {
         {
           color: "text.secondary"
         },
+        // eslint-disable-next-line react/prop-types
         ...(Array.isArray(props.sx) ? props.sx : [props.sx])
       ]}
     >
