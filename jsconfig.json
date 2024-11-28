@@ -7,6 +7,7 @@
       "@/app/*": ["app/*"],
       "@/lib/*": ["lib/*"],
       "@/components/*": ["components/*"],
+      "@/layouts/*": ["layouts/*"],
       "@/entities/*": ["entities/*"],
       "@/features/*": ["lib/features/*"]
     }
