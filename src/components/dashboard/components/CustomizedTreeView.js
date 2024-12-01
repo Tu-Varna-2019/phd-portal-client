@@ -97,7 +97,7 @@ TransitionComponent.propTypes = {
   in: PropTypes.bool
 };
 
-function CustomLabel({ color, expandable, children, ...other }) {
+function CustomLabel({ color, children, ...other }) {
   const theme = useTheme();
   const colors = {
     blue: (theme.vars || theme).palette.primary.main,
