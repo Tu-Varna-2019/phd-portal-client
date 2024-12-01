@@ -6,6 +6,7 @@
       "@/*": ["*"],
       "@/app/*": ["app/*"],
       "@/lib/*": ["lib/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/components/*": ["components/*"],
       "@/layouts/*": ["layouts/*"],
       "@/entities/*": ["entities/*"],
