@@ -1,6 +1,9 @@
+"use client";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Button, Grid } from "@mui/material";
+import { Button } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 const NotFound = () => {
   return (
@@ -17,7 +20,7 @@ const NotFound = () => {
           textAlign: "center"
         }}
       >
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid xs={12} sm={8} md={6}>
           <Typography variant="h3">Sorry, page not found!</Typography>
 
           <Typography sx={{ color: "text.secondary" }}>
@@ -36,7 +39,7 @@ const NotFound = () => {
             }}
           />
 
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Button href="/" size="large" variant="contained" color="primary">
               Go to Main Page
             </Button>

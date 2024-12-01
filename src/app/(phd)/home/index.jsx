@@ -3,24 +3,21 @@
 import { callMsGraph } from "@/lib/auth/graph";
 import { setUser } from "@/features/user/userSlice.jsx";
 import { loginRequest } from "@/lib/auth/authConfig";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
-  useIsAuthenticated,
   useMsal
 } from "@azure/msal-react";
 import "./App.css";
 import Dashboard from "@/components/dashboard/Dashboard";
-import { Button } from "@mui/material";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
 
 export default function App() {
   const { instance, accounts } = useMsal();
-  const [graphData, setGraphData] = useState(null);
-
   const dispatch = useDispatch();
-  const isAuthenticated = useIsAuthenticated();
 
   useEffect(() => {
     // BUG: Needs 1 second delay to initialize msalInstance
@@ -47,16 +44,10 @@ export default function App() {
       });
   }
 
-  const handleLogin = (loginType) => {
-    if (loginType === "popup") {
-      instance.loginPopup(loginRequest).catch((e) => {
-        console.log(e);
-      });
-    } else if (loginType === "redirect") {
-      instance.loginRedirect(loginRequest).catch((e) => {
-        console.log(e);
-      });
-    }
+  const handleLogin = () => {
+    instance.loginPopup(loginRequest).catch((e) => {
+      console.log(e);
+    });
   };
 
   return (
@@ -67,12 +58,48 @@ export default function App() {
         </AuthenticatedTemplate>
 
         <UnauthenticatedTemplate>
-          <h5 className="card-title">
-            Please sign-in to see your profile information.
-          </h5>
-          <Button variant="secondary" onClick={() => handleLogin("popup")}>
-            Request Profile
-          </Button>
+          <Container
+            maxWidth="sm"
+            sx={{
+              display: "flex",
+              minHeight: "100vh",
+              textAlign: "center",
+              paddingTop: 5,
+              alignItems: "center",
+              justifyContent: "justify"
+            }}
+          >
+            <Paper elevation={3} sx={{ padding: 4 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center"
+                }}
+              >
+                <MicrosoftIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+              </Box>
+
+              <Typography variant="h4" color="blue" gutterBottom>
+                401 - Unauthorized
+              </Typography>
+
+              <Typography variant="body1" paragraph>
+                You do not have permission to view this page. Please check your
+                credentials or contact the administrator.
+              </Typography>
+
+              <Box sx={{ marginTop: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleLogin}
+                  sx={{ marginRight: 2 }}
+                >
+                  Sign in
+                </Button>
+              </Box>
+            </Paper>
+          </Container>
         </UnauthenticatedTemplate>
       </div>
     </>
