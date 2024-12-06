@@ -11,7 +11,7 @@ import MenuContent from "./MenuContent";
 import CardAlert from "./CardAlert";
 import OptionsMenu from "./OptionsMenu";
 import { useSelector } from "react-redux";
-import User from "@/entities/User";
+import selectUser from "@/lib/features/user/userMemoSelector";
 
 const drawerWidth = 240;
 
@@ -27,10 +27,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
-  const user = useSelector((state) => {
-    const stateUser = state.user.user;
-    return stateUser ? User.fromJSON(stateUser) : null;
-  });
+  const user = useSelector(selectUser);
 
   return (
     <Drawer
@@ -67,7 +64,7 @@ export default function SideMenu() {
         <Avatar
           sizes="small"
           alt="User email"
-          src="/static/images/avatar/7.jpg"
+          src="/phd_icon.png"
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>
