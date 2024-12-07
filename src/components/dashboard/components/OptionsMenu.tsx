@@ -31,17 +31,27 @@ export default function OptionsMenu() {
     setAnchorEl(null);
   };
 
-  const handleLogout = (logoutType) => {
-    if (logoutType === "popup") {
-      instance.logoutPopup({
-        postLogoutRedirectUri: "/",
-        mainWindowRedirectUri: "/"
-      });
-    } else if (logoutType === "redirect") {
-      instance.logoutRedirect({
-        postLogoutRedirectUri: "/"
-      });
-    }
+  const handleProfile = async () => {
+    const result = await fetch(
+      "http://localhost:8080/api.tuvarna.phd.com/v1/teacher/get",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: "John123" })
+      }
+    );
+
+    const res = await result.json();
+    console.log(`Response is: ${JSON.stringify(res)}`);
+  };
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
   };
 
   return (
@@ -73,15 +83,12 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={handleClose}>Log in</MenuItem>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <Divider />
         <MenuItem
-          onClick={() => handleLogout("popup")}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: "auto",
