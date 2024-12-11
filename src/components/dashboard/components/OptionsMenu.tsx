@@ -32,19 +32,21 @@ export default function OptionsMenu() {
   };
 
   const handleProfile = async () => {
-    const result = await fetch(
-      "http://localhost:8080/api.tuvarna.phd.com/v1/teacher/get",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name: "John123" })
-      }
-    );
+    const result = await fetch("/api/phd/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        oid: "John",
+        first_name: "John",
+        middle_name: "John",
+        last_name: "John",
+        email: "john.doe@example.com" // Correct email format
+      })
+    });
 
-    const res = await result.json();
-    console.log(`Response is: ${JSON.stringify(res)}`);
+    // const res = await result.json();
   };
 
   const handleLogout = () => {
