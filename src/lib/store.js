@@ -21,7 +21,8 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [PERSIST, REHYDRATE],
-        ignoredPaths: ["payload.response.account.tenantProfiles"]
+        ignoredPaths: ["payload.response.account.tenantProfiles", "user.user"],
+        ignoredActionPaths: ["meta.arg", "payload.response"]
       },
       extraReducers: (builder) => {
         builder.addCase(PURGE, (state) => {

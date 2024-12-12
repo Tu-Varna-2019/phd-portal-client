@@ -20,7 +20,7 @@ export const userSlice = createSlice({
       state.user = user.toJSON();
     },
     clearUser(state) {
-      state.user = new User().toJSON();
+      state.user = new User();
     }
   }
 });

@@ -1,15 +1,20 @@
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-static";
+// BUG: this crap dissallows to pass any headers
+// export const dynamic = "force-static";
 
 export async function POST(request, response) {
   try {
     const body = await request.json();
+    const reqHeaders = await headers();
+    const accessToken = reqHeaders.get("authorization");
 
     const res = await fetch(`${process.env.BASE_URL}/phd/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: JSON.stringify(accessToken)
       },
       body: JSON.stringify(body)
     });
