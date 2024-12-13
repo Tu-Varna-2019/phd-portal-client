@@ -37,7 +37,7 @@ export default function OptionsMenu() {
     const result = await fetch("/api/phd/login", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${user.accessToken}`
+        Authorization: user.accessToken
       },
       body: JSON.stringify({
         oid: "John",
