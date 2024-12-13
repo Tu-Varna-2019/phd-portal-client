@@ -2,7 +2,7 @@ FROM alpine:3.21
 ARG DOCKER_USER=react
 RUN addgroup -S ${DOCKER_USER} && adduser -S ${DOCKER_USER} -G ${DOCKER_USER}
 
-FROM node:20.11.1-alpine3.19 AS build
+FROM node:23.3.0-alpine3.19 AS build
 USER ${DOCKER_USER}
 
 COPY --chown=${DOCKER_USER}:${DOCKER_USER} package.json /phd-portal-client/
@@ -19,7 +19,7 @@ LABEL org.opencontainers.image.source=https://github.com/Tu-Varna-2019/phd-porta
 	author="Iliyan Kostov" \
 	env="prod"
 
-FROM node:20.11.1-alpine3.19
+FROM node:23.3.0-alpine3.19
 WORKDIR /client_app
 COPY --from=build /phd-portal-client/ /client_app/
 COPY --chown=${DOCKER_USER}:${DOCKER_USER} src /client_app/src/
