@@ -10,7 +10,6 @@ export async function POST(request, response) {
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
 
-    console.log(accessToken);
     const res = await fetch(`${process.env.BASE_URL}/phd/login`, {
       method: "POST",
       headers: {
