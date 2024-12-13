@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Divider, { dividerClasses } from "@mui/material/Divider";
@@ -14,6 +12,8 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
 
 import { useMsal } from "@azure/msal-react";
+import { useSelector } from "react-redux";
+import selectUser from "@/lib/features/user/slices/userMemoSelector";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -21,6 +21,8 @@ const MenuItem = styled(MuiMenuItem)({
 
 export default function OptionsMenu() {
   const { instance } = useMsal();
+  const user = useSelector(selectUser);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -31,17 +33,29 @@ export default function OptionsMenu() {
     setAnchorEl(null);
   };
 
-  const handleLogout = (logoutType) => {
-    if (logoutType === "popup") {
-      instance.logoutPopup({
-        postLogoutRedirectUri: "/",
-        mainWindowRedirectUri: "/"
-      });
-    } else if (logoutType === "redirect") {
-      instance.logoutRedirect({
-        postLogoutRedirectUri: "/"
-      });
-    }
+  const handleProfile = async () => {
+    const result = await fetch("/api/phd/login", {
+      method: "POST",
+      headers: {
+        Authorization: user.accessToken
+      },
+      body: JSON.stringify({
+        oid: "John",
+        first_name: "John",
+        middle_name: "John",
+        last_name: "John",
+        email: "john.doe@example.com"
+      })
+    });
+
+    // const res = await result.json();
+  };
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
   };
 
   return (
@@ -73,15 +87,12 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={handleClose}>Log in</MenuItem>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <Divider />
         <MenuItem
-          onClick={() => handleLogout("popup")}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: "auto",

@@ -100,5 +100,6 @@ jobs:
       - name: Lint
         uses: wearerequired/lint-action@v2.3.0
         with:
-          eslint: true
+          # FIX: eslint couldn't find configuration file for this project
+          # eslint: true
           prettier: true

@@ -42,7 +42,7 @@ export const msalConfig = {
 };
 
 export const loginRequest = {
-  scopes: []
+  scopes: ["api://4e2b4a7f-3735-4cac-abd8-808c02dbe14d/BlazorHostedAPI.Access"]
 };
 export const graphConfig = {
   graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"

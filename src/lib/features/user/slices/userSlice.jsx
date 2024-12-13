@@ -4,23 +4,23 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: new User().toJSON()
+    user: new User()
   },
   reducers: {
     setUser: (state, action) => {
-      console.info(
-        `Reducer for user: ${JSON.stringify(action.payload, null, 2)}`
-      );
+      const response = action.payload.response;
 
       const user = new User({
-        id: action.payload.response.idTokenClaims.oid,
-        username: action.payload.response.idTokenClaims.name,
-        email: action.payload.response.idTokenClaims.email
+        id: response.idTokenClaims.oid,
+        email: response.idTokenClaims.email,
+        accessToken: response.accessToken
       });
+
+      user.extractName(response.idTokenClaims.name);
       state.user = user.toJSON();
     },
     clearUser(state) {
-      state.user = new User().toJSON();
+      state.user = new User();
     }
   }
 });
