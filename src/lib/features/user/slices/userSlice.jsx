@@ -11,12 +11,12 @@ export const userSlice = createSlice({
       const response = action.payload.response;
 
       const user = new User({
-        id: response.idTokenClaims.oid,
+        oid: response.idTokenClaims.oid,
         email: response.idTokenClaims.email,
         accessToken: response.accessToken
       });
-
       user.extractName(response.idTokenClaims.name);
+
       state.user = user.toJSON();
     },
     clearUser(state) {

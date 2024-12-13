@@ -40,15 +40,14 @@ export default function OptionsMenu() {
         Authorization: user.accessToken
       },
       body: JSON.stringify({
-        oid: "John",
-        first_name: "John",
-        middle_name: "John",
-        last_name: "John",
-        email: "john.doe@example.com"
+        oid: user.oid,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        email: user.email
       })
     });
-
-    // const res = await result.json();
+    const res = await result.json();
   };
 
   const handleLogout = () => {

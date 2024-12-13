@@ -8,8 +8,8 @@ const corsOptions = {
 
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
-
   const isAllowedOrigin = allowedOrigins.includes(origin);
+
   const isPreflight = request.method === "OPTIONS";
 
   if (isPreflight) {

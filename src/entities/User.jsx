@@ -1,13 +1,13 @@
 export default class User {
   constructor({
-    id,
+    oid,
     firstName = null,
     middleName = null,
     lastName = null,
     email,
     accessToken
   } = {}) {
-    this.id = id;
+    this.oid = oid;
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
@@ -17,7 +17,7 @@ export default class User {
 
   toJSON() {
     return {
-      id: this.id,
+      oid: this.oid,
       firstName: this.firstName,
       middleName: this.middleName,
       lastName: this.lastName,

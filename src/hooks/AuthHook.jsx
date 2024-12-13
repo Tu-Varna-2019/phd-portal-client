@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { useMsal } from "@azure/msal-react";
 import { setUser } from "@/features/user/slices/userSlice";
 import { loginRequest } from "@/lib/auth/authConfig";
