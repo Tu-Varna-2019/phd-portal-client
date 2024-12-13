@@ -1,47 +1,19 @@
 export default class User {
-  constructor({
-    id,
-    firstName = null,
-    middleName = null,
-    lastName = null,
-    email,
-    accessToken
-  } = {}) {
+  constructor({ id = null, name = null, email = null } = {}) {
     this.id = id;
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
+    this.name = name;
     this.email = email;
-    this.accessToken = accessToken;
   }
 
   toJSON() {
     return {
       id: this.id,
-      firstName: this.firstName,
-      middleName: this.middleName,
-      lastName: this.lastName,
-      email: this.email,
-      accessToken: this.accessToken
+      name: this.name,
+      email: this.email
     };
   }
 
   static fromJSON(data) {
     return new User(data);
-  }
-
-  formatName(name) {
-    return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
-  }
-
-  extractName(name) {
-    const nameArray = name.split(" ");
-    this.firstName = this.formatName(nameArray[0]);
-    this.middleName = this.formatName(nameArray[1]);
-    this.lastName = this.formatName(nameArray[2]);
-  }
-
-  getName() {
-    return String(this.firstName + " " + this.middleName + " " + this.lastName);
   }
 }
