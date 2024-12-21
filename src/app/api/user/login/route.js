@@ -11,7 +11,7 @@ export async function POST(request, response) {
     const accessToken = reqHeaders.get("authorization");
     console.log(accessToken);
 
-    const res = await fetch(`${process.env.BASE_URL}/phd/login`, {
+    const res = await fetch(`${process.env.BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,7 @@ export async function POST(request, response) {
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error(`Error occured in the phd login: ${error}`);
+    console.error(`Error occured in the login: ${error}`);
     return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
   }
 }

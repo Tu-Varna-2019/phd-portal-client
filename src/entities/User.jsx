@@ -1,16 +1,7 @@
 export default class User {
-  constructor({
-    oid,
-    firstName = null,
-    middleName = null,
-    lastName = null,
-    email,
-    accessToken
-  } = {}) {
+  constructor({ oid, name, email, accessToken } = {}) {
     this.oid = oid;
-    this.firstName = firstName;
-    this.middleName = middleName;
-    this.lastName = lastName;
+    this.name = name;
     this.email = email;
     this.accessToken = accessToken;
   }
@@ -18,9 +9,7 @@ export default class User {
   toJSON() {
     return {
       oid: this.oid,
-      firstName: this.firstName,
-      middleName: this.middleName,
-      lastName: this.lastName,
+      name: this.name,
       email: this.email,
       accessToken: this.accessToken
     };
@@ -30,6 +19,7 @@ export default class User {
     return new User(data);
   }
 
+  // TODO: move it to phd class
   formatName(name) {
     return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
   }

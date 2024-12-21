@@ -50,9 +50,6 @@
             checkmake.enable = true;
             prettier.enable = true;
 
-            # Nix
-            statix.enable = true;
-
             #JS
             # BUG: denofmt disabled, due to a local issue
             denofmt.enable = false;

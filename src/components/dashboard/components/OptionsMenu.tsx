@@ -33,6 +33,7 @@ export default function OptionsMenu() {
     setAnchorEl(null);
   };
 
+  // TODO: Remove this pls
   const handleProfile = async () => {
     const result = await fetch("/api/phd/login", {
       method: "POST",

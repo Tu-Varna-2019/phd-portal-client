@@ -12,11 +12,10 @@ export const userSlice = createSlice({
 
       const user = new User({
         oid: response.idTokenClaims.oid,
+        name: response.idTokenClaims.name,
         email: response.idTokenClaims.email,
         accessToken: response.accessToken
       });
-      user.extractName(response.idTokenClaims.name);
-
       state.user = user.toJSON();
     },
     clearUser(state) {
