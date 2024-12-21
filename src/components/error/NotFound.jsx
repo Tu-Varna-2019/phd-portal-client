@@ -37,11 +37,11 @@ export default function NotFound() {
             <title>404 Not Found</title>
 
             <Typography variant="h4" color="info" gutterBottom>
-              404 Not Found
+              404 Страницата на съществува
             </Typography>
 
-            <Typography variant="body1" paragraph>
-              Sorry, we couldn’t find the page you’re looking for.
+            <Typography variant="body1">
+              За съжаление не можахме да намерим страницата, която търсите. :(
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
@@ -54,7 +54,7 @@ export default function NotFound() {
                 onClick={() => {}}
                 sx={{ marginRight: 2 }}
               >
-                Home
+                Обратно
               </Button>
             </Box>
           </Paper>
