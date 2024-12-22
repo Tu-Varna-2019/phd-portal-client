@@ -1,7 +1,7 @@
 "use client";
 // NOTE: Not used anywhere
 import { createTransform } from "redux-persist";
-import User from "@/entities/User";
+import User from "@/models/User";
 
 export const userTransform = createTransform(
   (incomingState) => {

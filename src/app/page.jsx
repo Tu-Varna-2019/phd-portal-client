@@ -11,8 +11,7 @@ import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "@/lib/auth/authConfig";
 import StoreProvider from "@/app/StoreProvider";
 import AuthHook from "@/hooks/AuthHook";
-import AuthorizeUser from "@/components/auth/AuthorizeUser";
-import "./page.css";
+import RolebasedView from "@/components/auth/RolebasedView";
 
 export default function Page() {
   const msalInstance = new PublicClientApplication(msalConfig);
@@ -21,15 +20,13 @@ export default function Page() {
     <>
       <MsalProvider instance={msalInstance}>
         <StoreProvider>
-          <div className="page">
-            <AuthenticatedTemplate>
-              <AuthorizeUser />
-            </AuthenticatedTemplate>
+          <AuthenticatedTemplate>
+            <RolebasedView />
+          </AuthenticatedTemplate>
 
-            <UnauthenticatedTemplate>
-              <AuthHook />
-            </UnauthenticatedTemplate>
-          </div>
+          <UnauthenticatedTemplate>
+            <AuthHook />
+          </UnauthenticatedTemplate>
         </StoreProvider>
       </MsalProvider>
     </>

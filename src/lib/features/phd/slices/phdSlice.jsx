@@ -1,29 +1,29 @@
-import User from "@/models/User";
+import Phd from "@/models/Phd";
 import { createSlice } from "@reduxjs/toolkit";
 import { deserialize } from "serializr";
 
-export const userSlice = createSlice({
-  name: "user",
+export const phdSlice = createSlice({
+  name: "phd",
   initialState: {
-    user: new User()
+    phd: new Phd()
   },
   reducers: {
-    setUser: (state, action) => {
+    setPhd: (state, action) => {
       const response = action.payload.response;
 
-      const userObj = {
+      const phdObj = {
         oid: response.idTokenClaims.oid,
         name: response.idTokenClaims.name,
         email: response.idTokenClaims.email,
         accessToken: response.accessToken
       };
-      state.user = deserialize(User, userObj);
+      state.phd = deserialize(Phd, phdObj);
     },
-    clearUser(state) {
-      state.user = null;
+    clearPhd(state) {
+      state.phd = null;
     }
   }
 });
 
-export const { setUser, clearUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { setPhd, clearPhd } = phdSlice.actions;
+export default phdSlice.reducer;

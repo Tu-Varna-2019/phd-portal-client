@@ -79,6 +79,9 @@ importers:
       reselect:
         specifier: ^5.1.1
         version: 5.1.1
+      serializr:
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
       eslint:
         specifier: ^9.15.0
@@ -3504,6 +3507,12 @@ packages:
     engines: { node: ">=10" }
     hasBin: true
 
+  serializr@3.0.3:
+    resolution:
+      {
+        integrity: sha512-Be5bpqNfLqD107XksBHCeCtupZdqBRutAH++YJod2EL1Zqti/rEdEYtxKpGwUzuw5DOBrfqHrFrgM96xU2Oc7Q==
+      }
+
   set-function-length@1.2.2:
     resolution:
       {
@@ -6178,6 +6187,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.6.3: {}
+
+  serializr@3.0.3: {}
 
   set-function-length@1.2.2:
     dependencies:
