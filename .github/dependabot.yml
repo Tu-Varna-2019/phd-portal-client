@@ -28,7 +28,7 @@ updates:
     reviewers:
       - "IliyanKostov9"
     labels:
-      - "java"
+      - "npm"
       - "dependencies"
 
   - package-ecosystem: "docker"

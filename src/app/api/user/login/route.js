@@ -9,8 +9,9 @@ export async function POST(request, response) {
     const body = await request.json();
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
+    console.log(accessToken);
 
-    const res = await fetch(`${process.env.BASE_URL}/phd/login`, {
+    const res = await fetch(`${process.env.BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,11 +20,11 @@ export async function POST(request, response) {
       body: JSON.stringify(body)
     });
     const data = await res.json();
-    console.log(`data fetched ${JSON.stringify(data)}`);
+    console.log(`Login response: ${JSON.stringify(data)}`);
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
-    console.error(`Error occured in the phd login: ${error}`);
-    return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+    console.error(`Error occured in the login: ${error}`);
+    return NextResponse.json({ error: "Server error!" }, { status: 500 });
   }
 }

@@ -12,8 +12,6 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
 
 import { useMsal } from "@azure/msal-react";
-import { useSelector } from "react-redux";
-import selectUser from "@/lib/features/user/slices/userMemoSelector";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -21,7 +19,6 @@ const MenuItem = styled(MuiMenuItem)({
 
 export default function OptionsMenu() {
   const { instance } = useMsal();
-  const user = useSelector(selectUser);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,24 +28,6 @@ export default function OptionsMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleProfile = async () => {
-    const result = await fetch("/api/phd/login", {
-      method: "POST",
-      headers: {
-        Authorization: user.accessToken
-      },
-      body: JSON.stringify({
-        oid: "John",
-        first_name: "John",
-        middle_name: "John",
-        last_name: "John",
-        email: "john.doe@example.com"
-      })
-    });
-
-    // const res = await result.json();
   };
 
   const handleLogout = () => {
@@ -87,7 +66,7 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={console.log("profile")}>Profile</MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>Settings</MenuItem>
         <Divider />

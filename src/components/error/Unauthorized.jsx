@@ -1,15 +1,18 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
-import MicrosoftIcon from "@mui/icons-material/Microsoft";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import AppTheme from "../shared-theme/AppTheme";
-import { LoadingButton } from "@mui/lab";
-
+import { useMsal } from "@azure/msal-react";
 import CssBaseline from "@mui/material/CssBaseline";
-import AuthHook from "@/hooks/AuthHook";
-import { useState } from "react";
 
-export default function SignIn() {
-  const { handleLogin } = AuthHook();
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+export default function Unauthorized() {
+  const { instance } = useMsal();
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
+  };
 
   return (
     <AppTheme>
@@ -37,33 +40,27 @@ export default function SignIn() {
         >
           <Paper elevation={3} sx={{ padding: 4 }}>
             <Box>
-              <MicrosoftIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+              <NoAccountsIcon color="lightskyblue" sx={{ fontSize: 60 }} />
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              401 - Unauthorized
+              401 - Неоторизиран
             </Typography>
 
-            <Typography variant="body1" paragraph>
-              You do not have permission to view this page. Please check your
-              credentials or contact the administrator.
+            <Typography variant="body1">
+              Вие нямате права да достъпите тази страница. Моля свържете се с
+              администратора за достъп.
             </Typography>
-
             <Box sx={{ marginTop: 2 }}>
-              <LoadingButton
+              <Button
                 color="info"
-                disabled={isButtonDisabled}
-                loading={isButtonDisabled}
                 size="medium"
                 variant="contained"
-                onClick={() => {
-                  setIsButtonDisabled(true);
-                  handleLogin();
-                }}
+                onClick={handleLogout}
                 sx={{ marginRight: 2 }}
               >
-                Sign in
-              </LoadingButton>
+                Изход
+              </Button>
             </Box>
           </Paper>
         </Container>

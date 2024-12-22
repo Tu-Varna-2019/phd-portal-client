@@ -1,10 +1,10 @@
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
-import HelpIcon from "@mui/icons-material/Help";
+import { Box, Container, Paper, Typography } from "@mui/material";
+import GppBadIcon from "@mui/icons-material/GppBad";
 import AppTheme from "../shared-theme/AppTheme";
-import CssBaseline from "@mui/material/CssBaseline";
-import HomeIcon from "@mui/icons-material/Home";
 
-export default function NotFound() {
+import CssBaseline from "@mui/material/CssBaseline";
+
+export default function ServerError() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -31,32 +31,16 @@ export default function NotFound() {
         >
           <Paper elevation={3} sx={{ padding: 4 }}>
             <Box>
-              <HelpIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+              <GppBadIcon color="lightskyblue" sx={{ fontSize: 60 }} />
             </Box>
 
-            <title>404 Not Found</title>
-
             <Typography variant="h4" color="info" gutterBottom>
-              404 Страницата на съществува
+              Сървърна грешка
             </Typography>
 
             <Typography variant="body1">
-              За съжаление не можахме да намерим страницата, която търсите. :(
+              Извинете ни за неудобството. Опитайте по-късно.
             </Typography>
-
-            <Box sx={{ marginTop: 2 }}>
-              <Button
-                color="info"
-                size="medium"
-                href="/"
-                variant="contained"
-                startIcon={<HomeIcon />}
-                onClick={() => {}}
-                sx={{ marginRight: 2 }}
-              >
-                Обратно
-              </Button>
-            </Box>
           </Paper>
         </Container>
       </Box>
