@@ -11,8 +11,8 @@ import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "@/lib/auth/authConfig";
 import StoreProvider from "@/app/StoreProvider";
 import AuthHook from "@/hooks/AuthHook";
-import { useEffect } from "react";
 import AuthorizeUser from "@/components/auth/AuthorizeUser";
+import "./page.css";
 
 export default function Page() {
   const msalInstance = new PublicClientApplication(msalConfig);
@@ -21,35 +21,17 @@ export default function Page() {
     <>
       <MsalProvider instance={msalInstance}>
         <StoreProvider>
-          <AuthenticatedTemplate>
-            <VerifyRole />
-          </AuthenticatedTemplate>
+          <div className="page">
+            <AuthenticatedTemplate>
+              <AuthorizeUser />
+            </AuthenticatedTemplate>
 
-          <UnauthenticatedTemplate>
-            <AutoLogin />
-          </UnauthenticatedTemplate>
+            <UnauthenticatedTemplate>
+              <AuthHook />
+            </UnauthenticatedTemplate>
+          </div>
         </StoreProvider>
       </MsalProvider>
     </>
   );
 }
-
-const AutoLogin = () => {
-  const { handleLogin } = AuthHook();
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
-
-  return null;
-};
-
-const VerifyRole = () => {
-  const { verifyRole } = AuthorizeUser();
-
-  useEffect(() => {
-    verifyRole();
-  }, []);
-
-  return null;
-};

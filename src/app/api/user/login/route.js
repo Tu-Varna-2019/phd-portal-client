@@ -20,11 +20,11 @@ export async function POST(request, response) {
       body: JSON.stringify(body)
     });
     const data = await res.json();
-    console.log(`data fetched ${JSON.stringify(data)}`);
+    console.log(`Login response: ${JSON.stringify(data)}`);
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error(`Error occured in the login: ${error}`);
-    return NextResponse.json({ error: "Unauthorized!" }, { status: 500 });
+    return NextResponse.json({ error: "Server error!" }, { status: 500 });
   }
 }
