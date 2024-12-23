@@ -8,9 +8,15 @@ import LoadingPageCircle from "../loading/LoadingPageCircle";
 import ServerError from "../error/ServerError";
 import InProgress from "../error/InProgress";
 import DoctoralCenterHome from "@/app/(admin)/home/page";
+import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import { useAppDispatch } from "@/lib/features/constants";
+import { clearUser } from "@/lib/features/user/slices/userSlice";
 
 export default function RolebasedView() {
   const user = useSelector(selectUser);
+  const sessionToken = useSelector(selectSessionToken);
+  const dispatch = useAppDispatch();
+
   const [authStatus, setAuthStatus] = useState("loading");
 
   useEffect(() => {
@@ -19,7 +25,7 @@ export default function RolebasedView() {
         const result = await fetch("/api/user/login", {
           method: "POST",
           headers: {
-            Authorization: user.accessToken
+            Authorization: sessionToken.accessToken
           },
           body: JSON.stringify({
             oid: user.oid,
@@ -33,11 +39,15 @@ export default function RolebasedView() {
         else setAuthStatus(res.role);
       } catch (error) {
         console.log("Server error occured!");
+        setAuthStatus("ServerError");
       }
     };
 
     verifyRole();
   }, []);
+
+  // NOTE: Reset stuff
+  // if (authStatus != "loading") dispatch(clearUser());
 
   if (authStatus == "loading") return <LoadingPageCircle />;
   else if (authStatus == "unauthorized") return <Unauthorized />;

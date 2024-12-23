@@ -5,20 +5,11 @@ import { deserialize } from "serializr";
 export const doctoralCenterSlice = createSlice({
   name: "doctoralCenter",
   initialState: {
-    user: new DoctoralCenter()
+    doctoralCenter: new DoctoralCenter()
   },
   reducers: {
     setDoctoralCenter: (state, action) => {
-      // TODO: Change to map the resposne attrs via api routers
-      const response = action.payload.response;
-
-      const doctoralCenterObj = {
-        oid: response.idTokenClaims.oid,
-        name: response.idTokenClaims.name,
-        email: response.idTokenClaims.email,
-        accessToken: response.accessToken
-      };
-      state.doctoralCenter = deserialize(DoctoralCenter, doctoralCenterObj);
+      state.doctoralCenter = deserialize(DoctoralCenter, action.payload);
     },
     clearDoctoralCenter(state) {
       state.doctoralCenter = null;

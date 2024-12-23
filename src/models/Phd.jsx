@@ -17,8 +17,8 @@ export default class Phd {
     enrollDate,
     gradDate,
     status,
-    curriculum,
-    supervisor,
+    // curriculum,
+    // supervisor,
     department,
     report
   } = {}) {
@@ -38,23 +38,23 @@ export default class Phd {
     // this.curriculum = curriculum;
     // this.supervisor = supervisor;
     this.department = department;
-    this.report = report;
+    // this.report = report;
   }
 
-  formatName(name) {
-    return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
-  }
-
-  extractName(name) {
-    const nameArray = name.split(" ");
-    this.firstName = this.formatName(nameArray[0]);
-    this.middleName = this.formatName(nameArray[1]);
-    this.lastName = this.formatName(nameArray[2]);
-  }
-
-  getName() {
-    return String(this.firstName + " " + this.middleName + " " + this.lastName);
-  }
+  // formatName(name) {
+  // 	return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
+  // }
+  //
+  // extractName(name) {
+  // 	const nameArray = name.split(" ");
+  // 	this.firstName = this.formatName(nameArray[0]);
+  // 	this.middleName = this.formatName(nameArray[1]);
+  // 	this.lastName = this.formatName(nameArray[2]);
+  // }
+  //
+  // getName() {
+  // 	return String(this.firstName + " " + this.middleName + " " + this.lastName);
+  // }
 }
 
 createModelSchema(Phd, {

@@ -5,6 +5,7 @@ import { setUser } from "@/features/user/slices/userSlice";
 import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/lib/features/constants";
 import { useEffect } from "react";
+import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 
 export default function AuthHook() {
   const { instance } = useMsal();
@@ -16,7 +17,13 @@ export default function AuthHook() {
         console.log(e);
       });
 
-      if (response) dispatch(setUser({ response }));
+      if (response) {
+        const userInfo = response.idTokenClaims;
+        const accessToken = response.accessToken;
+
+        dispatch(setUser({ userInfo }));
+        dispatch(setSessionToken({ accessToken }));
+      }
     };
     handleLogin();
   }, []);

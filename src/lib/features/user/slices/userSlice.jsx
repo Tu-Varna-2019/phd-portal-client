@@ -1,23 +1,22 @@
 import User from "@/models/User";
 import { createSlice } from "@reduxjs/toolkit";
-import { deserialize } from "serializr";
+import { deserialize, serialize } from "serializr";
 
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: new User()
+    user: null
   },
   reducers: {
     setUser: (state, action) => {
-      const response = action.payload.response;
-
       const userObj = {
-        oid: response.idTokenClaims.oid,
-        name: response.idTokenClaims.name,
-        email: response.idTokenClaims.email,
-        accessToken: response.accessToken
+        oid: action.payload.userInfo.oid,
+        name: action.payload.userInfo.name,
+        email: action.payload.userInfo.email
       };
-      state.user = deserialize(User, userObj);
+
+      const desUser = deserialize(User, userObj);
+      state.user = serialize(desUser);
     },
     clearUser(state) {
       state.user = null;

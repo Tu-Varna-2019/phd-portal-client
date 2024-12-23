@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "@/features/user/slices/userSlice";
+import phdReducer from "@/features/phd/slices/phdSlice";
+import sessionTokenReducer from "@/features/sessionToken/slices/sessionTokenSlice";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
@@ -14,7 +16,9 @@ const persistConfig = {
 
 export const store = configureStore({
   reducer: {
-    user: persistReducer(persistConfig, userReducer)
+    user: persistReducer(persistConfig, userReducer),
+    phd: persistReducer(persistConfig, phdReducer),
+    sessionToken: persistReducer(persistConfig, sessionTokenReducer)
   },
   devTools: process.env.NODE_ENV != "production",
   middleware: (getDefaultMiddleware) =>
