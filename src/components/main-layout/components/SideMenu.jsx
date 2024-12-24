@@ -1,5 +1,5 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
+
 import Avatar from "@mui/material/Avatar";
 import MuiDrawer, { drawerClasses } from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -24,7 +24,7 @@ const Drawer = styled(MuiDrawer)({
   }
 });
 
-export default function SideMenu() {
+export default function SideMenu({ name, email, picture }) {
   return (
     <Drawer
       variant="permanent"
@@ -60,7 +60,7 @@ export default function SideMenu() {
         <Avatar
           sizes="small"
           alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
+          src={`/${picture}`}
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>
@@ -68,10 +68,10 @@ export default function SideMenu() {
             variant="body2"
             sx={{ fontWeight: 500, lineHeight: "16px" }}
           >
-            Riley Carter
+            {name}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            riley@email.com
+            {email}
           </Typography>
         </Box>
         <OptionsMenu />

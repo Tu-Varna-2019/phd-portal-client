@@ -1,15 +1,19 @@
 import DoctoralCenter from "@/models/DoctoralCenter";
 import { createSlice } from "@reduxjs/toolkit";
-import { deserialize } from "serializr";
+import { deserialize, serialize } from "serializr";
 
 export const doctoralCenterSlice = createSlice({
   name: "doctoralCenter",
   initialState: {
-    doctoralCenter: new DoctoralCenter()
+    doctoralCenter: null
   },
   reducers: {
     setDoctoralCenter: (state, action) => {
-      state.doctoralCenter = deserialize(DoctoralCenter, action.payload);
+      const doctoralCenterObj = deserialize(
+        DoctoralCenter,
+        action.payload.data
+      );
+      state.doctoralCenter = serialize(doctoralCenterObj);
     },
     clearDoctoralCenter(state) {
       state.doctoralCenter = null;

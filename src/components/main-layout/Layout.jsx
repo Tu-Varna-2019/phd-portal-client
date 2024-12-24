@@ -4,29 +4,24 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import AppNavbar from "./components/AppNavbar";
 import Header from "./components/Header";
-import MainGrid from "./components/MainGrid";
-import SideMenu from "./components/SideMenu";
 import AppTheme from "../shared-theme/AppTheme";
 import {
-  chartsCustomizations,
-  dataGridCustomizations,
   datePickersCustomizations,
   treeViewCustomizations
 } from "./theme/customizations";
+import SideMenu from "./components/SideMenu";
 
 const xThemeComponents = {
-  ...chartsCustomizations,
-  ...dataGridCustomizations,
   ...datePickersCustomizations,
   ...treeViewCustomizations
 };
 
-export default function Layout(props) {
+export default function Layout({ user, ...rest }) {
   return (
-    <AppTheme {...props} themeComponents={xThemeComponents}>
+    <AppTheme {...rest} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex" }}>
-        <SideMenu />
+        <SideMenu name={user.name} email={user.email} picture={user.picture} />
         <AppNavbar />
         {/* Main content */}
         <Box
@@ -49,7 +44,7 @@ export default function Layout(props) {
             }}
           >
             <Header />
-            <MainGrid />
+            {/*Main Conent is here*/}
           </Stack>
         </Box>
       </Box>

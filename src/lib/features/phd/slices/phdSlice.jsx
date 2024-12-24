@@ -9,7 +9,7 @@ export const phdSlice = createSlice({
   },
   reducers: {
     setPhd: (state, action) => {
-      const phdObj = deserialize(Phd, action.payload);
+      const phdObj = deserialize(Phd, action.payload.data);
       state.phd = serialize(phdObj);
     },
     clearPhd(state) {

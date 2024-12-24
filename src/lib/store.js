@@ -6,26 +6,49 @@ import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
+import doctoralCenterReducer from "@/features/doctoralCenter/slices/doctoralCenterSlice";
 
 const persistConfig = {
   key: "root",
-  storage
+  storage,
+  whitelist: ["user"]
   // BUG: Not working for some magical reason
   // transform: [userTransform]
+};
+
+const sessionTokenPersistConfig = {
+  key: "sessionToken",
+  storage,
+  whitelist: ["sessionToken"]
+};
+
+const doctoralCenterPersistConfig = {
+  key: "doctoralCenter",
+  storage,
+  whitelist: ["doctoralCenter"]
+};
+
+const phdPersistConfig = {
+  key: "phd",
+  storage,
+  whitelist: ["phd"]
 };
 
 export const store = configureStore({
   reducer: {
     user: persistReducer(persistConfig, userReducer),
-    phd: persistReducer(persistConfig, phdReducer),
-    sessionToken: persistReducer(persistConfig, sessionTokenReducer)
+    phd: persistReducer(phdPersistConfig, phdReducer),
+    doctoralCenter: persistReducer(
+      doctoralCenterPersistConfig,
+      doctoralCenterReducer
+    ),
+    sessionToken: persistReducer(sessionTokenPersistConfig, sessionTokenReducer)
   },
   devTools: process.env.NODE_ENV != "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [PERSIST, REHYDRATE],
-        ignoredPaths: ["payload.response.account.tenantProfiles", "user.user"],
         ignoredActionPaths: ["meta.arg", "payload.response"]
       },
       extraReducers: (builder) => {

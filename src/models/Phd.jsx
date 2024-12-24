@@ -8,6 +8,7 @@ export default class Phd {
     firstName,
     middleName,
     lastName,
+    picture,
     country,
     city,
     address,
@@ -26,6 +27,7 @@ export default class Phd {
     this.firstName = firstName;
     this.middleName = middleName;
     this.lastName = lastName;
+    this.picture = picture;
     this.country = country;
     this.city = city;
     this.address = address;
@@ -41,20 +43,20 @@ export default class Phd {
     // this.report = report;
   }
 
-  // formatName(name) {
-  // 	return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
-  // }
-  //
-  // extractName(name) {
-  // 	const nameArray = name.split(" ");
-  // 	this.firstName = this.formatName(nameArray[0]);
-  // 	this.middleName = this.formatName(nameArray[1]);
-  // 	this.lastName = this.formatName(nameArray[2]);
-  // }
-  //
-  // getName() {
-  // 	return String(this.firstName + " " + this.middleName + " " + this.lastName);
-  // }
+  formatName(name) {
+    return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
+  }
+
+  extractName(name) {
+    const nameArray = name.split(" ");
+    this.firstName = this.formatName(nameArray[0]);
+    this.middleName = this.formatName(nameArray[1]);
+    this.lastName = this.formatName(nameArray[2]);
+  }
+
+  getName() {
+    return String(this.firstName + " " + this.middleName + " " + this.lastName);
+  }
 }
 
 createModelSchema(Phd, {
@@ -62,6 +64,9 @@ createModelSchema(Phd, {
   firstName: primitive(),
   middleName: primitive(),
   lastName: primitive(),
+  picture: primitive({
+    default: "phd_image.png"
+  }),
   country: primitive(),
   city: primitive(),
   address: primitive(),

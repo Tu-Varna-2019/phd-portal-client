@@ -7,17 +7,19 @@ import Unauthorized from "../error/Unauthorized";
 import LoadingPageCircle from "../loading/LoadingPageCircle";
 import ServerError from "../error/ServerError";
 import InProgress from "../error/InProgress";
-import DoctoralCenterHome from "@/app/(admin)/home/page";
+import DoctoralCenterHome from "@/app/(doctoralCenter)/home/page";
 import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 import { useAppDispatch } from "@/lib/features/constants";
-import { clearUser } from "@/lib/features/user/slices/userSlice";
+import { setPhd } from "@/lib/features/phd/slices/phdSlice";
+import { setDoctoralCenter } from "@/lib/features/doctoralCenter/slices/doctoralCenterSlice";
 
 export default function RolebasedView() {
   const user = useSelector(selectUser);
-  const sessionToken = useSelector(selectSessionToken);
+  const sessionTokenSelector = useSelector(selectSessionToken);
   const dispatch = useAppDispatch();
 
   const [authStatus, setAuthStatus] = useState("loading");
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const verifyRole = async () => {
@@ -25,20 +27,19 @@ export default function RolebasedView() {
         const result = await fetch("/api/user/login", {
           method: "POST",
           headers: {
-            Authorization: sessionToken.accessToken
+            Authorization: sessionTokenSelector.accessToken
           },
-          body: JSON.stringify({
-            oid: user.oid,
-            name: user.name,
-            email: user.email
-          })
+          body: JSON.stringify(user)
         });
         const res = await result.json();
 
         if (result.status == 401) setAuthStatus("unauthorized");
-        else setAuthStatus(res.role);
+        else {
+          setAuthStatus(res.role);
+          setData(res.data);
+        }
       } catch (error) {
-        console.log("Server error occured!");
+        console.log(`Server error occured: ${error}`);
         setAuthStatus("ServerError");
       }
     };
@@ -46,8 +47,13 @@ export default function RolebasedView() {
     verifyRole();
   }, []);
 
-  // NOTE: Reset stuff
-  // if (authStatus != "loading") dispatch(clearUser());
+  useEffect(() => {
+    if (authStatus == "doctoralCenter") {
+      dispatch(setDoctoralCenter({ data }));
+    } else if (authStatus == "phd") dispatch(setPhd({ data }));
+    else if (authStatus == "committee") console.log("commitee");
+    // dispatch(setPhd({ data }));
+  }, [authStatus]);
 
   if (authStatus == "loading") return <LoadingPageCircle />;
   else if (authStatus == "unauthorized") return <Unauthorized />;

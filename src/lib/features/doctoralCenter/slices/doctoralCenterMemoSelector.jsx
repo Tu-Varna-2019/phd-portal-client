@@ -9,9 +9,9 @@ const selectDoctoralCenterState = (state) =>
 const selectDoctoralCenter = createSelector(
   [selectDoctoralCenterState],
   (stateDoctoralCenter) => {
-    return stateDoctoralCenter instanceof DoctoralCenter
-      ? stateDoctoralCenter
-      : deserialize(DoctoralCenter, stateDoctoralCenter);
+    return stateDoctoralCenter
+      ? deserialize(DoctoralCenter, stateDoctoralCenter)
+      : null;
   }
 );
 

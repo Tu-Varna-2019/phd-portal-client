@@ -12,7 +12,8 @@ export const userSlice = createSlice({
       const userObj = {
         oid: action.payload.userInfo.oid,
         name: action.payload.userInfo.name,
-        email: action.payload.userInfo.email
+        email: action.payload.userInfo.email,
+        timestamp: Date.now()
       };
 
       const desUser = deserialize(User, userObj);

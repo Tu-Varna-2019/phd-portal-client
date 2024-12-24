@@ -26,5 +26,5 @@ export default function AuthHook() {
       }
     };
     handleLogin();
-  }, []);
+  }, [instance, loginRequest, dispatch]);
 }
