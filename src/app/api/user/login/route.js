@@ -22,7 +22,17 @@ export async function POST(request, response) {
     const data = await res.json();
     console.log(`Login response: ${JSON.stringify(data)}`);
 
-    return NextResponse.json(data, { status: res.status });
+    const response = NextResponse.json(data, {
+      status: res.status
+    });
+
+    response.cookies.set("role", data.role, {
+      path: "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV != "production"
+    });
+
+    return response;
   } catch (error) {
     console.error(`Error occured in the login: ${error}`);
     return NextResponse.json({ error: "Server error!" }, { status: 500 });

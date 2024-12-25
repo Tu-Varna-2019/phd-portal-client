@@ -1,3 +1,4 @@
+"use client";
 import Layout from "@/components/main-layout/Layout";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 import { useSelector } from "react-redux";

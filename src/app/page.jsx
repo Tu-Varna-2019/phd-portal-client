@@ -9,9 +9,9 @@ import "@/hooks/AuthHook";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "@/lib/auth/authConfig";
-import StoreProvider from "@/app/StoreProvider";
 import AuthHook from "@/hooks/AuthHook";
-import RolebasedView from "@/components/auth/RolebasedView";
+import DoctoralCenterHome from "./doctoralCenter/(home)/page";
+import PhdHome from "./phd/(home)/page";
 
 export default function Page() {
   const msalInstance = new PublicClientApplication(msalConfig);
@@ -19,15 +19,14 @@ export default function Page() {
   return (
     <>
       <MsalProvider instance={msalInstance}>
-        <StoreProvider>
-          <AuthenticatedTemplate>
-            <RolebasedView />
-          </AuthenticatedTemplate>
+        <AuthenticatedTemplate>
+          <DoctoralCenterHome />
+          <PhdHome />
+        </AuthenticatedTemplate>
 
-          <UnauthenticatedTemplate>
-            <AuthHook />
-          </UnauthenticatedTemplate>
-        </StoreProvider>
+        <UnauthenticatedTemplate>
+          <AuthHook />
+        </UnauthenticatedTemplate>
       </MsalProvider>
     </>
   );

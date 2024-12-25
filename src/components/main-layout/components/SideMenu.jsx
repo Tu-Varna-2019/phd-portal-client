@@ -6,9 +6,7 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import SelectContent from "./SelectContent";
 import MenuContent from "./MenuContent";
-import CardAlert from "./CardAlert";
 import OptionsMenu from "./OptionsMenu";
 
 const drawerWidth = 240;
@@ -42,11 +40,11 @@ export default function SideMenu({ name, email, picture }) {
           p: 1.5
         }}
       >
-        <SelectContent />
+        {/*Select Content*/}
       </Box>
       <Divider />
       <MenuContent />
-      <CardAlert />
+      {/*Card alert*/}
       <Stack
         direction="row"
         sx={{

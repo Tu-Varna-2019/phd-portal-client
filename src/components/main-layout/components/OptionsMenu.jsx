@@ -11,16 +11,28 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
 
+import { useMsal } from "@azure/msal-react";
+
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
 });
 
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { instance } = useMsal();
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -54,14 +66,12 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Профил</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={handleClose}>Настройки</MenuItem>
         <Divider />
         <MenuItem
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{
             [`& .${listItemIconClasses.root}`]: {
               ml: "auto",
@@ -69,7 +79,7 @@ export default function OptionsMenu() {
             }
           }}
         >
-          <ListItemText>Logout</ListItemText>
+          <ListItemText>Изход</ListItemText>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>
