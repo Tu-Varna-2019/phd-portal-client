@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { unauthorized } from "next/navigation";
 import { NextResponse } from "next/server";
 
 // BUG: this crap dissallows to pass any headers
@@ -26,6 +27,14 @@ export async function POST(request, response) {
       status: res.status
     });
 
+    console.log(`Status is ${response.status}`);
+    if (response.status > 400 && response.status < 600) {
+      return NextResponse.json(
+        { error: body.message },
+        { status: response.status }
+      );
+    }
+
     response.cookies.set("role", data.role, {
       path: "/",
       httpOnly: true,
@@ -34,7 +43,6 @@ export async function POST(request, response) {
 
     return response;
   } catch (error) {
-    console.error(`Error occured in the login: ${error}`);
     return NextResponse.json({ error: "Server error!" }, { status: 500 });
   }
 }

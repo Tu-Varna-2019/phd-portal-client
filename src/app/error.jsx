@@ -1,8 +1,7 @@
 "use client";
-
 import ClientError from "@/components/error/ClientError";
 
-const Error = () => {
+const ClientErrorPage = () => {
   return (
     <>
       <ClientError />
@@ -10,4 +9,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default ClientErrorPage;

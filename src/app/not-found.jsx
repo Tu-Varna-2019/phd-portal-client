@@ -2,7 +2,7 @@
 
 import NotFound from "@/components/error/NotFound";
 
-const NotFoundPage = () => {
+const NotFoundErrorPage = () => {
   return (
     <>
       <NotFound />
@@ -10,4 +10,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default NotFoundErrorPage;

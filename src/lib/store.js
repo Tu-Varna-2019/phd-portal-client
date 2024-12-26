@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "@/features/user/slices/userSlice";
 import phdReducer from "@/features/phd/slices/phdSlice";
 import sessionTokenReducer from "@/features/sessionToken/slices/sessionTokenSlice";
 import persistStore from "redux-persist/es/persistStore";
@@ -8,14 +7,6 @@ import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
 import doctoralCenterReducer from "@/features/doctoralCenter/slices/doctoralCenterSlice";
 import committeeReducer from "@/features/committee/slices/committeeSlice";
-
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["user"]
-  // BUG: Not working for some magical reason
-  // transform: [userTransform]
-};
 
 const sessionTokenPersistConfig = {
   key: "sessionToken",
@@ -27,6 +18,8 @@ const doctoralCenterPersistConfig = {
   key: "doctoralCenter",
   storage,
   whitelist: ["doctoralCenter"]
+  // BUG: Not working for some magical reason
+  // transform: [doctoralCenterTransform]
 };
 
 const phdPersistConfig = {
@@ -43,7 +36,6 @@ const committeePersistConfig = {
 
 export const store = configureStore({
   reducer: {
-    user: persistReducer(persistConfig, userReducer),
     phd: persistReducer(phdPersistConfig, phdReducer),
     doctoralCenter: persistReducer(
       doctoralCenterPersistConfig,

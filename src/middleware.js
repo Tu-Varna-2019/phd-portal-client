@@ -9,16 +9,17 @@ const corsOptions = {
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
-  const role = request.cookies.get("role")
+  const roleCookie = request.cookies.get("role")
     ? request.cookies.get("role").value
     : "";
   const url = request.nextUrl.clone();
+
   const isPreflight = request.method === "OPTIONS";
 
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
-  const redirectUser = authByRole(url, role);
-  if (redirectUser && role != "") return redirectUser;
+  // const redirect = authByRoleCookie(url, roleCookie);
+  // if (redirect) return redirect;
 
   const response = NextResponse.next({
     request: {
@@ -29,12 +30,14 @@ export function middleware(request) {
   return response;
 }
 
-const authByRole = (url, role) => {
-  if (url.pathname == "/") {
-    url.pathname = "/" + role;
+const authByRoleCookie = (url, roleCookie) => {
+  if (roleCookie == "" && url.pathname == "/") {
+    url.pathname = "/unauthorized";
     return NextResponse.redirect(url);
-  } else if (!url.pathname.startsWith("/" + role)) {
-    url.pathname = "/not-found";
+  }
+  // else if (url.pathname == "/") url.pathname = "/" + roleCookie;
+  else if (!url.pathname.startsWith("/" + roleCookie)) {
+    url.pathname = "/unauthorized";
     return NextResponse.redirect(url);
   }
 };
@@ -49,5 +52,12 @@ const sendPreflight = (isAllowedOrigin, origin) => {
 };
 
 export const config = {
-  matcher: ["/api/:function*", "/phd", "/doctoralCenter", "/committee", "/"]
+  matcher: [
+    "/api/:function*",
+    "/phd",
+    "/doctoralCenter",
+    "/committee",
+    "/",
+    "/unauthorized"
+  ]
 };
