@@ -14,20 +14,9 @@ import DoctoralCenterHome from "./doctoralCenter/(home)/page";
 import PhdHome from "./phd/(home)/page";
 
 export default function Page() {
-  const msalInstance = new PublicClientApplication(msalConfig);
-
   return (
     <>
-      <MsalProvider instance={msalInstance}>
-        <AuthenticatedTemplate>
-          <DoctoralCenterHome />
-          <PhdHome />
-        </AuthenticatedTemplate>
-
-        <UnauthenticatedTemplate>
-          <AuthHook />
-        </UnauthenticatedTemplate>
-      </MsalProvider>
+      <h1>Public</h1>
     </>
   );
 }

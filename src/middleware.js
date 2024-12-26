@@ -9,14 +9,16 @@ const corsOptions = {
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
-  const role = request.cookies.get("role")?.value;
+  const role = request.cookies.get("role")
+    ? request.cookies.get("role").value
+    : "";
   const url = request.nextUrl.clone();
   const isPreflight = request.method === "OPTIONS";
 
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
   const redirectUser = authByRole(url, role);
-  if (redirectUser) return redirectUser;
+  if (redirectUser && role != "") return redirectUser;
 
   const response = NextResponse.next({
     request: {
@@ -29,7 +31,6 @@ export function middleware(request) {
 
 const authByRole = (url, role) => {
   if (url.pathname == "/") {
-    console.log(`URL  ${url.pathname}`);
     url.pathname = "/" + role;
     return NextResponse.redirect(url);
   } else if (!url.pathname.startsWith("/" + role)) {

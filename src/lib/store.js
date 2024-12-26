@@ -7,6 +7,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
 import doctoralCenterReducer from "@/features/doctoralCenter/slices/doctoralCenterSlice";
+import committeeReducer from "@/features/committee/slices/committeeSlice";
 
 const persistConfig = {
   key: "root",
@@ -34,6 +35,12 @@ const phdPersistConfig = {
   whitelist: ["phd"]
 };
 
+const committeePersistConfig = {
+  key: "committee",
+  storage,
+  whitelist: ["committee"]
+};
+
 export const store = configureStore({
   reducer: {
     user: persistReducer(persistConfig, userReducer),
@@ -42,6 +49,7 @@ export const store = configureStore({
       doctoralCenterPersistConfig,
       doctoralCenterReducer
     ),
+    committee: persistReducer(committeePersistConfig, committeeReducer),
     sessionToken: persistReducer(sessionTokenPersistConfig, sessionTokenReducer)
   },
   devTools: process.env.NODE_ENV != "production",

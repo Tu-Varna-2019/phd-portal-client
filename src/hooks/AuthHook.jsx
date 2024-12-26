@@ -1,29 +1,42 @@
 "use client";
 
 import { useMsal } from "@azure/msal-react";
-import { setUser } from "@/features/user/slices/userSlice";
 import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/lib/features/constants";
 import { useEffect } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import { useRouter } from "next/navigation";
+import { setPhd } from "@/lib/features/phd/slices/phdSlice";
+import { setDoctoralCenter } from "@/lib/features/doctoralCenter/slices/doctoralCenterSlice";
 
 export default function AuthHook() {
   const { instance } = useMsal();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // TODO: For some stupid reason this url is valid: https://localhost:3000/
-  const loginRedirect = async (user, accessToken) => {
+  const fetchRole = async (userCreds, accessToken) => {
     const result = await fetch("/api/user/login", {
       method: "POST",
       headers: {
         Authorization: accessToken
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(userCreds)
     });
     const response = await result.json();
-    return response.role;
+    return response;
+  };
+
+  const evaluateRole = (data, role) => {
+    switch (role) {
+      case "doctoralCenter":
+        dispatch(setDoctoralCenter({ data }));
+        break;
+      case "phd":
+        dispatch(setPhd({ data }));
+        break;
+      default:
+        console.error(`Invalid role ${role}`);
+    }
   };
 
   useEffect(() => {
@@ -33,13 +46,20 @@ export default function AuthHook() {
       });
 
       if (response) {
-        const userInfo = response.idTokenClaims;
+        const userCreds = {
+          oid: response.idTokenClaims.oid,
+          name: response.idTokenClaims.name,
+          email: response.idTokenClaims.email
+        };
         const accessToken = response.accessToken;
-
-        dispatch(setUser({ userInfo }));
         dispatch(setSessionToken({ accessToken }));
-        const url = await loginRedirect(userInfo, accessToken);
-        router.push("/" + url);
+
+        const roleResponse = await fetchRole(userCreds, accessToken);
+        console.log(`Role response ${JSON.stringify(roleResponse)}`);
+
+        evaluateRole(roleResponse.data, roleResponse.role);
+
+        router.push("/" + roleResponse.role);
       }
     };
     handleLogin();
