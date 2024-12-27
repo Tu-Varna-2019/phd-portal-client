@@ -1,10 +1,19 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import AppTheme from "../shared-theme/AppTheme";
 
+import { useMsal } from "@azure/msal-react";
 import CssBaseline from "@mui/material/CssBaseline";
 
 export default function ServerError() {
+  const { instance } = useMsal();
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
+  };
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -41,6 +50,18 @@ export default function ServerError() {
             <Typography variant="body1">
               Извинете ни за неудобството. Опитайте по-късно.
             </Typography>
+
+            <Box sx={{ marginTop: 2 }}>
+              <Button
+                color="info"
+                size="medium"
+                variant="contained"
+                onClick={handleLogout}
+                sx={{ marginRight: 2 }}
+              >
+                Изход
+              </Button>
+            </Box>
           </Paper>
         </Container>
       </Box>

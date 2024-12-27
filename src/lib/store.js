@@ -1,27 +1,54 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "@/features/user/slices/userSlice";
+import phdReducer from "@/features/phd/slices/phdSlice";
+import sessionTokenReducer from "@/features/sessionToken/slices/sessionTokenSlice";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
+import doctoralCenterReducer from "@/features/doctoralCenter/slices/doctoralCenterSlice";
+import committeeReducer from "@/features/committee/slices/committeeSlice";
 
-const persistConfig = {
-  key: "root",
-  storage
+const sessionTokenPersistConfig = {
+  key: "sessionToken",
+  storage,
+  whitelist: ["sessionToken"]
+};
+
+const doctoralCenterPersistConfig = {
+  key: "doctoralCenter",
+  storage,
+  whitelist: ["doctoralCenter"]
   // BUG: Not working for some magical reason
-  // transform: [userTransform]
+  // transform: [doctoralCenterTransform]
+};
+
+const phdPersistConfig = {
+  key: "phd",
+  storage,
+  whitelist: ["phd"]
+};
+
+const committeePersistConfig = {
+  key: "committee",
+  storage,
+  whitelist: ["committee"]
 };
 
 export const store = configureStore({
   reducer: {
-    user: persistReducer(persistConfig, userReducer)
+    phd: persistReducer(phdPersistConfig, phdReducer),
+    doctoralCenter: persistReducer(
+      doctoralCenterPersistConfig,
+      doctoralCenterReducer
+    ),
+    committee: persistReducer(committeePersistConfig, committeeReducer),
+    sessionToken: persistReducer(sessionTokenPersistConfig, sessionTokenReducer)
   },
   devTools: process.env.NODE_ENV != "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [PERSIST, REHYDRATE],
-        ignoredPaths: ["payload.response.account.tenantProfiles", "user.user"],
         ignoredActionPaths: ["meta.arg", "payload.response"]
       },
       extraReducers: (builder) => {

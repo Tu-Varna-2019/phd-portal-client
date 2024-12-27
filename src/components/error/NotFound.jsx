@@ -3,8 +3,17 @@ import HelpIcon from "@mui/icons-material/Help";
 import AppTheme from "../shared-theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeIcon from "@mui/icons-material/Home";
+import { useMsal } from "@azure/msal-react";
 
 export default function NotFound() {
+  const { instance } = useMsal();
+
+  const handleLogout = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: "/",
+      mainWindowRedirectUri: "/"
+    });
+  };
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -55,6 +64,17 @@ export default function NotFound() {
                 sx={{ marginRight: 2 }}
               >
                 Обратно
+              </Button>
+
+              <Button
+                color="info"
+                size="medium"
+                onClick={handleLogout}
+                variant="contained"
+                startIcon={<HomeIcon />}
+                sx={{ marginRight: 2 }}
+              >
+                Изход
               </Button>
             </Box>
           </Paper>
