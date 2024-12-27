@@ -9,19 +9,18 @@ const corsOptions = {
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
+  const roleCookie = request.cookies.get("role")
+    ? request.cookies.get("role").value
+    : "";
+  const url = request.nextUrl.clone();
 
   const isPreflight = request.method === "OPTIONS";
 
-  if (isPreflight) {
-    const preflightHeaders = {
-      ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
-      "Access-Control-Allow-Methods":
-        corsOptions["Access-Control-Allow-Methods"],
-      "Access-Control-Allow-Headers":
-        corsOptions["Access-Control-Allow-Headers"]
-    };
-    return NextResponse.json({}, { headers: preflightHeaders });
-  }
+  if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
+
+  // const redirect = authByRoleCookie(url, roleCookie);
+  // if (redirect) return redirect;
+
   const response = NextResponse.next({
     request: {
       headers: request.headers
@@ -31,6 +30,34 @@ export function middleware(request) {
   return response;
 }
 
+const authByRoleCookie = (url, roleCookie) => {
+  if (roleCookie == "" && url.pathname == "/") {
+    url.pathname = "/unauthorized";
+    return NextResponse.redirect(url);
+  }
+  // else if (url.pathname == "/") url.pathname = "/" + roleCookie;
+  else if (!url.pathname.startsWith("/" + roleCookie)) {
+    url.pathname = "/unauthorized";
+    return NextResponse.redirect(url);
+  }
+};
+
+const sendPreflight = (isAllowedOrigin, origin) => {
+  const preflightHeaders = {
+    ...(isAllowedOrigin && { "Access-Control-Allow-Origin": origin }),
+    "Access-Control-Allow-Methods": corsOptions["Access-Control-Allow-Methods"],
+    "Access-Control-Allow-Headers": corsOptions["Access-Control-Allow-Headers"]
+  };
+  return NextResponse.json({}, { headers: preflightHeaders });
+};
+
 export const config = {
-  matcher: "/api/:function*"
+  matcher: [
+    "/api/:function*",
+    "/phd",
+    "/doctoralCenter",
+    "/committee",
+    "/",
+    "/unauthorized"
+  ]
 };

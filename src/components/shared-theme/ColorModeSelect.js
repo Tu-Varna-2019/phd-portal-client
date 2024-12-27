@@ -17,9 +17,9 @@ export default function ColorModeSelect(props) {
       }}
       {...props}
     >
-      <MenuItem value="system">System</MenuItem>
-      <MenuItem value="light">Light</MenuItem>
-      <MenuItem value="dark">Dark</MenuItem>
+      <MenuItem value="system">По подразбиране</MenuItem>
+      <MenuItem value="light">Светъл режим</MenuItem>
+      <MenuItem value="dark">Тъмен режим</MenuItem>
     </Select>
   );
 }
