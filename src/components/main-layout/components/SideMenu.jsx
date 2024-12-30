@@ -1,3 +1,4 @@
+"use client";
 import { styled } from "@mui/material/styles";
 
 import Avatar from "@mui/material/Avatar";
@@ -22,7 +23,7 @@ const Drawer = styled(MuiDrawer)({
   }
 });
 
-export default function SideMenu({ name, email, picture }) {
+export default function SideMenu({ user, mainListItems }) {
   return (
     <Drawer
       variant="permanent"
@@ -43,7 +44,7 @@ export default function SideMenu({ name, email, picture }) {
         {/*Select Content*/}
       </Box>
       <Divider />
-      <MenuContent />
+      <MenuContent mainListItems={mainListItems} />
       {/*Card alert*/}
       <Stack
         direction="row"
@@ -58,7 +59,7 @@ export default function SideMenu({ name, email, picture }) {
         <Avatar
           sizes="small"
           alt="Riley Carter"
-          src={`/${picture}`}
+          src={`/${user.picture}`}
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>
@@ -66,10 +67,10 @@ export default function SideMenu({ name, email, picture }) {
             variant="body2"
             sx={{ fontWeight: 500, lineHeight: "16px" }}
           >
-            {name}
+            {user.name}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            {email}
+            {user.email}
           </Typography>
         </Box>
         <OptionsMenu />

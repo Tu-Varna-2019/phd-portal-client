@@ -1,18 +1,11 @@
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import AppTheme from "../shared-theme/AppTheme";
-import { useMsal } from "@azure/msal-react";
 import CssBaseline from "@mui/material/CssBaseline";
+import Auth from "@/lib/auth/auth";
 
 export default function Unauthorized() {
-  const { instance } = useMsal();
-
-  const handleLogout = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
-    });
-  };
+  const { handleLogout } = Auth();
 
   return (
     <AppTheme>

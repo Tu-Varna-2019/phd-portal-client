@@ -1,9 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
-import UnauthorizedUsersData from "../internals/data/unauthorizedUsersGridData";
+import { columns, rows } from "../internals/data/unauthorizedUsersGridData";
 
-export default function UnauthorizedUsersDataGrid() {
-  const { rows, columns } = UnauthorizedUsersData();
-
+export default function CustomizedDataGrid() {
   return (
     <DataGrid
       checkboxSelection

@@ -10,8 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
-
-import { useMsal } from "@azure/msal-react";
+import Auth from "@/lib/auth/auth";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -19,18 +18,11 @@ const MenuItem = styled(MuiMenuItem)({
 
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { instance } = useMsal();
+  const { handleLogout } = Auth();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const handleLogout = async () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
-    });
   };
 
   const handleClose = () => {

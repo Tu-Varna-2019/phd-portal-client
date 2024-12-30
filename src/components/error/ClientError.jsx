@@ -2,18 +2,12 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import AppTheme from "../shared-theme/AppTheme";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useMsal } from "@azure/msal-react";
 import CssBaseline from "@mui/material/CssBaseline";
+import Auth from "@/lib/auth/auth";
 
 export default function ClientError() {
-  const { instance } = useMsal();
+  const { handleLogout } = Auth();
 
-  const handleLogout = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
-    });
-  };
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />

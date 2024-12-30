@@ -1,17 +1,15 @@
 "use client";
-
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/lib/features/constants";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import { useRouter } from "next/navigation";
 import { setPhd } from "@/lib/features/phd/slices/phdSlice";
 import { setDoctoralCenter } from "@/lib/features/doctoralCenter/slices/doctoralCenterSlice";
 import { setCommittee } from "@/lib/features/committee/slices/committeeSlice";
+import Auth from "@/lib/auth/auth";
 
 export default function AuthHook() {
-  const { instance } = useMsal();
+  const { handleLogin } = Auth();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -33,6 +31,7 @@ export default function AuthHook() {
         return result;
       }
     } catch (exception) {
+      console.error(`Server error when trying to log in ${exception}`);
       router.push("/server-error");
     }
   };
@@ -54,10 +53,8 @@ export default function AuthHook() {
   };
 
   useEffect(() => {
-    const handleLogin = async () => {
-      const response = await instance.loginPopup(loginRequest).catch((e) => {
-        console.log(e);
-      });
+    const handleAuth = async () => {
+      const response = await handleLogin();
 
       if (response) {
         const userCreds = {
@@ -70,10 +67,12 @@ export default function AuthHook() {
         dispatch(setSessionToken({ accessToken }));
 
         const roleResponse = await fetchRole(userCreds, accessToken);
-        evaluateRole(roleResponse.data, roleResponse.role);
-        router.push("/" + roleResponse.role);
+        if (roleResponse) {
+          evaluateRole(roleResponse.data, roleResponse.role);
+          router.push("/" + roleResponse.role);
+        }
       }
     };
-    handleLogin();
-  }, [instance, loginRequest, dispatch]);
+    handleAuth();
+  }, [dispatch]);
 }

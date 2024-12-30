@@ -1,9 +1,11 @@
 name: Security scanning
 
 on:
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
+
+  # pull_request:
+  #   branches:
+  #     - master
 
 env:
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

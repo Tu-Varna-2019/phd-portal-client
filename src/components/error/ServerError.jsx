@@ -1,19 +1,12 @@
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import AppTheme from "../shared-theme/AppTheme";
-
-import { useMsal } from "@azure/msal-react";
 import CssBaseline from "@mui/material/CssBaseline";
+import Auth from "@/lib/auth/auth";
 
 export default function ServerError() {
-  const { instance } = useMsal();
+  const { handleLogout } = Auth();
 
-  const handleLogout = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
-    });
-  };
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />

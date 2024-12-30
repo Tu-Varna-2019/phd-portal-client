@@ -1,0 +1,17 @@
+when:
+  event: manual
+# when:
+#   branch: master
+#   event: [ pull_request]
+# clone:
+#    git:
+#      image: woodpeckerci/plugin-git
+#      settings:
+#        partial: false
+
+steps:
+  - name: npm test
+    image: node
+    commands:
+      - npm build
+      - npm ci

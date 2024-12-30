@@ -3,17 +3,11 @@ import HelpIcon from "@mui/icons-material/Help";
 import AppTheme from "../shared-theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeIcon from "@mui/icons-material/Home";
-import { useMsal } from "@azure/msal-react";
+import Auth from "@/lib/auth/auth";
 
 export default function NotFound() {
-  const { instance } = useMsal();
+  const { handleLogout } = Auth();
 
-  const handleLogout = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
-    });
-  };
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />

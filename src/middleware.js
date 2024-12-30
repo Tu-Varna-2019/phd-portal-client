@@ -9,17 +9,18 @@ const corsOptions = {
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
-  const roleCookie = request.cookies.get("role")
-    ? request.cookies.get("role").value
-    : "";
+  const roleCookie = request.cookies.get("role")?.value;
   const url = request.nextUrl.clone();
+  const originalPathname = url.pathname;
 
   const isPreflight = request.method === "OPTIONS";
 
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
-  // const redirect = authByRoleCookie(url, roleCookie);
-  // if (redirect) return redirect;
+  if (!originalPathname.startsWith("/api/")) {
+    const redirect = authByRoleCookie(url, originalPathname, roleCookie);
+    if (redirect) return redirect;
+  }
 
   const response = NextResponse.next({
     request: {
@@ -30,16 +31,18 @@ export function middleware(request) {
   return response;
 }
 
-const authByRoleCookie = (url, roleCookie) => {
-  if (roleCookie == "" && url.pathname == "/") {
+const authByRoleCookie = (url, originalPathname, roleCookie) => {
+  if (roleCookie == null && url.pathname != "/") url.pathname = "/unauthorized";
+  else if (url.pathname == "/" && roleCookie != null)
+    url.pathname = "/" + roleCookie;
+  else if (
+    roleCookie != null &&
+    !url.pathname.startsWith("/" + roleCookie) &&
+    !url.pathname.startsWith("/api")
+  )
     url.pathname = "/unauthorized";
-    return NextResponse.redirect(url);
-  }
-  // else if (url.pathname == "/") url.pathname = "/" + roleCookie;
-  else if (!url.pathname.startsWith("/" + roleCookie)) {
-    url.pathname = "/unauthorized";
-    return NextResponse.redirect(url);
-  }
+
+  if (originalPathname != url.pathname) return NextResponse.redirect(url);
 };
 
 const sendPreflight = (isAllowedOrigin, origin) => {

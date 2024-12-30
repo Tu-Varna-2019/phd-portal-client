@@ -44,7 +44,7 @@ const data = [
   }
 ];
 
-export default function HomeDoctralCenterGrid() {
+export default function MainGrid() {
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
