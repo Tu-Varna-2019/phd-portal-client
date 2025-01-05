@@ -1,11 +1,10 @@
 import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
-import { formatDateTime } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const fetchUnauthorizedUsers = async (accessToken) => {
+const fetchAuthUsers = async (accessToken) => {
   try {
-    const response = await fetch("/api/doctoralCenter/admin/getUnauthorized", {
+    const response = await fetch("/api/doctoralCenter/admin/authenthicated", {
       method: "GET",
       headers: {
         Authorization: accessToken
@@ -15,31 +14,22 @@ const fetchUnauthorizedUsers = async (accessToken) => {
     return result.data;
   } catch (exception) {
     console.error(
-      `Server error when trying to fetch unauthorized users in ${exception}`
+      `Server error when trying to fetch authenticated users in ${exception}`
     );
   }
 };
 
-export default function UnauthorizedUsersData() {
+export default function UserManagementData() {
   const [rows, setRows] = useState([]);
-
   const sessionToken = useSelector(selectSessionToken);
 
   useEffect(() => {
-    const getUnauthorizedUsers = async () => {
-      const unauthorizedUsers = await fetchUnauthorizedUsers(
-        sessionToken.accessToken
-      );
-
-      // NOTE: Format datetime
-      unauthorizedUsers.forEach((user) => {
-        const userTimestamp = user.timestamp;
-        user.formattedTimestamp = formatDateTime(userTimestamp);
-      });
-      setRows(unauthorizedUsers);
+    const getAuthUsers = async () => {
+      const authUsers = await fetchAuthUsers(sessionToken.accessToken);
+      setRows(authUsers);
     };
 
-    getUnauthorizedUsers();
+    getAuthUsers();
   }, [setRows]);
 
   const columns = [
@@ -48,7 +38,7 @@ export default function UnauthorizedUsersData() {
       field: "name",
       headerName: "Име",
       flex: 1,
-      minWidth: 150
+      minWidth: 200
     },
     {
       field: "email",
@@ -56,15 +46,15 @@ export default function UnauthorizedUsersData() {
       headerAlign: "right",
       align: "right",
       flex: 1,
-      minWidth: 80
+      minWidth: 300
     },
     {
-      field: "formattedTimestamp",
-      headerName: "Време на достъп",
+      field: "role",
+      headerName: "Роля",
       headerAlign: "right",
       align: "right",
       flex: 2,
-      minWidth: 300
+      minWidth: 150
     }
   ];
 

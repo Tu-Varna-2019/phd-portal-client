@@ -1,5 +1,4 @@
 import { headers } from "next/headers";
-import { unauthorized } from "next/navigation";
 import { NextResponse } from "next/server";
 
 // BUG: this crap dissallows to pass any headers
@@ -27,7 +26,6 @@ export async function POST(request, response) {
       status: res.status
     });
 
-    console.log(`Status is ${response.status}`);
     if (response.status > 400 && response.status < 600) {
       return NextResponse.json(
         { error: body.message },
@@ -35,11 +33,18 @@ export async function POST(request, response) {
       );
     }
 
-    response.cookies.set("role", data.role, {
+    response.cookies.set("group", data.group, {
       path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV != "production"
     });
+
+    if ("role" in data.data)
+      response.cookies.set("role", data.data.role.role, {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV != "production"
+      });
 
     return response;
   } catch (error) {

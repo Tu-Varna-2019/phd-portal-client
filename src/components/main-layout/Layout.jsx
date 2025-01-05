@@ -16,7 +16,7 @@ const xThemeComponents = {
   ...treeViewCustomizations
 };
 
-export default function Layout({ user, MainView, mainListItems }) {
+export default function Layout({ headerTitle, user, MainView, mainListItems }) {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -43,7 +43,7 @@ export default function Layout({ user, MainView, mainListItems }) {
               mt: { xs: 8, md: 0 }
             }}
           >
-            <Header />
+            <Header headerTitle={headerTitle} />
             <MainView />
             {/*Main Conent is here*/}
           </Stack>

@@ -15,6 +15,7 @@ export default function Page() {
 
   return (
     <Layout
+      headerTitle={"Начална страница"}
       user={user}
       MainView={HomeDoctralCenterGrid}
       mainListItems={mainListItems}

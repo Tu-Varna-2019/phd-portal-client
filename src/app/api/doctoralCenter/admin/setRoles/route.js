@@ -1,19 +1,25 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function POST(request) {
   try {
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
+    const cookie = reqHeaders.get("Cookie");
+    const body = await request.json();
+    const searchParams = request.nextUrl.searchParams;
+    const role = searchParams.get("role");
 
     const res = await fetch(
-      `${process.env.BASE_URL}/doctoralcenter/unauthorized/get`,
+      `${process.env.BASE_URL}/doctoralcenter/unauthorized/set/role/${role}`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+          Cookie: cookie
+        },
+        body: JSON.stringify(body)
       }
     );
     const data = await res.json();

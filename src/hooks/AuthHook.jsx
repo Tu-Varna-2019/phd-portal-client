@@ -23,7 +23,6 @@ export default function AuthHook() {
         body: JSON.stringify(userCreds)
       });
 
-      console.log(`response ${response.status}`);
       if (response.status == 500) router.push("/server-error");
       else if (response.status == 401) router.push("/unauthorized");
       else {
@@ -66,10 +65,10 @@ export default function AuthHook() {
         const accessToken = response.accessToken;
         dispatch(setSessionToken({ accessToken }));
 
-        const roleResponse = await fetchRole(userCreds, accessToken);
-        if (roleResponse) {
-          evaluateRole(roleResponse.data, roleResponse.role);
-          router.push("/" + roleResponse.role);
+        const loginResponse = await fetchRole(userCreds, accessToken);
+        if (loginResponse) {
+          evaluateRole(loginResponse.data, loginResponse.group);
+          router.push("/" + loginResponse.group);
         }
       }
     };

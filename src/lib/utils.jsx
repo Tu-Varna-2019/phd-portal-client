@@ -8,7 +8,15 @@ export const formatDateTime = (rawDateTime) => {
     hour: "numeric",
     minute: "numeric",
     second: "numeric",
-    hour12: true,
-    timeZoneName: "short"
+    hour12: false
+    // timeZoneName: "short"
   });
+};
+
+export const formatToServerTimestamp = (isoString) => {
+  const date = new Date(isoString);
+  const pad = (num) => String(num).padStart(2, "0");
+  const formatted = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${String(date.getMilliseconds()).padStart(3, "0")}`;
+
+  return formatted;
 };

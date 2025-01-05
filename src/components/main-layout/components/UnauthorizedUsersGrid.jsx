@@ -1,8 +1,14 @@
 import Grid from "@mui/material/Grid2";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import StatCard from "./StatCard";
-import UnauthorizedUsersDataGrid from "./CustomizedDataGrid";
+import { DataGrid } from "@mui/x-data-grid";
+import UnauthorizedUsersData from "../internals/data/unauthorizedUsersGridData";
+import { Box, Typography } from "@mui/material";
+import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
+import { useState } from "react";
+import ConfirmDialogComboBox from "@/components/dialog/ConfirmDialogComboBox";
+import { useSelector } from "react-redux";
+import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import { formatToServerTimestamp } from "@/lib/utils";
 
 const data = [
   {
@@ -29,6 +35,53 @@ const data = [
 ];
 
 export default function UnauthorizedUsersGrid() {
+  const { rows, columns, setRowsByParam } = UnauthorizedUsersData();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const sessionToken = useSelector(selectSessionToken);
+  const [roleOption, setRoleOption] = useState();
+
+  const onAutocompleteChange = (option) => {
+    setRoleOption(option);
+  };
+
+  const setRoles = async (unauthorizedUsers) => {
+    const normalizedUnauthUsers = unauthorizedUsers.map((item) => ({
+      oid: item.oid,
+      name: item.name,
+      email: item.email,
+      timestamp: formatToServerTimestamp(item.timestamp)
+    }));
+
+    try {
+      const response = await fetch(
+        `/api/doctoralCenter/admin/setRoles?role=${roleOption}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: sessionToken.accessToken
+          },
+          body: JSON.stringify(normalizedUnauthUsers)
+        }
+      );
+      const result = await response.json();
+      return result;
+    } catch (exception) {
+      console.error(`Server error when trying to set users in ${exception}`);
+    }
+  };
+
+  const onButtonPermitOnClick = async () => {
+    const unauthorizedUsers = rows.filter((elem) =>
+      selectedRows.includes(elem.id)
+    );
+    await setRoles(unauthorizedUsers);
+
+    const permittedUsers = rows.filter(
+      (elem) => !selectedRows.includes(elem.id)
+    );
+    setRowsByParam(permittedUsers);
+  };
+
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       {/* cards */}
@@ -52,7 +105,80 @@ export default function UnauthorizedUsersGrid() {
       </Typography>
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
-          <UnauthorizedUsersDataGrid />
+          <Box>
+            {rows.length == 0 ? (
+              <>
+                <Typography
+                  textAlign="center"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  Моля изчакайте
+                </Typography>
+                <LoadingPageCircle />
+              </>
+            ) : (
+              <>
+                <DataGrid
+                  checkboxSelection
+                  onRowSelectionModelChange={(selectedRows) =>
+                    setSelectedRows(selectedRows)
+                  }
+                  rows={rows}
+                  columns={columns}
+                  getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
+                  }
+                  initialState={{
+                    pagination: { paginationModel: { pageSize: 20 } }
+                  }}
+                  pageSizeOptions={[10, 20, 50]}
+                  disableColumnResize
+                  density="compact"
+                  slotProps={{
+                    filterPanel: {
+                      filterFormProps: {
+                        logicOperatorInputProps: {
+                          variant: "outlined",
+                          size: "small"
+                        },
+                        columnInputProps: {
+                          variant: "outlined",
+                          size: "small",
+                          sx: { mt: "auto" }
+                        },
+                        operatorInputProps: {
+                          variant: "outlined",
+                          size: "small",
+                          sx: { mt: "auto" }
+                        },
+                        valueInputProps: {
+                          InputComponentProps: {
+                            variant: "outlined",
+                            size: "small"
+                          }
+                        }
+                      }
+                    }
+                  }}
+                />
+              </>
+            )}
+
+            {selectedRows.length != 0 && (
+              <ConfirmDialogComboBox
+                title={"Разреши потебител към системата"}
+                contentText={
+                  "Разрешете потребителят към системата и му добавете ролята"
+                }
+                options={["expert", "manager"]}
+                buttonName={"Разреши"}
+                label={"Роля"}
+                onButtonConfirmClick={onButtonPermitOnClick}
+                onAutocompleteChange={onAutocompleteChange}
+              />
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Box>
