@@ -1,0 +1,14 @@
+when:
+  branch: master
+  event: [pull_request]
+
+steps:
+  - name: prettier
+    image: docker.io/woodpeckerci/plugin-prettier:next
+    pull: true
+    depends_on: []
+    settings:
+      version: 3.4.2
+      plugins:
+        - "prettier-plugin-tailwindcss"
+        - "@ianvs/prettier-plugin-sort-imports"

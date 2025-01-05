@@ -5,7 +5,7 @@
   "repositories": ["Tu-Varna-2019/phd-portal-server"],
   "dependencyDashboard": true,
   "assignees": ["iliyan-kostov"],
-  "enabledManagers": ["node"],
+  "enabledManagers": ["npm"],
   "ignorePaths": ["**/node_modules/**"],
   "ignoreTests": true,
   "packageRules": [
