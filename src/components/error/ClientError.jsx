@@ -1,12 +1,11 @@
 import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import AppTheme from "../shared-theme/AppTheme";
-
-import DeleteIcon from "@mui/icons-material/Delete";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import CssBaseline from "@mui/material/CssBaseline";
 import Auth from "@/lib/auth/auth";
 
 export default function ClientError() {
-  const { handleLogout } = Auth();
+  const { handleLogout, handleLogin } = Auth();
 
   return (
     <AppTheme>
@@ -34,18 +33,28 @@ export default function ClientError() {
         >
           <Paper elevation={3} sx={{ padding: 4 }}>
             <Box>
-              <DeleteIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+              <MicrosoftIcon color="lightskyblue" sx={{ fontSize: 60 }} />
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              Клиентска грешка
+              Проблем!
             </Typography>
 
             <Typography variant="body1">
-              Извинете ни за неудобството, но NextJS е garbage.
+              Сесията ви е изтекла, моля влезте отново
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
+              <Button
+                color="info"
+                size="medium"
+                variant="contained"
+                onClick={handleLogin}
+                sx={{ marginRight: 2 }}
+              >
+                Вход
+              </Button>
+
               <Button
                 color="info"
                 size="medium"

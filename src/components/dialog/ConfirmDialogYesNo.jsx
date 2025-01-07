@@ -9,10 +9,11 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 export default function ConfirmDialogYesNo({
   title,
   contentText,
+  open,
+  setOpen,
   onButtonConfirmClick
 }) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleClose = () => {
