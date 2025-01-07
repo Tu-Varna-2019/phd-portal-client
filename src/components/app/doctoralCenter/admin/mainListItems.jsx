@@ -3,7 +3,7 @@ import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const role = "/doctoralCenter";
+const role = "/doctoralCenter/admin";
 
 export const mainListItems = [
   {

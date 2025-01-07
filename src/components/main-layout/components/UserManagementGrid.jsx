@@ -26,14 +26,19 @@ export default function UserManagementGrid() {
 
   const removeUser = async () => {
     try {
+      // TODO: Improve this pls
+      let role = selectedUser.role;
+      if (selectedUser.role == "manager" || selectedUser.role == "expert")
+        role = "doctoralCenter";
+
       await fetch(
-        `/api/doctoralCenter/admin/authenticated?role=${selectedUser.role}`,
+        `/api/doctoralCenter/admin/authorized-users?oid=${selectedUser.oid}`,
         {
           method: "DELETE",
           headers: {
             Authorization: sessionToken.accessToken
           },
-          body: JSON.stringify({ oid: selectedUser.oid })
+          body: JSON.stringify({ role: role })
         }
       );
     } catch (exception) {

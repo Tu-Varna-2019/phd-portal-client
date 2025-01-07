@@ -5,12 +5,15 @@ import { useSelector } from "react-redux";
 
 const fetchUnauthorizedUsers = async (accessToken) => {
   try {
-    const response = await fetch("/api/doctoralCenter/admin/getUnauthorized", {
-      method: "GET",
-      headers: {
-        Authorization: accessToken
+    const response = await fetch(
+      "/api/doctoralCenter/admin/unauthorized-users",
+      {
+        method: "GET",
+        headers: {
+          Authorization: accessToken
+        }
       }
-    });
+    );
     const result = await response.json();
     return result.data;
   } catch (exception) {

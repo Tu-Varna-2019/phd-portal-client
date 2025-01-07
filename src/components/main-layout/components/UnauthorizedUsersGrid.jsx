@@ -54,7 +54,7 @@ export default function UnauthorizedUsersGrid() {
 
     try {
       const response = await fetch(
-        `/api/doctoralCenter/admin/setRoles?role=${roleOption}`,
+        `/api/doctoralCenter/admin/unauthorized-users/role?role=${roleOption}`,
         {
           method: "POST",
           headers: {

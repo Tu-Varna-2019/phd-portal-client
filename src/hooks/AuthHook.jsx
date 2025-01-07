@@ -15,7 +15,7 @@ export default function AuthHook() {
 
   const fetchRole = async (userCreds, accessToken) => {
     try {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch("/api/unauthorized/login", {
         method: "POST",
         headers: {
           Authorization: accessToken

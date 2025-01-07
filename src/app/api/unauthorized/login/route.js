@@ -1,10 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-// BUG: this crap dissallows to pass any headers
-// export const dynamic = "force-static";
-
-export async function POST(request, response) {
+export async function POST(request) {
   try {
     const body = await request.json();
     const reqHeaders = await headers();

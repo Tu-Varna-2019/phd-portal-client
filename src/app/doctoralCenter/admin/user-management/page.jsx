@@ -3,7 +3,7 @@ import Layout from "@/components/main-layout/Layout";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 import { useSelector } from "react-redux";
 
-import { mainListItems } from "@/components/app/doctoralCenter/mainListItems";
+import { mainListItems } from "@/components/app/doctoralCenter/admin/mainListItems";
 import UserManagementGrid from "@/components/main-layout/components/UserManagementGrid";
 
 export default function Page() {

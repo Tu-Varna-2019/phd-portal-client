@@ -1,9 +1,10 @@
 "use client";
-import { mainListItems } from "@/components/app/doctoralCenter/mainListItems";
-import HomeDoctralCenterGrid from "@/components/main-layout/components/HomeDoctralCenterGrid";
 import Layout from "@/components/main-layout/Layout";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 import { useSelector } from "react-redux";
+
+import UnauthorizedUsersGrid from "@/components/main-layout/components/UnauthorizedUsersGrid";
+import { mainListItems } from "@/components/app/doctoralCenter/admin/mainListItems";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -15,9 +16,9 @@ export default function Page() {
 
   return (
     <Layout
-      headerTitle={"Начална страница"}
+      headerTitle={"Неудостоверени потребители"}
       user={user}
-      MainView={HomeDoctralCenterGrid}
+      MainView={UnauthorizedUsersGrid}
       mainListItems={mainListItems}
     />
   );

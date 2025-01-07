@@ -12,14 +12,16 @@ export function middleware(request) {
   const groupCookie = request.cookies.get("group")?.value;
   const roleCookie = request.cookies.get("role")?.value;
   const url = request.nextUrl.clone();
-  const originalPathname = url.pathname;
 
   const isPreflight = request.method === "OPTIONS";
 
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
-  if (!originalPathname.startsWith("/api/")) {
-    const redirect = authByGroupCookie(url, originalPathname, groupCookie);
+  if (!url.pathname.startsWith("/api/")) {
+    const cookiePath =
+      groupCookie == null ? null : groupCookie + "/" + roleCookie;
+
+    const redirect = redirectByCookie(url, cookiePath);
     if (redirect) return redirect;
   } else {
     // NOTE: add cookie to every subsequent request
@@ -37,17 +39,24 @@ export function middleware(request) {
   return response;
 }
 
-const authByGroupCookie = (url, originalPathname, groupCookie) => {
-  if (groupCookie == null && url.pathname != "/")
-    url.pathname = "/unauthorized";
-  else if (url.pathname == "/" && groupCookie != null)
-    url.pathname = "/" + groupCookie;
-  else if (
-    groupCookie != null &&
-    !url.pathname.startsWith("/" + groupCookie) &&
-    !url.pathname.startsWith("/api")
-  )
-    url.pathname = "/unauthorized";
+const redirectByCookie = (url, cookie) => {
+  const originalPathname = url.pathname;
+
+  switch (cookie) {
+    case null:
+      if (url.pathname != "/") url.pathname = "/unauthorized";
+      break;
+
+    default:
+      if (url.pathname == "/" || url.pathname == "/doctoralCenter")
+        url.pathname = "/" + cookie;
+      else if (
+        !url.pathname.startsWith("/" + cookie) &&
+        !url.pathname.startsWith("/api")
+      )
+        url.pathname = "/unauthorized";
+      break;
+  }
 
   if (originalPathname != url.pathname) return NextResponse.redirect(url);
 };
