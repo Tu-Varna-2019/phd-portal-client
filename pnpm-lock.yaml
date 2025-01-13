@@ -85,7 +85,7 @@ importers:
         version: 3.0.3
     devDependencies:
       eslint:
-        specifier: ^9.15.0
+        specifier: ^9.18.0
         version: 9.18.0(jiti@1.21.7)
       eslint-config-next:
         specifier: 15.1.4
