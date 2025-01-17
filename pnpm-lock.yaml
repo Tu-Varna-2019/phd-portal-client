@@ -2959,7 +2959,7 @@ snapshots:
       '@babel/runtime': 7.26.0
       '@mui/material': 6.3.1(@emotion/react@11.14.0(@types/react@19.0.4)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.4)(react@19.0.0))(@types/react@19.0.4)(react@19.0.0))(@types/react@19.0.4)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@mui/system': 6.4.0(@emotion/react@11.14.0(@types/react@19.0.4)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.0.4)(react@19.0.0))(@types/react@19.0.4)(react@19.0.0))(@types/react@19.0.4)(react@19.0.0)
-      '@mui/utils': 6.3.1(@types/react@19.0.4)(react@19.0.0)
+      '@mui/utils': 6.4.0(@types/react@19.0.4)(react@19.0.0)
       '@mui/x-internals': 7.23.6(@types/react@19.0.4)(react@19.0.0)
       clsx: 2.1.1
       prop-types: 15.8.1
