@@ -7,33 +7,13 @@ import { setPhd } from "@/lib/features/phd/slices/phdSlice";
 import { setDoctoralCenter } from "@/lib/features/doctoralCenter/slices/doctoralCenterSlice";
 import { setCommittee } from "@/lib/features/committee/slices/committeeSlice";
 import Auth from "@/lib/auth/auth";
+import UnauthorizedAPI from "@/lib/api/unauthorized";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
   const dispatch = useAppDispatch();
+  const { fetchLogin } = UnauthorizedAPI();
   const router = useRouter();
-
-  const fetchRole = async (userCreds, accessToken) => {
-    try {
-      const response = await fetch("/api/unauthorized/login", {
-        method: "POST",
-        headers: {
-          Authorization: accessToken
-        },
-        body: JSON.stringify(userCreds)
-      });
-
-      if (response.status == 500) router.push("/server-error");
-      else if (response.status == 401) router.push("/unauthorized");
-      else {
-        const result = await response.json();
-        return result;
-      }
-    } catch (exception) {
-      console.error(`Server error when trying to log in ${exception}`);
-      router.push("/server-error");
-    }
-  };
 
   const evaluateRole = (data, role) => {
     switch (role) {
@@ -54,7 +34,6 @@ export default function AuthHook() {
   useEffect(() => {
     const handleAuth = async () => {
       const response = await handleLogin();
-
       if (response) {
         const userCreds = {
           oid: response.idTokenClaims.oid,
@@ -62,16 +41,21 @@ export default function AuthHook() {
           email: response.idTokenClaims.email,
           timestamp: Date.now()
         };
-        const accessToken = response.accessToken;
-        dispatch(setSessionToken({ accessToken }));
 
-        const loginResponse = await fetchRole(userCreds, accessToken);
-        if (loginResponse) {
+        const loginResponse = await fetchLogin(userCreds, response.accessToken);
+        if (typeof loginResponse == "object") {
+          const session = {
+            group: loginResponse.group,
+            accessToken: response.accessToken
+          };
+          dispatch(setSessionToken({ session }));
+
           evaluateRole(loginResponse.data, loginResponse.group);
           router.push("/" + loginResponse.group);
-        }
+        } else router.push(loginResponse);
       }
     };
+
     handleAuth();
   }, [dispatch]);
 }

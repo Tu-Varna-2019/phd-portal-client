@@ -2,12 +2,12 @@ import { createModelSchema, object, primitive } from "serializr";
 import DoctoralCenterRole from "./DoctoralCenterRole";
 
 export default class DoctoralCenter {
-  constructor({ oid, name, email, picture, doctoralCenterRole } = {}) {
+  constructor({ oid, name, email, picture, role } = {}) {
     this.oid = oid;
     this.name = name;
     this.email = email;
     this.picture = picture;
-    this.doctoralCenterRole = doctoralCenterRole;
+    this.role = role;
   }
 }
 
@@ -18,5 +18,5 @@ createModelSchema(DoctoralCenter, {
   picture: primitive({
     default: "doctoralCenter_image.png"
   }),
-  doctoralCenterRole: object(DoctoralCenterRole)
+  role: object(DoctoralCenterRole)
 });

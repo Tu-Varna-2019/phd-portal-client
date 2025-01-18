@@ -10,7 +10,8 @@ export const sessionTokenSlice = createSlice({
   reducers: {
     setSessionToken: (state, action) => {
       const sessionTokenObj = {
-        accessToken: action.payload.accessToken
+        group: action.payload.session.group,
+        accessToken: action.payload.session.accessToken
       };
       const desSessionToken = deserialize(SessionToken, sessionTokenObj);
       state.sessionToken = serialize(desSessionToken);

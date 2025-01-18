@@ -2,12 +2,11 @@ import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import StatCard from "./StatCard";
-import { useSelector } from "react-redux";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 import ConfirmDialogYesNo from "@/components/dialog/ConfirmDialogYesNo";
-import UserManagementData from "../internals/data/UserManagementGridData";
+import UserManagementGridData from "../internals/data/UserManagementGridData";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { DataGrid } from "@mui/x-data-grid";
+import DoctoralCenterAPI from "@/lib/api/doctralCenter";
 
 const data = [];
 
@@ -20,34 +19,15 @@ export default function UserManagementGrid() {
     openDialogBoxYesNo,
     setOpenDialogBoxYesNo,
     selectedUser,
-    setRows
-  } = UserManagementData();
-  const sessionToken = useSelector(selectSessionToken);
+    setRows,
+    getAuthorizedUsers
+  } = UserManagementGridData();
 
-  const removeUser = async () => {
-    try {
-      // TODO: Improve this pls
-      let role = selectedUser.role;
-      if (selectedUser.role == "manager" || selectedUser.role == "expert")
-        role = "doctoralCenter";
-
-      await fetch(
-        `/api/doctoralCenter/admin/authorized-users?oid=${selectedUser.oid}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: sessionToken.accessToken
-          },
-          body: JSON.stringify({ role: role })
-        }
-      );
-    } catch (exception) {
-      console.error(`Server error when trying to delete user: ${exception}`);
-    }
-  };
+  const { deleteAuthorizedUser } = DoctoralCenterAPI();
 
   const buttonConfirmOnClick = async () => {
-    await removeUser();
+    await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
+
     const updatedRows = rows.filter((elem) => elem.oid !== selectedUser.oid);
     setRows(updatedRows);
   };
@@ -74,7 +54,7 @@ export default function UserManagementGrid() {
       </Typography>
       <Grid container spacing={2} columns={12}>
         <Box>
-          {rows.length == 0 ? (
+          {getAuthorizedUsers ? (
             <>
               <Typography
                 textAlign="center"

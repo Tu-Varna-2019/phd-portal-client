@@ -23,11 +23,6 @@ export function middleware(request) {
 
     const redirect = redirectByCookie(url, cookiePath);
     if (redirect) return redirect;
-  } else {
-    // NOTE: add cookie to every subsequent request
-    if (groupCookie != null) {
-      request.headers.set("Cookie", `group=${groupCookie};role=${roleCookie}`);
-    }
   }
 
   const response = NextResponse.next({

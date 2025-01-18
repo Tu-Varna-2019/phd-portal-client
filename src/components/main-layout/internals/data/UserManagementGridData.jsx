@@ -1,46 +1,34 @@
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
+import DoctoralCenterAPI from "@/lib/api/doctralCenter";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 
-const fetchAuthUsers = async (accessToken) => {
-  try {
-    const response = await fetch("/api/doctoralCenter/admin/authorized-users", {
-      method: "GET",
-      headers: {
-        Authorization: accessToken
-      }
-    });
-    const result = await response.json();
-    return result.data;
-  } catch (exception) {
-    console.error(
-      `Server error when trying to fetch authenticated users in ${exception}`
-    );
-  }
-};
+import { useSelector } from "react-redux";
 
-export default function UserManagementData() {
+export default function UserManagementGridData() {
   const [rows, setRows] = useState([]);
   const [menuAnchor, setMenuAnchor] = useState(false);
   const [openDialogBoxYesNo, setOpenDialogBoxYesNo] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
+  const [getAuthorizedUsers, setGetAuthorizedUsers] = useState(false);
 
-  const sessionToken = useSelector(selectSessionToken);
   const doctoralCenter = useSelector(selectDoctoralCenter);
+  const { fetchAutorizedUsers } = DoctoralCenterAPI();
 
   useEffect(() => {
     const getAuthUsers = async () => {
-      const authUsers = await fetchAuthUsers(sessionToken.accessToken);
-      setRows(authUsers);
+      setGetAuthorizedUsers(true);
+      const authUsers = await fetchAutorizedUsers();
+
+      if (authUsers != null) setRows(authUsers);
     };
 
     getAuthUsers();
-  }, [sessionToken?.accessToken, setRows]);
+    setGetAuthorizedUsers(false);
+  }, [setRows]);
 
   const handleOpenMenu = (event, row) => {
     setMenuAnchor(event.currentTarget);
@@ -128,6 +116,7 @@ export default function UserManagementData() {
     selectedUser,
     setRows,
     dialogTitle,
-    dialogContent
+    dialogContent,
+    getAuthorizedUsers
   };
 }

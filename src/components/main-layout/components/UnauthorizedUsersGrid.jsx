@@ -1,14 +1,13 @@
 import Grid from "@mui/material/Grid2";
 import StatCard from "./StatCard";
 import { DataGrid } from "@mui/x-data-grid";
-import UnauthorizedUsersData from "../internals/data/unauthorizedUsersGridData";
 import { Box, Typography } from "@mui/material";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog/ConfirmDialogComboBox";
-import { useSelector } from "react-redux";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 import { formatToServerTimestamp } from "@/lib/utils";
+import DoctoralCenterAPI from "@/lib/api/doctralCenter";
+import UnauthorizedUsersGridData from "../internals/data/UnauthorizedUsersGridData";
 
 const data = [
   {
@@ -35,10 +34,11 @@ const data = [
 ];
 
 export default function UnauthorizedUsersGrid() {
-  const { rows, columns, setRowsByParam } = UnauthorizedUsersData();
+  const { rows, columns, setRowsByParam, getUnauthorizedLoading } =
+    UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);
-  const sessionToken = useSelector(selectSessionToken);
   const [roleOption, setRoleOption] = useState();
+  const { setUnauthorizedUserRoles } = DoctoralCenterAPI();
 
   const onAutocompleteChange = (option) => {
     setRoleOption(option);
@@ -52,22 +52,12 @@ export default function UnauthorizedUsersGrid() {
       timestamp: formatToServerTimestamp(item.timestamp)
     }));
 
-    try {
-      const response = await fetch(
-        `/api/doctoralCenter/admin/unauthorized-users/role?role=${roleOption}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: sessionToken.accessToken
-          },
-          body: JSON.stringify(normalizedUnauthUsers)
-        }
-      );
-      const result = await response.json();
-      return result;
-    } catch (exception) {
-      console.error(`Server error when trying to set users in ${exception}`);
-    }
+    const result = await setUnauthorizedUserRoles(
+      normalizedUnauthUsers,
+      roleOption
+    );
+
+    return result;
   };
 
   const onButtonPermitOnClick = async () => {
@@ -106,7 +96,7 @@ export default function UnauthorizedUsersGrid() {
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <Box>
-            {rows.length == 0 ? (
+            {getUnauthorizedLoading ? (
               <>
                 <Typography
                   textAlign="center"
