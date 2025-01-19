@@ -12,47 +12,6 @@ import LinearProgress, {
   linearProgressClasses
 } from "@mui/material/LinearProgress";
 
-import {
-  IndiaFlag,
-  UsaFlag,
-  BrazilFlag,
-  GlobeFlag
-} from "../internals/components/CustomIcons";
-
-const data = [
-  { label: "India", value: 50000 },
-  { label: "USA", value: 35000 },
-  { label: "Brazil", value: 10000 },
-  { label: "Other", value: 5000 }
-];
-
-const countries = [
-  {
-    name: "India",
-    value: 50,
-    flag: <IndiaFlag />,
-    color: "hsl(220, 25%, 65%)"
-  },
-  {
-    name: "USA",
-    value: 35,
-    flag: <UsaFlag />,
-    color: "hsl(220, 25%, 45%)"
-  },
-  {
-    name: "Brazil",
-    value: 10,
-    flag: <BrazilFlag />,
-    color: "hsl(220, 25%, 30%)"
-  },
-  {
-    name: "Other",
-    value: 5,
-    flag: <GlobeFlag />,
-    color: "hsl(220, 25%, 20%)"
-  }
-];
-
 const StyledText = styled("text", {
   shouldForwardProp: (prop) => prop !== "variant"
 })(({ theme }) => ({
@@ -120,7 +79,12 @@ const colors = [
   "hsl(220, 20%, 25%)"
 ];
 
-export default function ChartUserByCountry() {
+export default function PieChartDiagram({
+  title,
+  chartAvgValue,
+  pieChartLabels,
+  data
+}) {
   return (
     <Card
       variant="outlined"
@@ -128,7 +92,7 @@ export default function ChartUserByCountry() {
     >
       <CardContent>
         <Typography component="h2" variant="subtitle2">
-          Users by country
+          {title}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <PieChart
@@ -154,16 +118,16 @@ export default function ChartUserByCountry() {
               legend: { hidden: true }
             }}
           >
-            <PieCenterLabel primaryText="98.5K" secondaryText="Total" />
+            <PieCenterLabel primaryText={chartAvgValue} secondaryText="Total" />
           </PieChart>
         </Box>
-        {countries.map((country, index) => (
+        {pieChartLabels.map((pieChart, index) => (
           <Stack
             key={index}
             direction="row"
             sx={{ alignItems: "center", gap: 2, pb: 2 }}
           >
-            {country.flag}
+            {pieChart.icon}
             <Stack sx={{ gap: 1, flexGrow: 1 }}>
               <Stack
                 direction="row"
@@ -174,19 +138,19 @@ export default function ChartUserByCountry() {
                 }}
               >
                 <Typography variant="body2" sx={{ fontWeight: "500" }}>
-                  {country.name}
+                  {pieChart.name}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {country.value}%
+                  {pieChart.value}%
                 </Typography>
               </Stack>
               <LinearProgress
                 variant="determinate"
                 aria-label="Number of users by country"
-                value={country.value}
+                value={pieChart.value}
                 sx={{
                   [`& .${linearProgressClasses.bar}`]: {
-                    backgroundColor: country.color
+                    backgroundColor: pieChart.color
                   }
                 }}
               />

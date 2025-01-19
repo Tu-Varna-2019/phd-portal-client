@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+// INFO: outliar to the rest of the endpoints
 export async function POST(request) {
   try {
     const body = await request.json();

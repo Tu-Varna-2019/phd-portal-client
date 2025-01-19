@@ -5,6 +5,7 @@ import selectPhd from "../features/phd/slices/phdMemoSelector";
 import selectCommittee from "../features/committee/slices/committeeMemoSelector";
 const API_URL = "/api/logs";
 
+// TODO: Switch to client api from lib
 export default function LogsAPI() {
   const sessionToken = useSelector(selectSessionToken);
 

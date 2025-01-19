@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export default function RouteAPI() {
+export default function ServerRoute() {
   const route = async (url, method, request) => {
     var res;
     try {
@@ -29,7 +29,9 @@ export default function RouteAPI() {
       }
 
       if (res.status == 401) {
-        return NextResponse.json({ error: `Unauthorized` }, { status: 401 });
+        return NextResponse.redirect(
+          new URL("/unauthorized", "https://localhost:3000")
+        );
       }
       const data = await res.json();
       console.log(`API response: ${JSON.stringify(data)}`);

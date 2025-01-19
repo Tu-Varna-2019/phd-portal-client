@@ -1,7 +1,7 @@
+import ServerRoute from "@/lib/api/router/server";
 import { url } from "../url";
-import RouteAPI from "@/lib/api/router";
 
-const { route } = RouteAPI();
+const { route } = ServerRoute();
 
 export async function POST(request) {
   const searchParams = request.nextUrl.searchParams;

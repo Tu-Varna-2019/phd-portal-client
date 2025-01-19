@@ -2,6 +2,7 @@
 
 const API_URL = "/api/unauthorized/login";
 
+// INFO: outliar to use client api
 export default function UnauthorizedAPI() {
   const fetchLogin = async (userCreds, accessToken) => {
     try {

@@ -18,8 +18,13 @@ export default function Auth() {
     return response;
   };
 
+  const clear = () => {
+    instance.clearCache();
+  };
+
   return {
     handleLogout,
-    handleLogin
+    handleLogin,
+    clear
   };
 }

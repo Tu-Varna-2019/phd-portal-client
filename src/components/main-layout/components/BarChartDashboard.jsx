@@ -1,4 +1,3 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
@@ -7,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useTheme } from "@mui/material/styles";
 
-export default function PageViewsBarChart() {
+export default function BarChartDashboard({ title, description, avgValue }) {
   const theme = useTheme();
   const colorPalette = [
     (theme.vars || theme).palette.primary.dark,
@@ -19,7 +18,7 @@ export default function PageViewsBarChart() {
     <Card variant="outlined" sx={{ width: "100%" }}>
       <CardContent>
         <Typography component="h2" variant="subtitle2" gutterBottom>
-          Page views and downloads
+          {title}
         </Typography>
         <Stack sx={{ justifyContent: "space-between" }}>
           <Stack
@@ -31,12 +30,12 @@ export default function PageViewsBarChart() {
             }}
           >
             <Typography variant="h4" component="p">
-              1.3M
+              {avgValue}
             </Typography>
             <Chip size="small" color="error" label="-8%" />
           </Stack>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            Page views and downloads for the last 6 months
+            {description}
           </Typography>
         </Stack>
         <BarChart

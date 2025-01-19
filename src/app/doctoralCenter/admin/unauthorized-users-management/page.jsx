@@ -4,7 +4,7 @@ import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralC
 import { useSelector } from "react-redux";
 
 import UnauthorizedUsersGrid from "@/components/main-layout/components/UnauthorizedUsersGrid";
-import { mainListItems } from "@/components/app/doctoralCenter/admin/mainListItems";
+import { sideMenuAdminItems } from "@/components/app/doctoralCenter/admin/sideMenuAdminItems";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -19,7 +19,7 @@ export default function Page() {
       headerTitle={"Неудостоверени потребители"}
       user={user}
       MainView={UnauthorizedUsersGrid}
-      mainListItems={mainListItems}
+      mainListItems={sideMenuAdminItems}
     />
   );
 }

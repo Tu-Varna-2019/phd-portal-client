@@ -1,5 +1,5 @@
 "use client";
-import { mainListItems } from "@/components/app/doctoralCenter/admin/mainListItems";
+import { sideMenuAdminItems } from "@/components/app/doctoralCenter/admin/sideMenuAdminItems";
 import HomeDoctralCenterGrid from "@/components/main-layout/components/HomeDoctralCenterGrid";
 import Layout from "@/components/main-layout/Layout";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
@@ -18,7 +18,7 @@ export default function Page() {
       headerTitle={"Начална страница"}
       user={user}
       MainView={HomeDoctralCenterGrid}
-      mainListItems={mainListItems}
+      mainListItems={sideMenuAdminItems}
     />
   );
 }
