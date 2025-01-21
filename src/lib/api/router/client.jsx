@@ -31,8 +31,9 @@ export default function ClientRoute() {
         });
 
       if (response.redirected) {
-        clear();
-        window.location.reload();
+        console.warn("User is redirected");
+        // clear();
+        // window.location.reload();
       } else {
         const result = await response.json();
 

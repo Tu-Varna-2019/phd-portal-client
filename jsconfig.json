@@ -8,6 +8,9 @@
       "@/lib/*": ["lib/*"],
       "@/hooks/*": ["hooks/*"],
       "@/components/*": ["components/*"],
+      "@/config/*": ["components/config/*"],
+      "@/internals/*": ["components/main-layout/internals/*"],
+      "@/common/*": ["components/main-layout/common/*"],
       "@/layouts/*": ["layouts/*"],
       "@/entities/*": ["entities/*"],
       "@/features/*": ["lib/features/*"]

@@ -2,14 +2,14 @@ import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import AppNavbar from "./components/AppNavbar";
-import Header from "./components/Header";
+import AppNavbar from "./common/AppNavbar";
+import Header from "./common/Header";
 import AppTheme from "../shared-theme/AppTheme";
 import {
   datePickersCustomizations,
   treeViewCustomizations
 } from "./theme/customizations";
-import SideMenu from "./components/SideMenu";
+import SideMenu from "./common/SideMenu";
 
 const xThemeComponents = {
   ...datePickersCustomizations,

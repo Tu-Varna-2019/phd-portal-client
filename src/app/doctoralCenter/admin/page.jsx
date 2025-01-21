@@ -1,9 +1,9 @@
 "use client";
-import { sideMenuAdminItems } from "@/components/app/doctoralCenter/admin/sideMenuAdminItems";
-import HomeDoctralCenterGrid from "@/components/main-layout/components/HomeDoctralCenterGrid";
+import { sideMenuOptions } from "@/components/config/doctoralCenter/admin/sideMenu";
 import Layout from "@/components/main-layout/Layout";
 import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 import { useSelector } from "react-redux";
+import HomeDoctoralCenterGrid from "./_components/HomeDoctralCenterGrid";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -17,8 +17,8 @@ export default function Page() {
     <Layout
       headerTitle={"Начална страница"}
       user={user}
-      MainView={HomeDoctralCenterGrid}
-      mainListItems={sideMenuAdminItems}
+      MainView={HomeDoctoralCenterGrid}
+      mainListItems={sideMenuOptions}
     />
   );
 }

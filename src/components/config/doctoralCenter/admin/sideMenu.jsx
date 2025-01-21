@@ -5,7 +5,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const role = "/doctoralCenter/admin";
 
-export const sideMenuAdminItems = [
+export const sideMenuOptions = [
   {
     text: "Начална страница",
     icon: <HomeRoundedIcon />,

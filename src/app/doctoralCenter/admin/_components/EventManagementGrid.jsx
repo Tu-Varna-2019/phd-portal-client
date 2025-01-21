@@ -1,13 +1,12 @@
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import StatCard from "./StatCard";
-import EventManagementGridData from "../internals/data/EventManagementGridData";
 import { DataGrid } from "@mui/x-data-grid";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
-import Search from "./Search";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Stack } from "@mui/material";
+import EventManagementGridData from "../_lib/EventManagementGridData";
+import Search from "@/components/main-layout/common/Search";
 
 const initialFilterBtnVal = {
   description: false,
@@ -20,46 +19,21 @@ const initialFilterBtnVal = {
   group: false
 };
 
-const dashboardStruct = {
-  title: "",
-  value: 0,
-  interval: "",
-  trend: "neutral",
-  data: []
-};
+const filterBtnNameBulgarian = [
+  "Описание",
+  "Време",
+  "Действие",
+  "Ниво",
+  "Oid",
+  "Име",
+  "Имейл",
+  "Група"
+];
 
 export default function EventManagementGrid() {
   const { rows, columns, getLogsLoading } = EventManagementGridData();
   const [filterLogs, setFilterLogs] = useState([]);
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
-
-  const [dashboardData, setDashboardData] = useState([]);
-
-  const getUniqueUsers = () => {
-    var uniqueUsers = dashboardStruct;
-    const result = rows.filter(
-      (item, index, self) =>
-        index === self.findIndex((i) => i.email == item.email)
-    );
-    uniqueUsers.title = "Потребители";
-    uniqueUsers.interval = "Всякога";
-    uniqueUsers.value = result.length;
-
-    return uniqueUsers;
-  };
-
-  const getTimeline = () => {
-    var timeline = dashboardStruct;
-
-    const result = Object.values(rows.map((key) => key.timestamp));
-    console.log(`Timeline: ${typeof result}`);
-    timeline.title = "Време на събитията";
-    timeline.interval = "Всякога";
-    timeline.value = result.length;
-    timeline.data = result;
-
-    return timeline;
-  };
 
   const setAllFilters = (bool) => {
     const filter = Object.fromEntries(
@@ -74,7 +48,6 @@ export default function EventManagementGrid() {
 
   useEffect(() => {
     setFilterLogs(rows);
-    setDashboardData([getUniqueUsers()]);
   }, [rows]);
 
   const searchLogs = (event) => {
@@ -106,21 +79,12 @@ export default function EventManagementGrid() {
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Изглед
-      </Typography>
       <Grid
         container
         spacing={2}
         columns={12}
         sx={{ mb: (theme) => theme.spacing(2) }}
-      >
-        {dashboardData?.map((card, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard {...card} />
-          </Grid>
-        ))}
-      </Grid>
+      ></Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Детайли
       </Typography>
@@ -143,68 +107,16 @@ export default function EventManagementGrid() {
                 <Stack>
                   <Search onChange={searchLogs} />
                   <ButtonGroup>
-                    <Button
-                      variant={
-                        filterState.description ? "contained" : "outlined"
-                      }
-                      onClick={() => setFilterStateOnClick("description")}
-                    >
-                      Описание
-                    </Button>
-                    <Button
-                      variant={
-                        filterState.formattedTimestamp
-                          ? "contained"
-                          : "outlined"
-                      }
-                      onClick={() =>
-                        setFilterStateOnClick("formattedTimestamp")
-                      }
-                    >
-                      Време
-                    </Button>
-                    <Button
-                      variant={filterState.action ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("action")}
-                    >
-                      Действие
-                    </Button>
-                    <Button
-                      variant={filterState.level ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("level")}
-                    >
-                      Ниво
-                    </Button>
-                    <Button
-                      variant={filterState.oid ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("oid")}
-                    >
-                      Oid
-                    </Button>
-                    <Button
-                      variant={filterState.name ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("name")}
-                    >
-                      Име
-                    </Button>
-                    <Button
-                      variant={filterState.email ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("email")}
-                    >
-                      Имейл
-                    </Button>
-                    <Button
-                      variant={filterState.group ? "contained" : "outlined"}
-                      onClick={() => setFilterStateOnClick("group")}
-                    >
-                      Група
-                    </Button>
-                    <Button
-                      variant={filterState.group ? "contained" : "outlined"}
-                      onClick={() => setAllFilters(true)}
-                    >
-                      Изчистване
-                    </Button>
+                    {Object.entries(filterState).map(([key, value], index) => {
+                      return (
+                        <Button
+                          variant={value ? "contained" : "outlined"}
+                          onClick={() => setFilterStateOnClick(key)}
+                        >
+                          {filterBtnNameBulgarian[index]}
+                        </Button>
+                      );
+                    })}
                   </ButtonGroup>
                 </Stack>
                 <DataGrid
@@ -214,7 +126,7 @@ export default function EventManagementGrid() {
                     params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
                   }
                   initialState={{
-                    pagination: { paginationModel: { pageSize: 20 } }
+                    pagination: { paginationModel: { pageSize: 50 } }
                   }}
                   pageSizeOptions={[10, 20, 50]}
                   disableColumnResize

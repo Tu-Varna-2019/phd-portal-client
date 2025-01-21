@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import StatCard from "./StatCard";
-import ConfirmDialogYesNo from "@/components/dialog/ConfirmDialogYesNo";
-import UserManagementGridData from "../internals/data/UserManagementGridData";
+import UserManagementGridData from "../_lib/UserManagementGridData";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { DataGrid } from "@mui/x-data-grid";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
+import StatCard from "@/common/StatCard";
+import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 
 const data = [];
 
@@ -34,9 +34,6 @@ export default function UserManagementGrid() {
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Изглед
-      </Typography>
       <Grid
         container
         spacing={2}
