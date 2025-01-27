@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 
 import { useSelector } from "react-redux";
+import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function UserManagementGridData() {
   const [rows, setRows] = useState([]);

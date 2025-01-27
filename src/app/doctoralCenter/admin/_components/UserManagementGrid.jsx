@@ -5,10 +5,15 @@ import UserManagementGridData from "../_lib/UserManagementGridData";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { DataGrid } from "@mui/x-data-grid";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import StatCard from "@/common/StatCard";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
+import NotificationAPI from "@/lib/api/notification";
 
-const data = [];
+import {
+  setAlertBoxOpen,
+  setAlertBoxMessage
+} from "@/lib/features/uiState/slices/uiStateSlice";
+import { useAppDispatch } from "@/lib/features/constants";
+import AlertBox from "@/components/main-layout/common/AlertBox";
 
 export default function UserManagementGrid() {
   const {
@@ -23,10 +28,25 @@ export default function UserManagementGrid() {
     getAuthorizedUsers
   } = UserManagementGridData();
 
+  const dispatch = useAppDispatch();
   const { deleteAuthorizedUser } = DoctoralCenterAPI();
+  const { saveNotification } = NotificationAPI();
 
   const buttonConfirmOnClick = async () => {
     await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
+
+    const description = `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.role}`;
+
+    saveNotification({
+      title: `Потребител ${selectedUser.name} е изтрит от системата`,
+      description: description,
+      severity: "info",
+      scope: "group",
+      group: "admin"
+    });
+
+    dispatch(setAlertBoxOpen(true));
+    dispatch(setAlertBoxMessage(description));
 
     const updatedRows = rows.filter((elem) => elem.oid !== selectedUser.oid);
     setRows(updatedRows);
@@ -39,13 +59,7 @@ export default function UserManagementGrid() {
         spacing={2}
         columns={12}
         sx={{ mb: (theme) => theme.spacing(2) }}
-      >
-        {data.map((card, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard {...card} />
-          </Grid>
-        ))}
-      </Grid>
+      ></Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Детайли
       </Typography>
@@ -105,6 +119,8 @@ export default function UserManagementGrid() {
               />
             </>
           )}
+
+          <AlertBox />
 
           <ConfirmDialogYesNo
             title={dialogTitle}

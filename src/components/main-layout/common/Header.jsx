@@ -1,11 +1,59 @@
+"use client";
+
 import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import CustomDatePicker from "./CustomDatePicker";
 import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
 import MenuButton from "./MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
+import { useEffect, useRef } from "react";
+import NotificationAPI from "@/lib/api/notification";
+import { useAppDispatch } from "@/lib/features/constants";
+import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
+import { useSelector } from "react-redux";
+import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
+import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import { usePathname } from "next/navigation";
+
+const NOTIFICATION_INTERVAL = 5000;
 
 export default function Header({ headerTitle }) {
+  const dispatch = useAppDispatch();
+  const sessionToken = useSelector(selectSessionToken);
+  // TODO: Improve this please
+  const group = usePathname().startsWith("/doctoralCenter/admin")
+    ? `/${sessionToken.group}/admin`
+    : "/" + sessionToken.group;
+
+  const notifications = useSelector(selectNotifications);
+  const bellSound = useRef();
+  const { getNotifications } = NotificationAPI();
+
+  useEffect(() => {
+    let interval;
+
+    const getNotify = async () => {
+      const result = await getNotifications();
+
+      if (
+        result != undefined &&
+        !(JSON.stringify(result) === JSON.stringify(notifications))
+      )
+        bellSound.current.play();
+
+      if (result != undefined) dispatch(setNotifications(result));
+    };
+
+    bellSound.current = new Audio("/bell.wav");
+    interval = setInterval(() => {
+      getNotify();
+    }, NOTIFICATION_INTERVAL);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [getNotifications]);
+
   return (
     <Stack
       direction="row"
@@ -22,7 +70,11 @@ export default function Header({ headerTitle }) {
       <NavbarBreadcrumbs headerTitle={headerTitle} />
       <Stack direction="row" sx={{ gap: 1 }}>
         <CustomDatePicker />
-        <MenuButton showBadge aria-label="Open notifications">
+        <MenuButton
+          href={group + "/notifications"}
+          count={notifications.length}
+          aria-label="Open notifications"
+        >
           <NotificationsRoundedIcon />
         </MenuButton>
         <ColorModeIconDropdown />

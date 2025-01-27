@@ -3,9 +3,11 @@ import { useAppDispatch } from "@/lib/features/constants";
 import { useEffect } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import { useRouter } from "next/navigation";
-import { setPhd } from "@/lib/features/phd/slices/phdSlice";
-import { setDoctoralCenter } from "@/lib/features/doctoralCenter/slices/doctoralCenterSlice";
-import { setCommittee } from "@/lib/features/committee/slices/committeeSlice";
+import {
+  setPhd,
+  setDoctoralCenter,
+  setCommittee
+} from "@/lib/features/user/slices/userSlice";
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
 

@@ -1,7 +1,9 @@
 import { createModelSchema, primitive } from "serializr";
 
 export default class CommitteeType {
-  constructor({ type } = {}) {
+  type;
+
+  constructor(type) {
     this.type = type;
   }
 }

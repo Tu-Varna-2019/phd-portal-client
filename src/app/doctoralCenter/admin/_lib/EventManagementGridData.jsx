@@ -14,11 +14,11 @@ export default function EventManagementGridData() {
 
       let idCounter = 0;
       if (logs != null) {
-        // NOTE: Format datetime
+        // TODO: Improve me!  Need to create a utils function for flattening object
+        logs.flat();
         logs.forEach((log) => {
-          const timestamp = log.timestamp;
-          log.formattedTimestamp = formatDateTime(timestamp);
           log.id = idCounter++;
+          log.formattedTimestamp = formatDateTime(log.timestamp);
           log.oid = log.user.oid;
           log.name = log.user.name;
           log.email = log.user.email;

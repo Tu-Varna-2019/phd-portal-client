@@ -1,9 +1,9 @@
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import { formatDateTime } from "@/lib/utils";
+import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
 
 export default function UnauthorizedUsersGridData() {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState([new UnauthorizedUsers()]);
   const [getUnauthorizedLoading, setGetUnauthorizedLoading] = useState(false);
   const { fetchUnauthorizedUsers } = DoctoralCenterAPI();
 
@@ -13,12 +13,7 @@ export default function UnauthorizedUsersGridData() {
       const unauthorizedUsers = await fetchUnauthorizedUsers();
 
       if (unauthorizedUsers != null) {
-        // NOTE: Format datetime
-        unauthorizedUsers.forEach((user) => {
-          const userTimestamp = user.timestamp;
-          user.formattedTimestamp = formatDateTime(userTimestamp);
-        });
-        setRows(unauthorizedUsers);
+        setRows(UnauthorizedUsers.getList(unauthorizedUsers));
       }
 
       setGetUnauthorizedLoading(false);

@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
+import { getUserByGroup } from "@/lib/utils";
 
 const drawerWidth = 240;
 
@@ -23,7 +24,9 @@ const Drawer = styled(MuiDrawer)({
   }
 });
 
-export default function SideMenu({ user, mainListItems }) {
+export default function SideMenu({ mainListItems }) {
+  const user = getUserByGroup();
+
   return (
     <Drawer
       variant="permanent"

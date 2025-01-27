@@ -110,6 +110,7 @@ export default function EventManagementGrid() {
                     {Object.entries(filterState).map(([key, value], index) => {
                       return (
                         <Button
+                          key={index}
                           variant={value ? "contained" : "outlined"}
                           onClick={() => setFilterStateOnClick(key)}
                         >

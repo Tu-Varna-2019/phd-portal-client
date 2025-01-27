@@ -7,13 +7,18 @@ export default function ServerRoute() {
     try {
       const reqHeaders = await headers();
       const accessToken = reqHeaders.get("authorization");
+      const cookieHeader =
+        reqHeaders.getSetCookie("group") +
+        ";" +
+        reqHeaders.getSetCookie("role");
 
       if (method == "GET") {
         res = await fetch(url, {
           method: method,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`,
+            Cookie: cookieHeader
           }
         });
       } else {
@@ -22,7 +27,8 @@ export default function ServerRoute() {
           method: method,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`
+            Authorization: `Bearer ${accessToken}`,
+            Cookie: cookieHeader
           },
           body: JSON.stringify(body)
         });

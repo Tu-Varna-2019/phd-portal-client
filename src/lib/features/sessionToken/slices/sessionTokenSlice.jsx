@@ -13,6 +13,7 @@ export const sessionTokenSlice = createSlice({
         group: action.payload.session.group,
         accessToken: action.payload.session.accessToken
       };
+
       const desSessionToken = deserialize(SessionToken, sessionTokenObj);
       state.sessionToken = serialize(desSessionToken);
     },

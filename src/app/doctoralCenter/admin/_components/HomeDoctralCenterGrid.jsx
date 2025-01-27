@@ -3,11 +3,10 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import StatCard from "@/components/main-layout/common/StatCard";
-import selectDoctoralCenter from "@/lib/features/doctoralCenter/slices/doctoralCenterMemoSelector";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import { getMonth, getYear } from "@/lib/utils";
+import { CURRENT_YEAR, getMonth } from "@/lib/utils";
 import {
   logBarChartSeriesStruct,
   userGroupsLabelStuct,
@@ -16,6 +15,8 @@ import {
 import PieChartDiagram from "@/components/main-layout/common/PieChartDiagram";
 import BarChartDashboard from "@/components/main-layout/common/BarChartDashboard";
 import { Pagination } from "@mui/material";
+import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
+import Log from "@/models/Log";
 
 const statCardStruct = [
   {
@@ -26,8 +27,6 @@ const statCardStruct = [
     data: []
   }
 ];
-
-const CURRENT_YEAR = getYear(new Date(Date.now()));
 
 export default function HomeDoctoralCenterGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -89,7 +88,7 @@ export default function HomeDoctoralCenterGrid() {
       setSelectedYear(CURRENT_YEAR);
       setStatCardDataset();
 
-      const years = getAllLogYears();
+      const years = Log.getLogYears(logs);
       setLogsByYear(years);
       setLogsPagination(years.findIndex((year) => year == CURRENT_YEAR) + 1);
     }
@@ -97,51 +96,19 @@ export default function HomeDoctoralCenterGrid() {
 
   const setStatCardDataset = () => {
     const statCardResult = statCardStruct;
-    const currentTime = new Date(Date.now());
 
-    const logsLastThirtyDays = logs.filter(
-      (log) => getMonth(log.timestamp) == getMonth(currentTime)
-    );
-
-    statCardResult[0].value = logsLastThirtyDays.length;
+    statCardResult[0].value = logsByYear.length;
     setStatCardData(statCardResult);
   };
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
-    const levelSpecificLogs = logs.filter(
-      (log) => log.level == logLevel && getYear(log.timestamp) == year
-    );
+    const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
+
     levelSpecificLogs.sort(
       (logA, logB) => getMonth(logA.timestamp) > getMonth(logB.timestamp)
     );
-    const monthCounters = [];
 
-    for (let month = 0; month < 12; month++) {
-      const getMonthFromLogs = (monthArg) =>
-        levelSpecificLogs.filter((log) => getMonth(log.timestamp) == monthArg);
-
-      const log = getMonthFromLogs(month);
-      if (Object.keys(log).length == 0) {
-        monthCounters.push(0);
-        continue;
-      } else monthCounters.push(log.length);
-    }
-
-    return monthCounters;
-  };
-
-  const getAllLogYears = () => {
-    const logYears = [];
-    logs.map((log) => {
-      if (
-        logYears.findIndex(
-          (logYear) => (logYear == getYear(log.timestamp)) == -1
-        )
-      )
-        logYears.push(getYear(log.timestamp));
-    });
-
-    return Array.from(new Set(logYears));
+    return Log.getTwelveMonthsArrNum(levelSpecificLogs);
   };
 
   const assignLogsDataValue = (year) => {
@@ -175,26 +142,15 @@ export default function HomeDoctoralCenterGrid() {
     unauthUsers
   ) => {
     const unauthorizedCount = unauthUsers.length;
-    const phdCount = authUsers.filter((user) => user.role == "phd").length;
-    const committeeCount = authUsers.filter(
-      (user) => user.role == "committee"
-    ).length;
-    const managerCount = authUsers.filter(
-      (user) => user.role == "manager"
-    ).length;
-    const expertCount = authUsers.filter(
-      (user) => user.role == "expert"
-    ).length;
-    const adminCount = authUsers.filter((user) => user.role == "admin").length;
+    const users = ["phd", "committee", "manager", "expert", "admin"];
+    const userCounts = [unauthorizedCount];
 
-    const userCounts = [
-      unauthorizedCount,
-      phdCount,
-      committeeCount,
-      managerCount,
-      expertCount,
-      adminCount
-    ];
+    users.forEach((userGroup) => {
+      const userCount = authUsers.filter(
+        (user) => user.role == userGroup
+      ).length;
+      userCounts.push(userCount);
+    });
 
     for (let ii = 0; ii < pieChartDataStruct.length; ii++)
       pieChartDataStruct[ii].value = userCounts[ii];

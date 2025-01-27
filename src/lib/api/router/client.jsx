@@ -8,7 +8,7 @@ export default function ClientRoute() {
   const sessionToken = useSelector(selectSessionToken);
   const { clear } = Auth();
 
-  const route = async (url, method, body) => {
+  const route = async (url, method, body, dataReturn = true) => {
     var response;
 
     try {
@@ -32,12 +32,13 @@ export default function ClientRoute() {
 
       if (response.redirected) {
         console.warn("User is redirected");
-        // clear();
-        // window.location.reload();
+        clear();
+        window.location.reload();
       } else {
         const result = await response.json();
 
-        return result.data;
+        if (dataReturn) return result.data;
+        return result;
       }
     } catch (exception) {
       console.error(`Fetch api error: ${exception}`);

@@ -1,15 +1,20 @@
 import Grid from "@mui/material/Grid2";
-import StatCard from "@/components/main-layout/common/StatCard";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
-import { formatToServerTimestamp } from "@/lib/utils";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
 import UnauthorizedUsersGridData from "../_lib/UnauthorizedUsersGridData";
+import NotificationAPI from "@/lib/api/notification";
+import AlertBox from "@/components/main-layout/common/AlertBox";
+import { useAppDispatch } from "@/lib/features/constants";
 
-const data = [];
+import {
+  setAlertBoxOpen,
+  setAlertBoxMessage
+} from "@/lib/features/uiState/slices/uiStateSlice";
+import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 
 export default function UnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam, getUnauthorizedLoading } =
@@ -17,18 +22,19 @@ export default function UnauthorizedUsersGrid() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [roleOption, setRoleOption] = useState();
   const { setUnauthorizedUserRoles } = DoctoralCenterAPI();
+  const { saveNotification } = NotificationAPI();
+  const dispatch = useAppDispatch();
 
-  const onAutocompleteChange = (option) => {
-    setRoleOption(option);
+  const optionsEN = ["expert", "manager", "admin"];
+  const optionsBG = ["експерт", "ръководител", "администратор"];
+
+  const onAutocompleteChange = (index, _) => {
+    setRoleOption(optionsEN[index]);
   };
 
   const setRoles = async (unauthorizedUsers) => {
-    const normalizedUnauthUsers = unauthorizedUsers.map((item) => ({
-      oid: item.oid,
-      name: item.name,
-      email: item.email,
-      timestamp: formatToServerTimestamp(item.timestamp)
-    }));
+    const normalizedUnauthUsers =
+      UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
 
     const result = await setUnauthorizedUserRoles(
       normalizedUnauthUsers,
@@ -44,6 +50,23 @@ export default function UnauthorizedUsersGrid() {
     );
     await setRoles(unauthorizedUsers);
 
+    const message = [];
+    unauthorizedUsers.map((user) => {
+      message.push(
+        `Потребителят ${user.email} е добавен в системата като роля: ${roleOption}`
+      );
+
+      saveNotification({
+        title: "Потребител добавен в системата",
+        description: `Потребителят ${user.email} е добавен в системата като роля: ${roleOption}`,
+        severity: "info",
+        scope: "group",
+        group: "admin"
+      });
+    });
+    dispatch(setAlertBoxOpen(true));
+    dispatch(setAlertBoxMessage(message.join("\r\n")));
+
     const permittedUsers = rows.filter(
       (elem) => !selectedRows.includes(elem.id)
     );
@@ -57,13 +80,7 @@ export default function UnauthorizedUsersGrid() {
         spacing={2}
         columns={12}
         sx={{ mb: (theme) => theme.spacing(2) }}
-      >
-        {data.map((card, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard {...card} />
-          </Grid>
-        ))}
-      </Grid>
+      ></Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Детайли
       </Typography>
@@ -129,13 +146,15 @@ export default function UnauthorizedUsersGrid() {
               </>
             )}
 
+            <AlertBox />
+
             {selectedRows.length != 0 && (
               <ConfirmDialogComboBox
                 title={"Разреши потебител към системата"}
                 contentText={
                   "Разрешете потребителят към системата и му добавете ролята"
                 }
-                options={["expert", "manager"]}
+                options={optionsBG}
                 buttonName={"Разреши"}
                 label={"Роля"}
                 onButtonConfirmClick={onButtonPermitOnClick}

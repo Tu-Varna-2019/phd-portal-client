@@ -50,7 +50,10 @@ export default function ConfirmDialogComboBox({
           <Autocomplete
             disablePortal
             options={options}
-            onChange={(event, value) => onAutocompleteChange(value)}
+            onInputChange={(event, value) => {
+              const id = event.target.id.toString();
+              onAutocompleteChange(id.charAt(id.length - 1), value);
+            }}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label={label} />}
           />

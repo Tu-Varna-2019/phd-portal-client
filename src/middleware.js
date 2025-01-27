@@ -31,6 +31,9 @@ export function middleware(request) {
     }
   });
 
+  response.cookies.set("group", groupCookie);
+  response.cookies.set("role", roleCookie);
+
   return response;
 }
 

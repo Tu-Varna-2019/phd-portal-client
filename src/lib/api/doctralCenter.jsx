@@ -33,7 +33,8 @@ export default function DoctoralCenterAPI() {
   const deleteAuthorizedUser = async (oid, role) => {
     // TODO: Improve this pls
     let reqRole = role;
-    if (role == "manager" || role == "expert") reqRole = "doctoralCenter";
+    if (role == "manager" || role == "expert" || role == "admin")
+      reqRole = "doctoralCenter";
 
     return await route(`${API_URL}/authorized-users?oid=${oid}`, "DELETE", {
       role: reqRole

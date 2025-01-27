@@ -1,35 +1,57 @@
-import LogsAPI from "@/lib/api/logs";
+import { getMonth, getYear } from "@/lib/utils";
 
 export default class Log {
-  constructor({ description, action, level }) {
+  description;
+  timestamp;
+  action;
+  level;
+
+  constructor(description, action, level) {
     this.description = description;
     this.timestamp = new Date().toISOString();
     this.action = action;
     this.level = level;
-
-    this.user = {
-      oid: "",
-      name: "",
-      email: "",
-      group: ""
-    };
   }
 
-  setUser({ oid, name, email, group }) {
-    this.user = {
-      oid: oid,
-      name: name,
-      email: email,
-      group: group
-    };
+  static filterByLevelAndYear(logs, level, year) {
+    return logs.filter(
+      (log) => log.level == level && getYear(log.timestamp) == year
+    );
   }
 
-  static info(description, action) {
-    const level = "INFO";
+  static getTwelveMonthsArrNum(logs) {
+    const monthsArr = [];
 
-    const log = new Log(description, action, level);
-    const { saveLog } = LogsAPI();
+    for (let month = 0; month < 12; month++) {
+      const getMonthFromLogs = (monthArg) =>
+        logs.filter((log) => getMonth(log.timestamp) == monthArg);
 
-    saveLog(log);
+      const log = getMonthFromLogs(month);
+      const isMonthPresentInLog = Object.keys(log).length != 0;
+
+      if (isMonthPresentInLog) {
+        monthsArr.push(log.length);
+      } else {
+        monthsArr.push(0);
+        continue;
+      }
+    }
+
+    return monthsArr;
+  }
+
+  static getLogYears(logs) {
+    const logYears = [];
+
+    logs.map((log) => {
+      if (
+        logYears.findIndex(
+          (logYear) => (logYear == getYear(log.timestamp)) == -1
+        )
+      )
+        logYears.push(getYear(log.timestamp));
+    });
+
+    return Array.from(new Set(logYears));
   }
 }
