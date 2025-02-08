@@ -26,7 +26,7 @@ export default function Header({ headerTitle }) {
     let interval;
 
     const getNotify = async () => {
-      const result = await getNotifications().then((item) => item.data);
+      const result = await getNotifications();
 
       if (
         result != undefined &&

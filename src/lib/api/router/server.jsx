@@ -3,80 +3,53 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 export default function ServerRoute() {
-  const route = async (
+  const route = async ({
     url,
     method,
     request,
-    contentType = mediaType.AppJson,
-    queryParam = null,
-    producesMediaType = mediaType.AppJson
-  ) => {
-    var response;
-
+    requestContentType = mediaType.AppJson,
+    responseContentType = mediaType.AppJson,
+    queryParams,
+    getResultData = false
+  }) => {
     try {
-      let { headers } = await getHeaders(contentType);
+      let { headers } = await getHeaders(requestContentType);
       let body;
 
-      if (method != "GET") {
-        if (contentType == mediaType.AppJson) {
-          const requestJson = await request.json();
-          body = JSON.stringify(requestJson);
-        } else if (contentType == mediaType.FormData) {
-          body = await request.formData();
-        }
-      }
+      if (method != "GET")
+        body = await getBodyByContentType(request, requestContentType);
 
-      if (queryParam != null)
-        url += constructUrlByQueryParams(request.url, queryParam);
+      if (queryParams != null)
+        url += constructUrlByQueryParams(request.url, queryParams);
 
-      response = await fetch(url, {
+      const response = await fetch(url, {
         method: method,
         headers: headers,
         body: body
       });
 
-      if (response.status == 401)
-        return NextResponse.redirect(
-          new URL("/unauthorized", "https://localhost:3000")
-        );
-
-      if (producesMediaType == mediaType.AppJson) {
-        const data = await response.json();
-
-        // NOTE: Disable logging API response for notifications
-        if (!url.endsWith("/notify")) {
-          console.log(`API response: ${JSON.stringify(data)}`);
-        }
-
-        return NextResponse.json(data, {
-          status: response.status
-        });
-      } else if (producesMediaType == mediaType.OctetStream) {
-        const blob = await response.blob();
-
-        return new NextResponse(blob, {
-          status: 200,
-          headers: {
-            "Content-Type": blob.type
-          }
-        });
-      }
+      return await sendResponseByStatusCode(
+        response,
+        url,
+        responseContentType,
+        getResultData
+      );
     } catch (error) {
       return NextResponse.json(
-        { error: `Server error: ${error}` },
+        { message: `NextJS Api route error: ${error}` },
         { status: 500 }
       );
     }
   };
 
-  const getHeaders = async (contentType) => {
+  const getHeaders = async (requestContentType) => {
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
     const cookieHeader =
       reqHeaders.getSetCookie("group") + ";" + reqHeaders.getSetCookie("role");
 
     // BUG: for some reason setting up content type to multipart/form-data causes an error
-    if (contentType == mediaType.FormData) {
+    if (requestContentType == mediaType.FormData) {
       return {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -86,25 +59,75 @@ export default function ServerRoute() {
     }
     return {
       headers: {
-        "Content-Type": contentType,
+        "Content-Type": requestContentType,
         Authorization: `Bearer ${accessToken}`,
         Cookie: cookieHeader
       }
     };
   };
 
-  const constructUrlByQueryParams = (requestURL, queryParam) => {
+  const constructUrlByQueryParams = (requestURL, queryParams) => {
     let queryValue;
     let url = "?";
 
-    queryParam.forEach((query, index) => {
+    queryParams.forEach((query, index) => {
       queryValue = new URL(requestURL).searchParams.get(query);
       url += `${query}=` + queryValue;
 
-      if (queryParam.length > 1 && index < queryParam.length) url += "&";
+      if (queryParams.length > 1 && index < queryParams.length) url += "&";
     });
 
     return url;
+  };
+
+  const getBodyByContentType = async (request, contentType) => {
+    if (contentType == mediaType.AppJson) {
+      return JSON.stringify(await request.json());
+    } else if (contentType == mediaType.FormData) {
+      return await request.formData();
+    }
+  };
+
+  const sendResponseByStatusCode = async (
+    response,
+    url,
+    responseContentType,
+    getResultData
+  ) => {
+    switch (response.status) {
+      case 401:
+        return NextResponse.redirect(
+          new URL("/unauthorized", "https://localhost:3000")
+        );
+      case 200:
+      case 201:
+        if (responseContentType == mediaType.AppJson) {
+          const result = await response.json();
+          const data = getResultData ? result.data : result;
+
+          // NOTE: Disable logging API response for notifications
+          if (!url.endsWith("/notify")) {
+            console.log(`API response: ${JSON.stringify(data)}`);
+          }
+          return NextResponse.json(data, {
+            status: response.status
+          });
+        } else if (responseContentType == mediaType.OctetStream) {
+          const blob = await response.blob();
+
+          return new NextResponse(blob, {
+            status: 200,
+            headers: {
+              "Content-Type": blob.type
+            }
+          });
+        }
+      default:
+        return NextResponse.json({
+          message: `Nextjs Api router error. Status code not found for it to return value to the client: ${response.status}`,
+          status: 500
+        });
+    }
   };
 
   return {

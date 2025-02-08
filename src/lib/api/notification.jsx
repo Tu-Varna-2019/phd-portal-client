@@ -7,7 +7,7 @@ export default function NotificationAPI() {
   const { route } = ClientRoute();
 
   const getNotifications = async () => {
-    return await route(API_URL, "GET");
+    return await route({ url: API_URL, method: "GET" });
   };
 
   const saveNotification = ({
@@ -18,18 +18,22 @@ export default function NotificationAPI() {
     group,
     recipients
   }) => {
-    return route(API_URL, "POST", {
-      title,
-      description,
-      scope,
-      severity,
-      group,
-      recipients
+    return route({
+      url: API_URL,
+      method: "POST",
+      body: {
+        title,
+        description,
+        scope,
+        severity,
+        group,
+        recipients
+      }
     });
   };
 
   const deleteNotifications = async (notifications) => {
-    return await route(API_URL, "DELETE", notifications, false);
+    return await route({ url: API_URL, method: "DELETE", body: notifications });
   };
 
   return {

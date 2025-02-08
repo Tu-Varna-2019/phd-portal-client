@@ -7,11 +7,9 @@ const selectNotificationState = (state) => state.notifications.notifications;
 const selectNotifications = createSelector(
   [selectNotificationState],
   (stateNotification) => {
-    return stateNotification instanceof Notification
-      ? stateNotification
-      : stateNotification == undefined
-        ? []
-        : deserialize(Notification, stateNotification);
+    return stateNotification
+      ? deserialize(Notification, stateNotification)
+      : new Notification();
   }
 );
 

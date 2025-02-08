@@ -21,7 +21,7 @@ export default function UserManagementGridData() {
   useEffect(() => {
     const getAuthUsers = async () => {
       setGetAuthorizedUsers(true);
-      const authUsers = await fetchAutorizedUsers().then((item) => item.data);
+      const authUsers = await fetchAutorizedUsers();
 
       if (authUsers != null) setRows(authUsers);
     };

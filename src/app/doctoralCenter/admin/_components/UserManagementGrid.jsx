@@ -30,8 +30,8 @@ export default function UserManagementGrid() {
     logNotifyAlert({
       title: `Потребител ${selectedUser.name} е изтрит от системата`,
       description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.role}`,
-      message: "Грешка при качването на снимката!",
-      action: "Потребител смени снимка",
+      message: `Потребител ${selectedUser.name} е изтрит от системата`,
+      action: `Потребител ${selectedUser.name} е изтрит от системата`,
       level: "success",
       scope: "group",
       group: "admin"

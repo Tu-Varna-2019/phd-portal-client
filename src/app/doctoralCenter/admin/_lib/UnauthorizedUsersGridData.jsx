@@ -10,9 +10,7 @@ export default function UnauthorizedUsersGridData() {
   useEffect(() => {
     const getUnauthorizedUsers = async () => {
       setGetUnauthorizedLoading(true);
-      const unauthorizedUsers = await fetchUnauthorizedUsers().then(
-        (item) => item.data
-      );
+      const unauthorizedUsers = await fetchUnauthorizedUsers();
 
       if (unauthorizedUsers != null) {
         setRows(UnauthorizedUsers.getList(unauthorizedUsers));

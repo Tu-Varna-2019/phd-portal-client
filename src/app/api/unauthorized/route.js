@@ -4,13 +4,14 @@ import { url } from "./url";
 const { route } = ServerRoute();
 
 export async function GET() {
-  return await route(url, "GET");
+  return await route({ url: url, method: "GET", getResultData: true });
 }
 
 export async function DELETE(request) {
-  const searchParams = request.nextUrl.searchParams;
-  const oid = searchParams.get("oid");
-  const urlPath = url + "/" + oid;
-
-  return await route(urlPath, "DELETE", request);
+  return await route({
+    url: url,
+    method: "DELETE",
+    request: request,
+    queryParams: ["oid"]
+  });
 }

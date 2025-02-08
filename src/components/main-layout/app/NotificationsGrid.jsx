@@ -7,7 +7,7 @@ import selectNotifications from "@/lib/features/notification/slices/notification
 import AlertBox from "../common/AlertBox";
 import NotificationAPI from "@/lib/api/notification";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
-import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
+import { filteredNotificationsByIds } from "@/lib/features/notification/slices/notificationsSlice";
 import { Button } from "@mui/material";
 import APIWrapper from "@/lib/APIWrapper";
 
@@ -25,10 +25,7 @@ export default function NotificationGrid() {
     const deletedNotifs = await deleteNotifications(idsObj);
 
     if (deletedNotifs != undefined) {
-      const newNotifications = notifications.filter(
-        (row) => !selectedRows.includes(row.id)
-      );
-      dispatch(setNotifications(newNotifications));
+      dispatch(filteredNotificationsByIds({ ids: selectedRows }));
 
       logAlert({
         message: deletedNotifs.message,

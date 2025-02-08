@@ -9,15 +9,18 @@ import {
   DialogContent,
   DialogTitle,
   Autocomplete,
-  TextField
+  TextField,
+  Stack,
+  Box
 } from "@mui/material";
 
 export default function ConfirmDialogComboBox({
   title,
   contentText,
   buttonName,
-  options,
   label,
+  optionChosen,
+  options,
   onButtonConfirmClick,
   onAutocompleteChange
 }) {
@@ -34,13 +37,14 @@ export default function ConfirmDialogComboBox({
   };
 
   return (
-    <React.Fragment>
+    <>
       <Button variant="outlined" onClick={handleClickOpen}>
         {buttonName}
       </Button>
       <Dialog
         fullScreen={fullScreen}
         open={open}
+        maxWidth="sm"
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
@@ -63,6 +67,7 @@ export default function ConfirmDialogComboBox({
             Отажи се
           </Button>
           <Button
+            disabled={optionChosen == ""}
             onClick={() => {
               onButtonConfirmClick();
               handleClose();
@@ -73,6 +78,6 @@ export default function ConfirmDialogComboBox({
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }

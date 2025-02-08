@@ -17,7 +17,7 @@ export default function UnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam, getUnauthorizedLoading } =
     UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);
-  const [roleOption, setRoleOption] = useState();
+  const [roleOption, setRoleOption] = useState("");
   const { setUnauthorizedUserRoles } = DoctoralCenterAPI();
   const { saveNotification } = NotificationAPI();
   const dispatch = useAppDispatch();
@@ -145,19 +145,18 @@ export default function UnauthorizedUsersGrid() {
 
             <AlertBox />
 
-            {selectedRows.length != 0 && (
-              <ConfirmDialogComboBox
-                title={"Разреши потебител към системата"}
-                contentText={
-                  "Разрешете потребителят към системата и му добавете ролята"
-                }
-                options={optionsBG}
-                buttonName={"Разреши"}
-                label={"Роля"}
-                onButtonConfirmClick={onButtonPermitOnClick}
-                onAutocompleteChange={onAutocompleteChange}
-              />
-            )}
+            <ConfirmDialogComboBox
+              title={"Разреши потебител към системата"}
+              contentText={
+                "Разрешете потребителят към системата и му добавете ролята"
+              }
+              options={optionsBG}
+              optionChosen={roleOption}
+              buttonName={"Разреши"}
+              label={"Роля"}
+              onButtonConfirmClick={onButtonPermitOnClick}
+              onAutocompleteChange={onAutocompleteChange}
+            />
           </Box>
         </Grid>
       </Grid>

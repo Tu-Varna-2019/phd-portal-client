@@ -8,20 +8,28 @@ export default function FileAPI() {
   const { route } = ClientRoute();
 
   const upload = (file, type) => {
-    return route(API_URL + "?type=" + type, "POST", file, mediaType.FormData);
+    return route({
+      url: API_URL + "?type=" + type,
+      method: "POST",
+      body: file,
+      requestContentType: mediaType.FormData
+    });
   };
 
   const download = (type, filename) => {
-    return route(
-      API_URL + "?type=" + type + "&filename=" + filename,
-      "GET",
-      null,
-      mediaType.OctetStream
-    );
+    return route({
+      url: API_URL + "?type=" + type + "&filename=" + filename,
+      method: "GET",
+      responseContentType: mediaType.OctetStream
+    });
   };
 
   const deleteFile = (filename, type) => {
-    return route(API_URL + "?type=" + type, "DELETE", filename);
+    return route({
+      url: API_URL + "?type=" + type,
+      method: "DELETE",
+      body: filename
+    });
   };
 
   return {

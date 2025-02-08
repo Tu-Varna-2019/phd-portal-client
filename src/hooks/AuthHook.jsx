@@ -22,9 +22,10 @@ export default function AuthHook() {
     switch (role) {
       case "doctoralCenter":
         if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
-          const blobPicture = await download("avatar", data.picture);
-          const blob = await blobPicture.blob();
-          data.pictureBlob = URL.createObjectURL(blob);
+          // NOTE: Commented for now due to being slow
+          // const blobPicture = await download("avatar", data.picture);
+          // const blob = await blobPicture.blob();
+          // data.pictureBlob = URL.createObjectURL(blob);
         }
         dispatch(setDoctoralCenter({ data }));
         break;
