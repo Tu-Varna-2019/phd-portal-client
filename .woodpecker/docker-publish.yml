@@ -6,12 +6,12 @@ steps:
   - name: Publish docker image to codeberg
     image: woodpeckerci/plugin-docker-buildx
     settings:
-      repo: codeberg.org/${CI_OWNER,,}/${CI_REPO}
+      repo: codeberg.org/${CI_OWNER}/${CI_REPO}
       dry-run: true
       registry: codeberg.org
       username: docker
       tags:
-        - ${CI_COMMIT_TAG##:v}
+        - ${CI_COMMIT_TAG##v}
       password:
         from_secret: DOCKER_PASS
       dockerfile: Dockerfile
