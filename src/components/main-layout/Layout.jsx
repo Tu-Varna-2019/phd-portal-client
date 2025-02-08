@@ -23,7 +23,6 @@ export default function Layout({ headerTitle, MainView, mainListItems }) {
       <Box sx={{ display: "flex" }}>
         <SideMenu mainListItems={mainListItems} />
         <AppNavbar />
-        {/* Main content */}
         <Box
           component="main"
           sx={(theme) => ({
@@ -44,8 +43,7 @@ export default function Layout({ headerTitle, MainView, mainListItems }) {
             }}
           >
             <Header headerTitle={headerTitle} />
-            <MainView />
-            {/*Main Conent is here*/}
+            {MainView}
           </Stack>
         </Box>
       </Box>

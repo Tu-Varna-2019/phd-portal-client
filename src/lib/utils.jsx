@@ -6,6 +6,12 @@ import {
 } from "./features/user/slices/userMemoSelector";
 import selectSessionToken from "./features/sessionToken/slices/sessionTokenMemoSelector";
 
+export const mediaType = Object.freeze({
+  AppJson: "application/json",
+  FormData: "multipart/form-data",
+  OctetStream: "application/octet-stream"
+});
+
 export const formatDateTime = (rawDateTime) => {
   const dateTime = new Date(rawDateTime);
 
@@ -51,7 +57,7 @@ export const getUserByGroup = () => {
       user = {
         name: phdStore.extractName(),
         email: phdStore.email,
-        picture: phdStore.picture
+        pictureBlob: phdStore.pictureBlob
       };
       break;
 
@@ -60,7 +66,7 @@ export const getUserByGroup = () => {
       user = {
         name: committeeStore.name,
         email: committeeStore.email,
-        picture: committeeStore.picture
+        pictureBlob: committeeStore.pictureBlob
       };
       break;
 
@@ -69,7 +75,7 @@ export const getUserByGroup = () => {
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,
-        picture: doctoralCenterStore.picture
+        pictureBlob: doctoralCenterStore.pictureBlob
       };
       break;
 

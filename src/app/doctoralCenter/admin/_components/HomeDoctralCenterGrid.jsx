@@ -48,8 +48,11 @@ export default function HomeDoctoralCenterGrid() {
 
   useEffect(() => {
     const getUsers = async () => {
-      const authUsers = await fetchAutorizedUsers();
-      const unauthorizedUsers = await fetchUnauthorizedUsers();
+      const authUsers = await fetchAutorizedUsers().then((item) => item.data);
+      const unauthorizedUsers = await fetchUnauthorizedUsers().then(
+        (item) => item.data
+      );
+
       const usersArr = [];
 
       if (authUsers != null) usersArr.concat(authUsers);
@@ -74,7 +77,7 @@ export default function HomeDoctoralCenterGrid() {
     };
 
     const getServerLogs = async () => {
-      const fetchedLogs = await getLogs();
+      const fetchedLogs = await getLogs().then((item) => item.data);
       setLogs(fetchedLogs);
     };
 

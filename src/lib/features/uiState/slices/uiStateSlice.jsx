@@ -11,16 +11,13 @@ export const uiStateSlice = createSlice({
     setAlertBoxOpen: (state, action) => {
       state.alertBoxOpen = action.payload;
     },
-
-    setAlertBoxMessage: (state, action) => {
-      state.alertBoxMessage = action.payload;
-    },
-    setAlertBoxSeverity: (state, action) => {
-      state.alertBoxSeverity = action.payload;
+    setAlertBox: (state, action) => {
+      state.alertBoxOpen = true;
+      state.alertBoxMessage = action.payload.message;
+      state.alertBoxSeverity = action.payload.severity;
     }
   }
 });
 
-export const { setAlertBoxMessage, setAlertBoxSeverity, setAlertBoxOpen } =
-  uiStateSlice.actions;
+export const { setAlertBoxOpen, setAlertBox } = uiStateSlice.actions;
 export default uiStateSlice.reducer;

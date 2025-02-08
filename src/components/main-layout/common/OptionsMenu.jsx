@@ -11,6 +11,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
 import Auth from "@/lib/auth/auth";
+import { useRouter } from "next/navigation";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -19,6 +20,7 @@ const MenuItem = styled(MuiMenuItem)({
 export default function OptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { handleLogout } = Auth();
+  const router = useRouter();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,6 +29,10 @@ export default function OptionsMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleUrlRedirect = (url) => {
+    router.push(url);
   };
 
   return (
@@ -58,9 +64,9 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={handleClose}>Профил</MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>Настройки</MenuItem>
+        <MenuItem onClick={() => handleUrlRedirect("/profile")}>
+          Профил
+        </MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLogout}

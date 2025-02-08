@@ -10,7 +10,7 @@ export default function EventManagementGridData() {
   useEffect(() => {
     const getServerLogs = async () => {
       setGetLogsLoading(true);
-      const logs = await getLogs();
+      const logs = await getLogs().then((item) => item.data);
 
       let idCounter = 0;
       if (logs != null) {

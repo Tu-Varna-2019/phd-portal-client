@@ -1,27 +1,29 @@
 import { NextResponse } from "next/server";
 
-const allowedOrigins = ["*"];
+const allowedOrigins = ["localhost:3000"];
 const corsOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
+const commonPaths = ["/notifications", "/profile", "/settings"];
+
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
+
   const groupCookie = request.cookies.get("group")?.value;
   const roleCookie = request.cookies.get("role")?.value;
+
   const url = request.nextUrl.clone();
+  const isUrlApiRoute = url.pathname.startsWith("/api/");
 
   const isPreflight = request.method === "OPTIONS";
-
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
-  if (!url.pathname.startsWith("/api/")) {
-    const cookiePath =
-      groupCookie == null ? null : groupCookie + "/" + roleCookie;
-
-    const redirect = redirectByCookie(url, cookiePath);
+  if (!isUrlApiRoute) {
+    const cookie = getCookiePath(groupCookie, roleCookie);
+    const redirect = redirectByCookiePath(url, cookie);
     if (redirect) return redirect;
   }
 
@@ -31,32 +33,69 @@ export function middleware(request) {
     }
   });
 
-  response.cookies.set("group", groupCookie);
-  response.cookies.set("role", roleCookie);
+  response.cookies.set("group", groupCookie, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "Lax",
+    secure: process.env.NODE_ENV != "production"
+  });
+
+  if (roleCookie != undefined) {
+    response.cookies.set("role", roleCookie, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV != "production"
+    });
+  }
 
   return response;
 }
 
-const redirectByCookie = (url, cookie) => {
-  const originalPathname = url.pathname;
+const getCookiePath = (groupCookie, roleCookie) => {
+  let cookie = null;
+
+  switch (groupCookie) {
+    case "doctoralCenter":
+      if (roleCookie != null) cookie = groupCookie + "/" + roleCookie;
+      else cookie = groupCookie;
+      break;
+    case ("phd", "committee"):
+      cookie = groupCookie;
+      break;
+  }
+  return cookie;
+};
+
+const redirectByCookiePath = (url, cookie) => {
+  let isRedirectNeeded = false;
 
   switch (cookie) {
     case null:
-      if (url.pathname != "/") url.pathname = "/unauthorized";
+      if (url.pathname != "/unauthorized") {
+        url.pathname = "/unauthorized";
+        isRedirectNeeded = true;
+      }
       break;
 
     default:
-      if (url.pathname == "/" || url.pathname == "/doctoralCenter")
+      const matchedIndexPath = isCommonPathFound(url.pathname);
+
+      if (url.pathname == "/" || url.pathname == "/unauthorized") {
         url.pathname = "/" + cookie;
-      else if (
-        !url.pathname.startsWith("/" + cookie) &&
-        !url.pathname.startsWith("/api")
-      )
-        url.pathname = "/unauthorized";
-      break;
+        isRedirectNeeded = true;
+      } else if (matchedIndexPath != -1) {
+        url.pathname = "/" + cookie + commonPaths[matchedIndexPath];
+        isRedirectNeeded = true;
+        break;
+      }
   }
 
-  if (originalPathname != url.pathname) return NextResponse.redirect(url);
+  if (isRedirectNeeded) return NextResponse.redirect(url);
+};
+
+const isCommonPathFound = (path) => {
+  return commonPaths.findIndex((element) => element.includes(path));
 };
 
 const sendPreflight = (isAllowedOrigin, origin) => {
@@ -70,11 +109,14 @@ const sendPreflight = (isAllowedOrigin, origin) => {
 
 export const config = {
   matcher: [
+    "/",
     "/api/:function*",
-    "/phd",
+    "/phd/:path*",
     "/doctoralCenter/:path*",
     "/committee",
-    "/",
+    "/notifications",
+    "/settings",
+    "/profile",
     "/unauthorized"
   ]
 };

@@ -21,6 +21,7 @@ export default function ColorModeIconDropdown(props) {
     setMode(targetMode);
     handleClose();
   };
+
   if (!mode) {
     return (
       <Box

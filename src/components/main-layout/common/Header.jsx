@@ -12,18 +12,11 @@ import { useAppDispatch } from "@/lib/features/constants";
 import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
 import { useSelector } from "react-redux";
 import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
-import { usePathname } from "next/navigation";
 
 const NOTIFICATION_INTERVAL = 5000;
 
 export default function Header({ headerTitle }) {
   const dispatch = useAppDispatch();
-  const sessionToken = useSelector(selectSessionToken);
-  // TODO: Improve this please
-  const group = usePathname().startsWith("/doctoralCenter/admin")
-    ? `/${sessionToken.group}/admin`
-    : "/" + sessionToken.group;
 
   const notifications = useSelector(selectNotifications);
   const bellSound = useRef();
@@ -33,7 +26,7 @@ export default function Header({ headerTitle }) {
     let interval;
 
     const getNotify = async () => {
-      const result = await getNotifications();
+      const result = await getNotifications().then((item) => item.data);
 
       if (
         result != undefined &&
@@ -71,7 +64,7 @@ export default function Header({ headerTitle }) {
       <Stack direction="row" sx={{ gap: 1 }}>
         <CustomDatePicker />
         <MenuButton
-          href={group + "/notifications"}
+          href="/notifications"
           count={notifications.length}
           aria-label="Open notifications"
         >

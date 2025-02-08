@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Известия"}
-      MainView={NotificationGrid}
+      MainView={<NotificationGrid />}
       mainListItems={sideMenuOptions}
     />
   );

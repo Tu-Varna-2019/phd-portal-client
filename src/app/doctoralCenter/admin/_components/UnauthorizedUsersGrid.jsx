@@ -10,10 +10,7 @@ import NotificationAPI from "@/lib/api/notification";
 import AlertBox from "@/components/main-layout/common/AlertBox";
 import { useAppDispatch } from "@/lib/features/constants";
 
-import {
-  setAlertBoxOpen,
-  setAlertBoxMessage
-} from "@/lib/features/uiState/slices/uiStateSlice";
+import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 
 export default function UnauthorizedUsersGrid() {
@@ -36,12 +33,7 @@ export default function UnauthorizedUsersGrid() {
     const normalizedUnauthUsers =
       UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
 
-    const result = await setUnauthorizedUserRoles(
-      normalizedUnauthUsers,
-      roleOption
-    );
-
-    return result;
+    await setUnauthorizedUserRoles(normalizedUnauthUsers, roleOption);
   };
 
   const onButtonPermitOnClick = async () => {
@@ -59,13 +51,18 @@ export default function UnauthorizedUsersGrid() {
       saveNotification({
         title: "Потребител добавен в системата",
         description: `Потребителят ${user.email} е добавен в системата като роля: ${roleOption}`,
-        severity: "info",
+        severity: "success",
         scope: "group",
         group: "admin"
       });
     });
-    dispatch(setAlertBoxOpen(true));
-    dispatch(setAlertBoxMessage(message.join("\r\n")));
+
+    dispatch(
+      setAlertBox({
+        message: message.join("\r\n"),
+        severity: "success"
+      })
+    );
 
     const permittedUsers = rows.filter(
       (elem) => !selectedRows.includes(elem.id)

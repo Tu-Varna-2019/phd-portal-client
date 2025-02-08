@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Управление на потребители"}
-      MainView={UserManagementGrid}
+      MainView={<UserManagementGrid />}
       mainListItems={sideMenuOptions}
     />
   );

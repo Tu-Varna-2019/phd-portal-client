@@ -2,7 +2,6 @@
 import { useAppDispatch } from "@/lib/features/constants";
 import { useEffect } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
-import { useRouter } from "next/navigation";
 import {
   setPhd,
   setDoctoralCenter,
@@ -10,16 +9,23 @@ import {
 } from "@/lib/features/user/slices/userSlice";
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
+import DoctoralCenter from "@/models/DoctoralCenter";
+import FileAPI from "@/lib/api/file";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
   const dispatch = useAppDispatch();
   const { fetchLogin } = UnauthorizedAPI();
-  const router = useRouter();
+  const { download } = FileAPI();
 
-  const evaluateRole = (data, role) => {
+  const evaluateRole = async (data, role) => {
     switch (role) {
       case "doctoralCenter":
+        if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
+          const blobPicture = await download("avatar", data.picture);
+          const blob = await blobPicture.blob();
+          data.pictureBlob = URL.createObjectURL(blob);
+        }
         dispatch(setDoctoralCenter({ data }));
         break;
       case "phd":
@@ -43,18 +49,17 @@ export default function AuthHook() {
           email: response.idTokenClaims.email,
           timestamp: Date.now()
         };
-
         const loginResponse = await fetchLogin(userCreds, response.accessToken);
-        if (typeof loginResponse == "object") {
+
+        if ("data" in loginResponse) {
           const session = {
             group: loginResponse.group,
             accessToken: response.accessToken
           };
-          dispatch(setSessionToken({ session }));
 
-          evaluateRole(loginResponse.data, loginResponse.group);
-          router.push("/" + loginResponse.group);
-        } else router.push(loginResponse);
+          dispatch(setSessionToken({ session }));
+          await evaluateRole(loginResponse.data, loginResponse.group);
+        }
       }
     };
 

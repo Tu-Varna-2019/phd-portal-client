@@ -11,7 +11,7 @@ import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
 import { getUserByGroup } from "@/lib/utils";
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({
   width: drawerWidth,
@@ -41,14 +41,11 @@ export default function SideMenu({ mainListItems }) {
         sx={{
           display: "flex",
           mt: "calc(var(--template-frame-height, 0px) + 4px)",
-          p: 1.5
+          p: 1.7
         }}
-      >
-        {/*Select Content*/}
-      </Box>
+      ></Box>
       <Divider />
       <MenuContent mainListItems={mainListItems} />
-      {/*Card alert*/}
       <Stack
         direction="row"
         sx={{
@@ -61,8 +58,8 @@ export default function SideMenu({ mainListItems }) {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
-          src={`/${user.picture}`}
+          alt="User image"
+          src={user.pictureBlob}
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>

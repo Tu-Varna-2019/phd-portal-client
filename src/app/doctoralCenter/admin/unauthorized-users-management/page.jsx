@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Неудостоверени потребители"}
-      MainView={UnauthorizedUsersGrid}
+      MainView={<UnauthorizedUsersGrid />}
       mainListItems={sideMenuOptions}
     />
   );

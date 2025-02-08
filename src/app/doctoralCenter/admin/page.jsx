@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Начална страница"}
-      MainView={HomeDoctoralCenterGrid}
+      MainView={<HomeDoctoralCenterGrid />}
       mainListItems={sideMenuOptions}
     />
   );
