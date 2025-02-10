@@ -14,6 +14,7 @@ import DoctoralCenter from "@/models/DoctoralCenter";
 import FileAPI from "@/lib/api/file";
 import Phd from "@/models/Phd";
 import Committee from "@/models/Committee";
+import { setPictureBlobBase64Url } from "@/lib/utils";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
@@ -21,8 +22,8 @@ export default function AuthHook() {
   const { fetchLogin } = UnauthorizedAPI();
   const { download } = FileAPI();
 
-  const evaluateRole = async (data, role) => {
-    switch (role) {
+  const evaluateGroup = async (data, group) => {
+    switch (group) {
       case "doctoralCenter":
         if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
           const blobPicture = await download("avatar", data.picture);
@@ -74,7 +75,7 @@ export default function AuthHook() {
           };
 
           dispatch(setSessionToken({ session }));
-          await evaluateRole(loginResponse.data, loginResponse.group);
+          await evaluateGroup(loginResponse.data, loginResponse.group);
         }
       }
     };

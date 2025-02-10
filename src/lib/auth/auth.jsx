@@ -8,6 +8,9 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
+    // NOTE: Not sure this part actually clears all redux store
+    dispatch({ type: "CLEAR" });
+
     instance.logoutPopup({
       postLogoutRedirectUri: "/",
       mainWindowRedirectUri: "/"
