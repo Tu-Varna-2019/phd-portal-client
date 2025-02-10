@@ -1,7 +1,9 @@
 import { createModelSchema, primitive } from "serializr";
 
 export default class DoctoralCenterRole {
-  constructor({ role } = {}) {
+  role;
+
+  constructor(role) {
     this.role = role;
   }
 }

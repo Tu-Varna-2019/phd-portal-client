@@ -1,7 +1,9 @@
 import { createModelSchema, primitive } from "serializr";
 
 export default class Mode {
-  constructor({ mode } = {}) {
+  mode;
+
+  constructor(mode) {
     this.mode = mode;
   }
 }

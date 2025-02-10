@@ -2,28 +2,27 @@ import { alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import AppNavbar from "./components/AppNavbar";
-import Header from "./components/Header";
+import AppNavbar from "./common/AppNavbar";
+import Header from "./common/Header";
 import AppTheme from "../shared-theme/AppTheme";
 import {
   datePickersCustomizations,
   treeViewCustomizations
 } from "./theme/customizations";
-import SideMenu from "./components/SideMenu";
+import SideMenu from "./common/SideMenu";
 
 const xThemeComponents = {
   ...datePickersCustomizations,
   ...treeViewCustomizations
 };
 
-export default function Layout({ headerTitle, user, MainView, mainListItems }) {
+export default function Layout({ headerTitle, MainView, mainListItems }) {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex" }}>
-        <SideMenu user={user} mainListItems={mainListItems} />
+        <SideMenu mainListItems={mainListItems} />
         <AppNavbar />
-        {/* Main content */}
         <Box
           component="main"
           sx={(theme) => ({
@@ -44,8 +43,7 @@ export default function Layout({ headerTitle, user, MainView, mainListItems }) {
             }}
           >
             <Header headerTitle={headerTitle} />
-            <MainView />
-            {/*Main Conent is here*/}
+            {MainView}
           </Stack>
         </Box>
       </Box>

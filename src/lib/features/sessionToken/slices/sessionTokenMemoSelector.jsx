@@ -10,7 +10,7 @@ const selectSessionToken = createSelector(
   (stateSessionToken) => {
     return stateSessionToken
       ? deserialize(SessionToken, stateSessionToken)
-      : null;
+      : new SessionToken();
   }
 );
 

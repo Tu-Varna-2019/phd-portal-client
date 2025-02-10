@@ -8,6 +8,7 @@ import AppTheme from "@/components/shared-theme/AppTheme";
 
 export default function Page() {
   const { handleLogout } = Auth();
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />

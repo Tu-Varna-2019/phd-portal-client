@@ -1,8 +1,11 @@
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
+import { useAppDispatch } from "../features/constants";
+import { clearSessionToken } from "../features/sessionToken/slices/sessionTokenSlice";
 
 export default function Auth() {
   const { instance } = useMsal();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     instance.logoutPopup({
@@ -20,6 +23,7 @@ export default function Auth() {
 
   const clear = () => {
     instance.clearCache();
+    dispatch(clearSessionToken());
   };
 
   return {
