@@ -13,7 +13,7 @@ RUN npm install --legacy-peer-deps
 
 
 
-LABEL org.opencontainers.image.source=https://github.com/Tu-Varna-2019/phd-portal-server \
+LABEL org.opencontainers.image.source=https://codeberg.org/Tu-Varna-2019/phd-portal-server \
 	version="0.0.1-RELEASE" \
 	description="Masters thesis for developing Client web app" \
 	author="Iliyan Kostov" \
@@ -24,7 +24,7 @@ WORKDIR /client_app
 COPY --from=build /phd-portal-client/ /client_app/
 COPY --chown=${DOCKER_USER}:${DOCKER_USER} src /client_app/src/
 COPY --chown=${DOCKER_USER}:${DOCKER_USER} jsconfig.json /client_app/
-COPY --chown=${DOCKER_USER}:${DOCKER_USER} next.config.mjs /client_app/
+COPY --chown=${DOCKER_USER}:${DOCKER_USER} next.config.js /client_app/
 COPY --chown=${DOCKER_USER}:${DOCKER_USER} tailwind.config.js /client_app/
 
 USER ${DOCKER_USER}

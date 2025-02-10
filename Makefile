@@ -2,7 +2,7 @@
 # TARGETS
 ###############
 
-.PHONY: all clean run test
+.PHONY: all clean run test install
 all: clean run test
 
 run:
@@ -10,6 +10,10 @@ run:
 
 test:
 	pnpm run test
+
+install:
+	pnpm i
+
 
 clean:
 	rm -rf .next

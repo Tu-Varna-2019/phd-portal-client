@@ -14,16 +14,15 @@ export default function UnauthorizedAPI() {
         body: JSON.stringify(userCreds)
       });
 
-      // TODO: Improve this part
-      if (response.status == 500) return "/server-error";
-      else if (response.status == 401) return "/unauthorized";
-      else {
-        const result = await response.json();
-        return result;
+      let result;
+      if (response.status == 401) {
+        result = { path: "unauthorized" };
+      } else {
+        result = await response.json();
       }
+      return result;
     } catch (exception) {
       console.error(`Server error when trying to log in ${exception}`);
-      return "/server-error";
     }
   };
 

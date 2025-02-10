@@ -3,7 +3,21 @@ import StatusPhd from "./statusPhd";
 import Department from "./Department";
 
 export default class Phd {
-  constructor({
+  oid;
+  firstName;
+  middleName;
+  lastName;
+  picture;
+  country;
+  city;
+  address;
+  pin;
+  email;
+  dissertationTopic;
+  enrollDate;
+  gradDate;
+
+  constructor(
     oid,
     firstName,
     middleName,
@@ -16,13 +30,13 @@ export default class Phd {
     email,
     dissertationTopic,
     enrollDate,
-    gradDate,
-    status,
+    gradDate
+    // status,
     // curriculum,
     // supervisor,
-    department,
-    report
-  } = {}) {
+    // department,
+    // report
+  ) {
     this.oid = oid;
     this.firstName = firstName;
     this.middleName = middleName;
@@ -36,10 +50,10 @@ export default class Phd {
     this.dissertationTopic = dissertationTopic;
     this.enrollDate = enrollDate;
     this.gradDate = gradDate;
-    this.status = status;
+    // this.status = status;
     // this.curriculum = curriculum;
     // this.supervisor = supervisor;
-    this.department = department;
+    // this.department = department;
     // this.report = report;
   }
 
@@ -74,10 +88,10 @@ createModelSchema(Phd, {
   email: primitive(),
   dissertationTopic: primitive(),
   enrollDate: primitive(),
-  gradDate: primitive(),
-  status: object(StatusPhd),
+  gradDate: primitive()
+  // status: object(StatusPhd),
   // curriculum: object(),
   // supervisor: object(),
-  department: object(Department)
+  // department: object(Department),
   // report: object(),
 });

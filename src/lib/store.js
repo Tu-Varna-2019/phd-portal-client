@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import phdReducer from "@/features/phd/slices/phdSlice";
+import userReducer from "@/features/user/slices/userSlice";
+import uiStateReducer from "@/features/uiState/slices/uiStateSlice";
 import sessionTokenReducer from "@/features/sessionToken/slices/sessionTokenSlice";
 import persistStore from "redux-persist/es/persistStore";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
-import doctoralCenterReducer from "@/features/doctoralCenter/slices/doctoralCenterSlice";
-import committeeReducer from "@/features/committee/slices/committeeSlice";
+import notificationsReducer from "@/features/notification/slices/notificationsSlice";
 
 const sessionTokenPersistConfig = {
   key: "sessionToken",
@@ -14,39 +14,40 @@ const sessionTokenPersistConfig = {
   whitelist: ["sessionToken"]
 };
 
-const doctoralCenterPersistConfig = {
-  key: "doctoralCenter",
+const notificationsPersistConfig = {
+  key: "notifications",
   storage,
-  whitelist: ["doctoralCenter"]
+  whitelist: ["notifications"]
+};
+
+const uiStatePersistConfig = {
+  key: "uiState",
+  storage,
+  whitelist: ["alertBoxOpen", "alertBoxMessage", "alertBoxSeverity"]
+};
+
+const userPersistConfig = {
+  key: "user",
+  storage,
+  whitelist: ["phd", "committee", "doctoralCenter"]
   // BUG: Not working for some magical reason
   // transform: [doctoralCenterTransform]
 };
 
-const phdPersistConfig = {
-  key: "phd",
-  storage,
-  whitelist: ["phd"]
-};
-
-const committeePersistConfig = {
-  key: "committee",
-  storage,
-  whitelist: ["committee"]
-};
-
 export const store = configureStore({
   reducer: {
-    phd: persistReducer(phdPersistConfig, phdReducer),
-    doctoralCenter: persistReducer(
-      doctoralCenterPersistConfig,
-      doctoralCenterReducer
+    uiState: persistReducer(uiStatePersistConfig, uiStateReducer),
+    notifications: persistReducer(
+      notificationsPersistConfig,
+      notificationsReducer
     ),
-    committee: persistReducer(committeePersistConfig, committeeReducer),
+    user: persistReducer(userPersistConfig, userReducer),
     sessionToken: persistReducer(sessionTokenPersistConfig, sessionTokenReducer)
   },
   devTools: process.env.NODE_ENV != "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      serializableCheck: false,
       serializableCheck: {
         ignoredActions: [PERSIST, REHYDRATE],
         ignoredActionPaths: ["meta.arg", "payload.response"]

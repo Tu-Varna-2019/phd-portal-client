@@ -1,7 +1,9 @@
 import { createModelSchema, primitive } from "serializr";
 
 export default class Department {
-  constructor({ name } = {}) {
+  name;
+
+  constructor(name) {
     this.name = name;
   }
 }

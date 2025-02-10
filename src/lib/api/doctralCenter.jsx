@@ -8,35 +8,40 @@ export default function DoctoralCenterAPI() {
   const { route } = ClientRoute();
 
   const fetchAutorizedUsers = async () => {
-    return await route(`${API_URL}/authorized-users`, "GET");
+    return await route({ url: `${API_URL}/authorized-users`, method: "GET" });
   };
 
   const fetchUnauthorizedUsers = async () => {
-    return await route(`${API_URL}/unauthorized-users`, "GET");
+    return await route({
+      url: `${API_URL}/unauthorized-users`,
+      method: "GET"
+    });
   };
 
   const getLogs = async () => {
-    return await route(`${API_BASE_URL}/logs`, "GET");
+    return await route({ url: `${API_BASE_URL}/logs`, method: "GET" });
   };
 
-  const setUnauthorizedUserRoles = async (
-    normalizedUnauthUsers,
-    roleOption
-  ) => {
-    return await route(
-      `${API_URL}/unauthorized-users/role?role=${roleOption}`,
-      "POST",
-      normalizedUnauthUsers
-    );
+  const setUnauthorizedUserRoles = async (unauthUsers, roleOption) => {
+    return await route({
+      url: `${API_URL}/unauthorized-users/role?role=${roleOption}`,
+      method: "POST",
+      body: unauthUsers
+    });
   };
 
   const deleteAuthorizedUser = async (oid, role) => {
     // TODO: Improve this pls
     let reqRole = role;
-    if (role == "manager" || role == "expert") reqRole = "doctoralCenter";
+    if (role == "manager" || role == "expert" || role == "admin")
+      reqRole = "doctoralCenter";
 
-    return await route(`${API_URL}/authorized-users?oid=${oid}`, "DELETE", {
-      role: reqRole
+    return await route({
+      url: `${API_URL}/authorized-users?oid=${oid}`,
+      method: "DELETE",
+      body: {
+        role: reqRole
+      }
     });
   };
 
