@@ -2,6 +2,8 @@ import { createModelSchema, object, primitive } from "serializr";
 import StatusPhd from "./statusPhd";
 import Department from "./Department";
 
+const DEFAULT_PHD_PICTURE = "phd_image.png";
+
 export default class Phd {
   oid;
   firstName;
@@ -57,6 +59,14 @@ export default class Phd {
     // this.report = report;
   }
 
+  static isDefaultImageNameEQ(picture) {
+    return Boolean(picture == DEFAULT_PHD_PICTURE);
+  }
+
+  static getDefaultPictureBlob = () => {
+    return "/" + DEFAULT_PHD_PICTURE;
+  };
+
   formatName(name) {
     return name.charAt(0).toUpperCase() + name.toLowerCase().slice(1);
   }
@@ -79,7 +89,7 @@ createModelSchema(Phd, {
   middleName: primitive(),
   lastName: primitive(),
   picture: primitive({
-    default: "phd_image.png"
+    default: DEFAULT_PHD_PICTURE
   }),
   country: primitive(),
   city: primitive(),

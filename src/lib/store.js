@@ -7,6 +7,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
 import notificationsReducer from "@/features/notification/slices/notificationsSlice";
+import { combineReducers } from "@reduxjs/toolkit";
 
 const sessionTokenPersistConfig = {
   key: "sessionToken",

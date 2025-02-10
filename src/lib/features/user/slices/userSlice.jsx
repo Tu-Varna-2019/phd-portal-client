@@ -1,7 +1,5 @@
 import Committee from "@/models/Committee";
-import DoctoralCenter, {
-  DEFAULT_DOCTORALCENTER_IMAGE
-} from "@/models/DoctoralCenter";
+import DoctoralCenter from "@/models/DoctoralCenter";
 import Phd from "@/models/Phd";
 import { createSlice } from "@reduxjs/toolkit";
 import { deserialize, serialize } from "serializr";
@@ -28,10 +26,6 @@ export const userSlice = createSlice({
         DoctoralCenter,
         action.payload.data
       );
-      if (DoctoralCenter.isDefaultImageNameEQ(doctoralCenterObj.picture)) {
-        doctoralCenterObj.pictureBlob = "/" + DEFAULT_DOCTORALCENTER_IMAGE;
-      }
-
       state.doctoralCenter = serialize(doctoralCenterObj);
     }
   }

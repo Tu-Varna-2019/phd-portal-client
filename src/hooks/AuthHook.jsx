@@ -12,6 +12,8 @@ import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
 import DoctoralCenter from "@/models/DoctoralCenter";
 import FileAPI from "@/lib/api/file";
+import Phd from "@/models/Phd";
+import Committee from "@/models/Committee";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
@@ -19,29 +21,33 @@ export default function AuthHook() {
   const { fetchLogin } = UnauthorizedAPI();
   const { download } = FileAPI();
 
-  const setPictureBlobBase64Url = async (blobPicture, data, setUserPicture) => {
-    const blob = await blobPicture.blob();
-    let reader = new FileReader();
-
-    reader.readAsDataURL(blob);
-    reader.onload = () => {
-      data.pictureBlob = reader.result;
-      dispatch(setUserPicture({ data }));
-    };
-  };
-
   const evaluateRole = async (data, role) => {
     switch (role) {
       case "doctoralCenter":
         if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
           const blobPicture = await download("avatar", data.picture);
-          await setPictureBlobBase64Url(blobPicture, data, setDoctoralCenter);
+          data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
+        } else {
+          data.pictureBlob = DoctoralCenter.getDefaultPictureBlob();
         }
+        dispatch(setDoctoralCenter({ data }));
         break;
       case "phd":
+        if (!Phd.isDefaultImageNameEQ(data.picture)) {
+          const blobPicture = await download("avatar", data.picture);
+          data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
+        } else {
+          data.pictureBlob = Phd.getDefaultPictureBlob();
+        }
         dispatch(setPhd({ data }));
         break;
       case "committee":
+        if (!Committee.isDefaultImageNameEQ(data.picture)) {
+          const blobPicture = await download("avatar", data.picture);
+          data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
+        } else {
+          data.pictureBlob = Committee.getDefaultPictureBlob();
+        }
         dispatch(setCommittee({ data }));
         break;
       default:
