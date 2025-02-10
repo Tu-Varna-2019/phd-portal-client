@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
 import { getUserByGroup } from "@/lib/utils";
-
 const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({
@@ -59,6 +58,8 @@ export default function SideMenu({ mainListItems }) {
         <Avatar
           sizes="small"
           alt="User image"
+          width={36}
+          height={36}
           src={user.pictureBlob}
           sx={{ width: 36, height: 36 }}
         />
