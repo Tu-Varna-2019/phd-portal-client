@@ -1,6 +1,7 @@
 "use client";
+
 import { useAppDispatch } from "@/lib/features/constants";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import {
   setPhd,
@@ -18,21 +19,24 @@ export default function AuthHook() {
   const { fetchLogin } = UnauthorizedAPI();
   const { download } = FileAPI();
 
+  const setPictureBlobBase64Url = async (blobPicture, data, setUserPicture) => {
+    const blob = await blobPicture.blob();
+    let reader = new FileReader();
+
+    reader.readAsDataURL(blob);
+    reader.onload = () => {
+      data.pictureBlob = reader.result;
+      dispatch(setUserPicture({ data }));
+    };
+  };
+
   const evaluateRole = async (data, role) => {
     switch (role) {
       case "doctoralCenter":
         if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
           const blobPicture = await download("avatar", data.picture);
-          const blob = await blobPicture.blob();
-
-          let reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.onload = () => {
-            data.pictureBlob = reader.result;
-            dispatch(setDoctoralCenter({ data }));
-          };
+          await setPictureBlobBase64Url(blobPicture, data, setDoctoralCenter);
         }
-
         break;
       case "phd":
         dispatch(setPhd({ data }));
