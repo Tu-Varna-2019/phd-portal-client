@@ -28,13 +28,10 @@ export default function Header({ headerTitle }) {
     const getNotify = async () => {
       const result = await getNotifications();
 
-      if (
-        result != undefined &&
-        !(JSON.stringify(result) === JSON.stringify(notifications))
-      )
+      if (!(JSON.stringify(result) === JSON.stringify(notifications)))
         bellSound.current.play();
 
-      if (result != undefined) dispatch(setNotifications(result));
+      dispatch(setNotifications(result));
     };
 
     bellSound.current = new Audio("/bell.wav");

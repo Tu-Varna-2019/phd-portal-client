@@ -50,11 +50,8 @@ export default function HomeDoctoralCenterGrid() {
     const getUsers = async () => {
       const authUsers = await fetchAutorizedUsers();
       const unauthorizedUsers = await fetchUnauthorizedUsers();
-      const usersArr = [];
 
-      if (authUsers != null) usersArr.concat(authUsers);
-      if (unauthorizedUsers != null) usersArr.concat(unauthorizedUsers);
-      setUsers(usersArr);
+      setUsers([].concat(authUsers).concat(unauthorizedUsers));
 
       setUserGroupsData(
         assignUserGroupsDataValue(

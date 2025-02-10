@@ -34,7 +34,7 @@ export default function ClientRoute() {
         // clear();
         // window.location.reload();
       } else if (response.status == 500) {
-        return null;
+        return [];
       } else if (response.status == 200 || response.status == 201) {
         return await getContentTypeResponse(responseContentType, response);
       }

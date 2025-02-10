@@ -7,6 +7,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 import { PERSIST, REHYDRATE } from "redux-persist";
 import notificationsReducer from "@/features/notification/slices/notificationsSlice";
+import { rootReducer } from "./features/root/slices/rootReducer";
 
 const sessionTokenPersistConfig = {
   key: "sessionToken",
@@ -36,6 +37,7 @@ const userPersistConfig = {
 
 export const store = configureStore({
   reducer: {
+    root: rootReducer,
     uiState: persistReducer(uiStatePersistConfig, uiStateReducer),
     notifications: persistReducer(
       notificationsPersistConfig,

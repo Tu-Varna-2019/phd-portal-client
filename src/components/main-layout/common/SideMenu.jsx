@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
 import { getUserByGroup } from "@/lib/utils";
-
 const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({
