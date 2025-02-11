@@ -91,6 +91,7 @@ createModelSchema(Phd, {
   picture: primitive({
     default: DEFAULT_PHD_PICTURE
   }),
+  pictureBlob: primitive({}),
   country: primitive(),
   city: primitive(),
   address: primitive(),

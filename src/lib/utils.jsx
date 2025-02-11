@@ -57,7 +57,7 @@ export const getUserByGroup = () => {
       user = {
         name: phdStore.extractName(),
         email: phdStore.email,
-        picture: phdStore.picture
+        pictureBlob: phdStore.pictureBlob
       };
       break;
 
@@ -66,7 +66,7 @@ export const getUserByGroup = () => {
       user = {
         name: committeeStore.name,
         email: committeeStore.email,
-        picture: committeeStore.picture
+        pictureBlob: committeeStore.pictureBlob
       };
       break;
 
@@ -75,7 +75,7 @@ export const getUserByGroup = () => {
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,
-        picture: doctoralCenterStore.picture
+        pictureBlob: doctoralCenterStore.pictureBlob
       };
       break;
 
@@ -86,6 +86,7 @@ export const getUserByGroup = () => {
   return user;
 };
 
+// NOTE: Can be removed ?
 export const setPictureBlobBase64Url = async (blobPicture) => {
   const blob = await blobPicture.blob();
   let reader = new FileReader();

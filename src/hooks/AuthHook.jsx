@@ -23,7 +23,7 @@ export default function AuthHook() {
     switch (group) {
       case "doctoralCenter":
         if (DoctoralCenter.isDefaultImageNameEQ(data.picture))
-          data.picture = DoctoralCenter.getDefaultPictureBlob();
+          data.pictureBlob = DoctoralCenter.getDefaultPictureBlob();
 
         dispatch(setDoctoralCenter({ data }));
         break;

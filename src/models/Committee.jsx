@@ -39,6 +39,7 @@ createModelSchema(Committee, {
   picture: primitive({
     default: DEFAULT_COMMITTEE_PICTURE
   }),
+  pictureBlob: primitive({}),
   grade: primitive(),
   department: object(Department),
   committeeType: object(CommitteeType)

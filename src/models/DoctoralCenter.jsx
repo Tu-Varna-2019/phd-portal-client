@@ -1,7 +1,7 @@
 import { createModelSchema, object, primitive } from "serializr";
 import DoctoralCenterRole from "./DoctoralCenterRole";
 
-const DEFAULT_DOCTORALCENTER_PICTURE = "doctoralCenter_image.png";
+export const DEFAULT_DOCTORALCENTER_PICTURE = "doctoralCenter_image.png";
 
 export default class DoctoralCenter {
   oid;
@@ -36,5 +36,6 @@ createModelSchema(DoctoralCenter, {
   picture: primitive({
     default: DEFAULT_DOCTORALCENTER_PICTURE
   }),
+  pictureBlob: primitive({}),
   role: object(DoctoralCenterRole)
 });
