@@ -11,41 +11,30 @@ import {
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
 import DoctoralCenter from "@/models/DoctoralCenter";
-import FileAPI from "@/lib/api/file";
 import Phd from "@/models/Phd";
 import Committee from "@/models/Committee";
-import { setPictureBlobBase64Url } from "@/lib/utils";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
   const dispatch = useAppDispatch();
   const { fetchLogin } = UnauthorizedAPI();
-  const { download } = FileAPI();
 
   const evaluateGroup = async (data, group) => {
     switch (group) {
       case "doctoralCenter":
-        if (DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
+        if (DoctoralCenter.isDefaultImageNameEQ(data.picture))
           data.picture = DoctoralCenter.getDefaultPictureBlob();
-        }
+
         dispatch(setDoctoralCenter({ data }));
         break;
       case "phd":
-        if (!Phd.isDefaultImageNameEQ(data.picture)) {
-          const blobPicture = await download("avatar", data.picture);
-          data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
-        } else {
+        if (Phd.isDefaultImageNameEQ(data.picture))
           data.pictureBlob = Phd.getDefaultPictureBlob();
-        }
         dispatch(setPhd({ data }));
         break;
       case "committee":
-        if (!Committee.isDefaultImageNameEQ(data.picture)) {
-          const blobPicture = await download("avatar", data.picture);
-          data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
-        } else {
+        if (Committee.isDefaultImageNameEQ(data.picture))
           data.pictureBlob = Committee.getDefaultPictureBlob();
-        }
         dispatch(setCommittee({ data }));
         break;
       default:
