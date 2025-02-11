@@ -24,6 +24,7 @@ import APIWrapper from "@/lib/APIWrapper";
 import { useAppDispatch } from "@/lib/features/constants";
 import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import CustomTable from "../common/CustomTable";
+import { createDataUrl } from "@/lib/utils";
 
 export default function ProfileDataGrid({
   user,
@@ -41,18 +42,21 @@ export default function ProfileDataGrid({
 
   const uploadPicture = async (event) => {
     setIsImageLoading(true);
-    const data = event.target.files[0];
-    const { name, type } = data;
+    const fileBytes = event.target.files[0];
+    const { name, type } = fileBytes;
 
     const formData = new FormData();
-    formData.append("data", data);
+    formData.append("data", fileBytes);
     formData.append("filename", name);
     formData.append("mimetype", type);
 
     const result = await upload(formData, "avatar");
-    if (result != null) {
+    if (result != []) {
       user.picture = result.data;
-      user.pictureBlob = URL.createObjectURL(data);
+      user.pictureBlob = await createDataUrl({
+        picture: fileBytes,
+        fileType: "file"
+      });
       dispatch(setUser({ data: user }));
 
       logAlert({
@@ -77,7 +81,7 @@ export default function ProfileDataGrid({
     setIsImageLoading(true);
 
     const result = await deleteFile({ filename: user.picture }, "avatar");
-    if (result != null) {
+    if (result != []) {
       user.picture = defaultPicture;
       user.pictureBlob = "/" + defaultPicture;
       dispatch(setUser({ data: user }));
