@@ -57,7 +57,7 @@ export const getUserByGroup = () => {
       user = {
         name: phdStore.extractName(),
         email: phdStore.email,
-        pictureBlob: phdStore.pictureBlob
+        picture: phdStore.picture
       };
       break;
 
@@ -66,7 +66,7 @@ export const getUserByGroup = () => {
       user = {
         name: committeeStore.name,
         email: committeeStore.email,
-        pictureBlob: committeeStore.pictureBlob
+        picture: committeeStore.picture
       };
       break;
 
@@ -75,7 +75,7 @@ export const getUserByGroup = () => {
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,
-        pictureBlob: doctoralCenterStore.pictureBlob
+        picture: doctoralCenterStore.picture
       };
       break;
 

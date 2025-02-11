@@ -58,7 +58,7 @@ export default function SideMenu({ mainListItems }) {
         <Avatar
           sizes="small"
           alt="User image"
-          src={user.pictureBlob}
+          src={user.picture}
           sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ mr: "auto" }}>
