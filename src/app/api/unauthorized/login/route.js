@@ -32,7 +32,7 @@ export async function POST(request) {
     );
 
     let path = payload.group;
-    if ("role" in payload.data) path += payload.role;
+    if ("role" in payload.data) path += payload.data.role.role;
 
     const response = NextResponse.json(payload, {
       status: res.status,
@@ -47,7 +47,7 @@ export async function POST(request) {
     });
 
     if ("role" in payload.data) {
-      response.cookies.set("role", payload.data.role, {
+      response.cookies.set("role", payload.data.role.role, {
         path: "/",
         httpOnly: true,
         sameSite: "Lax",

@@ -25,14 +25,8 @@ export default function AuthHook() {
   const evaluateGroup = async (data, group) => {
     switch (group) {
       case "doctoralCenter":
-        if (!DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
-          const mimeType = "image/jpeg";
-          const base64Picture = data.picture;
-          data.picture = `data:${mimeType};base64,${base64Picture}`;
-          // const blobPicture = await download("avatar", data.picture);
-          // data.pictureBlob = await setPictureBlobBase64Url(blobPicture);
-        } else {
-          data.pictureBlob = DoctoralCenter.getDefaultPictureBlob();
+        if (DoctoralCenter.isDefaultImageNameEQ(data.picture)) {
+          data.picture = DoctoralCenter.getDefaultPictureBlob();
         }
         dispatch(setDoctoralCenter({ data }));
         break;
