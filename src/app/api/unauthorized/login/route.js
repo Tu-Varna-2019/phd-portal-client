@@ -22,27 +22,32 @@ export async function POST(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const data = await res.json();
+    const payload = await res.json();
 
-    console.log(`Login response: ${JSON.stringify(data)}`);
+    console.log(
+      `Login response: ${JSON.stringify(payload, (key, value) => {
+        if (key === "picture") return undefined;
+        return value;
+      })}`
+    );
 
-    let path = data.group;
-    if ("role" in data.data) path += data.data.role;
+    let path = payload.group;
+    if ("role" in payload.data) path += payload.data.role.role;
 
-    const response = NextResponse.json(data, {
+    const response = NextResponse.json(payload, {
       status: res.status,
       path: path
     });
 
-    response.cookies.set("group", data.group, {
+    response.cookies.set("group", payload.group, {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",
       secure: process.env.NODE_ENV != "production"
     });
 
-    if ("role" in data.data) {
-      response.cookies.set("role", data.data.role.role, {
+    if ("role" in payload.data) {
+      response.cookies.set("role", payload.data.role.role, {
         path: "/",
         httpOnly: true,
         sameSite: "Lax",
@@ -52,6 +57,9 @@ export async function POST(request) {
 
     return response;
   } catch (error) {
-    return NextResponse.json({ error: "Server error!" }, { status: 500 });
+    return NextResponse.json(
+      { error: `Server error ${error} ` },
+      { status: 500 }
+    );
   }
 }

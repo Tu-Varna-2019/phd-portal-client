@@ -40,6 +40,7 @@ export default function ClientRoute() {
       }
     } catch (exception) {
       console.error(`Fetch API error: ${exception}`);
+      return [];
     }
   };
 
