@@ -6,7 +6,6 @@ import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/lib/features/user/slices/userSlice";
-import { DEFAULT_DOCTORALCENTER_PICTURE } from "@/models/DoctoralCenter";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -28,7 +27,6 @@ export default function Page() {
           user={user}
           nameFields={nameFields}
           setUser={setDoctoralCenter}
-          defaultPicture={DEFAULT_DOCTORALCENTER_PICTURE}
         />
       }
       mainListItems={sideMenuOptions}

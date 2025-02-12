@@ -2,8 +2,6 @@ import { createModelSchema, object, primitive } from "serializr";
 import CommitteeType from "./CommitteeType";
 import Department from "./Department";
 
-const DEFAULT_COMMITTEE_PICTURE = "committee_image.png";
-
 export default class Committee {
   constructor({
     oid,
@@ -26,10 +24,6 @@ export default class Committee {
   static isDefaultImageNameEQ(picture) {
     return Boolean(picture == DEFAULT_COMMITTEE_PICTURE);
   }
-
-  static getDefaultPictureBlob = () => {
-    return "/" + DEFAULT_COMMITTEE_PICTURE;
-  };
 }
 
 createModelSchema(Committee, {
@@ -37,7 +31,7 @@ createModelSchema(Committee, {
   name: primitive(),
   email: primitive(),
   picture: primitive({
-    default: DEFAULT_COMMITTEE_PICTURE
+    default: ""
   }),
   pictureBlob: primitive({}),
   grade: primitive(),

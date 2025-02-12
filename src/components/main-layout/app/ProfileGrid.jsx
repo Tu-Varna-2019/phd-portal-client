@@ -26,12 +26,7 @@ import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import CustomTable from "../common/CustomTable";
 import { createDataUrl } from "@/lib/utils";
 
-export default function ProfileDataGrid({
-  user,
-  nameFields,
-  setUser,
-  defaultPicture
-}) {
+export default function ProfileDataGrid({ user, nameFields, setUser }) {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const { logAlert } = APIWrapper();
   const { handleLogout } = Auth();
@@ -82,8 +77,8 @@ export default function ProfileDataGrid({
 
     const result = await deleteFile({ filename: user.picture }, "avatar");
     if (result != []) {
-      user.picture = defaultPicture;
-      user.pictureBlob = "/" + defaultPicture;
+      user.picture = "";
+      user.pictureBlob = "";
       dispatch(setUser({ data: user }));
 
       logAlert({
@@ -132,7 +127,11 @@ export default function ProfileDataGrid({
                   <Tooltip title={user.role}>
                     <CardMedia
                       component="img"
-                      image={user.pictureBlob}
+                      image={
+                        user.pictureBlob == ""
+                          ? "/default-avatar.jpg"
+                          : user.pictureBlob
+                      }
                       alt="picture"
                       sx={{
                         width: "500px",
@@ -147,8 +146,9 @@ export default function ProfileDataGrid({
 
               <CardActions>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
+                  disabled={user.pictureBlob == ""}
                   fullWidth
                   startIcon={<HighlightOff />}
                   onClick={() => setDeletePictureDialog(true)}
@@ -159,7 +159,7 @@ export default function ProfileDataGrid({
 
               <CardActions>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   component="label"
                   fullWidth

@@ -10,9 +10,6 @@ import {
 } from "@/lib/features/user/slices/userSlice";
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
-import DoctoralCenter from "@/models/DoctoralCenter";
-import Phd from "@/models/Phd";
-import Committee from "@/models/Committee";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
@@ -22,19 +19,12 @@ export default function AuthHook() {
   const evaluateGroup = async (data, group) => {
     switch (group) {
       case "doctoralCenter":
-        if (DoctoralCenter.isDefaultImageNameEQ(data.picture))
-          data.pictureBlob = DoctoralCenter.getDefaultPictureBlob();
-
         dispatch(setDoctoralCenter({ data }));
         break;
       case "phd":
-        if (Phd.isDefaultImageNameEQ(data.picture))
-          data.pictureBlob = Phd.getDefaultPictureBlob();
         dispatch(setPhd({ data }));
         break;
       case "committee":
-        if (Committee.isDefaultImageNameEQ(data.picture))
-          data.pictureBlob = Committee.getDefaultPictureBlob();
         dispatch(setCommittee({ data }));
         break;
       default:
