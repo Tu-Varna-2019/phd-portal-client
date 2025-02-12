@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@azure/msal-browser": "^3.27.0",
+    "@azure/msal-browser": "^4.2.1",
     "@azure/msal-react": "^2.2.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -36,8 +36,8 @@
     "serializr": "^3.0.3"
   },
   "devDependencies": {
-    "eslint": "^9.15.0",
-    "eslint-config-next": "15.1.6",
+    "eslint": "^9.20.1",
+    "eslint-config-next": "15.1.7",
     "postcss": "^8",
     "tailwindcss": "^4.0.6"
   }
