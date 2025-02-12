@@ -86,18 +86,32 @@ export const getUserByGroup = () => {
   return user;
 };
 
-export const setPictureBlobBase64Url = async (blobPicture) => {
-  const blob = await blobPicture.blob();
+export const createDataUrl = async ({ picture, fileType }) => {
   let reader = new FileReader();
 
-  reader.readAsDataURL(blob);
-  return new Promise((resolve, reject) => {
-    reader.onload = () => {
-      resolve(reader.result);
-    };
+  try {
+    if (fileType == "blob") {
+      const blob = await picture.blob();
+      reader.readAsDataURL(blob);
+    } else if (fileType == "file") {
+      reader.readAsDataURL(picture);
+    } else {
+      throw new Error(
+        `Cannot create data url due to incorrect fileType: ${fileType}`
+      );
+    }
 
-    reader.onerror = () => {
-      reject(new DOMException("Error in base64 the user image"));
-    };
-  });
+    return new Promise((resolve, reject) => {
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+
+      reader.onerror = () => {
+        reject(new DOMException("Error in base64 the user image"));
+      };
+    });
+  } catch (error) {
+    console.error(`Error occured: ${error}`);
+    return null;
+  }
 };
