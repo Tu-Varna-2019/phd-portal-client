@@ -14,8 +14,5 @@ test:
 install:
 	pnpm i
 
-
 clean:
 	rm -rf .next
-
-
