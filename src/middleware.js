@@ -73,8 +73,8 @@ const redirectByCookiePath = (url, cookie) => {
   switch (cookie) {
     case null:
       if (url.pathname != "/unauthorized") {
-        url.pathname = "/unauthorized";
-        isRedirectNeeded = true;
+        // url.pathname = "/unauthorized";
+        // isRedirectNeeded = true;
       }
       break;
 

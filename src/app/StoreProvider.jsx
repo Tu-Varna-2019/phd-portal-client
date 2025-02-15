@@ -7,13 +7,10 @@ import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 
 export default function StoreProvider({ children }) {
   return (
-    <>
-      <Provider store={store}>
-        <PersistGate loading={<LoadingPageCircle />} persistor={persistor}>
-          {children}
-        </PersistGate>
-      </Provider>
-      ;
-    </>
+    <Provider store={store}>
+      <PersistGate loading={<LoadingPageCircle />} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
   );
 }

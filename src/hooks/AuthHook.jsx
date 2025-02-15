@@ -10,6 +10,7 @@ import {
 } from "@/lib/features/user/slices/userSlice";
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
+import Unauthorized from "@/app/unauthorized";
 
 export default function AuthHook() {
   const { handleLogin } = Auth();
@@ -57,5 +58,7 @@ export default function AuthHook() {
     };
 
     handleAuth();
-  }, [dispatch]);
+  }, []);
+
+  return <Unauthorized />;
 }

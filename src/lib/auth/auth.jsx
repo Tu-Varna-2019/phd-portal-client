@@ -1,11 +1,9 @@
-import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "@/lib/auth/authConfig";
-import { useAppDispatch } from "../features/constants";
-import { clearSessionToken } from "../features/sessionToken/slices/sessionTokenSlice";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { loginRequest, silentRequest } from "@/lib/auth/authConfig";
 
 export default function Auth() {
   const { instance } = useMsal();
-  const dispatch = useAppDispatch();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = () => {
     // NOTE: Not sure this part actually clears all redux store
@@ -24,9 +22,8 @@ export default function Auth() {
     return response;
   };
 
-  const clear = () => {
-    instance.clearCache();
-    dispatch(clearSessionToken());
+  const clear = async () => {
+    await instance.clearCache();
   };
 
   return {
