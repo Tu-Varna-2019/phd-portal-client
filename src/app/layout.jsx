@@ -14,6 +14,7 @@ import {
 import { PublicClientApplication } from "@azure/msal-browser";
 
 import { MsalProvider } from "@azure/msal-react";
+import { GlobalApp } from "./GlobalApp";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,7 +43,10 @@ export default function RootLayout({ children }) {
         >
           <MsalProvider instance={msalInstance}>
             <StoreProvider>
-              <AuthenticatedTemplate>{children}</AuthenticatedTemplate>
+              <AuthenticatedTemplate>
+                {children}
+                <GlobalApp />
+              </AuthenticatedTemplate>
 
               <UnauthenticatedTemplate>
                 <AuthHook />
