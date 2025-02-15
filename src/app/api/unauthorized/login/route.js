@@ -39,12 +39,13 @@ export async function POST(request) {
       path: path
     });
 
-    response.cookies.set("group", payload.group, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "Lax",
-      secure: process.env.NODE_ENV != "production"
-    });
+    if (payload.group != null)
+      response.cookies.set("group", payload.group, {
+        path: "/",
+        httpOnly: true,
+        sameSite: "Lax",
+        secure: process.env.NODE_ENV != "production"
+      });
 
     if ("role" in payload.data) {
       response.cookies.set("role", payload.data.role.role, {

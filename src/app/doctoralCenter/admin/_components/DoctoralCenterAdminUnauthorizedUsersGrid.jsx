@@ -13,7 +13,7 @@ import { useAppDispatch } from "@/lib/features/constants";
 import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 
-export default function UnauthorizedUsersGrid() {
+export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam, getUnauthorizedLoading } =
     UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);

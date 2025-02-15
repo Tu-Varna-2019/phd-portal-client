@@ -8,7 +8,7 @@ import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import AlertBox from "@/components/main-layout/common/AlertBox";
 import APIWrapper from "@/lib/APIWrapper";
 
-export default function UserManagementGrid() {
+export default function DoctoralCenterAdminUserManagementGrid() {
   const {
     rows,
     dialogTitle,

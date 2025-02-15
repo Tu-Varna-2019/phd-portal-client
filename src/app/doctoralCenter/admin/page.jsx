@@ -1,14 +1,14 @@
 "use client";
-import { sideMenuOptions } from "@/components/config/doctoralCenter/admin/sideMenu";
+import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
 import Layout from "@/components/main-layout/Layout";
-import HomeDoctoralCenterGrid from "./_components/HomeDoctralCenterGrid";
+import DoctoralCenterAdminHomeGrid from "./_components/DoctoralCenterAdminHomeGrid";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Начална страница"}
-      MainView={<HomeDoctoralCenterGrid />}
-      mainListItems={sideMenuOptions}
+      MainView={<DoctoralCenterAdminHomeGrid />}
+      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
     />
   );
 }

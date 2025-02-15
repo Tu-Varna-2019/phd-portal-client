@@ -30,7 +30,7 @@ const filterBtnNameBulgarian = [
   "Група"
 ];
 
-export default function EventManagementGrid() {
+export default function DoctoralCenterAdminEventManagementGrid() {
   const { rows, columns, getLogsLoading } = EventManagementGridData();
   const [filterLogs, setFilterLogs] = useState([]);
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
