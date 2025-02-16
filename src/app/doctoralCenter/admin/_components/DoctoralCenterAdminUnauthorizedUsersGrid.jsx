@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
-import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 import DoctoralCenterAPI from "@/lib/api/doctralCenter";
@@ -12,6 +11,7 @@ import { useAppDispatch } from "@/lib/features/constants";
 
 import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
+import Loading from "@/app/loading";
 
 export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam, getUnauthorizedLoading } =
@@ -93,7 +93,7 @@ export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
                 >
                   Моля изчакайте
                 </Typography>
-                <LoadingPageCircle />
+                <Loading />
               </>
             ) : (
               <>

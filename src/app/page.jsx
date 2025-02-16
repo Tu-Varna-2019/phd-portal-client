@@ -1,19 +1,36 @@
-import { Box } from "@mui/material";
-import { Image } from "@mui/icons-material";
+"use client";
+import AppTheme from "@/components/shared-theme/AppTheme";
+import { Card, CardMedia, CardActionArea } from "@mui/material";
 
-export const metadata = {
-  title: "Докторантски център - Tu-Varna",
-  description: "Технически университет Варна"
-};
-
+// export const metadata = {
+//   title: "Докторантски център - Tu-Varna",
+//   description: "Технически университет Варна"
+// };
 export default function Page() {
   return (
-    <Box sx={{ width: 300 }} justifyContent={"center"} alignItems={"center"}>
-      <Image
-        src={"/default-avatar.jpg"}
-        alt="Technical unversity of Varna"
-        sx={{ width: 300, height: 300 }}
-      />
-    </Box>
+    <AppTheme>
+      <Card
+        variant="outlined"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            image={"/tu-varna.png"}
+            alt="picture"
+            sx={{
+              width: "700px",
+              height: "700px",
+              objectFit: "contain",
+              objectPosition: "center"
+            }}
+          />
+        </CardActionArea>
+      </Card>
+    </AppTheme>
   );
 }
