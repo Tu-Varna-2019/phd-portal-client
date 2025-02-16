@@ -48,9 +48,8 @@ export const GlobalApp = () => {
           if (expiry > 0) {
             expiry -= 1000;
 
-            const tokenExpiry = Math.round(expiry / 1000);
+            // const tokenExpiry = Math.round(expiry / 1000);
             // NOTE: can be safely removed
-            console.log(`Token expiry: ${tokenExpiry}`);
             return;
           }
           clearInterval(interval);
@@ -60,7 +59,7 @@ export const GlobalApp = () => {
       }
     };
 
-    if (!isAuthenticated) {
+    if (isAuthenticated && accounts.length > 0) {
       refreshToken();
     }
 

@@ -1,9 +1,8 @@
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
-import { loginRequest, silentRequest } from "@/lib/auth/authConfig";
+import { useMsal } from "@azure/msal-react";
+import { loginRequest } from "@/lib/auth/authConfig";
 
 export default function Auth() {
   const { instance } = useMsal();
-  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = () => {
     // NOTE: Not sure this part actually clears all redux store

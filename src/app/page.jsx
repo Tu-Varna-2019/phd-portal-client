@@ -1,5 +1,5 @@
-import { DataGrid } from "@mui/x-data-grid";
-import Skeleton from "@mui/material/Skeleton";
+import { Box } from "@mui/material";
+import { Image } from "@mui/icons-material";
 
 export const metadata = {
   title: "Докторантски център - Tu-Varna",
@@ -8,8 +8,12 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <DataGrid container wrap="nowrap">
-      <Skeleton variant="rectangular" width={210} height={118} />
-    </DataGrid>
+    <Box sx={{ width: 300 }} justifyContent={"center"} alignItems={"center"}>
+      <Image
+        src={"/default-avatar.jpg"}
+        alt="Technical unversity of Varna"
+        sx={{ width: 300, height: 300 }}
+      />
+    </Box>
   );
 }
