@@ -1,5 +1,5 @@
 "use client";
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
+import { sideMenuOptionsDoctoralCenterAdmin } from "@/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
 import NotificationGrid from "@/components/main-layout/app/NotificationsGrid";
 import Layout from "@/components/main-layout/Layout";
 

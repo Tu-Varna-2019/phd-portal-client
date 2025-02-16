@@ -2,10 +2,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import UserManagementGridData from "../_lib/UserManagementGridData";
 import { DataGrid } from "@mui/x-data-grid";
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
+import DoctoralCenterAPI from "@/api/doctralCenter";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
-import AlertBox from "@/components/main-layout/common/AlertBox";
-import APIWrapper from "@/lib/APIWrapper";
+import AlertBox from "@/common/AlertBox";
+import APIWrapper from "@/helpers/APIWrapper";
 import Loading from "@/app/loading";
 
 export default function DoctoralCenterAdminUserManagementGrid() {

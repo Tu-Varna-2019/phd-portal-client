@@ -1,4 +1,4 @@
-import { getMonth, getYear } from "@/lib/utils";
+import { getMonth, getYear } from "@/lib/helpers/utils";
 
 export default class Log {
   description;

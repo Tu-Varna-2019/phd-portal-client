@@ -1,6 +1,6 @@
 "use client";
-import { mediaType } from "../utils";
-import ClientRoute from "./router/client";
+import { mediaType } from "@/helpers/utils";
+import ClientRoute from "@/router/client";
 
 const API_URL = "/api/file";
 

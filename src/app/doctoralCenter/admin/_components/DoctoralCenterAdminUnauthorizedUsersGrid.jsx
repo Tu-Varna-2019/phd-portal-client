@@ -3,13 +3,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
+import DoctoralCenterAPI from "@/api/doctralCenter";
 import UnauthorizedUsersGridData from "../_lib/UnauthorizedUsersGridData";
-import NotificationAPI from "@/lib/api/notification";
-import AlertBox from "@/components/main-layout/common/AlertBox";
-import { useAppDispatch } from "@/lib/features/constants";
+import NotificationAPI from "@/api/notification";
+import AlertBox from "@/common/AlertBox";
+import { useAppDispatch } from "@/features/constants";
 
-import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
+import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import Loading from "@/app/loading";
 

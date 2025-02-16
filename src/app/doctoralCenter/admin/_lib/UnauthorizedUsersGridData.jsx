@@ -1,4 +1,4 @@
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
+import DoctoralCenterAPI from "@/api/doctralCenter";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
 

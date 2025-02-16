@@ -1,5 +1,5 @@
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import { formatDateTime } from "@/lib/utils";
+import DoctoralCenterAPI from "@/api/doctralCenter";
+import { formatDateTime } from "@/helpers/utils";
 import { useEffect, useState } from "react";
 
 export default function EventManagementGridData() {
