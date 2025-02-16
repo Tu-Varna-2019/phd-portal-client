@@ -1,27 +1,25 @@
 "use client";
-import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { useEffect } from "react";
-import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/lib/features/constants";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import { useSelector } from "react-redux";
 import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import Auth from "@/lib/auth/auth";
+import { useMsal } from "@azure/msal-react";
 
 export const GlobalApp = () => {
   const dispatch = useAppDispatch();
+  const { silentLogin, amIAuthenticated } = Auth();
   const { instance, accounts } = useMsal();
-  const isAuthenticated = useIsAuthenticated();
   const sessionToken = useSelector(selectSessionToken);
+
   useEffect(() => {
     let timeout, interval;
 
     const refreshToken = async () => {
       try {
         console.log("Refreshing token...");
-        const token = await instance.acquireTokenSilent({
-          ...loginRequest,
-          account: accounts[0]
-        });
+        const token = await silentLogin();
         console.log("Token refreshed!");
 
         dispatch(
@@ -59,7 +57,7 @@ export const GlobalApp = () => {
       }
     };
 
-    if (isAuthenticated && accounts.length > 0) {
+    if (amIAuthenticated) {
       refreshToken();
     }
 
@@ -71,5 +69,5 @@ export const GlobalApp = () => {
         clearInterval(interval);
       }
     };
-  }, [instance, accounts, isAuthenticated]);
+  }, [instance, accounts]);
 };

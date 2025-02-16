@@ -1,8 +1,9 @@
-import { useMsal } from "@azure/msal-react";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
 
 export default function Auth() {
-  const { instance } = useMsal();
+  const { instance, accounts } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleLogout = () => {
     // NOTE: Not sure this part actually clears all redux store
@@ -21,13 +22,22 @@ export default function Auth() {
     return response;
   };
 
-  const clear = async () => {
-    await instance.clearCache();
+  const silentLogin = async () => {
+    const response = await instance.acquireTokenSilent({
+      ...loginRequest,
+      account: accounts[0]
+    });
+    return response;
+  };
+
+  const amIAuthenticated = () => {
+    return isAuthenticated && accounts.length > 0;
   };
 
   return {
     handleLogout,
     handleLogin,
-    clear
+    silentLogin,
+    amIAuthenticated
   };
 }

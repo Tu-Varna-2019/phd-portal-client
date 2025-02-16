@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch } from "@/lib/features/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
 import {
   setPhd,
@@ -32,30 +32,36 @@ export default function AuthHook() {
     }
   };
 
+  const handleAuth = async (response) => {
+    const userCreds = {
+      oid: response.idTokenClaims.oid,
+      name: response.idTokenClaims.name,
+      email: response.idTokenClaims.email,
+      timestamp: Date.now()
+    };
+    const loginResponse = await fetchLogin(userCreds, response.accessToken);
+
+    if ("data" in loginResponse) {
+      const session = {
+        group: loginResponse.group,
+        accessToken: response.accessToken
+      };
+
+      dispatch(setSessionToken({ session }));
+      await evaluateGroup(loginResponse.data, loginResponse.group);
+    }
+  };
+
   useEffect(() => {
-    const handleAuth = async () => {
+    const authLoginHook = async () => {
       const response = await handleLogin();
-      if (response) {
-        const userCreds = {
-          oid: response.idTokenClaims.oid,
-          name: response.idTokenClaims.name,
-          email: response.idTokenClaims.email,
-          timestamp: Date.now()
-        };
-        const loginResponse = await fetchLogin(userCreds, response.accessToken);
-
-        if ("data" in loginResponse) {
-          const session = {
-            group: loginResponse.group,
-            accessToken: response.accessToken
-          };
-
-          dispatch(setSessionToken({ session }));
-          await evaluateGroup(loginResponse.data, loginResponse.group);
-        }
-      }
+      if (response) await handleAuth(response);
     };
 
-    handleAuth();
+    authLoginHook();
   }, []);
+
+  return {
+    handleAuth
+  };
 }
