@@ -8,6 +8,7 @@ export default function EventManagementGridData() {
   const { getLogs } = DoctoralCenterAPI();
 
   useEffect(() => {
+    let interval;
     const getServerLogs = async () => {
       setGetLogsLoading(true);
       const logs = await getLogs();
@@ -31,6 +32,9 @@ export default function EventManagementGridData() {
     };
 
     getServerLogs();
+    interval = setInterval(() => {
+      getServerLogs();
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
   }, [setRows]);
 
   const columns = [

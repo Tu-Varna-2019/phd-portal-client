@@ -27,9 +27,28 @@ export const userSlice = createSlice({
         action.payload.data
       );
       state.doctoralCenter = serialize(doctoralCenterObj);
+    },
+
+    clearPhd(state) {
+      state.phd = null;
+    },
+
+    clearCommittee(state) {
+      state.committee = null;
+    },
+
+    clearDoctoralCenter(state) {
+      state.doctoralCenter = null;
     }
   }
 });
 
-export const { setPhd, setCommittee, setDoctoralCenter } = userSlice.actions;
+export const {
+  setPhd,
+  setCommittee,
+  setDoctoralCenter,
+  clearPhd,
+  clearCommittee,
+  clearDoctoralCenter
+} = userSlice.actions;
 export default userSlice.reducer;

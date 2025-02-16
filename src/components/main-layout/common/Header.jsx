@@ -13,8 +13,6 @@ import { setNotifications } from "@/lib/features/notification/slices/notificatio
 import { useSelector } from "react-redux";
 import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
 
-const NOTIFICATION_INTERVAL = 5000;
-
 export default function Header({ headerTitle }) {
   const dispatch = useAppDispatch();
 
@@ -37,7 +35,7 @@ export default function Header({ headerTitle }) {
     bellSound.current = new Audio("/bell.wav");
     interval = setInterval(() => {
       getNotify();
-    }, NOTIFICATION_INTERVAL);
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
 
     return () => {
       clearInterval(interval);
