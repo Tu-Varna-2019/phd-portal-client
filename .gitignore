@@ -33,7 +33,6 @@ yarn-error.log*
 .direnv
 .devenv
 .envrc
-.env
 .pre-commit-config.yaml
 .next
 
