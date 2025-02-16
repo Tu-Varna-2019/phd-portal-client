@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 // INFO: outliar to the rest of the endpoints
@@ -23,31 +23,26 @@ export async function POST(request) {
     }
 
     const payload = await res.json();
-
-    console.log(
-      `Login response: ${JSON.stringify(payload, (key, value) => {
-        if (key === "picture") return undefined;
-        return value;
-      })}`
-    );
-
-    let path = payload.group;
-    if ("role" in payload.data) path += payload.data.role.role;
-
-    const response = NextResponse.json(payload, {
-      status: res.status,
-      path: path
+    const loginLog = JSON.stringify(payload, (key, value) => {
+      if (key === "picture") return undefined;
+      return value;
     });
 
-    response.cookies.set("group", payload.group, {
+    console.log(`Login response: ${loginLog}`);
+    const isRoleAdmin =
+      "role" in payload.data && payload.data.role.role == "admin";
+
+    const nextCookies = await cookies();
+    nextCookies.set("group", payload.group, {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",
       secure: process.env.NODE_ENV != "production"
     });
 
-    if ("role" in payload.data) {
-      response.cookies.set("role", payload.data.role.role, {
+    // TODO: Improve this pls
+    if (isRoleAdmin) {
+      nextCookies.set("role", payload.data.role.role, {
         path: "/",
         httpOnly: true,
         sameSite: "Lax",
@@ -55,8 +50,11 @@ export async function POST(request) {
       });
     }
 
-    return response;
+    return NextResponse.json(payload, {
+      status: res.status
+    });
   } catch (error) {
+    console.error(`Error in sendnig login response: ${error}`);
     return NextResponse.json(
       { error: `Server error ${error} ` },
       { status: 500 }

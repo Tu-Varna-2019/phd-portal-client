@@ -2,11 +2,11 @@ import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
-import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Stack } from "@mui/material";
 import EventManagementGridData from "../_lib/EventManagementGridData";
 import Search from "@/components/main-layout/common/Search";
+import Loading from "@/app/loading";
 
 const initialFilterBtnVal = {
   description: false,
@@ -30,7 +30,7 @@ const filterBtnNameBulgarian = [
   "Група"
 ];
 
-export default function EventManagementGrid() {
+export default function DoctoralCenterAdminEventManagementGrid() {
   const { rows, columns, getLogsLoading } = EventManagementGridData();
   const [filterLogs, setFilterLogs] = useState([]);
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
@@ -100,7 +100,7 @@ export default function EventManagementGrid() {
                 >
                   Моля изчакайте
                 </Typography>
-                <LoadingPageCircle />
+                <Loading />
               </>
             ) : (
               <>

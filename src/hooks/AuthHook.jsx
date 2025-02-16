@@ -1,37 +1,20 @@
 "use client";
 
-import { useAppDispatch } from "@/lib/features/constants";
 import { useEffect } from "react";
-import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
-import {
-  setPhd,
-  setDoctoralCenter,
-  setCommittee
-} from "@/lib/features/user/slices/userSlice";
 import Auth from "@/lib/auth/auth";
 import UnauthorizedAPI from "@/lib/api/unauthorized";
+import { useAppDispatch } from "@/lib/features/constants";
+import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
+import { useSelector } from "react-redux";
+import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 
 export default function AuthHook() {
-  const { handleLogin } = Auth();
+  const { handleLogin, evaluateGroup } = Auth();
   const dispatch = useAppDispatch();
   const { fetchLogin } = UnauthorizedAPI();
+  const sessionToken = useSelector(selectSessionToken);
 
-  const evaluateGroup = async (data, group) => {
-    switch (group) {
-      case "doctoralCenter":
-        dispatch(setDoctoralCenter({ data }));
-        break;
-      case "phd":
-        dispatch(setPhd({ data }));
-        break;
-      case "committee":
-        dispatch(setCommittee({ data }));
-        break;
-      default:
-        console.error(`Invalid role ${role}`);
-    }
-  };
-
+  // TODO: modularize this into one
   useEffect(() => {
     const handleAuth = async () => {
       const response = await handleLogin();
@@ -56,6 +39,6 @@ export default function AuthHook() {
       }
     };
 
-    handleAuth();
+    if (sessionToken.accessToken == null) handleAuth();
   }, [dispatch]);
 }

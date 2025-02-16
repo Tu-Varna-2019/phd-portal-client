@@ -1,13 +1,11 @@
 "use client";
 
-import Auth from "@/lib/auth/auth";
 import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
 import { mediaType } from "@/lib/utils";
 import { useSelector } from "react-redux";
 
 export default function ClientRoute() {
   const sessionToken = useSelector(selectSessionToken);
-  const { clear } = Auth();
 
   const route = async ({
     url,
@@ -31,9 +29,10 @@ export default function ClientRoute() {
 
       if (response.redirected) {
         console.warn("User is redirected");
+        return [];
         // clear();
         // window.location.reload();
-      } else if (response.status == 500) {
+      } else if (response.status == 500 || response.status == 401) {
         return [];
       } else if (response.status == 200 || response.status == 201) {
         return await getContentTypeResponse(responseContentType, response);

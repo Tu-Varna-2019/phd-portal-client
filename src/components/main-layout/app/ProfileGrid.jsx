@@ -22,9 +22,9 @@ import { HighlightOff } from "@mui/icons-material";
 import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/lib/APIWrapper";
 import { useAppDispatch } from "@/lib/features/constants";
-import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
 import CustomTable from "../common/CustomTable";
 import { createDataUrl } from "@/lib/utils";
+import Loading from "@/app/loading";
 
 export default function ProfileDataGrid({ user, nameFields, setUser }) {
   const [isImageLoading, setIsImageLoading] = useState(false);
@@ -121,7 +121,7 @@ export default function ProfileDataGrid({ user, nameFields, setUser }) {
               <CardActionArea>
                 {isImageLoading ? (
                   <>
-                    <LoadingPageCircle />
+                    <Loading />
                   </>
                 ) : (
                   <Tooltip title={user.role}>

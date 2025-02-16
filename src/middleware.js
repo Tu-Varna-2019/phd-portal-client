@@ -33,21 +33,21 @@ export function middleware(request) {
     }
   });
 
-  response.cookies.set("group", groupCookie, {
-    path: "/",
-    httpOnly: true,
-    sameSite: "Lax",
-    secure: process.env.NODE_ENV != "production"
-  });
+  if (groupCookie != undefined)
+    response.cookies.set("group", groupCookie, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV != "production"
+    });
 
-  if (roleCookie != undefined) {
+  if (roleCookie != undefined)
     response.cookies.set("role", roleCookie, {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",
       secure: process.env.NODE_ENV != "production"
     });
-  }
 
   return response;
 }
@@ -63,6 +63,9 @@ const getCookiePath = (groupCookie, roleCookie) => {
     case ("phd", "committee"):
       cookie = groupCookie;
       break;
+    default:
+      console.warn(`Middleware: Unable to get cookie for path: ${cookie}`);
+      break;
   }
   return cookie;
 };
@@ -72,8 +75,8 @@ const redirectByCookiePath = (url, cookie) => {
 
   switch (cookie) {
     case null:
-      if (url.pathname != "/unauthorized") {
-        url.pathname = "/unauthorized";
+      if (url.pathname != "/") {
+        url.pathname = "/";
         isRedirectNeeded = true;
       }
       break;
@@ -81,7 +84,7 @@ const redirectByCookiePath = (url, cookie) => {
     default:
       const matchedIndexPath = isCommonPathFound(url.pathname);
 
-      if (url.pathname == "/" || url.pathname == "/unauthorized") {
+      if (url.pathname == "/") {
         url.pathname = "/" + cookie;
         isRedirectNeeded = true;
       } else if (matchedIndexPath != -1) {
@@ -116,7 +119,6 @@ export const config = {
     "/committee",
     "/notifications",
     "/settings",
-    "/profile",
-    "/unauthorized"
+    "/profile"
   ]
 };

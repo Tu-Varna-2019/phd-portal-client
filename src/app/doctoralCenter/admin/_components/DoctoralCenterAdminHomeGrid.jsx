@@ -28,7 +28,7 @@ const statCardStruct = [
   }
 ];
 
-export default function HomeDoctoralCenterGrid() {
+export default function DoctoralCenterAdminHomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const [userGroupsData, setUserGroupsData] = useState(userGroupsLabelStuct);
   const [userGroupsChartData, setUserGroupsChartData] = useState(

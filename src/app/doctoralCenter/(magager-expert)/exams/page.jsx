@@ -2,13 +2,13 @@
 import Layout from "@/components/main-layout/Layout";
 
 import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
-import DoctoralCenterAdminUserManagementGrid from "../_components/DoctoralCenterAdminUserManagementGrid";
+import DoctoralCenterExamsGrid from "../_components/DoctoralCenterExamsGrid";
 
 export default function Page() {
   return (
     <Layout
-      headerTitle={"Управление на потребители"}
-      MainView={<DoctoralCenterAdminUserManagementGrid />}
+      headerTitle={"Изпити"}
+      MainView={<DoctoralCenterExamsGrid />}
       mainListItems={sideMenuOptionsDoctoralCenterAdmin}
     />
   );

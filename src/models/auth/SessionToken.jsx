@@ -4,7 +4,7 @@ export default class SessionToken {
   group;
   accessToken;
 
-  constructor(group, accessToken) {
+  constructor(accessToken, group) {
     this.group = group;
     this.accessToken = accessToken;
   }

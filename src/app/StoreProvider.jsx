@@ -3,17 +3,14 @@
 import { Provider } from "react-redux";
 import { persistor, store } from "../lib/store";
 import { PersistGate } from "redux-persist/integration/react";
-import LoadingPageCircle from "@/components/loading/LoadingPageCircle";
+import Loading from "./loading";
 
 export default function StoreProvider({ children }) {
   return (
-    <>
-      <Provider store={store}>
-        <PersistGate loading={<LoadingPageCircle />} persistor={persistor}>
-          {children}
-        </PersistGate>
-      </Provider>
-      ;
-    </>
+    <Provider store={store}>
+      <PersistGate loading={<Loading />} persistor={persistor}>
+        {children}
+      </PersistGate>
+    </Provider>
   );
 }

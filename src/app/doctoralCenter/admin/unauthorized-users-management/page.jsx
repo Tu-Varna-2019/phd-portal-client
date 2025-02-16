@@ -1,15 +1,15 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import { sideMenuOptions } from "@/components/config/doctoralCenter/admin/sideMenu";
-import UnauthorizedUsersGrid from "../_components/UnauthorizedUsersGrid";
+import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
+import DoctoralCenterAdminUnauthorizedUsersGrid from "../_components/DoctoralCenterAdminUnauthorizedUsersGrid";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Неудостоверени потребители"}
-      MainView={<UnauthorizedUsersGrid />}
-      mainListItems={sideMenuOptions}
+      MainView={<DoctoralCenterAdminUnauthorizedUsersGrid />}
+      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
     />
   );
 }

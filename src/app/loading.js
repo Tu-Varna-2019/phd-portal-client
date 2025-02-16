@@ -1,8 +1,9 @@
+"use client";
+import AppTheme from "@/components/shared-theme/AppTheme";
 import { Box, CircularProgress } from "@mui/material";
-import AppTheme from "../shared-theme/AppTheme";
 import CssBaseline from "@mui/material/CssBaseline";
 
-export default function LoadingPageCircle() {
+export default function Loading() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />

@@ -1,10 +1,15 @@
-import { useMsal } from "@azure/msal-react";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
-import { useAppDispatch } from "../features/constants";
-import { clearSessionToken } from "../features/sessionToken/slices/sessionTokenSlice";
+import { useAppDispatch } from "@/lib/features/constants";
+import {
+  setCommittee,
+  setDoctoralCenter,
+  setPhd
+} from "@/lib/features/user/slices/userSlice";
 
 export default function Auth() {
-  const { instance } = useMsal();
+  const { instance, accounts } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -24,14 +29,39 @@ export default function Auth() {
     return response;
   };
 
-  const clear = () => {
-    instance.clearCache();
-    dispatch(clearSessionToken());
+  const silentLogin = async () => {
+    const response = await instance.acquireTokenSilent({
+      ...loginRequest,
+      account: accounts[0]
+    });
+    return response;
+  };
+
+  const amIAuthenticated = () => {
+    return isAuthenticated && accounts.length > 0;
+  };
+
+  const evaluateGroup = async (data, group) => {
+    switch (group) {
+      case "doctoralCenter":
+        dispatch(setDoctoralCenter({ data }));
+        break;
+      case "phd":
+        dispatch(setPhd({ data }));
+        break;
+      case "committee":
+        dispatch(setCommittee({ data }));
+        break;
+      default:
+        console.error(`Invalid role ${role}`);
+    }
   };
 
   return {
     handleLogout,
     handleLogin,
-    clear
+    silentLogin,
+    amIAuthenticated,
+    evaluateGroup
   };
 }
