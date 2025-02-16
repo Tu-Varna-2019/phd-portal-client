@@ -5,7 +5,7 @@ import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
-import { sideMenuOptionsDoctoralCenter } from "@/config/doctoralCenter/manager-admin/sideMenuOptionsDoctoralCenter";
+import { sideMenuOptionsDoctoralCenter } from "@/config/doctoralCenter/manager-expert/sideMenuOptionsDoctoralCenter";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);

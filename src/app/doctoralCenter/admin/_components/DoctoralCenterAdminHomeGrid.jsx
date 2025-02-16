@@ -215,10 +215,6 @@ export default function DoctoralCenterAdminHomeGrid() {
           />
         </Grid>
       </Grid>
-
-      <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, lg: 9 }}>{/*Data grid is here*/}</Grid>
-      </Grid>
     </Box>
   );
 }
