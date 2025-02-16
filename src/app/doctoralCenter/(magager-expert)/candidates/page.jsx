@@ -1,15 +1,12 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
-import DoctoralCenterCandidatesGrid from "../_components/DoctoralCenterCandidatesGrid";
-
 export default function Page() {
   return (
     <Layout
-      headerTitle={"Кандидатури"}
-      MainView={<DoctoralCenterCandidatesGrid />}
-      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
+      headerTitle={"Платформа за кандидатстване"}
+      // MainView={}
+      // mainListItems={}
     />
   );
 }
