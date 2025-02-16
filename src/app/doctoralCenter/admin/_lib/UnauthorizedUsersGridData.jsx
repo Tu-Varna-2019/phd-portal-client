@@ -8,6 +8,7 @@ export default function UnauthorizedUsersGridData() {
   const { fetchUnauthorizedUsers } = DoctoralCenterAPI();
 
   useEffect(() => {
+    let interval;
     const getUnauthorizedUsers = async () => {
       setGetUnauthorizedLoading(true);
       const unauthorizedUsers = await fetchUnauthorizedUsers();
@@ -20,6 +21,9 @@ export default function UnauthorizedUsersGridData() {
     };
 
     getUnauthorizedUsers();
+    interval = setInterval(() => {
+      getUnauthorizedUsers();
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
   }, [setRows]);
 
   const columns = [

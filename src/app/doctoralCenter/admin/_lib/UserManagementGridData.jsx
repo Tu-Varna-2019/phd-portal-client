@@ -19,6 +19,7 @@ export default function UserManagementGridData() {
   const { fetchAutorizedUsers } = DoctoralCenterAPI();
 
   useEffect(() => {
+    let interval;
     const getAuthUsers = async () => {
       setGetAuthorizedUsers(true);
       const authUsers = await fetchAutorizedUsers();
@@ -28,6 +29,10 @@ export default function UserManagementGridData() {
 
     getAuthUsers();
     setGetAuthorizedUsers(false);
+    interval = setInterval(() => {
+      getAuthUsers();
+      setGetAuthorizedUsers(false);
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
   }, [setRows]);
 
   const handleOpenMenu = (event, row) => {

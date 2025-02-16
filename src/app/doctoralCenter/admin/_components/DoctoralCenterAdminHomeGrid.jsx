@@ -47,6 +47,7 @@ export default function DoctoralCenterAdminHomeGrid() {
     DoctoralCenterAPI();
 
   useEffect(() => {
+    let interval;
     const getUsers = async () => {
       const authUsers = await fetchAutorizedUsers();
       const unauthorizedUsers = await fetchUnauthorizedUsers();
@@ -77,7 +78,11 @@ export default function DoctoralCenterAdminHomeGrid() {
 
     getServerLogs();
     getUsers();
-  }, [setLogs]);
+    interval = setInterval(() => {
+      getServerLogs();
+      getUsers();
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+  }, [setUsers]);
 
   useEffect(() => {
     if (logs != []) {
