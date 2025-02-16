@@ -17,10 +17,17 @@ export const notificationsSlice = createSlice({
         (row) => !action.payload.ids.includes(row.id)
       );
       state.notifications = newNotifications;
+    },
+
+    clearNotifications(state) {
+      state.notifications = null;
     }
   }
 });
 
-export const { setNotifications, filteredNotificationsByIds } =
-  notificationsSlice.actions;
+export const {
+  setNotifications,
+  filteredNotificationsByIds,
+  clearNotifications
+} = notificationsSlice.actions;
 export default notificationsSlice.reducer;

@@ -53,7 +53,7 @@ export default function Page() {
       }
     };
 
-    if (sessionToken.group == null) {
+    if (sessionToken.accessToken == null || sessionToken.group == null) {
       reLogin();
     }
   }, [sessionToken]);
