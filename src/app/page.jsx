@@ -5,8 +5,13 @@ import { Card, CardMedia, CardActionArea } from "@mui/material";
 import { useSelector } from "react-redux";
 import Unauthorized from "./unauthorized";
 import { useEffect } from "react";
-import AuthHook from "@/hooks/AuthHook";
+import { useAppDispatch } from "@/lib/features/constants";
 import Auth from "@/lib/auth/auth";
+import {
+  setAccessToken,
+  setSessionToken
+} from "@/lib/features/sessionToken/slices/sessionTokenSlice";
+import UnauthorizedAPI from "@/lib/api/unauthorized";
 
 // export const metadata = {
 //   title: "Докторантски център - Tu-Varna",
@@ -14,17 +19,44 @@ import Auth from "@/lib/auth/auth";
 // };
 export default function Page() {
   const sessionToken = useSelector(selectSessionToken);
-  const { handleAuth } = AuthHook();
-  const { silentLogin } = Auth();
+  const { evaluateGroup, silentLogin } = Auth();
+  const dispatch = useAppDispatch();
+  const { fetchLogin } = UnauthorizedAPI();
 
+  // TODO: modularize this into one
   useEffect(() => {
     const reLogin = async () => {
+      console.log("Triggering reLogin");
+
       const response = await silentLogin();
-      if (response) await handleAuth(response);
+      const userCreds = {
+        oid: response.idTokenClaims.oid,
+        name: response.idTokenClaims.name,
+        email: response.idTokenClaims.email,
+        timestamp: Date.now()
+      };
+
+      dispatch(setAccessToken(response.accessToken));
+      const loginResponse = await fetchLogin(userCreds);
+
+      if ("data" in loginResponse) {
+        dispatch(
+          setSessionToken({
+            session: {
+              accessToken: response.accessToken,
+              group: loginResponse.group
+            }
+          })
+        );
+        await evaluateGroup(loginResponse.data, loginResponse.group);
+        window.location.reload();
+      }
     };
 
-    reLogin();
-  }, []);
+    if (sessionToken.group == null) {
+      reLogin();
+    }
+  }, [sessionToken]);
 
   return (
     <AppTheme>

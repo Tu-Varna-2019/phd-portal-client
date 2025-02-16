@@ -45,9 +45,7 @@ export const GlobalApp = () => {
         interval = setInterval(() => {
           if (expiry > 0) {
             expiry -= 1000;
-
             // const tokenExpiry = Math.round(expiry / 1000);
-            // NOTE: can be safely removed
             return;
           }
           clearInterval(interval);
@@ -57,7 +55,7 @@ export const GlobalApp = () => {
       }
     };
 
-    if (amIAuthenticated) {
+    if (amIAuthenticated && sessionToken.group != null) {
       refreshToken();
     }
 

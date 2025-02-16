@@ -1,9 +1,16 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
+import { useAppDispatch } from "@/lib/features/constants";
+import {
+  setCommittee,
+  setDoctoralCenter,
+  setPhd
+} from "@/lib/features/user/slices/userSlice";
 
 export default function Auth() {
   const { instance, accounts } = useMsal();
   const isAuthenticated = useIsAuthenticated();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     // NOTE: Not sure this part actually clears all redux store
@@ -34,10 +41,27 @@ export default function Auth() {
     return isAuthenticated && accounts.length > 0;
   };
 
+  const evaluateGroup = async (data, group) => {
+    switch (group) {
+      case "doctoralCenter":
+        dispatch(setDoctoralCenter({ data }));
+        break;
+      case "phd":
+        dispatch(setPhd({ data }));
+        break;
+      case "committee":
+        dispatch(setCommittee({ data }));
+        break;
+      default:
+        console.error(`Invalid role ${role}`);
+    }
+  };
+
   return {
     handleLogout,
     handleLogin,
     silentLogin,
-    amIAuthenticated
+    amIAuthenticated,
+    evaluateGroup
   };
 }

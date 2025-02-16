@@ -10,12 +10,16 @@ export const sessionTokenSlice = createSlice({
   reducers: {
     setSessionToken: (state, action) => {
       const sessionTokenObj = {
-        group: action.payload.session.group,
-        accessToken: action.payload.session.accessToken
+        accessToken: action.payload.session.accessToken,
+        group: action.payload.session.group
       };
 
       const desSessionToken = deserialize(SessionToken, sessionTokenObj);
       state.sessionToken = serialize(desSessionToken);
+    },
+
+    setAccessToken(state, action) {
+      state.sessionToken = { accessToken: action.payload };
     },
     clearSessionToken(state) {
       state.sessionToken = null;
@@ -23,5 +27,6 @@ export const sessionTokenSlice = createSlice({
   }
 });
 
-export const { setSessionToken, clearSessionToken } = sessionTokenSlice.actions;
+export const { setSessionToken, clearSessionToken, setAccessToken } =
+  sessionTokenSlice.actions;
 export default sessionTokenSlice.reducer;
