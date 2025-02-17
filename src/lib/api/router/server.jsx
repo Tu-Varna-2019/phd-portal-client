@@ -96,9 +96,8 @@ export default function ServerRoute() {
   ) => {
     switch (response.status) {
       case 401:
-        return NextResponse.redirect(
-          new URL("/unauthorized", "https://localhost:3000")
-        );
+        return NextResponse.redirect(new URL("/", "https://localhost:3000"));
+
       case 200:
       case 201:
         if (responseContentType == mediaType.AppJson) {

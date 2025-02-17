@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
-import DoctoralCenterAPI from "@/api/doctralCenter";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import UnauthorizedUsersGridData from "../_lib/UnauthorizedUsersGridData";
 import NotificationAPI from "@/api/notification";
 import AlertBox from "@/common/AlertBox";
@@ -18,7 +18,7 @@ export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
     UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);
   const [roleOption, setRoleOption] = useState("");
-  const { setUnauthorizedUserRoles } = DoctoralCenterAPI();
+  const { setUnauthorizedUserRoles } = DoctoralCenterAdminAPI();
   const { saveNotification } = NotificationAPI();
   const dispatch = useAppDispatch();
 

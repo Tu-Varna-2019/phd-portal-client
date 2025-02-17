@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import UserManagementGridData from "../_lib/UserManagementGridData";
 import { DataGrid } from "@mui/x-data-grid";
-import DoctoralCenterAPI from "@/api/doctralCenter";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import AlertBox from "@/common/AlertBox";
 import APIWrapper from "@/helpers/APIWrapper";
@@ -22,7 +22,7 @@ export default function DoctoralCenterAdminUserManagementGrid() {
   } = UserManagementGridData();
 
   const { logNotifyAlert } = APIWrapper();
-  const { deleteAuthorizedUser } = DoctoralCenterAPI();
+  const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
 
   const buttonConfirmOnClick = async () => {
     await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);

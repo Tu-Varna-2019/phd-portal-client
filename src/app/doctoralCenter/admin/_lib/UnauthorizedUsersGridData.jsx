@@ -1,11 +1,11 @@
-import DoctoralCenterAPI from "@/api/doctralCenter";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
 
 export default function UnauthorizedUsersGridData() {
   const [rows, setRows] = useState([new UnauthorizedUsers()]);
   const [getUnauthorizedLoading, setGetUnauthorizedLoading] = useState(false);
-  const { fetchUnauthorizedUsers } = DoctoralCenterAPI();
+  const { fetchUnauthorizedUsers } = DoctoralCenterAdminAPI();
 
   useEffect(() => {
     let interval;

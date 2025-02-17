@@ -18,7 +18,6 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    // NOTE: Not sure this part actually clears all redux store
     dispatch(clearSessionToken());
     dispatch(clearNotifications());
     dispatch(clearPhd());

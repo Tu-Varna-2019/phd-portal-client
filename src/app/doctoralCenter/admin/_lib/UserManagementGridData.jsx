@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
-import DoctoralCenterAPI from "@/api/doctralCenter";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
@@ -16,7 +16,7 @@ export default function UserManagementGridData() {
   const [getAuthorizedUsers, setGetAuthorizedUsers] = useState(false);
 
   const doctoralCenter = useSelector(selectDoctoralCenter);
-  const { fetchAutorizedUsers } = DoctoralCenterAPI();
+  const { fetchAutorizedUsers } = DoctoralCenterAdminAPI();
 
   useEffect(() => {
     let interval;

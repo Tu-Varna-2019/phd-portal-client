@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import StatCard from "@/common/StatCard";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import DoctoralCenterAPI from "@/api/doctralCenter";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { CURRENT_YEAR, getMonth } from "@/helpers/utils";
 import {
   logBarChartSeriesStruct,
@@ -44,7 +44,7 @@ export default function DoctoralCenterAdminHomeGrid() {
   const [logsPaginaiton, setLogsPagination] = useState(1);
 
   const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
-    DoctoralCenterAPI();
+    DoctoralCenterAdminAPI();
 
   useEffect(() => {
     const getUsers = async () => {
