@@ -1,6 +1,6 @@
 "use client";
 
-import ClientRoute from "./router/client";
+import ClientRoute from "@/router/client";
 
 const API_URL = "/api/unauthorized/login";
 

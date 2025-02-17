@@ -2,20 +2,20 @@ import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import StatCard from "@/components/main-layout/common/StatCard";
+import StatCard from "@/common/StatCard";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import { CURRENT_YEAR, getMonth } from "@/lib/utils";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import { CURRENT_YEAR, getMonth } from "@/helpers/utils";
 import {
   logBarChartSeriesStruct,
   userGroupsLabelStuct,
   userGroupsPieChartStruct
-} from "@/components/config/doctoralCenter/admin/dashboard";
-import PieChartDiagram from "@/components/main-layout/common/PieChartDiagram";
-import BarChartDashboard from "@/components/main-layout/common/BarChartDashboard";
+} from "@/config/doctoralCenter/admin/dashboard";
+import PieChartDiagram from "@/common/PieChartDiagram";
+import BarChartDashboard from "@/common/BarChartDashboard";
 import { Pagination } from "@mui/material";
-import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
+import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import Log from "@/models/Log";
 
 const statCardStruct = [
@@ -44,7 +44,7 @@ export default function DoctoralCenterAdminHomeGrid() {
   const [logsPaginaiton, setLogsPagination] = useState(1);
 
   const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
-    DoctoralCenterAPI();
+    DoctoralCenterAdminAPI();
 
   useEffect(() => {
     let interval;
@@ -214,10 +214,6 @@ export default function DoctoralCenterAdminHomeGrid() {
             onChange={logYearChangeOnClick}
           />
         </Grid>
-      </Grid>
-
-      <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, lg: 9 }}>{/*Data grid is here*/}</Grid>
       </Grid>
     </Box>
   );

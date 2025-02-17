@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Stack } from "@mui/material";
 import EventManagementGridData from "../_lib/EventManagementGridData";
-import Search from "@/components/main-layout/common/Search";
+import Search from "@/common/Search";
 import Loading from "@/app/loading";
 
 const initialFilterBtnVal = {

@@ -1,5 +1,5 @@
 import Log from "@/models/Log";
-import ClientRoute from "./router/client";
+import ClientRoute from "@/router/client";
 const API_URL = "/api/logs";
 
 export default function LogsAPI() {

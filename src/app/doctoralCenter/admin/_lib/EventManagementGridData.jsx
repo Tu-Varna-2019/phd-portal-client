@@ -1,11 +1,11 @@
-import DoctoralCenterAPI from "@/lib/api/doctralCenter";
-import { formatDateTime } from "@/lib/utils";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import { formatDateTime } from "@/helpers/utils";
 import { useEffect, useState } from "react";
 
 export default function EventManagementGridData() {
   const [rows, setRows] = useState([]);
   const [getLogsLoading, setGetLogsLoading] = useState(false);
-  const { getLogs } = DoctoralCenterAPI();
+  const { getLogs } = DoctoralCenterAdminAPI();
 
   useEffect(() => {
     let interval;

@@ -1,7 +1,7 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/components/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
+import { sideMenuOptionsDoctoralCenterAdmin } from "@/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
 import DoctoralCenterHomeGrid from "../_components/DoctralCenterHomeGrid";
 
 export default function Page() {

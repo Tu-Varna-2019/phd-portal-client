@@ -6,7 +6,7 @@ const corsOptions = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
-const commonPaths = ["/notifications", "/profile", "/settings"];
+const commonPaths = ["/notifications", "/profile"];
 
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
