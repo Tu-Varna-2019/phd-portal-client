@@ -1,10 +1,11 @@
 "use client";
-import ClientRoute from "./router/client";
+import ClientRoute from "@/router/client";
 
 const API_URL = "/api/doctoralCenter/admin";
+// TODO: maybe move the logs api to the doo center admin api route
 const API_BASE_URL = "/api";
 
-export default function DoctoralCenterAPI() {
+export default function DoctoralCenterAdminAPI() {
   const { route } = ClientRoute();
 
   const fetchAutorizedUsers = async () => {

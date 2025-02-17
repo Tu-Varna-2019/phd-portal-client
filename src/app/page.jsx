@@ -1,17 +1,17 @@
 "use client";
 import AppTheme from "@/components/shared-theme/AppTheme";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 import { Card, CardMedia, CardActionArea } from "@mui/material";
 import { useSelector } from "react-redux";
 import Unauthorized from "./unauthorized";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/lib/features/constants";
+import { useAppDispatch } from "@/features/constants";
 import Auth from "@/lib/auth/auth";
 import {
   setAccessToken,
   setSessionToken
-} from "@/lib/features/sessionToken/slices/sessionTokenSlice";
-import UnauthorizedAPI from "@/lib/api/unauthorized";
+} from "@/features/sessionToken/slices/sessionTokenSlice";
+import UnauthorizedAPI from "@/api/unauthorized";
 
 // export const metadata = {
 //   title: "Докторантски център - Tu-Varna",

@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
-import { getUserByGroup } from "@/lib/utils";
+import { getUserByGroup } from "@/helpers/utils";
 const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({

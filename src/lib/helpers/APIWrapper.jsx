@@ -1,7 +1,7 @@
-import LogsAPI from "./api/logs";
-import NotificationAPI from "./api/notification";
-import { useAppDispatch } from "./features/constants";
-import { setAlertBox } from "./features/uiState/slices/uiStateSlice";
+import LogsAPI from "@/api/logs";
+import NotificationAPI from "@/api/notification";
+import { useAppDispatch } from "@/features/constants";
+import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 
 export default function APIWrapper() {
   const dispatch = useAppDispatch();

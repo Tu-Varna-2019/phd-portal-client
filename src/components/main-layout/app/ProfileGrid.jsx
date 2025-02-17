@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import AlertBox from "../common/AlertBox";
+import AlertBox from "@/common/AlertBox";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import {
   Button,
@@ -17,13 +17,13 @@ import { Logout } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { InsertPhoto } from "@mui/icons-material";
 import Auth from "@/lib/auth/auth";
-import FileAPI from "@/lib/api/file";
+import FileAPI from "@/api/file";
 import { HighlightOff } from "@mui/icons-material";
-import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
-import APIWrapper from "@/lib/APIWrapper";
-import { useAppDispatch } from "@/lib/features/constants";
-import CustomTable from "../common/CustomTable";
-import { createDataUrl } from "@/lib/utils";
+import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
+import APIWrapper from "@/helpers/APIWrapper";
+import { useAppDispatch } from "@/features/constants";
+import CustomTable from "@/common/CustomTable";
+import { createDataUrl } from "@/helpers/utils";
 import Loading from "@/app/loading";
 
 export default function ProfileDataGrid({ user, nameFields, setUser }) {
