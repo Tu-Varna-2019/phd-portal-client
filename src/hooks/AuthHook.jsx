@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import Auth from "@/lib/auth/auth";
-import UnauthorizedAPI from "@/lib/api/unauthorized";
-import { useAppDispatch } from "@/lib/features/constants";
-import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
+import UnauthorizedAPI from "@/api/unauthorized";
+import { useAppDispatch } from "@/features/constants";
+import { setSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
 import { useSelector } from "react-redux";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 
 export default function AuthHook() {
   const { handleLogin, evaluateGroup } = Auth();

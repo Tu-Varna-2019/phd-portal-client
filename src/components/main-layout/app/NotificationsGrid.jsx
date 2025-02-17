@@ -1,15 +1,15 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
-import { useAppDispatch } from "@/lib/features/constants";
+import { useAppDispatch } from "@/features/constants";
 import { useSelector } from "react-redux";
-import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
-import AlertBox from "../common/AlertBox";
-import NotificationAPI from "@/lib/api/notification";
+import selectNotifications from "@/features/notification/slices/notificationsMemoSelector";
+import AlertBox from "@/common/AlertBox";
+import NotificationAPI from "@/api/notification";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
-import { filteredNotificationsByIds } from "@/lib/features/notification/slices/notificationsSlice";
+import { filteredNotificationsByIds } from "@/features/notification/slices/notificationsSlice";
 import { Button } from "@mui/material";
-import APIWrapper from "@/lib/APIWrapper";
+import APIWrapper from "@/helpers/APIWrapper";
 
 export default function NotificationGrid() {
   const dispatch = useAppDispatch();

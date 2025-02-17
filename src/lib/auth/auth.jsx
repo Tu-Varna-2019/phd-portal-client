@@ -1,6 +1,6 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
-import { useAppDispatch } from "@/lib/features/constants";
+import { useAppDispatch } from "@/features/constants";
 import {
   clearCommittee,
   clearDoctoralCenter,
@@ -8,9 +8,9 @@ import {
   setCommittee,
   setDoctoralCenter,
   setPhd
-} from "@/lib/features/user/slices/userSlice";
-import { clearSessionToken } from "../features/sessionToken/slices/sessionTokenSlice";
-import { clearNotifications } from "../features/notification/slices/notificationsSlice";
+} from "@/features/user/slices/userSlice";
+import { clearSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
+import { clearNotifications } from "@/features/notification/slices/notificationsSlice";
 
 export default function Auth() {
   const { instance, accounts } = useMsal();
@@ -18,7 +18,6 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    // NOTE: Not sure this part actually clears all redux store
     dispatch(clearSessionToken());
     dispatch(clearNotifications());
     dispatch(clearPhd());

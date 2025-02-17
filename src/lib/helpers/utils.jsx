@@ -3,8 +3,8 @@ import {
   selectCommittee,
   selectDoctoralCenter,
   selectPhd
-} from "./features/user/slices/userMemoSelector";
-import selectSessionToken from "./features/sessionToken/slices/sessionTokenMemoSelector";
+} from "@/features/user/slices/userMemoSelector";
+import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 
 export const mediaType = Object.freeze({
   AppJson: "application/json",

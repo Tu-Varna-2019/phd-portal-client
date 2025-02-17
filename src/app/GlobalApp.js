@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/lib/features/constants";
-import { setSessionToken } from "@/lib/features/sessionToken/slices/sessionTokenSlice";
+import { useAppDispatch } from "@/features/constants";
+import { setSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
 import { useSelector } from "react-redux";
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
+import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 import Auth from "@/lib/auth/auth";
 import { useMsal } from "@azure/msal-react";
 

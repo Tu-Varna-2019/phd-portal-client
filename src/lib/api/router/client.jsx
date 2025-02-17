@@ -1,7 +1,7 @@
 "use client";
 
-import selectSessionToken from "@/lib/features/sessionToken/slices/sessionTokenMemoSelector";
-import { mediaType } from "@/lib/utils";
+import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
+import { mediaType } from "@/helpers/utils";
 import { useSelector } from "react-redux";
 
 export default function ClientRoute() {
