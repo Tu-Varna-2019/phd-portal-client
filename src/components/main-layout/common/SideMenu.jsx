@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
-import { getUserByGroup } from "@/helpers/utils";
+import { getUserByGroup } from "@/lib/helpers/utils";
 const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({
@@ -23,7 +23,7 @@ const Drawer = styled(MuiDrawer)({
   }
 });
 
-export default function SideMenu({ mainListItems }) {
+export default function SideMenu({ mainListItems, basePath }) {
   const user = getUserByGroup();
 
   return (
@@ -72,7 +72,7 @@ export default function SideMenu({ mainListItems }) {
             {user.email}
           </Typography>
         </Box>
-        <OptionsMenu />
+        <OptionsMenu basePath={basePath} />
       </Stack>
     </Drawer>
   );

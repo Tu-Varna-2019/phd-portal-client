@@ -49,11 +49,14 @@ export const CURRENT_YEAR = getYear(new Date(Date.now()));
 
 export const getUserByGroup = () => {
   const group = useSelector(selectSessionToken).group;
+  const phdStore = useSelector(selectPhd);
+  const committeeStore = useSelector(selectCommittee);
+  const doctoralCenterStore = useSelector(selectDoctoralCenter);
+
   let user = {};
 
   switch (group) {
     case "phd":
-      const phdStore = useSelector(selectPhd);
       user = {
         name: phdStore.extractName(),
         email: phdStore.email,
@@ -62,7 +65,6 @@ export const getUserByGroup = () => {
       break;
 
     case "committee":
-      const committeeStore = useSelector(selectCommittee);
       user = {
         name: committeeStore.name,
         email: committeeStore.email,
@@ -71,7 +73,6 @@ export const getUserByGroup = () => {
       break;
 
     case "doctoralCenter":
-      const doctoralCenterStore = useSelector(selectDoctoralCenter);
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,

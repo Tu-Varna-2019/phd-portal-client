@@ -17,7 +17,7 @@ const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
 });
 
-export default function OptionsMenu() {
+export default function OptionsMenu({ basePath }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { handleLogout } = Auth();
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function OptionsMenu() {
           }
         }}
       >
-        <MenuItem onClick={() => handleUrlRedirect("/profile")}>
+        <MenuItem onClick={() => handleUrlRedirect(basePath + "/profile")}>
           Профил
         </MenuItem>
         <Divider />

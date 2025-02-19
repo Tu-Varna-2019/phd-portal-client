@@ -1,34 +1,24 @@
-import SchoolIcon from "@mui/icons-material/School";
-import Groups2Icon from "@mui/icons-material/Groups2";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import NoAccountsIcon from "@mui/icons-material/NoAccounts";
-
-export const dashboardStruct = {
-  title: "",
-  value: 0,
-  interval: "",
-  trend: "neutral",
-  data: []
-};
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 
 export const candidatesLabelStuct = [
   {
     name: "Чакащи",
     value: 0,
-    icon: <NoAccountsIcon />,
+    icon: <AccessTimeFilledIcon />,
     color: "hsl(220, 25%, 65%)"
   },
   {
     name: "Приети",
     value: 0,
-    icon: <SchoolIcon />,
+    icon: <ThumbUpIcon />,
     color: "hsl(220, 25%, 65%)"
   },
   {
     name: "Отказани",
     value: 0,
-    icon: <Groups2Icon />,
+    icon: <ThumbDownIcon />,
     color: "hsl(220, 25%, 45%)"
   }
 ];

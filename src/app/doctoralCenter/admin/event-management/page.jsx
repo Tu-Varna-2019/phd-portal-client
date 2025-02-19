@@ -8,6 +8,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Управление на събития"}
+      basePath={"/doctoralCenter/admin"}
       MainView={<DoctoralCenterAdminEventManagementGrid />}
       mainListItems={sideMenuOptionsDoctoralCenterAdmin}
     />

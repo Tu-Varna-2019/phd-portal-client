@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Известия"}
+      basePath={"/doctoralCenter/admin"}
       MainView={<NotificationGrid />}
       mainListItems={sideMenuOptionsDoctoralCenterAdmin}
     />
