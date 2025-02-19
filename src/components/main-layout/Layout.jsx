@@ -16,12 +16,17 @@ const xThemeComponents = {
   ...treeViewCustomizations
 };
 
-export default function Layout({ headerTitle, MainView, mainListItems }) {
+export default function Layout({
+  headerTitle,
+  basePath,
+  MainView,
+  mainListItems
+}) {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex" }}>
-        <SideMenu mainListItems={mainListItems} />
+        <SideMenu mainListItems={mainListItems} basePath={basePath} />
         <AppNavbar />
         <Box
           component="main"
@@ -42,7 +47,7 @@ export default function Layout({ headerTitle, MainView, mainListItems }) {
               mt: { xs: 8, md: 0 }
             }}
           >
-            <Header headerTitle={headerTitle} />
+            <Header headerTitle={headerTitle} basePath={basePath} />
             {MainView}
           </Stack>
         </Box>

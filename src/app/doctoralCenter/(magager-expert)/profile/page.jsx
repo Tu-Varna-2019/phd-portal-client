@@ -26,6 +26,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Профил"}
+      basePath={"/doctoralCenter"}
       MainView={
         <ProfileGrid
           user={user}

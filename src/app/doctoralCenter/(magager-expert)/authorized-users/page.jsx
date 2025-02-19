@@ -8,6 +8,7 @@ export default function Page() {
     <Layout
       headerTitle={"Удостоверени потребители от администратора"}
       MainView={DoctoralCenterAuthorizedUsersGrid()}
+      basePath={"/doctoralCenter"}
       mainListItems={sideMenuOptionsDoctoralCenter}
     />
   );

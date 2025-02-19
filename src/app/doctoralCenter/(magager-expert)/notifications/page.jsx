@@ -8,6 +8,7 @@ export default function Page() {
     <Layout
       headerTitle={"Известия"}
       MainView={<NotificationGrid />}
+      basePath={"/doctoralCenter"}
       mainListItems={sideMenuOptionsDoctoralCenter}
     />
   );

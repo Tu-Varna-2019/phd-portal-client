@@ -23,7 +23,7 @@ const Drawer = styled(MuiDrawer)({
   }
 });
 
-export default function SideMenu({ mainListItems }) {
+export default function SideMenu({ mainListItems, basePath }) {
   const user = getUserByGroup();
 
   return (
@@ -72,7 +72,7 @@ export default function SideMenu({ mainListItems }) {
             {user.email}
           </Typography>
         </Box>
-        <OptionsMenu />
+        <OptionsMenu basePath={basePath} />
       </Stack>
     </Drawer>
   );

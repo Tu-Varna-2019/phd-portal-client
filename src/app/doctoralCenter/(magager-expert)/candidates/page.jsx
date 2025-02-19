@@ -8,6 +8,7 @@ export default function Page() {
     <Layout
       headerTitle={"Платформа за кандидатстване"}
       MainView={DoctoralCenterCandidatesGrid()}
+      basePath={"/doctoralCenter"}
       mainListItems={sideMenuOptionsDoctoralCenter}
     />
   );

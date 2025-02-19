@@ -8,6 +8,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Начална страница"}
+      basePath={"/doctoralCenter"}
       MainView={<DoctoralCenterHomeGrid />}
       mainListItems={sideMenuOptionsDoctoralCenter}
     />

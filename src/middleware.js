@@ -6,8 +6,6 @@ const corsOptions = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
-const commonPaths = ["/notifications", "/profile"];
-
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
@@ -82,23 +80,13 @@ const redirectByCookiePath = (url, cookie) => {
       break;
 
     default:
-      const matchedIndexPath = isCommonPathFound(url.pathname);
-
-      if (url.pathname != "/" + cookie) {
+      if (!url.pathname.startsWith("/" + cookie)) {
         url.pathname = "/" + cookie;
         isRedirectNeeded = true;
-      } else if (matchedIndexPath != -1) {
-        url.pathname = "/" + cookie + commonPaths[matchedIndexPath];
-        isRedirectNeeded = true;
-        break;
       }
   }
 
   if (isRedirectNeeded) return NextResponse.redirect(url);
-};
-
-const isCommonPathFound = (path) => {
-  return commonPaths.findIndex((element) => element.includes(path));
 };
 
 const sendPreflight = (isAllowedOrigin, origin) => {
