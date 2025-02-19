@@ -143,9 +143,8 @@ export default function DoctoralCenterAdminHomeGrid() {
     authUsers,
     unauthUsers
   ) => {
-    const unauthorizedCount = unauthUsers.length;
     const users = ["phd", "committee", "manager", "expert", "admin"];
-    const userCounts = [unauthorizedCount];
+    const userCounts = [unauthUsers.length];
 
     users.forEach((userGroup) => {
       const userCount = authUsers.filter(
