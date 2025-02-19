@@ -9,6 +9,10 @@ import { sideMenuOptionsDoctoralCenter } from "@/config/doctoralCenter/manager-e
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
+  const doctoralCenterRoleLangMappings = {
+    expert: "Експерт",
+    manager: "Ръководител"
+  };
 
   const nameFields = ["Име", "Имейл"];
   const user = {
@@ -16,7 +20,7 @@ export default function Page() {
     email: doctoralCenter.email,
     picture: doctoralCenter.picture,
     pictureBlob: doctoralCenter.pictureBlob,
-    role: "Администратор"
+    role: doctoralCenterRoleLangMappings[doctoralCenter.role]
   };
 
   return (
