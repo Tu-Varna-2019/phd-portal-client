@@ -20,7 +20,7 @@ export default function Page() {
     email: doctoralCenter.email,
     picture: doctoralCenter.picture,
     pictureBlob: doctoralCenter.pictureBlob,
-    role: doctoralCenterRoleLangMappings[doctoralCenter.role]
+    role: doctoralCenterRoleLangMappings[doctoralCenter.role.role]
   };
 
   return (
