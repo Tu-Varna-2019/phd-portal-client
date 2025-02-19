@@ -25,6 +25,7 @@ export default function AuthHook() {
           email: response.idTokenClaims.email,
           timestamp: Date.now()
         };
+
         const loginResponse = await fetchLogin(userCreds, response.accessToken);
 
         if ("data" in loginResponse) {

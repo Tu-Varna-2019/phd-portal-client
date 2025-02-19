@@ -12,16 +12,22 @@ export default function ClientRoute() {
     method,
     body,
     requestContentType = mediaType.AppJson,
-    responseContentType = mediaType.AppJson
+    responseContentType = mediaType.AppJson,
+    accessTokenProvided = null
   }) => {
     try {
       if (body != null && requestContentType == mediaType.AppJson)
         body = JSON.stringify(body);
+      // TODO : use useSelector instead, not used currently due to a BUG
+      const accessToken =
+        accessTokenProvided == null
+          ? sessionToken.accessToken
+          : accessTokenProvided;
 
       const response = await fetch(url, {
         method: method,
         headers: {
-          Authorization: sessionToken.accessToken
+          Authorization: accessToken
         },
         redirect: "follow",
         body: body

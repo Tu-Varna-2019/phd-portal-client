@@ -84,7 +84,7 @@ const redirectByCookiePath = (url, cookie) => {
     default:
       const matchedIndexPath = isCommonPathFound(url.pathname);
 
-      if (url.pathname == "/") {
+      if (url.pathname != "/" + cookie) {
         url.pathname = "/" + cookie;
         isRedirectNeeded = true;
       } else if (matchedIndexPath != -1) {

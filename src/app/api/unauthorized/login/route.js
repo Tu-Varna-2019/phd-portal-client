@@ -19,7 +19,7 @@ export async function POST(request) {
     });
 
     if (res.status == 401) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const payload = await res.json();
