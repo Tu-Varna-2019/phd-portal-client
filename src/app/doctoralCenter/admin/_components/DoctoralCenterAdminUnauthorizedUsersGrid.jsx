@@ -46,16 +46,16 @@ export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
       message.push(
         `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`
       );
-    });
 
-    logNotifyAlert({
-      title: "Потребител добавен в системата",
-      description: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-      message: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-      action: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-      level: "success",
-      scope: "group",
-      group: "admin"
+      logNotifyAlert({
+        title: "Потребител добавен в системата",
+        description: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
+        message: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
+        action: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
+        level: "success",
+        scope: "group",
+        group: "admin"
+      });
     });
 
     dispatch(

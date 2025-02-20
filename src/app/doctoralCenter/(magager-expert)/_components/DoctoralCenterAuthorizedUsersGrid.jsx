@@ -1,1 +1,1 @@
-export default function DoctoralCenterAuthorizedUsersGrid() {}
+export default function DoctoralCenterUnauthorizedUsersGrid() {}
