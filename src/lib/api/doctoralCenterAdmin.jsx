@@ -35,7 +35,7 @@ export default function DoctoralCenterAdminAPI() {
     return await route({
       url: `${API_URL}/unauthorized-users/is-allowed?isAllowed=${isAllowed}`,
       method: "PATCH",
-      body: oid
+      body: { oid: oid }
     });
   };
 
