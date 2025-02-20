@@ -1,23 +1,51 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+
+import Checkbox from "@mui/material/Checkbox";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
 export default function UnauthorizedUsersGridData() {
   const [rows, setRows] = useState([new UnauthorizedUsers()]);
-  const [getUnauthorizedLoading, setGetUnauthorizedLoading] = useState(false);
-  const { fetchUnauthorizedUsers } = DoctoralCenterAdminAPI();
+  const { fetchUnauthorizedUsers, setUnauthorizedUserIsAllowed } =
+    DoctoralCenterAdminAPI();
+
+  const { logNotifyAlert, logAlert } = APIWrapper();
+
+  const changeIsAllowedOnClick = async (oid, email, isAllowed) => {
+    const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
+
+    if (result != []) {
+      const allowedMsg = isAllowed ? "позволен" : "забранен";
+
+      logNotifyAlert({
+        title: `Неудостоверен потребител ${allowedMsg} в системата`,
+        description: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
+        message: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
+        action: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
+        level: "success",
+        scope: "group",
+        group: "admin"
+      });
+    } else {
+      logAlert({
+        message: `Проблем при сменяне на позволяване статуса на неудостоверен потребител`,
+        description: `Проблем при сменяне на позволяване статуса на неудостоверен потребител`,
+        action:
+          "Пробем при смяна на позволяване статус неудостоверен потребител",
+        level: "error"
+      });
+    }
+  };
 
   useEffect(() => {
     let interval;
     const getUnauthorizedUsers = async () => {
-      setGetUnauthorizedLoading(true);
       const unauthorizedUsers = await fetchUnauthorizedUsers();
 
       if (unauthorizedUsers != null) {
         setRows(UnauthorizedUsers.getList(unauthorizedUsers));
       }
-
-      setGetUnauthorizedLoading(false);
     };
 
     getUnauthorizedUsers();
@@ -49,6 +77,34 @@ export default function UnauthorizedUsersGridData() {
       align: "right",
       flex: 2,
       minWidth: 300
+    },
+    {
+      field: "isAllowed",
+      headerName: "Позволен ли е в систематай",
+      sortable: false,
+      headerAlign: "center",
+      align: "center",
+      filterable: false,
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <Checkbox
+            id={params.row.oid}
+            checked={
+              params.row.isAllowed == undefined ? false : params.row.isAllowed
+            }
+            onChange={() => {
+              params.row.isAllowed = !params.row.isAllowed;
+              changeIsAllowedOnClick(
+                params.row.oid,
+                params.row.email,
+                params.row.isAllowed
+              );
+            }}
+            inputProps={{ "aria-label": "controlled" }}
+          />
+        );
+      }
     }
   ];
 
@@ -58,7 +114,6 @@ export default function UnauthorizedUsersGridData() {
   return {
     rows,
     columns,
-    setRowsByParam,
-    getUnauthorizedLoading
+    setRowsByParam
   };
 }
