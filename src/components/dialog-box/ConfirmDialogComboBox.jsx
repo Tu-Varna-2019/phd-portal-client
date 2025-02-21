@@ -9,9 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   Autocomplete,
-  TextField,
-  Stack,
-  Box
+  TextField
 } from "@mui/material";
 
 export default function ConfirmDialogComboBox({
