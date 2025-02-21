@@ -38,7 +38,9 @@ export default function ClientRoute() {
         return [];
         // clear();
         // window.location.reload();
-      } else if (response.status == 500 || response.status == 401) {
+      } else if (response.status >= 400 && response.status <= 500) {
+        const result = await response.json();
+        console.error(`Client side error with error: ${result.message}`);
         return [];
       } else if (response.status == 200 || response.status == 201) {
         return await getContentTypeResponse(responseContentType, response);

@@ -5,9 +5,9 @@ const { route } = ServerRoute();
 
 export async function POST(request) {
   return await route({
-    url: url + "/role",
+    url: url + "/group",
     method: "POST",
     request: request,
-    queryParams: ["role"]
+    queryParams: ["group"]
   });
 }

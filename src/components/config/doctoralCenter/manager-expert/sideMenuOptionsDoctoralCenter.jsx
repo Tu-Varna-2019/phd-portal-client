@@ -12,9 +12,9 @@ export const sideMenuOptionsDoctoralCenter = [
     url: role
   },
   {
-    text: "Удостоверени потребители",
+    text: "Неудостоверени потребители",
     icon: <AccountCircleIcon />,
-    url: role + "/authorized-users"
+    url: role + "/unauthorized-users"
   },
   {
     text: "Кандидатури",

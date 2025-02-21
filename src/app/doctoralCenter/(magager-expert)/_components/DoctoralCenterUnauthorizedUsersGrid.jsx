@@ -12,7 +12,7 @@ import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 
-export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
+export default function DoctoralCenterUnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam } = UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);
   const [groupOption, setGroupOption] = useState("");
@@ -21,8 +21,12 @@ export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
 
   const { logNotifyAlert } = APIWrapper();
 
-  const optionsEN = ["expert", "manager", "admin"];
-  const optionsBG = ["експерт", "ръководител", "администратор"];
+  const optionsEN = ["phd", "committee", "supervisor"];
+  const optionsBG = [
+    "докторант",
+    "член от комитет",
+    "ръководител на докторант"
+  ];
 
   const onAutocompleteChange = (index, _) => {
     setGroupOption(optionsEN[index]);

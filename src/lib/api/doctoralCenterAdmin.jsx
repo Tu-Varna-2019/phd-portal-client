@@ -23,11 +23,19 @@ export default function DoctoralCenterAdminAPI() {
     return await route({ url: `${API_BASE_URL}/logs`, method: "GET" });
   };
 
-  const setUnauthorizedUserRoles = async (unauthUsers, roleOption) => {
+  const setUnauthorizedUserGroup = async (unauthUsers, group) => {
     return await route({
-      url: `${API_URL}/unauthorized-users/role?role=${roleOption}`,
+      url: `${API_URL}/unauthorized-users/group?group=${group}`,
       method: "POST",
       body: unauthUsers
+    });
+  };
+
+  const setUnauthorizedUserIsAllowed = async (oid, isAllowed) => {
+    return await route({
+      url: `${API_URL}/unauthorized-users/is-allowed?isAllowed=${isAllowed}`,
+      method: "PATCH",
+      body: { oid: oid }
     });
   };
 
@@ -49,8 +57,9 @@ export default function DoctoralCenterAdminAPI() {
   return {
     fetchAutorizedUsers,
     fetchUnauthorizedUsers,
-    setUnauthorizedUserRoles,
+    setUnauthorizedUserGroup,
     deleteAuthorizedUser,
-    getLogs
+    getLogs,
+    setUnauthorizedUserIsAllowed
   };
 }

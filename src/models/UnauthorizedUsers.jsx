@@ -6,16 +6,17 @@ export default class UnauthorizedUsers {
   oid;
   name;
   email;
-  role;
+  isAllowed;
   timestamp;
   #formattedTimestamp;
 
-  constructor(oid, name, email, role, timestamp) {
+  constructor(oid, name, email, role, isAllowed, timestamp) {
     this.oid = oid;
     this.name = name;
     this.email = email;
     this.role = role;
     this.timestamp = timestamp;
+    this.isAllowed = isAllowed;
   }
 
   static getList(unauthUsers) {
@@ -62,6 +63,6 @@ createModelSchema(UnauthorizedUsers, {
   oid: primitive(),
   name: primitive(),
   email: primitive(),
-  role: primitive(),
+  isAllowed: primitive(),
   timestamp: date()
 });

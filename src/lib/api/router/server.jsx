@@ -97,6 +97,11 @@ export default function ServerRoute() {
     switch (response.status) {
       case 401:
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
+      case 400:
+        return NextResponse.json(
+          { message: `NextJS Api route client error` },
+          { status: 400 }
+        );
 
       case 200:
       case 201:
@@ -105,7 +110,7 @@ export default function ServerRoute() {
           const data = getResultData ? result.data : result;
 
           // NOTE: Disable logging API response for notifications
-          if (!url.endsWith("/notify")) {
+          if (!url.endsWith("notifiy")) {
             console.log(`API response: ${JSON.stringify(data)}`);
           }
           return NextResponse.json(data, {
