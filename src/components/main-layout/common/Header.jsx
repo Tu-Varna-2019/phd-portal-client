@@ -12,7 +12,6 @@ import { useAppDispatch } from "@/lib/features/constants";
 import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
 import { useSelector } from "react-redux";
 import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
-import { usePathname } from "next/navigation";
 
 export default function Header({ headerTitle, basePath }) {
   const dispatch = useAppDispatch();

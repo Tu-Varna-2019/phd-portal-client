@@ -1,16 +1,35 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
-import Checkbox from "@mui/material/Checkbox";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
-import APIWrapper from "@/lib/helpers/APIWrapper";
+import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
 
 export default function UnauthorizedUsersGridData() {
   const [rows, setRows] = useState([new UnauthorizedUsers()]);
   const { fetchUnauthorizedUsers, setUnauthorizedUserIsAllowed } =
     DoctoralCenterAdminAPI();
-
   const { logNotifyAlert, logAlert } = APIWrapper();
+
+  useEffect(() => {
+    let interval;
+    const getUnauthorizedUsers = async () => {
+      const unauthorizedUsers = await fetchUnauthorizedUsers();
+
+      if (unauthorizedUsers != null) {
+        setRows(UnauthorizedUsers.getList(unauthorizedUsers));
+      }
+    };
+
+    getUnauthorizedUsers();
+    interval = setInterval(() => {
+      getUnauthorizedUsers();
+    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+  }, [setRows]);
+
+  const setRowsByParam = (rows) => {
+    setRows(rows);
+  };
 
   const changeIsAllowedOnClick = async (oid, email, isAllowed) => {
     const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
@@ -38,79 +57,8 @@ export default function UnauthorizedUsersGridData() {
     }
   };
 
-  useEffect(() => {
-    let interval;
-    const getUnauthorizedUsers = async () => {
-      const unauthorizedUsers = await fetchUnauthorizedUsers();
+  const { columns } = UnauthorizedUsersColunms(changeIsAllowedOnClick);
 
-      if (unauthorizedUsers != null) {
-        setRows(UnauthorizedUsers.getList(unauthorizedUsers));
-      }
-    };
-
-    getUnauthorizedUsers();
-    interval = setInterval(() => {
-      getUnauthorizedUsers();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
-  }, [setRows]);
-
-  const columns = [
-    { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 200 },
-    {
-      field: "name",
-      headerName: "Име",
-      flex: 1,
-      minWidth: 150
-    },
-    {
-      field: "email",
-      headerName: "Имейл",
-      headerAlign: "right",
-      align: "right",
-      flex: 1,
-      minWidth: 80
-    },
-    {
-      field: "formattedTimestamp",
-      headerName: "Време на достъп",
-      headerAlign: "right",
-      align: "right",
-      flex: 2,
-      minWidth: 300
-    },
-    {
-      field: "isAllowed",
-      headerName: "Позволен ли е в систематай",
-      sortable: false,
-      headerAlign: "center",
-      align: "center",
-      filterable: false,
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <Checkbox
-            id={params.row.oid}
-            checked={
-              params.row.isAllowed == undefined ? false : params.row.isAllowed
-            }
-            onChange={() => {
-              params.row.isAllowed = !params.row.isAllowed;
-              changeIsAllowedOnClick(
-                params.row.oid,
-                params.row.email,
-                params.row.isAllowed
-              );
-            }}
-            inputProps={{ "aria-label": "controlled" }}
-          />
-        );
-      }
-    }
-  ];
-
-  const setRowsByParam = (rows) => {
-    setRows(rows);
-  };
   return {
     rows,
     columns,

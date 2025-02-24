@@ -7,6 +7,7 @@ import { Button, ButtonGroup, Stack } from "@mui/material";
 import EventManagementGridData from "../_lib/EventManagementGridData";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
+import { eventColumns } from "../_constants/eventConstants";
 
 const initialFilterBtnVal = {
   description: false,
@@ -31,7 +32,7 @@ const filterBtnNameBulgarian = [
 ];
 
 export default function DoctoralCenterAdminEventManagementGrid() {
-  const { rows, columns, getLogsLoading } = EventManagementGridData();
+  const { rows, getLogsLoading } = EventManagementGridData();
   const [filterLogs, setFilterLogs] = useState([]);
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
 
@@ -122,7 +123,7 @@ export default function DoctoralCenterAdminEventManagementGrid() {
                 </Stack>
                 <DataGrid
                   rows={filterLogs}
-                  columns={columns}
+                  columns={eventColumns}
                   getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
                   }

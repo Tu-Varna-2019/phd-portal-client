@@ -2,7 +2,6 @@ import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import StatCard from "@/common/StatCard";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
@@ -18,16 +17,6 @@ import { Pagination } from "@mui/material";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import Log from "@/models/Log";
 
-const statCardStruct = [
-  {
-    title: "Събития",
-    value: 0,
-    interval: "Последните 30 дни",
-    trend: "neutral",
-    data: []
-  }
-];
-
 export default function DoctoralCenterAdminHomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const [userGroupsData, setUserGroupsData] = useState(userGroupsLabelStuct);
@@ -40,7 +29,6 @@ export default function DoctoralCenterAdminHomeGrid() {
   const [logs, setLogs] = useState([]);
   const [users, setUsers] = useState([]); // NOTE: Needed for the dashboard users to be rendered
   const [logsTotalSize, setLogsTotalSize] = useState(0);
-  const [statCardData, setStatCardData] = useState(statCardStruct);
   const [logsPaginaiton, setLogsPagination] = useState(1);
 
   const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
@@ -53,7 +41,6 @@ export default function DoctoralCenterAdminHomeGrid() {
       const unauthorizedUsers = await fetchUnauthorizedUsers();
 
       setUsers([].concat(authUsers).concat(unauthorizedUsers));
-
       setUserGroupsData(
         assignUserGroupsDataValue(
           userGroupsLabelStuct,
@@ -88,20 +75,11 @@ export default function DoctoralCenterAdminHomeGrid() {
     if (logs != []) {
       setLogsChartData(assignLogsDataValue(CURRENT_YEAR));
       setSelectedYear(CURRENT_YEAR);
-      setStatCardDataset();
-
       const years = Log.getLogYears(logs);
       setLogsByYear(years);
       setLogsPagination(years.findIndex((year) => year == CURRENT_YEAR) + 1);
     }
   }, [logs]);
-
-  const setStatCardDataset = () => {
-    const statCardResult = statCardStruct;
-
-    statCardResult[0].value = logsByYear.length;
-    setStatCardData(statCardResult);
-  };
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
     const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
@@ -173,15 +151,6 @@ export default function DoctoralCenterAdminHomeGrid() {
         Добре дошли {doctoralCenter.name}
       </Typography>
 
-      {Array.isArray(statCardData) ? (
-        statCardData.map((card, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <StatCard {...card} />
-          </Grid>
-        ))
-      ) : (
-        <></>
-      )}
       <Grid
         container
         spacing={2}
