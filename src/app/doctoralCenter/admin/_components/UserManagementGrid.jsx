@@ -1,45 +1,22 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import UserManagementGridData from "../_lib/UserManagementGridData";
 import { DataGrid } from "@mui/x-data-grid";
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import AlertBox from "@/common/AlertBox";
-import APIWrapper from "@/helpers/APIWrapper";
 import Loading from "@/app/loading";
+import { UserManagementHook } from "../_hooks/userManagementHook2";
 
-export default function DoctoralCenterAdminUserManagementGrid() {
+export default function UserManagementGrid() {
   const {
+    buttonConfirmOnClick,
     rows,
+    getAuthorizedUsers,
     dialogTitle,
     dialogContent,
     columns,
     openDialogBoxYesNo,
-    setOpenDialogBoxYesNo,
-    selectedUser,
-    setRows,
-    getAuthorizedUsers
-  } = UserManagementGridData();
-
-  const { logNotifyAlert } = APIWrapper();
-  const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
-
-  const buttonConfirmOnClick = async () => {
-    await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
-
-    logNotifyAlert({
-      title: `Потребител ${selectedUser.name} е изтрит от системата`,
-      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.role}`,
-      message: `Потребител ${selectedUser.name} е изтрит от системата`,
-      action: `Потребител ${selectedUser.name} е изтрит от системата`,
-      level: "success",
-      scope: "group",
-      group: "admin"
-    });
-
-    const updatedRows = rows.filter((elem) => elem.oid !== selectedUser.oid);
-    setRows(updatedRows);
-  };
+    setOpenDialogBoxYesNo
+  } = UserManagementHook();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>

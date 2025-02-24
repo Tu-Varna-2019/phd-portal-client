@@ -4,8 +4,9 @@ import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { UserManagementColunms } from "../_constants/userManagementColumns";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
-export default function UserManagementGridData() {
+export const UserManagementRowsHook = () => {
   const [rows, setRows] = useState([]);
   const [menuAnchor, setMenuAnchor] = useState(false);
   const [openDialogBoxYesNo, setOpenDialogBoxYesNo] = useState(false);
@@ -79,4 +80,49 @@ export default function UserManagementGridData() {
     dialogContent,
     getAuthorizedUsers
   };
-}
+};
+
+export const UserManagementHook = () => {
+  const {
+    rows,
+    dialogTitle,
+    dialogContent,
+    columns,
+    openDialogBoxYesNo,
+    setOpenDialogBoxYesNo,
+    selectedUser,
+    setRows,
+    getAuthorizedUsers
+  } = UserManagementRowsHook();
+
+  const { logNotifyAlert } = APIWrapper();
+  const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
+
+  const buttonConfirmOnClick = async () => {
+    await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
+
+    logNotifyAlert({
+      title: `Потребител ${selectedUser.name} е изтрит от системата`,
+      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.role}`,
+      message: `Потребител ${selectedUser.name} е изтрит от системата`,
+      action: `Потребител ${selectedUser.name} е изтрит от системата`,
+      level: "success",
+      scope: "group",
+      group: "admin"
+    });
+
+    const updatedRows = rows.filter((elem) => elem.oid !== selectedUser.oid);
+    setRows(updatedRows);
+  };
+
+  return {
+    buttonConfirmOnClick,
+    rows,
+    getAuthorizedUsers,
+    dialogTitle,
+    dialogContent,
+    columns,
+    openDialogBoxYesNo,
+    setOpenDialogBoxYesNo
+  };
+};

@@ -1,81 +1,27 @@
 import Grid from "@mui/material/Grid2";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
-import UnauthorizedUsersGridData from "../_lib/UnauthorizedUsersGridData";
 import AlertBox from "@/common/AlertBox";
-import { useAppDispatch } from "@/features/constants";
+import { UnauthorizedUsersHook } from "../_hooks/unauthorizedUsersHook";
 
-import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
-import UnauthorizedUsers from "@/models/UnauthorizedUsers";
-import APIWrapper from "@/lib/helpers/APIWrapper";
-
-export default function DoctoralCenterAdminUnauthorizedUsersGrid() {
-  const { rows, columns, setRowsByParam } = UnauthorizedUsersGridData();
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [groupOption, setGroupOption] = useState("");
-  const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
-  const dispatch = useAppDispatch();
-
-  const { logNotifyAlert } = APIWrapper();
-
-  const optionsEN = ["expert", "manager", "admin"];
-  const optionsBG = ["експерт", "ръководител", "администратор"];
-
-  const onAutocompleteChange = (index, _) => {
-    setGroupOption(optionsEN[index]);
-  };
-
-  const setGroups = async (unauthorizedUsers) => {
-    const normalizedUnauthUsers =
-      UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
-
-    await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
-  };
-
-  const onButtonPermitOnClick = async () => {
-    const unauthorizedUsers = rows.filter((elem) =>
-      selectedRows.includes(elem.id)
-    );
-    await setGroups(unauthorizedUsers);
-
-    const message = [];
-    unauthorizedUsers.map((user) => {
-      message.push(
-        `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`
-      );
-
-      logNotifyAlert({
-        title: "Потребител добавен в системата",
-        description: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-        message: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-        action: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-        level: "success",
-        scope: "group",
-        group: "admin"
-      });
-    });
-
-    dispatch(
-      setAlertBox({
-        message: message.join("\r\n"),
-        severity: "success"
-      })
-    );
-
-    const permittedUsers = rows.filter(
-      (elem) => !selectedRows.includes(elem.id)
-    );
-    setRowsByParam(permittedUsers);
-  };
+export default function UnauthorizedUsersGrid() {
+  const {
+    setSelectedRows,
+    rows,
+    columns,
+    optionsBG,
+    groupOption,
+    onButtonPermitOnClick,
+    onAutocompleteChange
+  } = UnauthorizedUsersHook();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Детайли
       </Typography>
+
       <Grid container spacing={2} columns={12} size={{ xs: 12, lg: 9 }}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <DataGrid

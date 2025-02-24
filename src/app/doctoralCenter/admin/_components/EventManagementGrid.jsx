@@ -2,23 +2,11 @@ import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Stack } from "@mui/material";
-import EventManagementGridData from "../_lib/EventManagementGridData";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
-
-const initialFilterBtnVal = {
-  description: false,
-  formattedTimestamp: false,
-  level: false,
-  action: false,
-  oid: false,
-  name: false,
-  email: false,
-  group: false
-};
+import { EventManagementFilterHook } from "../_hooks/eventManagementHook";
 
 const filterBtnNameBulgarian = [
   "Описание",
@@ -31,64 +19,21 @@ const filterBtnNameBulgarian = [
   "Група"
 ];
 
-export default function DoctoralCenterAdminEventManagementGrid() {
-  const { rows, getLogsLoading } = EventManagementGridData();
-  const [filterLogs, setFilterLogs] = useState([]);
-  const [filterState, setFilterState] = useState(initialFilterBtnVal);
-
-  const setAllFilters = (bool) => {
-    const filter = Object.fromEntries(
-      Object.entries(initialFilterBtnVal).map(([key]) => [key, bool])
-    );
-    return filter;
-  };
-
-  const isAnyFilterPressed = () => {
-    return Object.values(filterState).some((value) => value == true);
-  };
-
-  useEffect(() => {
-    setFilterLogs(rows);
-  }, [rows]);
-
-  const searchLogs = (event) => {
-    const filterActivation = isAnyFilterPressed()
-      ? filterState
-      : setAllFilters(true);
-
-    const searchInputFiltered = rows.filter((row) => {
-      return Object.keys(row).some((item) => {
-        if (filterActivation[item] && row[item] != null) {
-          return (
-            row[item].includes(event.target.value) ||
-            row[item].includes(event.target.value.toLowerCase())
-          );
-        } else return false;
-      });
-    });
-
-    if (event == "") setFilterLogs(rows);
-    else setFilterLogs(searchInputFiltered);
-  };
-
-  const setFilterStateOnClick = (key) => {
-    setFilterState((prev) => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
+export default function EventManagementGrid() {
+  const {
+    searchLogs,
+    setFilterStateOnClick,
+    getLogsLoading,
+    filterState,
+    filterLogs
+  } = EventManagementFilterHook();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Grid
-        container
-        spacing={2}
-        columns={12}
-        sx={{ mb: (theme) => theme.spacing(2) }}
-      ></Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Детайли
       </Typography>
+
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <Box>

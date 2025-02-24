@@ -1,16 +1,18 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
-import DoctoralCenterAdminUserManagementGrid from "../_components/DoctoralCenterAdminUserManagementGrid";
+import UserManagementGrid from "../_components/UserManagementGrid";
+import { sideMenu } from "../_constants/sideMenuConstants";
+
+import { path } from "../_constants/pathConstant";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Управление на потребители"}
-      basePath={"/doctoralCenter/admin"}
-      MainView={<DoctoralCenterAdminUserManagementGrid />}
-      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
+      basePath={path}
+      MainView={<UserManagementGrid />}
+      mainListItems={sideMenu}
     />
   );
 }
