@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
-import { CURRENT_YEAR, getMonth, runPeriodically } from "@/helpers/utils";
+import { getMonth, runPeriodically } from "@/helpers/utils";
 import {
   logBarChartSeriesStruct,
   userGroupsLabelStuct,
@@ -23,13 +23,10 @@ export default function HomeGrid() {
   const [userGroupsChartData, setUserGroupsChartData] = useState(
     userGroupsPieChartStruct
   );
-
-  const [logsChartData, setLogsChartData] = useState(logBarChartSeriesStruct);
-  const [logsByYear, setLogsByYear] = useState([]);
-  const [selectedLogYear, setSelectedYear] = useState();
   const [logs, setLogs] = useState([]);
-  const [logsTotalSize, setLogsTotalSize] = useState(0);
-  const [logsPaginaiton, setLogsPagination] = useState(1);
+  const [selectedYearLog, setSelectedYearLog] = useState();
+  const [selectedLogPaginationIndex, setLogPaginationIndex] = useState(1);
+  const [logsByYear, setLogsByYear] = useState(logBarChartSeriesStruct);
 
   const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
     DoctoralCenterAdminAPI();
@@ -63,21 +60,12 @@ export default function HomeGrid() {
   useEffect(() => {
     fetchLogs();
     fetchUsers();
-    return runPeriodically(() => {
+    const interval = runPeriodically(() => {
       fetchLogs();
       fetchUsers();
     });
+    return interval;
   }, [fetchUsers, fetchLogs]);
-
-  useEffect(() => {
-    if (logs != []) {
-      setLogsChartData(assignLogsDataValue(CURRENT_YEAR));
-      setSelectedYear(CURRENT_YEAR);
-      const years = Log.getLogYears(logs);
-      setLogsByYear(years);
-      setLogsPagination(years.findIndex((year) => year == CURRENT_YEAR) + 1);
-    }
-  }, [logs]);
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
     const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
@@ -89,29 +77,50 @@ export default function HomeGrid() {
     return Log.getTwelveMonthsArrNum(levelSpecificLogs);
   };
 
-  const assignLogsDataValue = (year) => {
+  const getLogsByYear = (year) => {
     const barChartStuct = logBarChartSeriesStruct;
-
-    let totalLogs = 0;
     barChartStuct.forEach((_, index) => {
       barChartStuct[index].data = aggregateLogsByYearMonths(
         barChartStuct[index].id,
         year
       );
-      totalLogs += barChartStuct[index].data.reduce(
+    });
+    return barChartStuct;
+  };
+
+  const sumOfLogsByYear = useMemo(() => {
+    let totalLogs = 0;
+    logBarChartSeriesStruct.forEach((_, index) => {
+      logBarChartSeriesStruct[index].data = aggregateLogsByYearMonths(
+        logBarChartSeriesStruct[index].id,
+        selectedYearLog
+      );
+      totalLogs += logBarChartSeriesStruct[index].data.reduce(
         (prev, currentValue) => (prev = prev + currentValue)
       );
     });
 
-    setLogsTotalSize(totalLogs);
+    return totalLogs;
+  }, [selectedYearLog, logsByYear]);
 
-    return barChartStuct;
-  };
+  const LogYears = useMemo(() => {
+    const years = Log.getLogYears(logs);
+    return years || [];
+  }, [logs]);
+
+  useEffect(() => {
+    const years = Log.getLogYears(logs);
+    const latestYear = Array.from(years).pop();
+
+    setSelectedYearLog(latestYear);
+    setLogsByYear(getLogsByYear(latestYear));
+    setLogPaginationIndex(years.length);
+  }, [logs]);
 
   const logYearChangeOnClick = (_, value) => {
-    setLogsPagination(value);
-    assignLogsDataValue(logsByYear[value - 1]);
-    setSelectedYear(logsByYear[value - 1]);
+    setLogPaginationIndex(value);
+    setSelectedYearLog(LogYears[value - 1]);
+    setLogsByYear(getLogsByYear(LogYears[value - 1]));
   };
 
   const assignUserGroupsDataValue = (
@@ -168,15 +177,15 @@ export default function HomeGrid() {
 
         <Grid size={{ xs: 12, md: 6 }}>
           <BarChartDashboard
-            title={`Събития за година ${selectedLogYear}`}
+            title={`Събития за година ${selectedYearLog}`}
             description={"Времева линия на събитията"}
-            avgValue={logsTotalSize}
-            logsBarChartSeries={logsChartData}
+            avgValue={sumOfLogsByYear}
+            logsBarChartSeries={logsByYear}
           />
           <Pagination
-            page={logsPaginaiton}
+            page={selectedLogPaginationIndex}
             color="primary"
-            count={logsByYear.length}
+            count={LogYears.length}
             onChange={logYearChangeOnClick}
           />
         </Grid>
