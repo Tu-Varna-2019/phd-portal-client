@@ -55,3 +55,6 @@ export const eventColumns = [
     minWidth: 300
   }
 ];
+
+export const optionsEN = ["expert", "manager", "admin"];
+export const optionsBG = ["експерт", "ръководител", "администратор"];

@@ -4,13 +4,13 @@ import { Box, Typography } from "@mui/material";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 import AlertBox from "@/common/AlertBox";
 import { UnauthorizedUsersHook } from "../_hooks/unauthorizedUsersHook";
+import { optionsBG } from "../_constants/eventConstants";
 
 export default function UnauthorizedUsersGrid() {
   const {
-    setSelectedRows,
-    rows,
+    setSelectedUsers,
+    unauthUsers,
     columns,
-    optionsBG,
     groupOption,
     onButtonPermitOnClick,
     onAutocompleteChange
@@ -27,9 +27,9 @@ export default function UnauthorizedUsersGrid() {
           <DataGrid
             checkboxSelection
             onRowSelectionModelChange={(selectedRows) =>
-              setSelectedRows(selectedRows)
+              setSelectedUsers(selectedRows)
             }
-            rows={rows}
+            rows={unauthUsers}
             columns={columns}
             getRowClassName={(params) =>
               params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"

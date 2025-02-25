@@ -4,34 +4,35 @@ import { useAppDispatch } from "@/features/constants";
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
 import { runPeriodically } from "@/lib/helpers/utils";
+import { optionsEN } from "../_constants/eventConstants";
 
-export function UnauthorizedUsersRowsHook() {
-  const [rows, setRows] = useState([new UnauthorizedUsers()]);
-  const { fetchUnauthorizedUsers, setUnauthorizedUserIsAllowed } =
-    DoctoralCenterAdminAPI();
+export function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
+  const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
+  const dispatch = useAppDispatch();
+
+  const [unauthUsers, setUnauthUsers] = useState([]);
+  const { getUnauthorizedUsers, setUnauthorizedUserIsAllowed } =
+    DoctoralCenterAdminAPI();
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [groupOption, setGroupOption] = useState("");
+
+  const fetchUnauthorizedUsers = useCallback(async () => {
+    const unauthorizedUsers = await getUnauthorizedUsers();
+    if (unauthorizedUsers != []) {
+      setUnauthUsers(UnauthorizedUsers.getList(unauthorizedUsers));
+    }
+  }, []);
 
   useEffect(() => {
-    const getUnauthorizedUsers = async () => {
-      const unauthorizedUsers = await fetchUnauthorizedUsers();
-
-      if (unauthorizedUsers != null) {
-        setRows(UnauthorizedUsers.getList(unauthorizedUsers));
-      }
-    };
-
-    getUnauthorizedUsers();
-    runPeriodically(() => {
-      getUnauthorizedUsers();
+    fetchUnauthorizedUsers();
+    return runPeriodically(() => {
+      fetchUnauthorizedUsers();
     });
-  }, [setRows]);
-
-  const setRowsByParam = (rows) => {
-    setRows(rows);
-  };
+  }, [fetchUnauthorizedUsers]);
 
   const changeIsAllowedOnClick = async (oid, email, isAllowed) => {
     const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
@@ -58,44 +59,23 @@ export function UnauthorizedUsersRowsHook() {
       });
     }
   };
-
   const { columns } = UnauthorizedUsersColunms(changeIsAllowedOnClick);
-
-  return {
-    rows,
-    columns,
-    setRowsByParam
-  };
-}
-
-export const UnauthorizedUsersHook = () => {
-  const optionsEN = ["expert", "manager", "admin"];
-  const optionsBG = ["експерт", "ръководител", "администратор"];
-
-  const { rows, columns, setRowsByParam } = UnauthorizedUsersRowsHook();
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [groupOption, setGroupOption] = useState("");
-  const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
-  const dispatch = useAppDispatch();
-
-  const { logNotifyAlert } = APIWrapper();
 
   const onAutocompleteChange = (index, _) => {
     setGroupOption(optionsEN[index]);
   };
 
-  const setGroups = async (unauthorizedUsers) => {
+  const authorizeUsers = async (unauthorizedUsers) => {
     const normalizedUnauthUsers =
       UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
-
     await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
   };
 
   const onButtonPermitOnClick = async () => {
-    const unauthorizedUsers = rows.filter((elem) =>
-      selectedRows.includes(elem.id)
+    const unauthorizedUsers = unauthUsers.filter((elem) =>
+      selectedUsers.includes(elem.id)
     );
-    await setGroups(unauthorizedUsers);
+    await authorizeUsers(unauthorizedUsers);
 
     const message = [];
     unauthorizedUsers.map((user) => {
@@ -121,19 +101,18 @@ export const UnauthorizedUsersHook = () => {
       })
     );
 
-    const permittedUsers = rows.filter(
-      (elem) => !selectedRows.includes(elem.id)
+    const permittedUsers = unauthUsers.filter(
+      (elem) => !selectedUsers.includes(elem.id)
     );
-    setRowsByParam(permittedUsers);
+    setUnauthUsers(permittedUsers);
   };
 
   return {
-    rows,
+    unauthUsers,
     columns,
     onButtonPermitOnClick,
     onAutocompleteChange,
-    setSelectedRows,
-    optionsBG,
+    setSelectedUsers,
     groupOption
   };
-};
+}
