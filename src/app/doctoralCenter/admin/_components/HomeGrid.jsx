@@ -19,37 +19,21 @@ import Log from "@/models/Log";
 
 export default function HomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
-  const [userGroupsData, setUserGroupsData] = useState(userGroupsLabelStuct);
-  const [userGroupsChartData, setUserGroupsChartData] = useState(
-    userGroupsPieChartStruct
-  );
+
   const [logs, setLogs] = useState([]);
+  const [authUsers, setAuthUsers] = useState([]);
+  const [unauthUsers, setUnauthUsers] = useState([]);
+
   const [selectedYearLog, setSelectedYearLog] = useState();
   const [selectedLogPaginationIndex, setLogPaginationIndex] = useState(1);
   const [logsByYear, setLogsByYear] = useState(logBarChartSeriesStruct);
 
-  const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
+  const { getAuthorizedUsers, getUnauthorizedUsers, getLogs } =
     DoctoralCenterAdminAPI();
 
   const fetchUsers = useCallback(async () => {
-    const authUsers = await fetchAutorizedUsers();
-    const unauthorizedUsers = await fetchUnauthorizedUsers();
-
-    setUserGroupsData(
-      assignUserGroupsDataValue(
-        userGroupsLabelStuct,
-        authUsers,
-        unauthorizedUsers
-      )
-    );
-
-    setUserGroupsChartData(
-      assignUserGroupsDataValue(
-        userGroupsPieChartStruct,
-        authUsers,
-        unauthorizedUsers
-      )
-    );
+    setAuthUsers(await getAuthorizedUsers());
+    setUnauthUsers(await getUnauthorizedUsers());
   }, []);
 
   const fetchLogs = useCallback(async () => {
@@ -144,13 +128,29 @@ export default function HomeGrid() {
     return pieChartDataStruct;
   };
 
-  const getSumUsers = () => {
+  const userGroupsData = useMemo(() => {
+    return assignUserGroupsDataValue(
+      userGroupsLabelStuct,
+      authUsers,
+      unauthUsers
+    );
+  }, [authUsers, unauthUsers]);
+
+  const userGroupsChartData = useMemo(() => {
+    return assignUserGroupsDataValue(
+      userGroupsPieChartStruct,
+      authUsers,
+      unauthUsers
+    );
+  }, [authUsers, unauthUsers]);
+
+  const getSumUsers = useCallback(() => {
     const sum = userGroupsChartData.reduce(
       (total, item) => (total = total + item.value),
       0
     );
-    return sum;
-  };
+    return sum.toString();
+  }, [userGroupsChartData]);
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -168,7 +168,7 @@ export default function HomeGrid() {
           <Stack gap={2} direction={{ xs: "column", sm: "row", lg: "column" }}>
             <PieChartDiagram
               title={"Потребители в системата"}
-              chartAvgValue={getSumUsers().toString()}
+              chartAvgValue={getSumUsers()}
               pieChartLabels={userGroupsData}
               data={userGroupsChartData}
             />
