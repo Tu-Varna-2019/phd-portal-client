@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 
 import { useSelector } from "react-redux";
@@ -7,37 +7,35 @@ import { UserManagementColunms } from "../_constants/userManagementColumns";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
 
-export const UserManagementRowsHook = () => {
-  const [rows, setRows] = useState([]);
+export const UserManagementHook = () => {
+  const { logNotifyAlert } = APIWrapper();
+  const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
+  const doctoralCenter = useSelector(selectDoctoralCenter);
+  const { getAuthorizedUsers } = DoctoralCenterAdminAPI();
+
+  const [users, setUsers] = useState([]);
+
   const [menuAnchor, setMenuAnchor] = useState(false);
   const [openDialogBoxYesNo, setOpenDialogBoxYesNo] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
-  const [getAuthorizedUsers, setGetAuthorizedUsers] = useState(false);
 
-  const doctoralCenter = useSelector(selectDoctoralCenter);
-  const { fetchAutorizedUsers } = DoctoralCenterAdminAPI();
+  const fetchAuthorizedUsers = useCallback(async () => {
+    const authUsers = await getAuthorizedUsers();
+    if (authUsers != []) setUsers(authUsers);
+  }, []);
 
   useEffect(() => {
-    const getAuthUsers = async () => {
-      setGetAuthorizedUsers(true);
-      const authUsers = await fetchAutorizedUsers();
-
-      if (authUsers != null) setRows(authUsers);
-    };
-
-    getAuthUsers();
-    setGetAuthorizedUsers(false);
+    fetchAuthorizedUsers();
     runPeriodically(() => {
-      getAuthUsers();
-      setGetAuthorizedUsers(false);
+      fetchAuthorizedUsers();
     });
-  }, [setRows]);
+  }, [fetchAuthorizedUsers]);
 
-  const handleOpenMenu = (event, row) => {
+  const handleOpenMenu = (event, user) => {
     setMenuAnchor(event.currentTarget);
-    setSelectedUser(row);
+    setSelectedUser(user);
   };
 
   const onMenuClick = (option) => {
@@ -56,7 +54,7 @@ export const UserManagementRowsHook = () => {
     }
   };
 
-  const menuItemDisabled = () => {
+  const amISelected = () => {
     return selectedUser?.oid == doctoralCenter.oid;
   };
 
@@ -65,38 +63,8 @@ export const UserManagementRowsHook = () => {
     setMenuAnchor,
     handleOpenMenu,
     onMenuClick,
-    menuItemDisabled
+    amISelected
   );
-
-  return {
-    rows,
-    columns,
-    openDialogBoxYesNo,
-    setOpenDialogBoxYesNo,
-    columns,
-    selectedUser,
-    setRows,
-    dialogTitle,
-    dialogContent,
-    getAuthorizedUsers
-  };
-};
-
-export const UserManagementHook = () => {
-  const {
-    rows,
-    dialogTitle,
-    dialogContent,
-    columns,
-    openDialogBoxYesNo,
-    setOpenDialogBoxYesNo,
-    selectedUser,
-    setRows,
-    getAuthorizedUsers
-  } = UserManagementRowsHook();
-
-  const { logNotifyAlert } = APIWrapper();
-  const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
 
   const buttonConfirmOnClick = async () => {
     await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
@@ -111,14 +79,13 @@ export const UserManagementHook = () => {
       group: "admin"
     });
 
-    const updatedRows = rows.filter((elem) => elem.oid !== selectedUser.oid);
-    setRows(updatedRows);
+    const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
+    setUsers(updatedRows);
   };
 
   return {
     buttonConfirmOnClick,
-    rows,
-    getAuthorizedUsers,
+    users,
     dialogTitle,
     dialogContent,
     columns,
