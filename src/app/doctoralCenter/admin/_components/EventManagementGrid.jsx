@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Stack } from "@mui/material";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
-import { EventManagementFilterHook } from "../_hooks/eventManagementHook";
+import { EventManagementHook } from "../_hooks/eventManagementHook";
 
 const filterBtnNameBulgarian = [
   "Описание",
@@ -21,12 +21,12 @@ const filterBtnNameBulgarian = [
 
 export default function EventManagementGrid() {
   const {
-    searchLogs,
+    searchLogsOnChange,
     setFilterStateOnClick,
-    getLogsLoading,
+    logsLoading,
     filterState,
     filterLogs
-  } = EventManagementFilterHook();
+  } = EventManagementHook();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -37,7 +37,7 @@ export default function EventManagementGrid() {
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <Box>
-            {getLogsLoading ? (
+            {logsLoading ? (
               <>
                 <Typography
                   textAlign="center"
@@ -51,7 +51,7 @@ export default function EventManagementGrid() {
             ) : (
               <>
                 <Stack>
-                  <Search onChange={searchLogs} />
+                  <Search onChange={searchLogsOnChange} />
                   <ButtonGroup>
                     {Object.entries(filterState).map(([key, value], index) => {
                       return (

@@ -1,63 +1,63 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { formatDateTime, runPeriodically } from "@/helpers/utils";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-export function EventManagementRowsHook() {
-  const [rows, setRows] = useState([]);
-  const [getLogsLoading, setGetLogsLoading] = useState(false);
+const initialFilterBtnVal = {
+  description: false,
+  formattedTimestamp: false,
+  level: false,
+  action: false,
+  oid: false,
+  name: false,
+  email: false,
+  group: false
+};
+
+export function EventManagementHook() {
+  const [logs, setLogs] = useState([]);
+  const [filterLogs, setFilterLogs] = useState([]);
+  const [logsLoading, setLogsLoading] = useState(false);
   const { getLogs } = DoctoralCenterAdminAPI();
 
+  const flattenLogs = (logs) => {
+    let idCounter = 0;
+    if (logs != []) {
+      // TODO: Improve me!  Need to create a utils function for flattening object
+      logs.flat();
+      logs.forEach((log) => {
+        log.id = idCounter++;
+        log.formattedTimestamp = formatDateTime(log.timestamp);
+        log.oid = log.user.oid;
+        log.name = log.user.name;
+        log.email = log.user.email;
+        log.group = log.user.group;
+      });
+      return logs;
+    }
+    return [];
+  };
+
+  const fetchLogs = useCallback(async () => {
+    const logsResponse = flattenLogs(await getLogs());
+    if (logsResponse != logs) {
+      setLogsLoading(true);
+      setLogs(logsResponse);
+    }
+    setLogsLoading(false);
+  }, []);
+
   useEffect(() => {
-    const getServerLogs = async () => {
-      setGetLogsLoading(true);
-      const logs = await getLogs();
-
-      let idCounter = 0;
-      if (logs != null) {
-        // TODO: Improve me!  Need to create a utils function for flattening object
-        logs.flat();
-        logs.forEach((log) => {
-          log.id = idCounter++;
-          log.formattedTimestamp = formatDateTime(log.timestamp);
-          log.oid = log.user.oid;
-          log.name = log.user.name;
-          log.email = log.user.email;
-          log.group = log.user.group;
-        });
-        setRows(logs);
-      }
-
-      setGetLogsLoading(false);
-    };
-
-    getServerLogs();
+    fetchLogs();
     runPeriodically(() => {
-      getServerLogs();
+      fetchLogs();
     });
-  }, [setRows]);
+  }, [fetchLogs]);
 
-  return {
-    rows,
-    getLogsLoading,
-    setRows
-  };
-}
-
-export const EventManagementFilterHook = () => {
-  const initialFilterBtnVal = {
-    description: false,
-    formattedTimestamp: false,
-    level: false,
-    action: false,
-    oid: false,
-    name: false,
-    email: false,
-    group: false
-  };
-
-  const { rows, getLogsLoading } = EventManagementRowsHook();
-  const [filterLogs, setFilterLogs] = useState([]);
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
+
+  useEffect(() => {
+    setFilterLogs(logs);
+  }, [logs]);
 
   const setAllFilters = (bool) => {
     const filter = Object.fromEntries(
@@ -70,29 +70,27 @@ export const EventManagementFilterHook = () => {
     return Object.values(filterState).some((value) => value == true);
   };
 
-  useEffect(() => {
-    setFilterLogs(rows);
-  }, [rows]);
+  const searchLogsOnChange = useCallback(
+    (event) => {
+      const filterActivation = isAnyFilterPressed()
+        ? filterState
+        : setAllFilters(true);
 
-  const searchLogs = (event) => {
-    const filterActivation = isAnyFilterPressed()
-      ? filterState
-      : setAllFilters(true);
-
-    const searchInputFiltered = rows.filter((row) => {
-      return Object.keys(row).some((item) => {
-        if (filterActivation[item] && row[item] != null) {
-          return (
-            row[item].includes(event.target.value) ||
-            row[item].includes(event.target.value.toLowerCase())
-          );
-        } else return false;
+      const searchInputFiltered = logs.filter((row) => {
+        return Object.keys(row).some((item) => {
+          if (filterActivation[item] && row[item] != null) {
+            return (
+              row[item].includes(event.target.value) ||
+              row[item].includes(event.target.value.toLowerCase())
+            );
+          } else return false;
+        });
       });
-    });
 
-    if (event == "") setFilterLogs(rows);
-    else setFilterLogs(searchInputFiltered);
-  };
+      event == "" ? setFilterLogs(logs) : setFilterLogs(searchInputFiltered);
+    },
+    [filterState, logs, filterLogs]
+  );
 
   const setFilterStateOnClick = (key) => {
     setFilterState((prev) => ({
@@ -102,10 +100,10 @@ export const EventManagementFilterHook = () => {
   };
 
   return {
-    searchLogs,
+    searchLogsOnChange,
     setFilterStateOnClick,
-    getLogsLoading,
+    logsLoading,
     filterState,
     filterLogs
   };
-};
+}
