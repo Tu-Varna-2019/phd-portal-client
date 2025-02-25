@@ -8,22 +8,13 @@ import {
   userGroupsPieChartStruct
 } from "../_constants/dashboardConstants";
 
-export function HomeHook() {
-  const [logs, setLogs] = useState([]);
-  const [authUsers, setAuthUsers] = useState([]);
-  const [unauthUsers, setUnauthUsers] = useState([]);
+export function LogsHook() {
+  const { getLogs } = DoctoralCenterAdminAPI();
 
+  const [logs, setLogs] = useState([]);
   const [selectedYearLog, setSelectedYearLog] = useState();
   const [selectedLogPaginationIndex, setLogPaginationIndex] = useState(1);
   const [logsByYear, setLogsByYear] = useState(logBarChartSeriesStruct);
-
-  const { getAuthorizedUsers, getUnauthorizedUsers, getLogs } =
-    DoctoralCenterAdminAPI();
-
-  const fetchUsers = useCallback(async () => {
-    setAuthUsers(await getAuthorizedUsers());
-    setUnauthUsers(await getUnauthorizedUsers());
-  }, []);
 
   const fetchLogs = useCallback(async () => {
     const fetchedLogs = await getLogs();
@@ -32,13 +23,11 @@ export function HomeHook() {
 
   useEffect(() => {
     fetchLogs();
-    fetchUsers();
     const interval = runPeriodically(() => {
       fetchLogs();
-      fetchUsers();
     });
     return interval;
-  }, [fetchUsers, fetchLogs]);
+  }, [fetchLogs]);
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
     const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
@@ -96,6 +85,35 @@ export function HomeHook() {
     setLogsByYear(getLogsByYear(logYears[value - 1]));
   };
 
+  return {
+    selectedYearLog,
+    sumOfLogsByYear,
+    logsByYear,
+    selectedLogPaginationIndex,
+    logYearChangeOnClick,
+    logYears
+  };
+}
+
+export function UserHook() {
+  const [authUsers, setAuthUsers] = useState([]);
+  const [unauthUsers, setUnauthUsers] = useState([]);
+
+  const { getAuthorizedUsers, getUnauthorizedUsers } = DoctoralCenterAdminAPI();
+
+  const fetchUsers = useCallback(async () => {
+    setAuthUsers(await getAuthorizedUsers());
+    setUnauthUsers(await getUnauthorizedUsers());
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+    const interval = runPeriodically(() => {
+      fetchUsers();
+    });
+    return interval;
+  }, [fetchUsers]);
+
   const assignUserGroupsDataValue = (
     pieChartDataStruct,
     authUsers,
@@ -144,12 +162,6 @@ export function HomeHook() {
   return {
     getSumUsers,
     userGroupsData,
-    userGroupsChartData,
-    selectedYearLog,
-    sumOfLogsByYear,
-    logsByYear,
-    selectedLogPaginationIndex,
-    logYearChangeOnClick,
-    logYears
+    userGroupsChartData
   };
 }

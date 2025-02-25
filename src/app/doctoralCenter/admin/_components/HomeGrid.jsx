@@ -7,21 +7,20 @@ import BarChartDashboard from "@/common/BarChartDashboard";
 import { Pagination } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
-import { HomeHook } from "../_hooks/homeHook";
+import { LogsHook, UserHook } from "../_hooks/homeHook";
 
 export default function HomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const {
-    getSumUsers,
-    userGroupsData,
-    userGroupsChartData,
     selectedYearLog,
     sumOfLogsByYear,
     logsByYear,
     selectedLogPaginationIndex,
     logYearChangeOnClick,
     logYears
-  } = HomeHook();
+  } = LogsHook();
+
+  const { getSumUsers, userGroupsData, userGroupsChartData } = UserHook();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
