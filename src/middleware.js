@@ -55,8 +55,7 @@ const getCookiePath = (groupCookie, roleCookie) => {
 
   switch (groupCookie) {
     case "doctoralCenter":
-      if (roleCookie != null) cookie = groupCookie + "/" + roleCookie;
-      else cookie = groupCookie;
+      cookie = groupCookie + "/" + roleCookie;
       break;
     case ("phd", "committee"):
       cookie = groupCookie;

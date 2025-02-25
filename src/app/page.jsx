@@ -7,10 +7,7 @@ import Unauthorized from "./unauthorized";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/features/constants";
 import Auth from "@/lib/auth/auth";
-import {
-  setAccessToken,
-  setSessionToken
-} from "@/features/sessionToken/slices/sessionTokenSlice";
+import { setSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
 import UnauthorizedAPI from "@/api/unauthorized";
 
 // export const metadata = {
@@ -21,7 +18,7 @@ export default function Page() {
   const sessionToken = useSelector(selectSessionToken);
   const { evaluateGroup, silentLogin } = Auth();
   const dispatch = useAppDispatch();
-  const { fetchLogin } = UnauthorizedAPI();
+  const { login } = UnauthorizedAPI();
 
   // TODO: modularize this into one
   useEffect(() => {
@@ -29,15 +26,7 @@ export default function Page() {
       console.log("Triggering reLogin");
 
       const response = await silentLogin();
-      const userCreds = {
-        oid: response.idTokenClaims.oid,
-        name: response.idTokenClaims.name,
-        email: response.idTokenClaims.email,
-        timestamp: Date.now()
-      };
-
-      dispatch(setAccessToken(response.accessToken));
-      const loginResponse = await fetchLogin(userCreds);
+      const loginResponse = await login(response.accessToken);
 
       if ("data" in loginResponse) {
         dispatch(

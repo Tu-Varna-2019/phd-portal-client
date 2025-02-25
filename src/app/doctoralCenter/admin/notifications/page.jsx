@@ -1,15 +1,17 @@
 "use client";
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
 import NotificationGrid from "@/components/main-layout/app/NotificationsGrid";
 import Layout from "@/components/main-layout/Layout";
+
+import { path } from "../_constants/pathConstant";
+import { sideMenu } from "../_constants/sideMenuConstants";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Известия"}
-      basePath={"/doctoralCenter/admin"}
+      basePath={path}
       MainView={<NotificationGrid />}
-      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
+      mainListItems={sideMenu}
     />
   );
 }

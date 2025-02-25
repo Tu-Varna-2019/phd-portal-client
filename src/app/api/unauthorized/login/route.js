@@ -2,9 +2,8 @@ import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 // INFO: outliar to the rest of the endpoints
-export async function POST(request) {
+export async function POST() {
   try {
-    const body = await request.json();
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
     console.log(accessToken);
@@ -14,23 +13,19 @@ export async function POST(request) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`
-      },
-      body: JSON.stringify(body)
+      }
     });
 
     if (res.status == 401) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-
     const payload = await res.json();
+
     const loginLog = JSON.stringify(payload, (key, value) => {
       if (key === "picture") return undefined;
       return value;
     });
-
     console.log(`Login response: ${loginLog}`);
-    const isRoleAdmin =
-      "role" in payload.data && payload.data.role.role == "admin";
 
     const nextCookies = await cookies();
     nextCookies.set("group", payload.group, {
@@ -39,9 +34,7 @@ export async function POST(request) {
       sameSite: "Lax",
       secure: process.env.NODE_ENV != "production"
     });
-
-    // TODO: Improve this pls
-    if (isRoleAdmin) {
+    if ("role" in payload.data) {
       nextCookies.set("role", payload.data.role.role, {
         path: "/",
         httpOnly: true,
