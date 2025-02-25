@@ -11,6 +11,7 @@ import {
   candidatesPieChartStruct
 } from "@/components/config/doctoralCenter/manager-expert/dashboard";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import { runPeriodically } from "@/lib/helpers/utils";
 
 export default function DoctoralCenterHomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -24,7 +25,6 @@ export default function DoctoralCenterHomeGrid() {
   const { getCandidates } = DoctoralCenterAPI();
 
   useEffect(() => {
-    let interval;
     const fetchCandidates = async () => {
       const candidates = await getCandidates();
 
@@ -38,9 +38,9 @@ export default function DoctoralCenterHomeGrid() {
     };
 
     fetchCandidates();
-    interval = setInterval(() => {
+    runPeriodically(() => {
       fetchCandidates();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+    });
   }, [setCandidatesTotal, setCandidatesPieChartLabel, setCandidatesPieChart]);
 
   const setPieChartCandidates = (

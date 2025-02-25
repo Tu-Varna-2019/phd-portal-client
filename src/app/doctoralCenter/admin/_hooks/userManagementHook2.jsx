@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { UserManagementColunms } from "../_constants/userManagementColumns";
 import APIWrapper from "@/lib/helpers/APIWrapper";
+import { runPeriodically } from "@/lib/helpers/utils";
 
 export const UserManagementRowsHook = () => {
   const [rows, setRows] = useState([]);
@@ -19,7 +20,6 @@ export const UserManagementRowsHook = () => {
   const { fetchAutorizedUsers } = DoctoralCenterAdminAPI();
 
   useEffect(() => {
-    let interval;
     const getAuthUsers = async () => {
       setGetAuthorizedUsers(true);
       const authUsers = await fetchAutorizedUsers();
@@ -29,10 +29,10 @@ export const UserManagementRowsHook = () => {
 
     getAuthUsers();
     setGetAuthorizedUsers(false);
-    interval = setInterval(() => {
+    runPeriodically(() => {
       getAuthUsers();
       setGetAuthorizedUsers(false);
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+    });
   }, [setRows]);
 
   const handleOpenMenu = (event, row) => {

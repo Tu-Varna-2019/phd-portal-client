@@ -6,6 +6,7 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
+import { runPeriodically } from "@/lib/helpers/utils";
 
 export function UnauthorizedUsersRowsHook() {
   const [rows, setRows] = useState([new UnauthorizedUsers()]);
@@ -14,7 +15,6 @@ export function UnauthorizedUsersRowsHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
 
   useEffect(() => {
-    let interval;
     const getUnauthorizedUsers = async () => {
       const unauthorizedUsers = await fetchUnauthorizedUsers();
 
@@ -24,9 +24,9 @@ export function UnauthorizedUsersRowsHook() {
     };
 
     getUnauthorizedUsers();
-    interval = setInterval(() => {
+    runPeriodically(() => {
       getUnauthorizedUsers();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+    });
   }, [setRows]);
 
   const setRowsByParam = (rows) => {

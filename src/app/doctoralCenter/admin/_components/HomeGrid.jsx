@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
-import { CURRENT_YEAR, getMonth } from "@/helpers/utils";
+import { CURRENT_YEAR, getMonth, runPeriodically } from "@/helpers/utils";
 import {
   logBarChartSeriesStruct,
   userGroupsLabelStuct,
@@ -23,53 +23,51 @@ export default function HomeGrid() {
   const [userGroupsChartData, setUserGroupsChartData] = useState(
     userGroupsPieChartStruct
   );
+
   const [logsChartData, setLogsChartData] = useState(logBarChartSeriesStruct);
   const [logsByYear, setLogsByYear] = useState([]);
   const [selectedLogYear, setSelectedYear] = useState();
   const [logs, setLogs] = useState([]);
-  const [users, setUsers] = useState([]); // NOTE: Needed for the dashboard users to be rendered
   const [logsTotalSize, setLogsTotalSize] = useState(0);
   const [logsPaginaiton, setLogsPagination] = useState(1);
 
   const { fetchAutorizedUsers, fetchUnauthorizedUsers, getLogs } =
     DoctoralCenterAdminAPI();
 
+  const fetchUsers = useCallback(async () => {
+    const authUsers = await fetchAutorizedUsers();
+    const unauthorizedUsers = await fetchUnauthorizedUsers();
+
+    setUserGroupsData(
+      assignUserGroupsDataValue(
+        userGroupsLabelStuct,
+        authUsers,
+        unauthorizedUsers
+      )
+    );
+
+    setUserGroupsChartData(
+      assignUserGroupsDataValue(
+        userGroupsPieChartStruct,
+        authUsers,
+        unauthorizedUsers
+      )
+    );
+  }, []);
+
+  const fetchLogs = useCallback(async () => {
+    const fetchedLogs = await getLogs();
+    setLogs(fetchedLogs);
+  }, []);
+
   useEffect(() => {
-    let interval;
-    const getUsers = async () => {
-      const authUsers = await fetchAutorizedUsers();
-      const unauthorizedUsers = await fetchUnauthorizedUsers();
-
-      setUsers([].concat(authUsers).concat(unauthorizedUsers));
-      setUserGroupsData(
-        assignUserGroupsDataValue(
-          userGroupsLabelStuct,
-          authUsers,
-          unauthorizedUsers
-        )
-      );
-
-      setUserGroupsChartData(
-        assignUserGroupsDataValue(
-          userGroupsPieChartStruct,
-          authUsers,
-          unauthorizedUsers
-        )
-      );
-    };
-
-    const getServerLogs = async () => {
-      const fetchedLogs = await getLogs();
-      setLogs(fetchedLogs);
-    };
-
-    getServerLogs();
-    getUsers();
-    interval = setInterval(() => {
-      getServerLogs();
-      getUsers();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
-  }, [setUsers]);
+    fetchLogs();
+    fetchUsers();
+    return runPeriodically(() => {
+      fetchLogs();
+      fetchUsers();
+    });
+  }, [fetchUsers, fetchLogs]);
 
   useEffect(() => {
     if (logs != []) {

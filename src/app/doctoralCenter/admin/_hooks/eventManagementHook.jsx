@@ -1,5 +1,5 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
-import { formatDateTime } from "@/helpers/utils";
+import { formatDateTime, runPeriodically } from "@/helpers/utils";
 import { useEffect, useState } from "react";
 
 export function EventManagementRowsHook() {
@@ -8,7 +8,6 @@ export function EventManagementRowsHook() {
   const { getLogs } = DoctoralCenterAdminAPI();
 
   useEffect(() => {
-    let interval;
     const getServerLogs = async () => {
       setGetLogsLoading(true);
       const logs = await getLogs();
@@ -32,9 +31,9 @@ export function EventManagementRowsHook() {
     };
 
     getServerLogs();
-    interval = setInterval(() => {
+    runPeriodically(() => {
       getServerLogs();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+    });
   }, [setRows]);
 
   return {

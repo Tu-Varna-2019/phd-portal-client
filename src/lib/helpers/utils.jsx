@@ -116,3 +116,11 @@ export const createDataUrl = async ({ picture, fileType }) => {
     return null;
   }
 };
+
+export const runPeriodically = (func) => {
+  const interval = setInterval(
+    func,
+    process.env.NEXT_PUBLIC_FETCH_API_DURATION
+  );
+  return () => clearInterval(interval);
+};

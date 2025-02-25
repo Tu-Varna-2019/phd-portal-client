@@ -1,13 +1,13 @@
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useEffect, useState } from "react";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import { runPeriodically } from "@/lib/helpers/utils";
 
 export default function UnauthorizedUsersGridData() {
   const [rows, setRows] = useState([new UnauthorizedUsers()]);
   const { fetchUnauthorizedUsers } = DoctoralCenterAPI();
 
   useEffect(() => {
-    let interval;
     const getUnauthorizedUsers = async () => {
       const unauthorizedUsers = await fetchUnauthorizedUsers();
 
@@ -17,9 +17,9 @@ export default function UnauthorizedUsersGridData() {
     };
 
     getUnauthorizedUsers();
-    interval = setInterval(() => {
+    runPeriodically(() => {
       getUnauthorizedUsers();
-    }, process.env.NEXT_PUBLIC_FETCH_API_DURATION);
+    });
   }, [setRows]);
 
   const columns = [
