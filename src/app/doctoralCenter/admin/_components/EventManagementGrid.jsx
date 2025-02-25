@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { DataGrid } from "@mui/x-data-grid";
 import { Button, ButtonGroup, Stack } from "@mui/material";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
 import { EventManagementHook } from "../_hooks/eventManagementHook";
+import Table from "@/components/main-layout/common/Table";
 
 const filterBtnNameBulgarian = [
   "Описание",
@@ -66,45 +66,8 @@ export default function EventManagementGrid() {
                     })}
                   </ButtonGroup>
                 </Stack>
-                <DataGrid
-                  rows={filterLogs}
-                  columns={eventColumns}
-                  getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
-                  }
-                  initialState={{
-                    pagination: { paginationModel: { pageSize: 50 } }
-                  }}
-                  pageSizeOptions={[10, 20, 50]}
-                  disableColumnResize
-                  density="compact"
-                  slotProps={{
-                    filterPanel: {
-                      filterFormProps: {
-                        logicOperatorInputProps: {
-                          variant: "outlined",
-                          size: "small"
-                        },
-                        columnInputProps: {
-                          variant: "outlined",
-                          size: "small",
-                          sx: { mt: "auto" }
-                        },
-                        operatorInputProps: {
-                          variant: "outlined",
-                          size: "small",
-                          sx: { mt: "auto" }
-                        },
-                        valueInputProps: {
-                          InputComponentProps: {
-                            variant: "outlined",
-                            size: "small"
-                          }
-                        }
-                      }
-                    }
-                  }}
-                />
+
+                <Table rows={filterLogs} columns={eventColumns} />
               </>
             )}
           </Box>
