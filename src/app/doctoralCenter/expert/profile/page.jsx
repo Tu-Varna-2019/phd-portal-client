@@ -1,7 +1,7 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
+import ProfileGrid from "@/app/(common)/profile/_components/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";

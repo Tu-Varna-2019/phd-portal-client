@@ -2,15 +2,16 @@
 import Layout from "@/components/main-layout/Layout";
 
 import DoctoralCenterExamsGrid from "../_components/DoctoralCenterExamsGrid";
-import { sideMenuOptionsDoctoralCenter } from "@/components/config/doctoralCenter/manager-expert/sideMenuOptionsDoctoralCenter";
+import { sideMenu } from "../_constants/sideMenuConstants";
+import { path } from "../_constants/pathConstant";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Изпити"}
-      basePath={"/doctoralCenter"}
+      basePath={path}
       MainView={<DoctoralCenterExamsGrid />}
-      mainListItems={sideMenuOptionsDoctoralCenter}
+      mainListItems={sideMenu}
     />
   );
 }
