@@ -17,7 +17,7 @@ export default function UnauthorizedUsersGridData() {
     };
 
     getUnauthorizedUsers();
-    runPeriodically(() => {
+    return runPeriodically(() => {
       getUnauthorizedUsers();
     });
   }, [setRows]);

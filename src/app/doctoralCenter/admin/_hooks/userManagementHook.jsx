@@ -28,7 +28,7 @@ export const UserManagementHook = () => {
 
   useEffect(() => {
     fetchAuthorizedUsers();
-    runPeriodically(() => {
+    return runPeriodically(() => {
       fetchAuthorizedUsers();
     });
   }, [fetchAuthorizedUsers]);

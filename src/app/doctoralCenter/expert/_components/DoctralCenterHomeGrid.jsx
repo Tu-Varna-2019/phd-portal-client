@@ -38,7 +38,7 @@ export default function DoctoralCenterHomeGrid() {
     };
 
     fetchCandidates();
-    runPeriodically(() => {
+    return runPeriodically(() => {
       fetchCandidates();
     });
   }, [setCandidatesTotal, setCandidatesPieChartLabel, setCandidatesPieChart]);

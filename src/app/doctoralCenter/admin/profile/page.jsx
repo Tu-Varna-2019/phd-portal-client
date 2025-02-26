@@ -1,12 +1,12 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
 import { sideMenu } from "../_constants/sideMenuConstants";
+import ProfileGrid from "@/app/(common)/profile/_components/ProfileGrid";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);

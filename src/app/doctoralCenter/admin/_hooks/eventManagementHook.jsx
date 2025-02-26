@@ -1,6 +1,6 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { formatDateTime, runPeriodically } from "@/helpers/utils";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const initialFilterBtnVal = {
   description: false,
@@ -48,7 +48,7 @@ export function EventManagementHook() {
 
   useEffect(() => {
     fetchLogs();
-    runPeriodically(() => {
+    return runPeriodically(() => {
       fetchLogs();
     });
   }, [fetchLogs]);
