@@ -2,28 +2,27 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { path } from "./pathConstant";
 
-const role = "/doctoralCenter/admin";
-
-export const sideMenuOptionsDoctoralCenterAdmin = [
+export const sideMenu = [
   {
     text: "Начална страница",
     icon: <HomeRoundedIcon />,
-    url: role
+    url: path
   },
   {
     text: "Управление на събития",
     icon: <ReceiptLongIcon />,
-    url: role + "/event-management"
+    url: path + "/event-management"
   },
   {
     text: "Управление на  потребители",
     icon: <AccountCircleIcon />,
-    url: role + "/user-management"
+    url: path + "/user-management"
   },
   {
     text: "Неоторизирани потребители",
     icon: <NoAccountsIcon />,
-    url: role + "/unauthorized-users-management"
+    url: path + "/unauthorized-users-management"
   }
 ];

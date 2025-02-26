@@ -5,7 +5,8 @@ import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
-import { sideMenuOptionsDoctoralCenterAdmin } from "@/config/doctoralCenter/admin/sideMenuOptionsDoctoralCenterAdmin";
+import { path } from "../_constants/pathConstant";
+import { sideMenu } from "../_constants/sideMenuConstants";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -22,7 +23,7 @@ export default function Page() {
   return (
     <Layout
       headerTitle={"Профил"}
-      basePath={"/doctoralCenter/admin"}
+      basePath={path}
       MainView={
         <ProfileGrid
           user={user}
@@ -30,7 +31,7 @@ export default function Page() {
           setUser={setDoctoralCenter}
         />
       }
-      mainListItems={sideMenuOptionsDoctoralCenterAdmin}
+      mainListItems={sideMenu}
     />
   );
 }

@@ -11,7 +11,7 @@ import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoS
 export default function AuthHook() {
   const { handleLogin, evaluateGroup } = Auth();
   const dispatch = useAppDispatch();
-  const { fetchLogin } = UnauthorizedAPI();
+  const { login } = UnauthorizedAPI();
   const sessionToken = useSelector(selectSessionToken);
 
   // TODO: modularize this into one
@@ -19,14 +19,7 @@ export default function AuthHook() {
     const handleAuth = async () => {
       const response = await handleLogin();
       if (response) {
-        const userCreds = {
-          oid: response.idTokenClaims.oid,
-          name: response.idTokenClaims.name,
-          email: response.idTokenClaims.email,
-          timestamp: Date.now()
-        };
-
-        const loginResponse = await fetchLogin(userCreds, response.accessToken);
+        const loginResponse = await login(response.accessToken);
 
         if ("data" in loginResponse) {
           const session = {

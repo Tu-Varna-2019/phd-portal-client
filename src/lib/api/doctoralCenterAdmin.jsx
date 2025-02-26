@@ -8,11 +8,11 @@ const API_BASE_URL = "/api";
 export default function DoctoralCenterAdminAPI() {
   const { route } = ClientRoute();
 
-  const fetchAutorizedUsers = async () => {
+  const getAuthorizedUsers = async () => {
     return await route({ url: `${API_URL}/authorized-users`, method: "GET" });
   };
 
-  const fetchUnauthorizedUsers = async () => {
+  const getUnauthorizedUsers = async () => {
     return await route({
       url: `${API_URL}/unauthorized-users`,
       method: "GET"
@@ -55,8 +55,8 @@ export default function DoctoralCenterAdminAPI() {
   };
 
   return {
-    fetchAutorizedUsers,
-    fetchUnauthorizedUsers,
+    getAuthorizedUsers,
+    getUnauthorizedUsers,
     setUnauthorizedUserGroup,
     deleteAuthorizedUser,
     getLogs,
