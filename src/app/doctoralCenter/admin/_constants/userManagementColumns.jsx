@@ -2,11 +2,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
 
 export function UserManagementColunms(
+  selectedUserOid,
+  currentUserOid,
   menuAnchor,
   setMenuAnchor,
   handleOpenMenu,
-  onMenuClick,
-  menuItemDisabled
+  onMenuClick
 ) {
   const columns = [
     { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 200 },
@@ -54,7 +55,7 @@ export function UserManagementColunms(
             >
               <MenuItem
                 onClick={() => onMenuClick("delete")}
-                disabled={menuItemDisabled()}
+                disabled={selectedUserOid == currentUserOid}
               >
                 Премахни
               </MenuItem>

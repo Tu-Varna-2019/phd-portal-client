@@ -12,7 +12,7 @@ import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 
-export default function DoctoralCenterUnauthorizedUsersGrid() {
+export default function UnauthorizedUsersGrid() {
   const { rows, columns, setRowsByParam } = UnauthorizedUsersGridData();
   const [selectedRows, setSelectedRows] = useState([]);
   const [groupOption, setGroupOption] = useState("");

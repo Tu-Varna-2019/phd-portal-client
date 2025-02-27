@@ -48,17 +48,16 @@ export const UserManagementHook = () => {
         setOpenDialogBoxYesNo(true);
         setMenuAnchor(false);
         break;
+
       default:
         console.error("Menu option not found!!");
         break;
     }
   };
 
-  const amISelected = () => {
-    return selectedUser?.oid == doctoralCenter.oid;
-  };
-
   const { columns } = UserManagementColunms(
+    selectedUser?.oid,
+    doctoralCenter.oid,
     menuAnchor,
     setMenuAnchor,
     handleOpenMenu,

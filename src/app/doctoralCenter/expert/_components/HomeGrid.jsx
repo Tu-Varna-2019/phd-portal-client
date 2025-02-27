@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
 import {
   candidatesLabelStuct,
   candidatesPieChartStruct
-} from "@/components/config/doctoralCenter/manager-expert/dashboard";
+} from "../_constants/dashboardConstants";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 import { runPeriodically } from "@/lib/helpers/utils";
 
-export default function DoctoralCenterHomeGrid() {
+export default function HomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
 
   const [candidatesPieChartLabel, setCandidatesPieChartLabel] =
