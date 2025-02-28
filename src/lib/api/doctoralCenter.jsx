@@ -13,15 +13,24 @@ export default function DoctoralCenterAPI() {
     });
   };
 
-  const fetchUnauthorizedUsers = async () => {
+  const getUnauthorizedUsers = async () => {
     return await route({
       url: `${API_URL}/unauthorized-users`,
       method: "GET"
     });
   };
 
+  const setUnauthorizedUserGroup = async (unauthUsers, group) => {
+    return await route({
+      url: `${API_URL}/unauthorized-users/group?group=${group}`,
+      method: "POST",
+      body: unauthUsers
+    });
+  };
+
   return {
     getCandidates,
-    fetchUnauthorizedUsers
+    getUnauthorizedUsers,
+    setUnauthorizedUserGroup
   };
 }

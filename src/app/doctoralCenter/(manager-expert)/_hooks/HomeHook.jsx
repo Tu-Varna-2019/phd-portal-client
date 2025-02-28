@@ -29,39 +29,38 @@ export default function HomeHook() {
     return candidates.length;
   }, [candidates]);
 
-  const getChartCandidates = (
-    candidatesAgr,
-    candidatesStruct,
-    pieChartKeyName
-  ) => {
-    const candidateStatusesLangMapping = {
-      Чакащи: "waiting",
-      Приети: "accepted",
-      Отказани: "rejected"
-    };
+  const getChartCandidates = useCallback(
+    (candidatesStruct, pieChartKeyName) => {
+      const candidateStatusesLangMapping = {
+        Чакащи: "waiting",
+        Приети: "accepted",
+        Отказани: "rejected"
+      };
 
-    Object.entries(candidatesStruct).map(([_, value], index) => {
-      candidatesStruct[index].value = candidatesAgr.reduce(
-        (prev, currentValue) => {
-          if (
-            currentValue.status ==
-            candidateStatusesLangMapping[value[pieChartKeyName]]
-          )
-            prev++;
-          return prev;
-        },
-        0
-      );
-    });
-    return candidatesStruct;
-  };
+      Object.entries(candidatesStruct).map(([_, value], index) => {
+        candidatesStruct[index].value = candidates.reduce(
+          (prev, currentValue) => {
+            if (
+              currentValue.status ==
+              candidateStatusesLangMapping[value[pieChartKeyName]]
+            )
+              prev++;
+            return prev;
+          },
+          0
+        );
+      });
+      return candidatesStruct;
+    },
+    [candidates]
+  );
 
   const candidatesPieChartLabel = useMemo(() => {
-    return getChartCandidates(candidates, candidatesLabelStuct, "name");
+    return getChartCandidates(candidatesLabelStuct, "name");
   }, [candidates]);
 
   const candidatesPieChart = useMemo(() => {
-    return getChartCandidates(candidates, candidatesPieChartStruct, "label");
+    return getChartCandidates(candidatesPieChartStruct, "label");
   }, [candidates]);
 
   return {
