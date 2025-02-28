@@ -1,16 +1,17 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
 
-import DoctoralCenterExamsGrid from "../_components/DoctoralCenterExamsGrid";
-import { sideMenuOptionsDoctoralCenter } from "@/components/config/doctoralCenter/manager-expert/sideMenuOptionsDoctoralCenter";
+import { sideMenu } from "../_constants/sideMenuConstants";
+import { path } from "../_constants/pathConstant";
+import ExamsGrid from "../../(manager-expert)/_components/ExamsGrid";
 
 export default function Page() {
   return (
     <Layout
       headerTitle={"Изпити"}
-      basePath={"/doctoralCenter"}
-      MainView={<DoctoralCenterExamsGrid />}
-      mainListItems={sideMenuOptionsDoctoralCenter}
+      basePath={path}
+      MainView={<ExamsGrid />}
+      mainListItems={sideMenu}
     />
   );
 }

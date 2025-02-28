@@ -6,7 +6,7 @@ import CustomDatePicker from "./CustomDatePicker";
 import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
 import MenuButton from "./MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import NotificationAPI from "@/lib/api/notification";
 import { useAppDispatch } from "@/lib/features/constants";
 import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
@@ -21,21 +21,21 @@ export default function Header({ headerTitle, basePath }) {
   const bellSound = useRef();
   const { getNotifications } = NotificationAPI();
 
-  // useEffect(() => {
-  //   const getNotify = async () => {
-  //     const result = await getNotifications();
-  //
-  //     if (!(JSON.stringify(result) === JSON.stringify(notifications)))
-  //       bellSound.current.play();
-  //
-  //     dispatch(setNotifications(result));
-  //   };
-  //
-  //   bellSound.current = new Audio("/bell.wav");
-  //   return runPeriodically(() => {
-  //     getNotify();
-  //   });
-  // }, [getNotifications]);
+  const fetchNotifications = useCallback(async () => {
+    const result = await getNotifications();
+    if (!(JSON.stringify(result) === JSON.stringify(notifications))) {
+      bellSound.current.play();
+    }
+    dispatch(setNotifications(result));
+  }, []);
+
+  useEffect(() => {
+    bellSound.current = new Audio("/bell.wav");
+    fetchNotifications();
+    return runPeriodically(() => {
+      fetchNotifications();
+    });
+  }, [fetchNotifications]);
 
   return (
     <Stack

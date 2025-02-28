@@ -8,7 +8,6 @@
       "@/api/*": ["lib/api/*"],
       "@/router/*": ["lib/api/router/*"],
       "@/helpers/*": ["lib/helpers/*"],
-      "@/config/*": ["components/config/*"],
       "@/internals/*": ["components/main-layout/internals/*"],
       "@/common/*": ["components/main-layout/common/*"],
       "@/features/*": ["lib/features/*"]
