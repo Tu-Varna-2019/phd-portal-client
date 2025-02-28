@@ -23,10 +23,9 @@ export function LogsHook() {
 
   useEffect(() => {
     fetchLogs();
-    const interval = runPeriodically(() => {
+    return runPeriodically(() => {
       fetchLogs();
     });
-    return interval;
   }, [fetchLogs]);
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
@@ -108,10 +107,9 @@ export function UserHook() {
 
   useEffect(() => {
     fetchUsers();
-    const interval = runPeriodically(() => {
+    return runPeriodically(() => {
       fetchUsers();
     });
-    return interval;
   }, [fetchUsers]);
 
   const assignUserGroupsDataValue = (

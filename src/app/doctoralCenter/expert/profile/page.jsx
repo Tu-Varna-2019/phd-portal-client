@@ -1,18 +1,14 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
-
-import ProfileGrid from "@/components/main-layout/app/ProfileGrid";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
-import { sideMenuOptionsDoctoralCenter } from "@/config/doctoralCenter/manager-expert/sideMenuOptionsDoctoralCenter";
+import { path } from "../_constants/pathConstant";
+import ProfileGrid from "@/app/(common)/profile/_components/ProfileGrid";
+import { sideMenu } from "../_constants/sideMenuConstants";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
-  const doctoralCenterRoleLangMappings = {
-    expert: "Експерт",
-    manager: "Ръководител"
-  };
 
   const nameFields = ["Име", "Имейл"];
   const user = {
@@ -20,13 +16,13 @@ export default function Page() {
     email: doctoralCenter.email,
     picture: doctoralCenter.picture,
     pictureBlob: doctoralCenter.pictureBlob,
-    role: doctoralCenterRoleLangMappings[doctoralCenter.role.role]
+    role: "Експерт"
   };
 
   return (
     <Layout
       headerTitle={"Профил"}
-      basePath={"/doctoralCenter"}
+      basePath={path}
       MainView={
         <ProfileGrid
           user={user}
@@ -34,7 +30,7 @@ export default function Page() {
           setUser={setDoctoralCenter}
         />
       }
-      mainListItems={sideMenuOptionsDoctoralCenter}
+      mainListItems={sideMenu}
     />
   );
 }

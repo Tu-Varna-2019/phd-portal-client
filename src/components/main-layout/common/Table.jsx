@@ -4,7 +4,7 @@ export default function Table({
   rows,
   columns,
   checkboxEnabled = false,
-  onRowSelect = {}
+  onRowSelect
 }) {
   return (
     <DataGrid
