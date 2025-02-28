@@ -24,9 +24,10 @@ export const columns = [
   }
 ];
 
-export const optionsEN = [
+export const optionsBG = [
   "докторант",
   "член на комитета",
   "ръководител на докторант"
 ];
-export const optionsBG = ["phd", "committee", "supervisor"];
+
+export const optionsEN = ["phd", "committee", "supervisor"];

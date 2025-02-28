@@ -5,21 +5,21 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 import { runPeriodically } from "@/lib/helpers/utils";
 import { optionsEN } from "../_constants/unauthorizedUsersConstants";
+import { useAppDispatch } from "@/lib/features/constants";
 
 export default function UnauthorizedUsersHook() {
-  const { logNotifyAlert, logAlert } = APIWrapper();
-
+  const { logNotifyAlert } = APIWrapper();
   const [unauthUsers, setUnauthUsers] = useState([]);
   const { getUnauthorizedUsers, setUnauthorizedUserGroup } =
     DoctoralCenterAPI();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [groupOption, setGroupOption] = useState("");
+  const dispatch = useAppDispatch();
 
   const fetchUnauthorizedUsers = useCallback(async () => {
     const unauthorizedUsers = await getUnauthorizedUsers();
-    if (unauthorizedUsers != []) {
+    if (unauthorizedUsers != [])
       setUnauthUsers(UnauthorizedUsers.getList(unauthorizedUsers));
-    }
   }, []);
 
   useEffect(() => {
@@ -74,6 +74,7 @@ export default function UnauthorizedUsersHook() {
     unauthUsers,
     groupOption,
     onButtonPermitOnClick,
-    onAutocompleteChange
+    onAutocompleteChange,
+    setSelectedUsers
   };
 }

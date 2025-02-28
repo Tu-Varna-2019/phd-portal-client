@@ -11,7 +11,8 @@ export default function UnauthorizedUsersGrid() {
     unauthUsers,
     onAutocompleteChange,
     groupOption,
-    onButtonPermitOnClick
+    onButtonPermitOnClick,
+    setSelectedUsers
   } = UnauthorizedUsersHook();
 
   return (
@@ -23,7 +24,7 @@ export default function UnauthorizedUsersGrid() {
         <Grid size={{ xs: 12, lg: 9 }}>
           <Table
             checkboxEnabled={true}
-            // onRowSelect={(selectedRows) => setSelectedUsers(selectedRows)}
+            onRowSelect={(selectedRows) => setSelectedUsers(selectedRows)}
             rows={unauthUsers}
             columns={columns}
           />
