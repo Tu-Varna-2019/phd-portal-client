@@ -3,7 +3,7 @@ import Layout from "@/components/main-layout/Layout";
 
 import { sideMenu } from "../_constants/sideMenuConstants";
 import { path } from "../_constants/pathConstant";
-import ExamsGrid from "../_components/ExamsGrid";
+import ExamsGrid from "../../(manager-expert)/_components/ExamsGrid";
 
 export default function Page() {
   return (

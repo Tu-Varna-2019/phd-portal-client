@@ -2,7 +2,7 @@
 import Layout from "@/components/main-layout/Layout";
 import { path } from "../_constants/pathConstant";
 import { sideMenu } from "../_constants/sideMenuConstants";
-import UnauthorizedUsersGrid from "../_components/UnauthorizedUsersGrid";
+import UnauthorizedUsersGrid from "../../(manager-expert)/_components/UnauthorizedUsersGrid";
 
 export default function Page() {
   return (
