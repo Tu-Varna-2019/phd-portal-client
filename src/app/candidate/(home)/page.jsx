@@ -1,16 +1,15 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
-
-import { path } from "../_constants/pathConstant";
+import HomeGrid from "../_components/HomeGrid";
 import { sideMenu } from "../_constants/sideMenuConstants";
-import NotificationsGrid from "@/app/(common)/_notifications/_components/NotificationsGrid";
+import { path } from "../_constants/pathConstant";
 
 export default function Page() {
   return (
     <Layout
-      headerTitle={"Известия"}
+      headerTitle={"Начална страница"}
+      MainView={<HomeGrid />}
       basePath={path}
-      MainView={<NotificationsGrid />}
       mainListItems={sideMenu}
     />
   );

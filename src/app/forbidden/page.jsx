@@ -1,12 +1,15 @@
 "use client";
 
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
-import HelpIcon from "@mui/icons-material/Help";
-import CssBaseline from "@mui/material/CssBaseline";
 import HomeIcon from "@mui/icons-material/Home";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import CancelIcon from "@mui/icons-material/Cancel";
 import AppTheme from "@/components/shared-theme/AppTheme";
+import Auth from "@/lib/auth/auth";
 
-const NotFoundErrorPage = () => {
+export default function Page() {
+  const { handleLogout } = Auth();
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -33,19 +36,17 @@ const NotFoundErrorPage = () => {
         >
           <Paper elevation={3} sx={{ padding: 4 }}>
             <Box>
-              <HelpIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+              <CancelIcon color="lightskyblue" sx={{ fontSize: 60 }} />
             </Box>
 
-            <title>404 Not Found</title>
-
             <Typography variant="h4" color="info" gutterBottom>
-              404 Страницата на съществува
+              403 - Забранен
             </Typography>
 
             <Typography variant="body1">
-              За съжаление не можахме да намерим страницата, която търсите. :(
+              Вие нямате необходимата оторизация да достъпите тази страница.
+              Моля свържете се с администратора за достъп.
             </Typography>
-
             <Box sx={{ marginTop: 2 }}>
               <Button
                 color="info"
@@ -58,12 +59,21 @@ const NotFoundErrorPage = () => {
               >
                 Обратно
               </Button>
+
+              <Button
+                color="info"
+                size="medium"
+                onClick={handleLogout}
+                variant="contained"
+                startIcon={<HomeIcon />}
+                sx={{ marginRight: 2 }}
+              >
+                Изход
+              </Button>
             </Box>
           </Paper>
         </Container>
       </Box>
     </AppTheme>
   );
-};
-
-export default NotFoundErrorPage;
+}
