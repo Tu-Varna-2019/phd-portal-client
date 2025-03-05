@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { runPeriodically } from "@/lib/helpers/utils";
+import { runPeriodically, setArrayIds } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
 
 export default function HomeHook() {
@@ -8,7 +8,9 @@ export default function HomeHook() {
 
   const fetchCurriculums = useCallback(async () => {
     const curriculumsResponse = await getCurriculums();
-    setCurriculums(curriculumsResponse);
+    const curriculumsWithIds = setArrayIds(curriculumsResponse);
+
+    setCurriculums(curriculumsWithIds);
   }, []);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function HomeHook() {
     return runPeriodically(() => {
       fetchCurriculums();
     });
-  }, [curriculums]);
+  }, [fetchCurriculums]);
 
   return {
     curriculums

@@ -11,7 +11,7 @@ export default function CandidateAPI() {
       url: `${API_URL}/curriculum`,
       method: "GET",
       accessTokenProvided: ""
-    });
+    }).then((res) => res.data);
   };
 
   return {

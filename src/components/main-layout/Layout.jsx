@@ -10,6 +10,9 @@ import {
   treeViewCustomizations
 } from "./theme/customizations";
 import SideMenu from "./common/SideMenu";
+import { useIsAuthenticated } from "@azure/msal-react";
+import SideMenuPublic from "./common/SideMenuPublic";
+import HeaderPublic from "./common/HeaderPublic";
 
 const xThemeComponents = {
   ...datePickersCustomizations,
@@ -22,11 +25,17 @@ export default function Layout({
   MainView,
   mainListItems
 }) {
+  const isAuthenticated = useIsAuthenticated();
+
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex" }}>
-        <SideMenu mainListItems={mainListItems} basePath={basePath} />
+        {isAuthenticated ? (
+          <SideMenu mainListItems={mainListItems} basePath={basePath} />
+        ) : (
+          <SideMenuPublic mainListItems={mainListItems} />
+        )}
         <AppNavbar />
         <Box
           component="main"
@@ -47,7 +56,11 @@ export default function Layout({
               mt: { xs: 8, md: 0 }
             }}
           >
-            <Header headerTitle={headerTitle} basePath={basePath} />
+            {isAuthenticated ? (
+              <Header headerTitle={headerTitle} basePath={basePath} />
+            ) : (
+              <HeaderPublic headerTitle={headerTitle} />
+            )}
             {MainView}
           </Stack>
         </Box>
