@@ -7,7 +7,7 @@ import { path } from "../_constants/pathConstant";
 export default function Page() {
   return (
     <Layout
-      headerTitle={"Добре дошли в кандидатурската система!"}
+      headerTitle={"Начална страница"}
       MainView={<HomeGrid />}
       basePath={path}
       mainListItems={sideMenu}

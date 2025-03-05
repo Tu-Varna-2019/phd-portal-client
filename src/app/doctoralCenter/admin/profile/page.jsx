@@ -6,7 +6,7 @@ import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
 import { sideMenu } from "../_constants/sideMenuConstants";
-import ProfileGrid from "@/app/(common)/profile/_components/ProfileGrid";
+import ProfileGrid from "@/app/(common)/_profile/_components/ProfileGrid";
 
 export default function Page() {
   const doctoralCenter = useSelector(selectDoctoralCenter);

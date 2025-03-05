@@ -31,10 +31,10 @@ export default function Auth() {
   };
 
   const handleLogin = async () => {
-    const response = await instance.loginPopup(loginRequest).catch((e) => {
-      console.log(e);
+    await instance.initialize();
+    return await instance.loginPopup(loginRequest).catch((error) => {
+      console.error(`Login issue: ${error}`);
     });
-    return response;
   };
 
   const silentLogin = async () => {

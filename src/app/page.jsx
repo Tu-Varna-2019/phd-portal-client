@@ -1,33 +1,53 @@
-import { Card, CardMedia, CardActionArea } from "@mui/material";
-
-export const metadata = {
-  title: "Докторантски център - Tu-Varna",
-  description: "Технически университет Варна"
-};
+"use client";
+import AuthHook from "@/hooks/AuthHook";
+import { Box, Container, Paper, Typography } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppTheme from "@/components/shared-theme/AppTheme";
 
 export default function Page() {
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          image={"/tu-varna.png"}
-          alt="picture"
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <Box
+        sx={(theme) => ({
+          flexGrow: 1,
+          backgroundColor: theme.vars
+            ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
+            : alpha(theme.palette.background.default, 1),
+          overflow: "auto",
+          display: "flex"
+        })}
+      >
+        <Container
+          maxWidth="sm"
           sx={{
-            width: "700px",
-            height: "700px",
-            objectFit: "contain",
-            objectPosition: "center"
+            display: "flex",
+            minHeight: "100vh",
+            textAlign: "center",
+            paddingTop: 5,
+            alignItems: "center",
+            justifyContent: "justify"
           }}
-        />
-      </CardActionArea>
-    </Card>
+        >
+          <Paper elevation={3} sx={{ padding: 4 }}>
+            <Box>
+              <InfoIcon color="lightskyblue" sx={{ fontSize: 60 }} />
+            </Box>
+
+            <Typography variant="h4" color="info" gutterBottom>
+              Вход
+            </Typography>
+
+            <Typography variant="body1">
+              В момента ви пренасочваме в Microsoft страницата. Моля влезте с
+              профила си, който е предназначен за Технически университет Варна
+            </Typography>
+
+            <AuthHook />
+          </Paper>
+        </Container>
+      </Box>
+    </AppTheme>
   );
 }
