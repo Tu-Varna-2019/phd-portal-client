@@ -2,9 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
-
 import { msalConfig } from "@/lib/auth/authConfig";
-
 import AuthHook from "@/hooks/AuthHook";
 import {
   AuthenticatedTemplate,
@@ -33,26 +31,13 @@ const geistMono = localFont({
 // };
 
 export default function RootLayout({ children }) {
-  const msalInstance = new PublicClientApplication(msalConfig);
-
   return (
     <>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <MsalProvider instance={msalInstance}>
-            <StoreProvider>
-              <AuthenticatedTemplate>
-                {children}
-                <GlobalApp />
-              </AuthenticatedTemplate>
-
-              <UnauthenticatedTemplate>
-                <AuthHook />
-              </UnauthenticatedTemplate>
-            </StoreProvider>
-          </MsalProvider>
+          <StoreProvider>{children}</StoreProvider>
         </body>
       </html>
     </>

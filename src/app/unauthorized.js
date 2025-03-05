@@ -1,14 +1,11 @@
 "use client";
 
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Paper, Typography } from "@mui/material";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import CssBaseline from "@mui/material/CssBaseline";
-import Auth from "@/lib/auth/auth";
 import AppTheme from "@/components/shared-theme/AppTheme";
 
-export default function Page() {
-  const { handleLogout } = Auth();
-
+export default function UnauthorizedErrorPage() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -46,17 +43,6 @@ export default function Page() {
               Вие нямате права да достъпите тази страница. Моля свържете се с
               администратора за достъп.
             </Typography>
-            <Box sx={{ marginTop: 2 }}>
-              <Button
-                color="info"
-                size="medium"
-                variant="contained"
-                onClick={handleLogout}
-                sx={{ marginRight: 2 }}
-              >
-                Изход
-              </Button>
-            </Box>
           </Paper>
         </Container>
       </Box>

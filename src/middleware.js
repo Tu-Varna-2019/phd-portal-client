@@ -6,6 +6,14 @@ const corsOptions = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization"
 };
 
+const routes = [
+  "/phd",
+  "/committee",
+  "/doctoralCenter/expert",
+  "/doctoralCenter/manager",
+  "/doctoralCenter/admin"
+];
+
 export function middleware(request) {
   const origin = request.headers.get("origin") ?? "";
   const isAllowedOrigin = allowedOrigins.includes(origin);
@@ -20,8 +28,7 @@ export function middleware(request) {
   if (isPreflight) return sendPreflight(isAllowedOrigin, origin);
 
   if (!isUrlApiRoute) {
-    const cookie = getCookiePath(groupCookie, roleCookie);
-    const redirect = redirectByCookiePath(url, cookie);
+    const redirect = redirectByCookiePath(url, groupCookie, roleCookie);
     if (redirect) return redirect;
   }
 
@@ -50,42 +57,34 @@ export function middleware(request) {
   return response;
 }
 
-const getCookiePath = (groupCookie, roleCookie) => {
+const redirectByCookiePath = (url, groupCookie, roleCookie) => {
   let cookie = null;
 
   switch (groupCookie) {
     case "doctoralCenter":
       cookie = groupCookie + "/" + roleCookie;
       break;
-    case ("phd", "committee"):
+    case ("phd", "committee", "supervisor"):
       cookie = groupCookie;
       break;
     default:
       console.warn(`Middleware: Unable to get cookie for path: ${cookie}`);
       break;
   }
-  return cookie;
-};
 
-const redirectByCookiePath = (url, cookie) => {
-  let isRedirectNeeded = false;
+  const isUserAuthorized =
+    cookie != null &&
+    !url.pathname.startsWith("/" + cookie) &&
+    routes.find((route) => url.pathname.startsWith(route));
+  const isUserInMainPage = cookie != null && url.pathname == "/";
 
-  switch (cookie) {
-    case null:
-      if (url.pathname != "/") {
-        url.pathname = "/";
-        isRedirectNeeded = true;
-      }
-      break;
-
-    default:
-      if (!url.pathname.startsWith("/" + cookie)) {
-        url.pathname = "/" + cookie;
-        isRedirectNeeded = true;
-      }
+  if (isUserAuthorized) {
+    url.pathname = "/forbidden";
+    return NextResponse.redirect(url);
+  } else if (isUserInMainPage) {
+    url.pathname = "/" + cookie;
+    return NextResponse.redirect(url);
   }
-
-  if (isRedirectNeeded) return NextResponse.redirect(url);
 };
 
 const sendPreflight = (isAllowedOrigin, origin) => {
@@ -103,9 +102,6 @@ export const config = {
     "/api/:function*",
     "/phd/:path*",
     "/doctoralCenter/:path*",
-    "/committee",
-    "/notifications",
-    "/settings",
-    "/profile"
+    "/committee/:path*"
   ]
 };
