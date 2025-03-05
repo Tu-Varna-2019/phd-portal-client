@@ -5,7 +5,7 @@ import {
 } from "@azure/msal-react";
 
 import { GlobalApp } from "@/app/GlobalApp";
-import UnauthorizedErrorPage from "@/app/unauthorized";
+import AuthInfo from "@/components/pages/AuthInfo";
 
 export default function RootLayout({ children }) {
   return (
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       </AuthenticatedTemplate>
 
       <UnauthenticatedTemplate>
-        <UnauthorizedErrorPage />
+        <AuthInfo />
       </UnauthenticatedTemplate>
     </>
   );
