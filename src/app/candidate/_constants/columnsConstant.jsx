@@ -19,3 +19,7 @@ export const columns = [
     minWidth: 400
   }
 ];
+
+export const subjectColumns = [
+  { field: "name", headerName: "Наименование", flex: 1.5, minWidth: 700 }
+];
