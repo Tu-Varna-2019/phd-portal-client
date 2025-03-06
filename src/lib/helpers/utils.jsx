@@ -124,11 +124,3 @@ export const runPeriodically = (func) => {
   );
   return () => clearInterval(interval);
 };
-
-export const setArrayIds = (arr) => {
-  let idCounter = 0;
-  arr.forEach((element) => {
-    element.id = idCounter++;
-  });
-  return arr;
-};

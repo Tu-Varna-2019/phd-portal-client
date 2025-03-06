@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { runPeriodically, setArrayIds } from "@/lib/helpers/utils";
+import { runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
+import { useTranslation } from "react-i18next";
 
 export default function HomeHook() {
   const [curriculums, setCurriculums] = useState([]);
   const { getCurriculums } = CandidateAPI();
+  const { t, ready } = useTranslation("client-page");
 
   const fetchCurriculums = useCallback(async () => {
+    let idCounter = 0;
     const curriculumsResponse = await getCurriculums();
-    const curriculumsWithIds = setArrayIds(curriculumsResponse);
+    curriculumsResponse.forEach((curriculum) => {
+      curriculum.id = idCounter++;
+      curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
+      curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
+    });
 
-    setCurriculums(curriculumsWithIds);
+    setCurriculums(curriculumsResponse);
   }, []);
 
   useEffect(() => {
