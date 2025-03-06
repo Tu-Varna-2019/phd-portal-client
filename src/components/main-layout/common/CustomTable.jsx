@@ -46,9 +46,7 @@ export default function CustomTable({ columnNameList, columnValueList }) {
                     variant="body1"
                     sx={{ fontWeight: 500, lineHeight: "16px" }}
                   >
-                    <TableCell>
-                      {Object.values(columnValueList)[index]}
-                    </TableCell>
+                    {Object.values(columnValueList)[index]}
                   </Typography>
                 </StyledTableCell>
               </TableRow>

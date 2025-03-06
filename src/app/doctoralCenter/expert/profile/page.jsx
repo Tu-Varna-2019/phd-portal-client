@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
-import ProfileGrid from "@/app/(common)/profile/_components/ProfileGrid";
+import ProfileGrid from "@/app/(common)/_profile/_components/ProfileGrid";
 import { sideMenu } from "../_constants/sideMenuConstants";
 
 export default function Page() {

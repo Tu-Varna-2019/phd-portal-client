@@ -12,9 +12,11 @@ import { useAppDispatch } from "@/lib/features/constants";
 import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
 import { useSelector } from "react-redux";
 import selectNotifications from "@/lib/features/notification/slices/notificationsMemoSelector";
-import { runPeriodically } from "@/lib/helpers/utils";
+import { formatDateTime, runPeriodically } from "@/lib/helpers/utils";
+import { useTranslation } from "react-i18next";
 
 export default function Header({ headerTitle, basePath }) {
+  const { t, ready } = useTranslation("client-page");
   const dispatch = useAppDispatch();
 
   const notifications = useSelector(selectNotifications);
@@ -22,7 +24,14 @@ export default function Header({ headerTitle, basePath }) {
   const { getNotifications } = NotificationAPI();
 
   const fetchNotifications = useCallback(async () => {
+    let idCounter = 0;
     const result = await getNotifications();
+    result.forEach((notif) => {
+      notif.id = idCounter++;
+      notif.severity = ready ? t(notif.severity) : notif.severity;
+      notif.creation = formatDateTime(notif.creation);
+    });
+
     if (!(JSON.stringify(result) === JSON.stringify(notifications))) {
       bellSound.current.play();
     }

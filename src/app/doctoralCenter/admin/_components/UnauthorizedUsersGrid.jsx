@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 import AlertBox from "@/common/AlertBox";
 import { UnauthorizedUsersHook } from "../_hooks/unauthorizedUsersHook";
-import { optionsBG } from "../_constants/eventConstants";
 import Table from "@/components/main-layout/common/Table";
 
 export default function UnauthorizedUsersGrid() {
@@ -13,7 +12,8 @@ export default function UnauthorizedUsersGrid() {
     columns,
     groupOption,
     onButtonPermitOnClick,
-    onAutocompleteChange
+    onAutocompleteChange,
+    docCenterRolesBG
   } = UnauthorizedUsersHook();
 
   return (
@@ -37,7 +37,7 @@ export default function UnauthorizedUsersGrid() {
             contentText={
               "Разрешете потребителят към системата и му добавете групата"
             }
-            options={optionsBG}
+            options={docCenterRolesBG}
             optionChosen={groupOption}
             buttonName={"Разреши"}
             label={"Група"}
