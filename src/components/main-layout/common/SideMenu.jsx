@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent";
 import OptionsMenu from "./OptionsMenu";
 import { getUserByGroup } from "@/lib/helpers/utils";
+import { useIsAuthenticated } from "@azure/msal-react";
 const drawerWidth = 270;
 
 const Drawer = styled(MuiDrawer)({
@@ -24,7 +25,9 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu({ mainListItems, basePath }) {
-  const user = getUserByGroup();
+  let user;
+  const isAuthenticated = useIsAuthenticated();
+  if (isAuthenticated) user = getUserByGroup();
 
   return (
     <Drawer
@@ -36,13 +39,6 @@ export default function SideMenu({ mainListItems, basePath }) {
         }
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          mt: "calc(var(--template-frame-height, 0px) + 4px)",
-          p: 1.7
-        }}
-      ></Box>
       <Divider />
       <MenuContent mainListItems={mainListItems} />
       <Stack
@@ -55,24 +51,30 @@ export default function SideMenu({ mainListItems, basePath }) {
           borderColor: "divider"
         }}
       >
-        <Avatar
-          sizes="small"
-          alt="User image"
-          src={user.pictureBlob}
-          sx={{ width: 36, height: 36 }}
-        />
-        <Box sx={{ mr: "auto" }}>
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: 500, lineHeight: "16px" }}
-          >
-            {user.name}
-          </Typography>
-          <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            {user.email}
-          </Typography>
-        </Box>
-        <OptionsMenu basePath={basePath} />
+        {isAuthenticated ? (
+          <>
+            <Avatar
+              sizes="small"
+              alt="User image"
+              src={user.pictureBlob}
+              sx={{ width: 36, height: 36 }}
+            />
+            <Box sx={{ mr: "auto" }}>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 500, lineHeight: "16px" }}
+              >
+                {user.name}
+              </Typography>
+              <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                {user.email}
+              </Typography>
+            </Box>
+            <OptionsMenu basePath={basePath} />
+          </>
+        ) : (
+          <></>
+        )}
       </Stack>
     </Drawer>
   );

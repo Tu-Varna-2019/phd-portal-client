@@ -15,7 +15,7 @@ export const mediaType = Object.freeze({
 export const formatDateTime = (rawDateTime) => {
   const dateTime = new Date(rawDateTime);
 
-  return dateTime.toLocaleString("en-US", {
+  return dateTime.toLocaleString("bg-BG", {
     year: "numeric",
     month: "long",
     day: "numeric",

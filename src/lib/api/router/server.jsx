@@ -98,11 +98,9 @@ export default function ServerRoute() {
       case 401:
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
       case 400:
-        return NextResponse.json(
-          { message: `NextJS Api route client error` },
-          { status: 400 }
-        );
-
+        throw new Error("NextJS Api route client error");
+      case 500:
+        throw new Error("Nextjs Server side error");
       case 200:
       case 201:
         if (responseContentType == mediaType.AppJson) {
@@ -127,10 +125,7 @@ export default function ServerRoute() {
           });
         }
       default:
-        return NextResponse.json({
-          message: `Nextjs Api router error. Status code not found for it to return value to the client: ${response.status}`,
-          status: 500
-        });
+        throw new Error(`Unknown error code: ${response.status}`);
     }
   };
 

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
 import { columns } from "../_constants/columnsConstant";
+import Table from "@/components/main-layout/common/Table";
 
 export default function HomeGrid() {
   const { curriculums } = HomeHook();

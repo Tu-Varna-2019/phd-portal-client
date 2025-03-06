@@ -15,7 +15,7 @@ export function ProfileHook(setUser) {
   const [deletePictureDialog, setDeletePictureDialog] = useState(false);
   const { upload, deleteFile } = FileAPI();
 
-  const uploadPicture = async (event) => {
+  const uploadPicture = async (event, user) => {
     setIsImageLoading(true);
     const fileBytes = event.target.files[0];
     const { name, type } = fileBytes;

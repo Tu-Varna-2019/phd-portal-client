@@ -4,19 +4,26 @@ import { useAppDispatch } from "@/features/constants";
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
 import { runPeriodically } from "@/lib/helpers/utils";
-import { optionsEN } from "../_constants/eventConstants";
+import { useTranslation } from "react-i18next";
 
 export function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
   const dispatch = useAppDispatch();
+  const { t, ready } = useTranslation("client-page");
 
   const [unauthUsers, setUnauthUsers] = useState([]);
-  const { getUnauthorizedUsers, setUnauthorizedUserIsAllowed } =
-    DoctoralCenterAdminAPI();
+  const [docCenterRoles, setDoctorCenterRoles] = useState([]);
+
+  const {
+    getUnauthorizedUsers,
+    setUnauthorizedUserIsAllowed,
+    getDocCenterRoles
+  } = DoctoralCenterAdminAPI();
+
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [groupOption, setGroupOption] = useState("");
 
@@ -27,12 +34,25 @@ export function UnauthorizedUsersHook() {
     }
   }, []);
 
+  const fetchDocCenterRoles = useCallback(async () => {
+    const rolesResponse = await getDocCenterRoles();
+    if (rolesResponse != []) {
+      setDoctorCenterRoles(rolesResponse);
+    }
+  }, []);
+
   useEffect(() => {
     fetchUnauthorizedUsers();
+    fetchDocCenterRoles();
     return runPeriodically(() => {
       fetchUnauthorizedUsers();
+      fetchDocCenterRoles();
     });
-  }, [fetchUnauthorizedUsers]);
+  }, [fetchUnauthorizedUsers, fetchDocCenterRoles]);
+
+  const docCenterRolesBG = useMemo(() => {
+    return docCenterRoles.map((role) => (ready ? t(role) : role));
+  }, [docCenterRoles]);
 
   const changeIsAllowedOnClick = async (oid, email, isAllowed) => {
     const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
@@ -62,7 +82,7 @@ export function UnauthorizedUsersHook() {
   const { columns } = UnauthorizedUsersColunms(changeIsAllowedOnClick);
 
   const onAutocompleteChange = (index, _) => {
-    setGroupOption(optionsEN[index]);
+    setGroupOption(docCenterRoles[index]);
   };
 
   const authorizeUsers = async (unauthorizedUsers) => {
@@ -113,6 +133,7 @@ export function UnauthorizedUsersHook() {
     onButtonPermitOnClick,
     onAutocompleteChange,
     setSelectedUsers,
-    groupOption
+    groupOption,
+    docCenterRolesBG
   };
 }

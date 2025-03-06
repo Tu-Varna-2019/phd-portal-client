@@ -26,8 +26,8 @@ export function UserManagementColunms(
       minWidth: 300
     },
     {
-      field: "role",
-      headerName: "Роля",
+      field: "group",
+      headerName: "Група",
       headerAlign: "right",
       align: "right",
       flex: 2,

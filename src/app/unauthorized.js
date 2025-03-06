@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Container, Paper, Typography } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "@/components/shared-theme/AppTheme";
@@ -43,6 +44,20 @@ export default function UnauthorizedErrorPage() {
               Вие нямате права да достъпите тази страница. Моля свържете се с
               администратора за достъп.
             </Typography>
+
+            <Box sx={{ marginTop: 2 }}>
+              <Button
+                color="info"
+                size="medium"
+                href="/"
+                variant="contained"
+                startIcon={<HomeIcon />}
+                onClick={() => {}}
+                sx={{ marginRight: 2 }}
+              >
+                Обратно
+              </Button>
+            </Box>
           </Paper>
         </Container>
       </Box>

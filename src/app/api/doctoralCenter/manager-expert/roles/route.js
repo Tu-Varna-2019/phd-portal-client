@@ -5,7 +5,7 @@ const { route } = ServerRoute();
 
 export async function GET() {
   return await route({
-    url: url + "/unauthorized-users",
+    url: url + "/roles",
     method: "GET",
     getResultData: true
   });

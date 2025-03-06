@@ -5,7 +5,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "@/components/shared-theme/AppTheme";
 
-export default function Page() {
+export default function AuthInfo() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
