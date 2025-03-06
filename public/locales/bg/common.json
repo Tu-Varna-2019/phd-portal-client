@@ -1,4 +1,5 @@
 {
+  "Hello": "Здравей",
   "regular": "Редовно",
   "part_time": "Задочно",
   "Software engineering": "Софтуерно инжинерство",
@@ -23,8 +24,13 @@
   "terminated": "Терминиран",
   "admin": "Администратор",
   "expert": "Експерт",
-  "manager": "Ръководител",
+  "phd": "Докторант",
+  "committee": "Член от комитета",
+  "supervisor": "Ръководител на докторант",
   "chairman": "Прецедател",
   "member": "Член",
-  "Automated information processing and management systems": "Автоматизирани системи за обработка и управление на информация"
+  "Automated information processing and management systems": "Автоматизирани системи за обработка и управление на информация",
+  "info": "Информация",
+  "success": "Успех",
+  "error": "Грешка"
 }

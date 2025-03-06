@@ -1,6 +1,7 @@
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { formatDateTime, runPeriodically } from "@/helpers/utils";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const initialFilterBtnVal = {
   description: false,
@@ -18,6 +19,7 @@ export function EventManagementHook() {
   const [filterLogs, setFilterLogs] = useState([]);
   const [logsLoading, setLogsLoading] = useState(false);
   const { getLogs } = DoctoralCenterAdminAPI();
+  const { t, ready } = useTranslation("client-page");
 
   const flattenLogs = (logs) => {
     let idCounter = 0;
@@ -30,7 +32,8 @@ export function EventManagementHook() {
         log.oid = log.user.oid;
         log.name = log.user.name;
         log.email = log.user.email;
-        log.group = log.user.group;
+        log.level = ready ? t(log.level.toLowerCase()) : log.level;
+        log.group = ready ? t(log.user.group) : log.user.group;
       });
       return logs;
     }

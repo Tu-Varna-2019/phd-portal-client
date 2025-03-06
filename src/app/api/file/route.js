@@ -1,6 +1,6 @@
 import ServerRoute from "@/lib/api/router/server";
 import { url } from "./url";
-import { mediaType } from "@/lib/utils";
+import { mediaType } from "@/lib/helpers/utils";
 
 const { route } = ServerRoute();
 

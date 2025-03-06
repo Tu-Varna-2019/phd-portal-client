@@ -13,6 +13,9 @@ export default function HomeHook() {
     const curriculumsResponse = await getCurriculums();
     curriculumsResponse.forEach((curriculum) => {
       curriculum.id = idCounter++;
+      curriculum.description = ready
+        ? t(curriculum.description)
+        : curriculum.description;
       curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
       curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
     });
