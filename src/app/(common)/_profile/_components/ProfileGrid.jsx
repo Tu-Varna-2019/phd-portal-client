@@ -100,7 +100,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                   Качване на снимка
                   <input
                     type="file"
-                    onChange={(event) => uploadPicture(event)}
+                    onChange={(event) => uploadPicture(event, user)}
                     hidden
                   />
                 </Button>

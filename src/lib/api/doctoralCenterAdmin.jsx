@@ -54,12 +54,20 @@ export default function DoctoralCenterAdminAPI() {
     });
   };
 
+  const getDocCenterRoles = async () => {
+    return await route({
+      url: `${API_URL}/roles`,
+      method: "GET"
+    });
+  };
+
   return {
     getAuthorizedUsers,
     getUnauthorizedUsers,
     setUnauthorizedUserGroup,
     deleteAuthorizedUser,
     getLogs,
-    setUnauthorizedUserIsAllowed
+    setUnauthorizedUserIsAllowed,
+    getDocCenterRoles
   };
 }

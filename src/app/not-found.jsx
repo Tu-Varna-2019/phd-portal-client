@@ -4,11 +4,9 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeIcon from "@mui/icons-material/Home";
-import Auth from "@/lib/auth/auth";
 import AppTheme from "@/components/shared-theme/AppTheme";
 
 const NotFoundErrorPage = () => {
-  const { handleLogout } = Auth();
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -59,17 +57,6 @@ const NotFoundErrorPage = () => {
                 sx={{ marginRight: 2 }}
               >
                 Обратно
-              </Button>
-
-              <Button
-                color="info"
-                size="medium"
-                onClick={handleLogout}
-                variant="contained"
-                startIcon={<HomeIcon />}
-                sx={{ marginRight: 2 }}
-              >
-                Изход
               </Button>
             </Box>
           </Paper>

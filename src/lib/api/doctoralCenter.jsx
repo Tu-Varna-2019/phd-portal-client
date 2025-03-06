@@ -28,9 +28,17 @@ export default function DoctoralCenterAPI() {
     });
   };
 
+  const getDocCenterRoles = async () => {
+    return await route({
+      url: `${API_URL}/roles`,
+      method: "GET"
+    });
+  };
+
   return {
     getCandidates,
     getUnauthorizedUsers,
-    setUnauthorizedUserGroup
+    setUnauthorizedUserGroup,
+    getDocCenterRoles
   };
 }

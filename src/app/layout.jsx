@@ -1,21 +1,12 @@
 "use client";
 import localFont from "next/font/local";
 import "./globals.css";
-import StoreProvider from "./StoreProvider";
-
-import { msalConfig } from "@/lib/auth/authConfig";
-
-import AuthHook from "@/hooks/AuthHook";
-import {
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate
-} from "@azure/msal-react";
-
 import { PublicClientApplication } from "@azure/msal-browser";
-
 import { MsalProvider } from "@azure/msal-react";
-import { GlobalApp } from "./GlobalApp";
-import ClientErrorPage from "./error";
+import StoreProvider from "./StoreProvider";
+import { I18nextProvider } from "react-i18next";
+import { msalConfig } from "@/lib/auth/authConfig";
+import i18n from "./i18n";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,26 +28,16 @@ export default function RootLayout({ children }) {
   const msalInstance = new PublicClientApplication(msalConfig);
 
   return (
-    <>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <MsalProvider instance={msalInstance}>
-            <StoreProvider>
-              <AuthenticatedTemplate>
-                {children}
-                <GlobalApp />
-              </AuthenticatedTemplate>
-
-              <UnauthenticatedTemplate>
-                <AuthHook />
-                <ClientErrorPage />
-              </UnauthenticatedTemplate>
-            </StoreProvider>
-          </MsalProvider>
-        </body>
-      </html>
-    </>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <MsalProvider instance={msalInstance}>
+          <StoreProvider>
+            <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+          </StoreProvider>
+        </MsalProvider>
+      </body>
+    </html>
   );
 }

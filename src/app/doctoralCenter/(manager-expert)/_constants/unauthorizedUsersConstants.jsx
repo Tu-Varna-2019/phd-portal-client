@@ -23,11 +23,3 @@ export const columns = [
     minWidth: 300
   }
 ];
-
-export const optionsBG = [
-  "докторант",
-  "член на комитета",
-  "ръководител на докторант"
-];
-
-export const optionsEN = ["phd", "committee", "supervisor"];

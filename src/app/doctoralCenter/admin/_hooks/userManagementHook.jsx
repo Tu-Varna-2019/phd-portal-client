@@ -6,6 +6,7 @@ import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { UserManagementColunms } from "../_constants/userManagementColumns";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
+import { useTranslation } from "react-i18next";
 
 export const UserManagementHook = () => {
   const { logNotifyAlert } = APIWrapper();
@@ -21,9 +22,17 @@ export const UserManagementHook = () => {
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
 
+  const { t, ready } = useTranslation("client-page");
+
   const fetchAuthorizedUsers = useCallback(async () => {
-    const authUsers = await getAuthorizedUsers();
-    if (authUsers != []) setUsers(authUsers);
+    let idCounter = 0;
+    const authUsersRes = await getAuthorizedUsers();
+    authUsersRes.forEach((user) => {
+      user.id = idCounter++;
+      user.group = ready ? t(user.group) : user.group;
+    });
+
+    setUsers(authUsersRes);
   }, []);
 
   useEffect(() => {
@@ -61,8 +70,7 @@ export const UserManagementHook = () => {
     menuAnchor,
     setMenuAnchor,
     handleOpenMenu,
-    onMenuClick,
-    amISelected
+    onMenuClick
   );
 
   const buttonConfirmOnClick = async () => {
