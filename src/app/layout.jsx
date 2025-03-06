@@ -4,7 +4,9 @@ import "./globals.css";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import StoreProvider from "./StoreProvider";
+import { I18nextProvider } from "react-i18next";
 import { msalConfig } from "@/lib/auth/authConfig";
+import i18n from "./i18n";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +33,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <MsalProvider instance={msalInstance}>
-          <StoreProvider>{children}</StoreProvider>
+          <StoreProvider>
+            <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+          </StoreProvider>
         </MsalProvider>
       </body>
     </html>

@@ -4,14 +4,17 @@ import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
 import { columns } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
+import { useTranslation } from "react-i18next";
 
 export default function HomeGrid() {
   const { curriculums } = HomeHook();
+  const { t, ready } = useTranslation("client-page");
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Добре дошли в докторантурската програма на Технически университет Варна
+        {ready ? t("Hello") : ""}
       </Typography>
 
       <Grid
