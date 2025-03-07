@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
 import { useTranslation } from "react-i18next";
@@ -30,7 +30,21 @@ export default function HomeHook() {
     });
   }, [fetchCurriculums]);
 
+  const curriculumSubjects = useMemo(() => {
+    return curriculums.map((curriculum) => {
+      let idCounter = 0;
+      return {
+        description: curriculum.description,
+        subjects: curriculum.subjects.map((subject) => ({
+          id: idCounter++,
+          name: subject
+        }))
+      };
+    });
+  }, [curriculums]);
+
   return {
-    curriculums
+    curriculums,
+    curriculumSubjects
   };
 }

@@ -7,8 +7,9 @@ import { useTranslation } from "react-i18next";
 import { Divider } from "@mui/material";
 
 export default function HomeGrid() {
-  const { curriculums } = HomeHook();
+  const { curriculums, curriculumSubjects } = HomeHook();
   const { t } = useTranslation("client-page");
+  let idGridKey = 0;
 
   return (
     <Grid container spacing={4} columns={12}>
@@ -26,17 +27,21 @@ export default function HomeGrid() {
         <Table rows={curriculums} columns={columns} />
       </Grid>
 
-      {curriculums.forEach((curriculum) => {
-        <Grid size={{ xs: 12, lg: 9 }}>
-          <Typography component="h3" variant="h7" sx={{ mb: 2 }} align="center">
-            {t(curriculum.description)}
-          </Typography>
-          <Divider />
-          <Table
-            rows={curriculum.subjects.map((subject) => ({ name: subject }))}
-            columns={subjectColumns}
-          />
-        </Grid>;
+      {curriculumSubjects.map((curriculum) => {
+        return (
+          <Grid size={{ xs: 12, lg: 9 }} key={idGridKey++}>
+            <Typography
+              component="h3"
+              variant="h7"
+              sx={{ mb: 2 }}
+              align="center"
+            >
+              {t(curriculum.description)}
+            </Typography>
+            <Divider />
+            <Table rows={curriculum.subjects} columns={subjectColumns} />
+          </Grid>
+        );
       })}
     </Grid>
   );
