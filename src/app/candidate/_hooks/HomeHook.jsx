@@ -32,12 +32,11 @@ export default function HomeHook() {
 
   const curriculumSubjects = useMemo(() => {
     return curriculums.map((curriculum) => {
-      let idCounter = 0;
       return {
         description: curriculum.description,
-        subjects: curriculum.subjects.map((subject) => ({
-          id: idCounter++,
-          name: subject
+        subjects: curriculum.subjects.map((subject, index) => ({
+          id: index,
+          name: ready ? t(subject) : subject
         }))
       };
     });

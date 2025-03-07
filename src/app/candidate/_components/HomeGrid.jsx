@@ -9,36 +9,42 @@ import { Card, CardActionArea, Divider } from "@mui/material";
 export default function HomeGrid() {
   const { curriculums, curriculumSubjects } = HomeHook();
   const { t } = useTranslation("client-page");
-  let idGridKey = 0;
 
   return (
-    <Grid container spacing={8} columns={12}>
-      <>
-        <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-          Добре дошли в докторантурската програма на Технически университет
-          Варна
-        </Typography>
-
-        <Grid size={{ xs: 12, lg: 9 }}>
-          <Typography component="h3" variant="h7" sx={{ mb: 2 }} align="center">
-            {t(
-              "Curriculum of the Doctoral Programme for the Degree of Doctor of Education and Science"
-            )}
-          </Typography>
-          <Divider />
-          <Table rows={curriculums} columns={columns} />
-        </Grid>
-      </>
-      <Typography component="h3" variant="h7" align="center">
-        {t(
-          "Curriculum of the Doctoral Programme for the Degree of Doctor of Education and Science"
-        )}
+    <Grid container spacing={4} columns={12}>
+      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+        Добре дошли в докторантурската програма на Технически университет Варна
       </Typography>
-      <Divider />
-      {curriculumSubjects.map((curriculum) => {
+
+      <Grid size={{ xs: 12, lg: 9 }}>
+        <Card>
+          <CardActionArea>
+            <Typography
+              component="h3"
+              variant="h7"
+              sx={{ mb: 2 }}
+              align="center"
+            >
+              {t(
+                "Curriculum of the Doctoral Programme for the Degree of Doctor of Education and Science"
+              )}
+            </Typography>
+            <Divider />
+            <Table rows={curriculums} columns={columns} />
+          </CardActionArea>
+        </Card>
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 9 }}>
+        <Typography component="h3" variant="h5" sx={{ mb: 2 }} align="center">
+          {t("Doctoral Program Disciplines")}
+        </Typography>
+      </Grid>
+
+      {curriculumSubjects.map((curriculum, index) => {
         return (
-          <Card key={idGridKey}>
-            <Grid key={idGridKey++}>
+          <Grid key={index} sx={{ xs: 12, sm: 6 }}>
+            <Card key={index}>
               <CardActionArea>
                 <Typography
                   component="h3"
@@ -51,8 +57,8 @@ export default function HomeGrid() {
                 <Divider />
                 <Table rows={curriculum.subjects} columns={subjectColumns} />
               </CardActionArea>
-            </Grid>
-          </Card>
+            </Card>
+          </Grid>
         );
       })}
     </Grid>
