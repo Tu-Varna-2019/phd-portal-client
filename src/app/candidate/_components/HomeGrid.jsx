@@ -34,33 +34,6 @@ export default function HomeGrid() {
           </CardActionArea>
         </Card>
       </Grid>
-
-      <Grid size={{ xs: 12, lg: 9 }}>
-        <Typography component="h3" variant="h5" sx={{ mb: 2 }} align="center">
-          {t("Doctoral Program Disciplines")}
-        </Typography>
-      </Grid>
-
-      {curriculumSubjects.map((curriculum, index) => {
-        return (
-          <Grid key={index} sx={{ xs: 12, sm: 6 }}>
-            <Card key={index}>
-              <CardActionArea>
-                <Typography
-                  component="h3"
-                  variant="h7"
-                  sx={{ mb: 2 }}
-                  align="center"
-                >
-                  {t(curriculum.description)}
-                </Typography>
-                <Divider />
-                <Table rows={curriculum.subjects} columns={subjectColumns} />
-              </CardActionArea>
-            </Card>
-          </Grid>
-        );
-      })}
     </Grid>
   );
 }

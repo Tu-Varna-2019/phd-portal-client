@@ -1,3 +1,5 @@
+import { renderAvatar } from "@/components/cells-renderers/avatar";
+import { renderEmail } from "@/components/cells-renderers/email";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, MenuItem } from "@mui/material";
 
@@ -10,7 +12,17 @@ export function UserManagementColunms(
   onMenuClick
 ) {
   const columns = [
-    { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 200 },
+    {
+      field: "avatar",
+      headerName: "Снимка",
+      display: "flex",
+      renderCell: renderAvatar,
+      valueGetter: (_, row) =>
+        row.name == null ? null : { name: row.name, color: row.avatar },
+      sortable: false,
+      filterable: false
+    },
+    { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 100 },
     {
       field: "name",
       headerName: "Име",
@@ -23,7 +35,8 @@ export function UserManagementColunms(
       headerAlign: "right",
       align: "right",
       flex: 1,
-      minWidth: 300
+      minWidth: 100,
+      renderCell: renderEmail
     },
     {
       field: "group",

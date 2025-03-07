@@ -7,16 +7,17 @@ import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
 import { EventManagementHook } from "../_hooks/eventManagementHook";
 import Table from "@/components/main-layout/common/Table";
+import { useTranslation } from "react-i18next";
 
-const filterBtnNameBulgarian = [
-  "Описание",
-  "Време",
-  "Действие",
-  "Ниво",
-  "Oid",
-  "Име",
-  "Имейл",
-  "Група"
+const filterButtons = [
+  "description",
+  "time",
+  "action",
+  "level",
+  "oid",
+  "name",
+  "email",
+  "group"
 ];
 
 export default function EventManagementGrid() {
@@ -27,13 +28,10 @@ export default function EventManagementGrid() {
     filterState,
     filterLogs
   } = EventManagementHook();
+  const { t, ready } = useTranslation("client-page");
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Детайли
-      </Typography>
-
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <Box>
@@ -44,7 +42,7 @@ export default function EventManagementGrid() {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  Моля изчакайте
+                  {t("Please wait")}
                 </Typography>
                 <Loading />
               </>
@@ -60,13 +58,14 @@ export default function EventManagementGrid() {
                           variant={value ? "contained" : "outlined"}
                           onClick={() => setFilterStateOnClick(key)}
                         >
-                          {filterBtnNameBulgarian[index]}
+                          {ready
+                            ? t(filterButtons[index])
+                            : filterButtons[index]}
                         </Button>
                       );
                     })}
                   </ButtonGroup>
                 </Stack>
-
                 <Table rows={filterLogs} columns={eventColumns} />
               </>
             )}
