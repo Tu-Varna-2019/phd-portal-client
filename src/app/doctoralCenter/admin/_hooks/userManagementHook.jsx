@@ -21,17 +21,14 @@ export const UserManagementHook = () => {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
-
   const { t, ready } = useTranslation("client-page");
 
   const fetchAuthorizedUsers = useCallback(async () => {
-    let idCounter = 0;
     const authUsersRes = await getAuthorizedUsers();
-    authUsersRes.forEach((user) => {
-      user.id = idCounter++;
+    authUsersRes.forEach((user, index) => {
+      user.id = index;
       user.group = ready ? t(user.group) : user.group;
     });
-
     setUsers(authUsersRes);
   }, []);
 

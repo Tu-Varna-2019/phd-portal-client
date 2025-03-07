@@ -54,6 +54,8 @@ export function UserManagementColunms(
       align: "center",
       filterable: false,
       width: 100,
+      sortable: false,
+      filterable: false,
       renderCell: (params) => {
         return (
           <>

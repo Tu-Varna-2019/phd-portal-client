@@ -7,7 +7,9 @@ export function renderAvatar(params) {
 
   return (
     <Avatar
-      style={{ backgroundColor: params.value.color, width: 28, height: 28 }}
+      alt="Avatar"
+      src={params.row.pictureBlob}
+      style={{ backgroundColor: params.value.color, width: 35, height: 35 }}
     >
       {params.value.name.toUpperCase().substring(0, 1)}
     </Avatar>

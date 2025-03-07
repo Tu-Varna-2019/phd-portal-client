@@ -28,17 +28,11 @@ export function UnauthorizedUsersHook() {
   const [groupOption, setGroupOption] = useState("");
 
   const fetchUnauthorizedUsers = useCallback(async () => {
-    const unauthorizedUsers = await getUnauthorizedUsers();
-    if (unauthorizedUsers != []) {
-      setUnauthUsers(UnauthorizedUsers.getList(unauthorizedUsers));
-    }
+    setUnauthUsers(await getUnauthorizedUsers());
   }, []);
 
   const fetchDocCenterRoles = useCallback(async () => {
-    const rolesResponse = await getDocCenterRoles();
-    if (rolesResponse != []) {
-      setDoctorCenterRoles(rolesResponse);
-    }
+    setDoctorCenterRoles(await getDocCenterRoles());
   }, []);
 
   useEffect(() => {
