@@ -18,7 +18,7 @@ import { InsertPhoto } from "@mui/icons-material";
 import { HighlightOff } from "@mui/icons-material";
 import CustomTable from "@/common/CustomTable";
 import Loading from "@/app/loading";
-import { ProfileHook } from "../_hooks/profileHook";
+import ProfileHook from "../_hooks/ProfileHook";
 
 export default function ProfileGrid({ user, nameFields, setUser }) {
   const {
@@ -101,7 +101,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                   <input
                     type="file"
                     onChange={(event) => uploadPicture(event, user)}
-                    hidden
+                    jidden
                   />
                 </Button>
               </CardActions>

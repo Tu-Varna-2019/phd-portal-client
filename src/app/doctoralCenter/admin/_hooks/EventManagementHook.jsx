@@ -14,7 +14,7 @@ const initialFilterBtnVal = {
   group: false
 };
 
-export function EventManagementHook() {
+export default function EventManagementHook() {
   const [logs, setLogs] = useState([]);
   const [filterLogs, setFilterLogs] = useState([]);
   const [logsLoading, setLogsLoading] = useState(false);

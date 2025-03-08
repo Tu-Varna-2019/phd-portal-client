@@ -1,3 +1,5 @@
+import { RenderStatusBagde } from "@/components/cells-renderers/statusBagde";
+
 export const columns = [
   { field: "title", headerName: "Заглавие", flex: 1.5, minWidth: 400 },
   { field: "description", headerName: "Описание", flex: 1.5, minWidth: 700 },
@@ -7,10 +9,10 @@ export const columns = [
     headerAlign: "right",
     align: "right",
     flex: 1,
-    minWidth: 70
-    // renderCell: (params) => {
-    // 	return <>{params.value.severity}</>;
-    // },
+    minWidth: 70,
+    renderCell: (param) => {
+      return <RenderStatusBagde row={param.row?.severity} />;
+    }
   },
   {
     field: "creation",

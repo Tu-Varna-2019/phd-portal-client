@@ -8,7 +8,7 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
 import { useTranslation } from "react-i18next";
 
-export const UserManagementHook = () => {
+export default function UserManagementHook() {
   const { logNotifyAlert } = APIWrapper();
   const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
   const doctoralCenter = useSelector(selectDoctoralCenter);
@@ -95,4 +95,4 @@ export const UserManagementHook = () => {
     openDialogBoxYesNo,
     setOpenDialogBoxYesNo
   };
-};
+}

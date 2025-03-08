@@ -6,7 +6,7 @@ import Auth from "@/lib/auth/auth";
 import FileAPI from "@/api/file";
 import { useAppDispatch } from "@/features/constants";
 
-export function ProfileHook(setUser) {
+export default function ProfileHook(setUser) {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const { logAlert } = APIWrapper();
   const { handleLogout } = Auth();

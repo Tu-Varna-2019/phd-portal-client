@@ -9,7 +9,7 @@ import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns
 import { runPeriodically } from "@/lib/helpers/utils";
 import { useTranslation } from "react-i18next";
 
-export function UnauthorizedUsersHook() {
+export default function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
   const dispatch = useAppDispatch();
@@ -122,12 +122,12 @@ export function UnauthorizedUsersHook() {
   };
 
   return {
+    setSelectedUsers,
     unauthUsers,
     columns,
+    groupOption,
     onButtonPermitOnClick,
     onAutocompleteChange,
-    setSelectedUsers,
-    groupOption,
     docCenterRolesBG
   };
 }

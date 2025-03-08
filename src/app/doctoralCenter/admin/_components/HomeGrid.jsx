@@ -7,7 +7,7 @@ import BarChartDashboard from "@/common/BarChartDashboard";
 import { Pagination } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
-import { LogsHook, UserHook } from "../_hooks/homeHook";
+import { LogsHook, UserHook } from "../_hooks/HomeHook";
 
 export default function HomeGrid() {
   const doctoralCenter = useSelector(selectDoctoralCenter);

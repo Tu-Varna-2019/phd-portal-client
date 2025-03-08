@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import AlertBox from "@/common/AlertBox";
-import { UserManagementHook } from "../_hooks/userManagementHook";
+import UserManagementHook from "../_hooks/UserManagementHook";
 import Table from "@/components/main-layout/common/Table";
 
 export default function UserManagementGrid() {

@@ -1,8 +1,8 @@
 import Grid from "@mui/material/Grid2";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 import AlertBox from "@/common/AlertBox";
-import { UnauthorizedUsersHook } from "../_hooks/unauthorizedUsersHook";
+import UnauthorizedUsersHook from "../_hooks/UnauthorizedUsersHook";
 import Table from "@/components/main-layout/common/Table";
 
 export default function UnauthorizedUsersGrid() {
@@ -18,10 +18,6 @@ export default function UnauthorizedUsersGrid() {
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Детайли
-      </Typography>
-
       <Grid container spacing={2} columns={12} size={{ xs: 12, lg: 9 }}>
         <Grid size={{ xs: 12, lg: 9 }}>
           <Table

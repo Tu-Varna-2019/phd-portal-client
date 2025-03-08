@@ -1,7 +1,19 @@
 import { Checkbox } from "@mui/material";
+import { renderAvatar } from "@/components/cells-renderers/avatar";
+import { renderEmail } from "@/components/cells-renderers/email";
 
 export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
   const columns = [
+    {
+      field: "avatar",
+      headerName: "Снимка",
+      display: "flex",
+      renderCell: renderAvatar,
+      valueGetter: (_, row) =>
+        row.name == null ? null : { name: row.name, color: row.avatar },
+      sortable: false,
+      filterable: false
+    },
     { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 200 },
     {
       field: "name",
@@ -15,7 +27,8 @@ export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
       headerAlign: "right",
       align: "right",
       flex: 1,
-      minWidth: 80
+      minWidth: 100,
+      renderCell: renderEmail
     },
     {
       field: "formattedTimestamp",
@@ -23,7 +36,7 @@ export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
       headerAlign: "right",
       align: "right",
       flex: 2,
-      minWidth: 300
+      minWidth: 200
     },
     {
       field: "isAllowed",

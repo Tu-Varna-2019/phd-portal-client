@@ -5,7 +5,7 @@ import { Button, ButtonGroup, Stack } from "@mui/material";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
-import { EventManagementHook } from "../_hooks/eventManagementHook";
+import EventManagementHook from "../_hooks/EventManagementHook";
 import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 
