@@ -1,13 +1,13 @@
 import { renderAvatar } from "@/components/cells-renderers/avatar";
 import { renderEmail } from "@/components/cells-renderers/email";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Menu, MenuItem } from "@mui/material";
+import LinearScaleIcon from "@mui/icons-material/LinearScale";
+import ContextMenu from "../_components/ContextMenu";
 
 export function UserManagementColunms(
-  selectedUserOid,
-  currentUserOid,
   menuAnchor,
   setMenuAnchor,
+  selectedUserOid,
+  currentUserOid,
   handleOpenMenu,
   onMenuClick
 ) {
@@ -59,22 +59,16 @@ export function UserManagementColunms(
       renderCell: (params) => {
         return (
           <>
-            <MenuIcon
+            <LinearScaleIcon
               onClick={(event) => handleOpenMenu(event, params.row)}
-            ></MenuIcon>
+            ></LinearScaleIcon>
 
-            <Menu
-              anchorEl={menuAnchor}
-              open={menuAnchor}
-              onClose={() => setMenuAnchor(false)}
-            >
-              <MenuItem
-                onClick={() => onMenuClick("delete")}
-                disabled={selectedUserOid == currentUserOid}
-              >
-                Премахни
-              </MenuItem>
-            </Menu>
+            <ContextMenu
+              menuAnchor={menuAnchor}
+              setMenuAnchor={setMenuAnchor}
+              onDeleteClick={() => onMenuClick("delete")}
+              deleteDisabled={selectedUserOid == currentUserOid}
+            />
           </>
         );
       }

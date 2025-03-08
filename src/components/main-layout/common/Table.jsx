@@ -20,6 +20,7 @@ export default function Table({
       }}
       pageSizeOptions={[10, 20, 50]}
       disableColumnResize
+      dataSet="Commodity"
       density="compact"
       slotProps={{
         filterPanel: {

@@ -13,7 +13,6 @@ export const UserManagementHook = () => {
   const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const { getAuthorizedUsers } = DoctoralCenterAdminAPI();
-
   const [users, setUsers] = useState([]);
 
   const [menuAnchor, setMenuAnchor] = useState(false);
@@ -62,10 +61,10 @@ export const UserManagementHook = () => {
   };
 
   const { columns } = UserManagementColunms(
-    selectedUser?.oid,
-    doctoralCenter.oid,
     menuAnchor,
     setMenuAnchor,
+    selectedUser?.oid,
+    doctoralCenter.oid,
     handleOpenMenu,
     onMenuClick
   );
