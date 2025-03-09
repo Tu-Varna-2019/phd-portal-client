@@ -1,3 +1,9 @@
+import ErrorIcon from "@mui/icons-material/Error";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import InfoIcon from "@mui/icons-material/Info";
+import { StyledChip } from "@/components/shared-theme/StyledTheme";
+import { RenderStatusBagde } from "@/components/cells-renderers/statusBagde";
+
 export const eventColumns = [
   { field: "description", headerName: "Описание", flex: 1.5, minWidth: 200 },
   {
@@ -20,7 +26,10 @@ export const eventColumns = [
     headerAlign: "right",
     align: "right",
     flex: 2,
-    minWidth: 100
+    minWidth: 100,
+    renderCell: (param) => {
+      return <RenderStatusBagde row={param.row.level} />;
+    }
   },
   {
     field: "oid",

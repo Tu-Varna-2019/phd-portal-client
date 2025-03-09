@@ -1,5 +1,14 @@
 {
   "Hello": "Здравей",
+  "description": "Описание",
+  "time": "Време",
+  "action": "Действие",
+  "level": "Ниво",
+  "oid": "Oid",
+  "name": "Име",
+  "email": "Имейл",
+  "group": "Група",
+  "Please wait": "Моля изчакайте",
   "regular": "Редовно",
   "part_time": "Задочно",
   "Software engineering": "Софтуерно инжинерство",
@@ -32,5 +41,7 @@
   "Automated information processing and management systems": "Автоматизирани системи за обработка и управление на информация",
   "info": "Информация",
   "success": "Успех",
-  "error": "Грешка"
+  "error": "Грешка",
+  "Curriculum of the Doctoral Programme for the Degree of Doctor of Education and Science": "Учебен план на докторска програма за образователна и научна степен 'Доктор'",
+  "Doctoral Program Disciplines": "Дисциплини по докторантска програма"
 }

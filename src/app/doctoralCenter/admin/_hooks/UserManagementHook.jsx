@@ -8,12 +8,11 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
 import { useTranslation } from "react-i18next";
 
-export const UserManagementHook = () => {
+export default function UserManagementHook() {
   const { logNotifyAlert } = APIWrapper();
   const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const { getAuthorizedUsers } = DoctoralCenterAdminAPI();
-
   const [users, setUsers] = useState([]);
 
   const [menuAnchor, setMenuAnchor] = useState(false);
@@ -21,17 +20,14 @@ export const UserManagementHook = () => {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
-
   const { t, ready } = useTranslation("client-page");
 
   const fetchAuthorizedUsers = useCallback(async () => {
-    let idCounter = 0;
     const authUsersRes = await getAuthorizedUsers();
-    authUsersRes.forEach((user) => {
-      user.id = idCounter++;
+    authUsersRes.forEach((user, index) => {
+      user.id = index;
       user.group = ready ? t(user.group) : user.group;
     });
-
     setUsers(authUsersRes);
   }, []);
 
@@ -65,10 +61,10 @@ export const UserManagementHook = () => {
   };
 
   const { columns } = UserManagementColunms(
-    selectedUser?.oid,
-    doctoralCenter.oid,
     menuAnchor,
     setMenuAnchor,
+    selectedUser?.oid,
+    doctoralCenter.oid,
     handleOpenMenu,
     onMenuClick
   );
@@ -99,4 +95,4 @@ export const UserManagementHook = () => {
     openDialogBoxYesNo,
     setOpenDialogBoxYesNo
   };
-};
+}

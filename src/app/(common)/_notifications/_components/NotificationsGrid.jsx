@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import AlertBox from "@/common/AlertBox";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import { Button } from "@mui/material";
-import { NotificationHook } from "../_hooks/notificationsHook";
+import NotificationHook from "../_hooks/NotificationsHook";
 import { columns } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 

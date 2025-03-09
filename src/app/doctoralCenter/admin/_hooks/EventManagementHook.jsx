@@ -14,12 +14,13 @@ const initialFilterBtnVal = {
   group: false
 };
 
-export function EventManagementHook() {
+export default function EventManagementHook() {
   const [logs, setLogs] = useState([]);
   const [filterLogs, setFilterLogs] = useState([]);
   const [logsLoading, setLogsLoading] = useState(false);
   const { getLogs } = DoctoralCenterAdminAPI();
   const { t, ready } = useTranslation("client-page");
+  const [filterState, setFilterState] = useState(initialFilterBtnVal);
 
   const flattenLogs = (logs) => {
     let idCounter = 0;
@@ -56,8 +57,6 @@ export function EventManagementHook() {
     });
   }, [fetchLogs]);
 
-  const [filterState, setFilterState] = useState(initialFilterBtnVal);
-
   useEffect(() => {
     setFilterLogs(logs);
   }, [logs]);
@@ -89,7 +88,6 @@ export function EventManagementHook() {
           } else return false;
         });
       });
-
       event == "" ? setFilterLogs(logs) : setFilterLogs(searchInputFiltered);
     },
     [filterState, logs, filterLogs]

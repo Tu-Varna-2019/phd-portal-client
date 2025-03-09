@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/features/constants";
 import { useSelector } from "react-redux";
 import selectNotifications from "@/features/notification/slices/notificationsMemoSelector";
 
-export function NotificationHook() {
+export default function NotificationHook() {
   const dispatch = useAppDispatch();
   const notifications = useSelector(selectNotifications);
   const [selectedRows, setSelectedRows] = useState([]);

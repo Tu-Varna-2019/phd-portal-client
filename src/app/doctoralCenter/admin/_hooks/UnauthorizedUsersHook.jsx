@@ -9,7 +9,7 @@ import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns
 import { runPeriodically } from "@/lib/helpers/utils";
 import { useTranslation } from "react-i18next";
 
-export function UnauthorizedUsersHook() {
+export default function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
   const dispatch = useAppDispatch();
@@ -28,17 +28,11 @@ export function UnauthorizedUsersHook() {
   const [groupOption, setGroupOption] = useState("");
 
   const fetchUnauthorizedUsers = useCallback(async () => {
-    const unauthorizedUsers = await getUnauthorizedUsers();
-    if (unauthorizedUsers != []) {
-      setUnauthUsers(UnauthorizedUsers.getList(unauthorizedUsers));
-    }
+    setUnauthUsers(await getUnauthorizedUsers());
   }, []);
 
   const fetchDocCenterRoles = useCallback(async () => {
-    const rolesResponse = await getDocCenterRoles();
-    if (rolesResponse != []) {
-      setDoctorCenterRoles(rolesResponse);
-    }
+    setDoctorCenterRoles(await getDocCenterRoles());
   }, []);
 
   useEffect(() => {
@@ -128,12 +122,12 @@ export function UnauthorizedUsersHook() {
   };
 
   return {
+    setSelectedUsers,
     unauthUsers,
     columns,
+    groupOption,
     onButtonPermitOnClick,
     onAutocompleteChange,
-    setSelectedUsers,
-    groupOption,
     docCenterRolesBG
   };
 }

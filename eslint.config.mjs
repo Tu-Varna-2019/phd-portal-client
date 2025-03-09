@@ -9,7 +9,7 @@ export default [
     rules: {
       "import/prefer-default-export": "off",
       "no-unused-vars": "warn",
-      "no-undef": "error",
+      "no-undef": "warn",
       "react-hooks/rules-of-hooks": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-key": "off",
