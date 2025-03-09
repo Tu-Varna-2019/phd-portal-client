@@ -1,5 +1,5 @@
 export const columns = [
-  { field: "description", headerName: "Описание", flex: 1.5, minWidth: 700 },
+  { field: "name", headerName: "Наименование", flex: 1.5, minWidth: 700 },
   {
     field: "yearPeriod",
     headerName: "Срок за обучение (години)",
@@ -18,8 +18,4 @@ export const columns = [
     flex: 1.5,
     minWidth: 400
   }
-];
-
-export const subjectColumns = [
-  { field: "name", headerName: "Наименование", flex: 1.5, minWidth: 700 }
 ];

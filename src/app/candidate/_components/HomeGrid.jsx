@@ -1,13 +1,13 @@
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
-import { columns, subjectColumns } from "../_constants/columnsConstant";
+import { columns } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 import { Card, CardActionArea, Divider } from "@mui/material";
 
 export default function HomeGrid() {
-  const { curriculums, curriculumSubjects } = HomeHook();
+  const { curriculums } = HomeHook();
   const { t } = useTranslation("client-page");
 
   return (

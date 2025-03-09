@@ -14,7 +14,7 @@ export default function HomeHook() {
   const { getCandidates } = DoctoralCenterAPI();
 
   const fetchCandidates = useCallback(async () => {
-    const candidatesResponse = await getCandidates();
+    const candidatesResponse = await getCandidates("status");
     setCandidates(candidatesResponse);
   }, []);
 

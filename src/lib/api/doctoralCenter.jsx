@@ -6,9 +6,9 @@ const API_URL = "/api/doctoralCenter/manager-expert";
 export default function DoctoralCenterAPI() {
   const { route } = ClientRoute();
 
-  const getCandidates = async () => {
+  const getCandidates = async (fields) => {
     return await route({
-      url: `${API_URL}/candidates`,
+      url: `${API_URL}/candidates?fields=${fields}`,
       method: "GET"
     });
   };

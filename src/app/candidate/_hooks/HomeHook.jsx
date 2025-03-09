@@ -13,9 +13,7 @@ export default function HomeHook() {
     const curriculumsResponse = await getCurriculums();
     curriculumsResponse.forEach((curriculum) => {
       curriculum.id = idCounter++;
-      curriculum.description = ready
-        ? t(curriculum.description)
-        : curriculum.description;
+      curriculum.name = ready ? t(curriculum.name) : curriculum.name;
       curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
       curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
     });
@@ -30,20 +28,7 @@ export default function HomeHook() {
     });
   }, [fetchCurriculums]);
 
-  const curriculumSubjects = useMemo(() => {
-    return curriculums.map((curriculum) => {
-      return {
-        description: curriculum.description,
-        subjects: curriculum.subjects.map((subject, index) => ({
-          id: index,
-          name: ready ? t(subject) : subject
-        }))
-      };
-    });
-  }, [curriculums]);
-
   return {
-    curriculums,
-    curriculumSubjects
+    curriculums
   };
 }
