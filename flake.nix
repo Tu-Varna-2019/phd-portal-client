@@ -16,15 +16,26 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ nixpkgs, flake-parts, devenv-root, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs @ {
+    nixpkgs,
+    flake-parts,
+    devenv-root,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         inputs.devenv.flakeModule
       ];
       systems = nixpkgs.lib.systems.flakeExposed;
 
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
-
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: {
         devenv.shells.default = {
           name = "Client ReactJS app";
           languages.javascript = {
@@ -38,12 +49,11 @@
           git-hooks.hooks = {
             # Common
             markdownlint.enable = true;
-            actionlint =
-              {
-                # BUG: Disabled, due to not being able to recognize `include-hidden-files` in github checkout
-                enable = false;
-                excludes = [ "docker-publish.yaml" ];
-              };
+            actionlint = {
+              # BUG: Disabled, due to not being able to recognize `include-hidden-files` in github checkout
+              enable = false;
+              excludes = ["docker-publish.yaml"];
+            };
             checkmake.enable = true;
             prettier.enable = true;
 
@@ -51,13 +61,12 @@
             # BUG: denofmt disabled, due to a local issue
             denofmt.enable = false;
             denolint.enable = false;
-            eslint.enable = false;
+            eslint.enable = true;
           };
 
-          devenv.root =
-            let
-              devenvRootFileContent = builtins.readFile devenv-root.outPath;
-            in
+          devenv.root = let
+            devenvRootFileContent = builtins.readFile devenv-root.outPath;
+          in
             pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
         };
       };
