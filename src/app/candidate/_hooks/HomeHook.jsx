@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
 import { useTranslation } from "react-i18next";

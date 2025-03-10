@@ -5,7 +5,7 @@ const { route } = ServerRoute();
 
 export async function GET(request) {
   return await route({
-    url: url + "/curriculums",
+    url: url + "/subjects",
     method: "GET",
     request: request
   });

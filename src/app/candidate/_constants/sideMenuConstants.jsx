@@ -13,7 +13,7 @@ export const sideMenu = [
   {
     text: "Обявяване на конкурси",
     icon: <AnnouncementIcon />,
-    url: path + "/announcements"
+    url: path + "/contests"
   },
   {
     text: "Контакти",

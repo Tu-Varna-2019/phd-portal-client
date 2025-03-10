@@ -3,14 +3,14 @@ import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { columns } from "../_constants/columnsConstant";
+import { homeColumns } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Card, CardContent, Divider, List, ListItem } from "@mui/material";
+import { Card, Divider, List, ListItem } from "@mui/material";
 import CollapseMenu from "@/components/main-layout/common/CollapseMenu";
 import { TabContext, TabPanel } from "@mui/lab";
 
@@ -134,7 +134,11 @@ export default function HomeGrid() {
             )}
           </Typography>
           <Divider />
-          <Table rows={curriculums} columns={columns} density="comfortable" />
+          <Table
+            rows={curriculums}
+            columns={homeColumns}
+            density="comfortable"
+          />
         </Card>
       </Grid>
     </Grid>
