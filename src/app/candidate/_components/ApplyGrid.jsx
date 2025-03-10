@@ -21,8 +21,7 @@ export default function ApplyGrid() {
           t("Fill in your details")
         ]}
         finishMsg={t("Your application has been submitted successfully")}
-      />
-      <Grid size={{ xs: 12, lg: 9 }}>
+      >
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
           {t("Apply for a PhD")}
         </Typography>
@@ -36,7 +35,7 @@ export default function ApplyGrid() {
             density="comfortable"
           />
         </Box>
-      </Grid>
+      </Milestones>
     </Grid>
   );
 }

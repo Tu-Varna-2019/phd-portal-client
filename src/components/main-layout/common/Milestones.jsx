@@ -7,13 +7,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 
-export default function Milestones({ steps, finishMsg }) {
+export default function Milestones({ children, steps, finishMsg }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const { t } = useTranslation("client-page");
 
   const isStepOptional = (step) => {
-    return step === 1;
+    //NOTE: For now disable optional step skipping
+    // return step === 1;
+    return 1 === 0;
   };
 
   const isStepSkipped = (step) => {
@@ -62,7 +64,7 @@ export default function Milestones({ steps, finishMsg }) {
           const labelProps = {};
           if (isStepOptional(index)) {
             labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
+              <Typography variant="caption">{t("Optional")}</Typography>
             );
           }
           if (isStepSkipped(index)) {
@@ -85,6 +87,8 @@ export default function Milestones({ steps, finishMsg }) {
         </React.Fragment>
       ) : (
         <React.Fragment>
+          <br />
+          {children}
           <Typography sx={{ mt: 2, mb: 1 }}>
             {t("Step")} {activeStep + 1}
           </Typography>
