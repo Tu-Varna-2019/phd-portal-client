@@ -1,6 +1,6 @@
 import { renderLink } from "@/components/cells-renderers/link";
 
-export const homeColumns = [
+export const curriculumColumns = [
   {
     field: "name",
     headerName: "Наименование",

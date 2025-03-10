@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { homeColumns } from "../_constants/columnsConstant";
+import { curriculumColumns } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
@@ -24,7 +24,6 @@ export default function HomeGrid() {
 
   const { t } = useTranslation("client-page");
 
-  // Stepper
   return (
     <Grid container spacing={4} columns={13}>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
@@ -136,7 +135,7 @@ export default function HomeGrid() {
           <Divider />
           <Table
             rows={curriculums}
-            columns={homeColumns}
+            columns={curriculumColumns}
             density="comfortable"
           />
         </Card>

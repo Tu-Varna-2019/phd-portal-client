@@ -1,7 +1,6 @@
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
-import ContactsIcon from "@mui/icons-material/Contacts";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 import { path } from "./pathConstant";
 
@@ -17,13 +16,8 @@ export const sideMenu = [
     url: path + "/contests"
   },
   {
-    text: "Допуснати до изпит кандидат докторанти",
-    icon: <PersonSearchIcon />,
-    url: path + "/in-review"
-  },
-  {
-    text: "Контакти",
-    icon: <ContactsIcon />,
-    url: path + "/contacts"
+    text: "Кандидатствай",
+    icon: <AppRegistrationIcon />,
+    url: path + "/apply"
   }
 ];
