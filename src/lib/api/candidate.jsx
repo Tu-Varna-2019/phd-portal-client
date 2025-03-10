@@ -38,10 +38,19 @@ export default function CandidateAPI() {
     });
   };
 
+  const getFaculty = async () => {
+    return await route({
+      url: `${API_URL}/faculty`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
   return {
     getCurriculums,
     getSubjects,
     getContests,
-    getCandidatesInReview
+    getCandidatesInReview,
+    getFaculty
   };
 }

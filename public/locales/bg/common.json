@@ -1,5 +1,11 @@
 {
   "Hello": "Здравей",
+  "Back": "Назaде",
+  "Next": "Следващ",
+  "Step": "Стъпка",
+  "Skip": "Пропусни",
+  "Finish": "Край",
+  "Reset": "Възстановяване",
   "Home Page": "Начална страница",
   "description": "Описание",
   "time": "Време",
@@ -47,5 +53,10 @@
   "Doctoral Program Disciplines": "Дисциплини по докторантска програма",
   "Announcement of competitions for PhD students": "Обявяване на конкурси за докторанти",
   "Doctoral candidates admitted to the examination": "Допуснати до изпит кандидат докторанти",
-  "Apply for a PhD": "Кандидатствай за докторантура"
+  "Apply for a PhD": "Кандидатствай за докторантура",
+  "Choose a faculty": "Изберете факултет",
+  "Choose a study programme": "Изберете учебна програма",
+  "Select disciplines": "Изберете дисциплини",
+  "Fill in your details": "Попълнете вашите данни",
+  "Your application has been submitted successfully": "Кандидатурата ви беше изпратена успешно"
 }

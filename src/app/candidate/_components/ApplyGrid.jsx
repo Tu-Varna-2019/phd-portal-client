@@ -5,18 +5,26 @@ import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import AppllyHook from "../_hooks/ApplyHook";
+import Milestones from "@/components/main-layout/common/Milestones";
 
 export default function ApplyGrid() {
-  const { curriculums } = AppllyHook();
-
+  const { curriculums, faculties, form } = AppllyHook();
   const { t } = useTranslation("client-page");
 
-  // Stepper
   return (
     <Grid container spacing={4} columns={5}>
+      <Milestones
+        steps={[
+          t("Choose a faculty"),
+          t("Choose a study programme"),
+          t("Select disciplines"),
+          t("Fill in your details")
+        ]}
+        finishMsg={t("Your application has been submitted successfully")}
+      />
       <Grid size={{ xs: 12, lg: 9 }}>
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-          {t("Announcement of competitions for PhD students")}
+          {t("Apply for a PhD")}
         </Typography>
         <Box sx={{ width: "100%" }}>
           <Typography component="h2" variant="h6" sx={{ mb: 2 }}>

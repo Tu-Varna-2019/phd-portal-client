@@ -3,10 +3,17 @@ import { runPeriodically } from "@/lib/helpers/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+const initUserSelection = {
+  faculty: "",
+  curriculum: ""
+};
+
 export default function AppllyHook() {
   const [curriculums, setCurriculums] = useState([]);
+  const [faculties, setFaculties] = useState([]);
+  const [form, setForm] = useState(initUserSelection);
 
-  const { getCurriculums, getSubjects } = CandidateAPI();
+  const { getCurriculums, getFaculty, getSubjects } = CandidateAPI();
   const { t, ready } = useTranslation("client-page");
 
   const fetchCurriculums = useCallback(async () => {
@@ -21,14 +28,28 @@ export default function AppllyHook() {
     setCurriculums(curriculumsResponse);
   }, []);
 
+  const fetchFaculties = useCallback(async () => {
+    const facultiesRes = await getFaculty();
+    facultiesRes.forEach((faculty, index) => {
+      faculty.id = index;
+      faculty.name = ready ? t(faculty.name) : faculty.name;
+    });
+
+    setFaculties(facultiesRes);
+  }, []);
+
   useEffect(() => {
     fetchCurriculums();
+    fetchFaculties();
     return runPeriodically(() => {
       fetchCurriculums();
+      fetchFaculties();
     });
-  }, [fetchCurriculums]);
+  }, [fetchCurriculums, fetchFaculties]);
 
   return {
-    curriculums
+    curriculums,
+    faculties,
+    form
   };
 }
