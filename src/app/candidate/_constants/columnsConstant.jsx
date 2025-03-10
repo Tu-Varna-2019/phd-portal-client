@@ -1,5 +1,13 @@
+import { renderLink } from "@/components/cells-renderers/link";
+
 export const columns = [
-  { field: "name", headerName: "Наименование", flex: 1.5, minWidth: 700 },
+  {
+    field: "name",
+    headerName: "Наименование",
+    flex: 1.5,
+    minWidth: 700,
+    renderCell: (param) => renderLink(param.row.name, param.row.name)
+  },
   {
     field: "yearPeriod",
     headerName: "Срок за обучение (години)",

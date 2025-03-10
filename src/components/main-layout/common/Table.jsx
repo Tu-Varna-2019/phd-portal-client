@@ -4,7 +4,8 @@ export default function Table({
   rows,
   columns,
   checkboxEnabled = false,
-  onRowSelect
+  onRowSelect,
+  density = "compact"
 }) {
   return (
     <DataGrid
@@ -21,7 +22,7 @@ export default function Table({
       pageSizeOptions={[10, 20, 50]}
       disableColumnResize
       dataSet="Commodity"
-      density="compact"
+      density={density}
       slotProps={{
         filterPanel: {
           filterFormProps: {
