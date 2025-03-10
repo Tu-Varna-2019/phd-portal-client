@@ -23,7 +23,7 @@
     "@mui/x-tree-view": "^7.22.1",
     "@react-spring/web": "^9.7.5",
     "@reduxjs/toolkit": "^2.6.0",
-    "axios": "^1.8.1",
+    "axios": "^1.8.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "eslint-config-prettier": "^9.1.0",
