@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
+import { runPeriodically } from "@/lib/helpers/utils";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function HomeHook() {
+export default function AppllyHook() {
   const [curriculums, setCurriculums] = useState([]);
-  const { getCurriculums } = CandidateAPI();
+
+  const { getCurriculums, getSubjects } = CandidateAPI();
   const { t, ready } = useTranslation("client-page");
 
   const fetchCurriculums = useCallback(async () => {
