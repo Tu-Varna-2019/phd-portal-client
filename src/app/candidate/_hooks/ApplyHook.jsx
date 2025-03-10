@@ -1,6 +1,5 @@
 import CandidateAPI from "@/lib/api/candidate";
-import { runPeriodically } from "@/lib/helpers/utils";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const initUserSelection = {
@@ -9,14 +8,17 @@ const initUserSelection = {
 };
 
 export default function AppllyHook() {
-  const [curriculums, setCurriculums] = useState([]);
+  const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [form, setForm] = useState(initUserSelection);
+  const [activeStep, setActiveStep] = useState(0);
 
   const { getCurriculums, getFaculty, getSubjects } = CandidateAPI();
   const { t, ready } = useTranslation("client-page");
 
-  const fetchCurriculums = useCallback(async () => {
+  const fetchCurriculumsByFaculty = useCallback(async () => {
+    if (curriculumsByFaculty.length > 0) return;
+
     const curriculumsResponse = await getCurriculums();
     curriculumsResponse.forEach((curriculum, index) => {
       curriculum.id = index;
@@ -25,10 +27,12 @@ export default function AppllyHook() {
       curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
     });
 
-    setCurriculums(curriculumsResponse);
+    setCurriculumsByFaculty(curriculumsResponse);
   }, []);
 
   const fetchFaculties = useCallback(async () => {
+    if (faculties.length > 0) return;
+
     const facultiesRes = await getFaculty();
     facultiesRes.forEach((faculty, index) => {
       faculty.id = index;
@@ -39,16 +43,19 @@ export default function AppllyHook() {
   }, []);
 
   useEffect(() => {
-    fetchCurriculums();
-    fetchFaculties();
-    return runPeriodically(() => {
-      fetchCurriculums();
+    if (activeStep == 0) {
       fetchFaculties();
-    });
-  }, [fetchCurriculums, fetchFaculties]);
+    } else if (activeStep == 1) {
+      fetchCurriculumsByFaculty();
+    }
+  }, [activeStep, fetchFaculties, fetchCurriculumsByFaculty]);
 
   return {
-    curriculums,
+    activeStep,
+    fetchFaculties,
+    fetchCurriculumsByFaculty,
+    setActiveStep,
+    curriculumsByFaculty,
     faculties,
     form
   };

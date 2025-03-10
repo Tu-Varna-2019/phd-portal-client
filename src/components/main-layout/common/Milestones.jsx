@@ -7,8 +7,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 
-export default function Milestones({ children, steps, finishMsg }) {
-  const [activeStep, setActiveStep] = React.useState(0);
+export default function Milestones({
+  children,
+  activeStep,
+  setActiveStep,
+  steps,
+  finishMsg
+}) {
   const [skipped, setSkipped] = React.useState(new Set());
   const { t } = useTranslation("client-page");
 
@@ -80,10 +85,12 @@ export default function Milestones({ children, steps, finishMsg }) {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>{finishMsg}</Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          {/* NOTE: Don't need to provide reset
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleReset}>{t("Reset")}</Button>
           </Box>
+            */}
         </React.Fragment>
       ) : (
         <React.Fragment>

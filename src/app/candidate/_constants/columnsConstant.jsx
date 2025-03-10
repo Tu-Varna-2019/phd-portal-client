@@ -63,3 +63,21 @@ export const candidatesInReviewColumns = [
     minWidth: 400
   }
 ];
+
+export const facultiesColumns = [
+  {
+    field: "name",
+    headerName: "Катедра",
+    flex: 1.5,
+    minWidth: 700
+  }
+];
+
+export const subjectsColumns = [
+  {
+    field: "name",
+    headerName: "Дисциплина",
+    flex: 1.5,
+    minWidth: 700
+  }
+];
