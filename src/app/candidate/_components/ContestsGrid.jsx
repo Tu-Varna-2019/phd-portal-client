@@ -1,6 +1,9 @@
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import { contestsColumns } from "../_constants/columnsConstant";
+import {
+  candidatesInReviewColumns,
+  contestsColumns
+} from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import { useTranslation } from "react-i18next";
 import * as React from "react";
@@ -10,8 +13,12 @@ import Tab from "@mui/material/Tab";
 import ContestsHook from "../_hooks/ContestsHook";
 
 export default function ContestsGrid() {
-  const { contestYears, selectedCandidatesByYear, setSelectedYearContest } =
-    ContestsHook();
+  const {
+    contestYears,
+    selectedCandidatesByYear,
+    setSelectedYearContest,
+    candidatesInReview
+  } = ContestsHook();
   const [tabState, setTabState] = React.useState(0);
 
   const handleChange = (_, tabIndexValue) => {
@@ -22,11 +29,10 @@ export default function ContestsGrid() {
 
   return (
     <Grid container spacing={4} columns={5}>
-      <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        {t("Announcement of competitions for PhD students")}
-      </Typography>
-
       <Grid size={{ xs: 12, lg: 9 }}>
+        <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+          {t("Announcement of competitions for PhD students")}
+        </Typography>
         <Box sx={{ width: "100%" }}>
           <Tabs value={tabState} onChange={handleChange} centered>
             {contestYears.map((year, index) => {
@@ -34,8 +40,20 @@ export default function ContestsGrid() {
             })}
           </Tabs>
           <Table
+            key={0}
             rows={selectedCandidatesByYear}
             columns={contestsColumns}
+            density="comfortable"
+          />
+
+          <br />
+          <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+            {t("Doctoral candidates admitted to the examination")}
+          </Typography>
+          <Table
+            key={1}
+            rows={candidatesInReview}
+            columns={candidatesInReviewColumns}
             density="comfortable"
           />
         </Box>

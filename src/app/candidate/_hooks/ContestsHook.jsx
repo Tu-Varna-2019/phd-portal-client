@@ -5,7 +5,9 @@ import { useTranslation } from "react-i18next";
 export default function ContestsHook() {
   const [contests, setContests] = useState([]);
   const [selectedContestYear, setSelectedYearContest] = useState();
-  const { getContests } = CandidateAPI();
+  const [candidatesInReview, setCandidatesInReview] = useState();
+
+  const { getContests, getCandidatesInReview } = CandidateAPI();
   const { t, ready } = useTranslation("client-page");
 
   const fetchContests = useCallback(async () => {
@@ -23,10 +25,21 @@ export default function ContestsHook() {
     setSelectedYearContest(contestsRes[0].yearAccepted);
   }, []);
 
+  const fetchCandidatesInReview = useCallback(async () => {
+    const candidatesInReviewRes = await getCandidatesInReview();
+    candidatesInReviewRes.forEach((candidate, index) => {
+      candidate.id = index;
+      candidate.faculty = ready ? t(candidate.faculty) : candidate.faculty;
+      return candidate;
+    });
+    setCandidatesInReview(candidatesInReviewRes);
+  }, []);
+
   useEffect(() => {
     // NOTE: Don't need to retrieve the contests every N number of seconds
     fetchContests();
-  }, [fetchContests]);
+    fetchCandidatesInReview();
+  }, [fetchContests, fetchCandidatesInReview]);
 
   const contestYears = useMemo(() => {
     return Array.from(new Set(contests.map((contest) => contest.yearAccepted)));
@@ -41,6 +54,7 @@ export default function ContestsHook() {
   return {
     contestYears,
     selectedCandidatesByYear,
-    setSelectedYearContest
+    setSelectedYearContest,
+    candidatesInReview
   };
 }

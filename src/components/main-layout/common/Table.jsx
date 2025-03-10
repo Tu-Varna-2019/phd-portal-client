@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function Table({
+  key = 0,
   rows,
   columns,
   checkboxEnabled = false,
@@ -9,6 +10,7 @@ export default function Table({
 }) {
   return (
     <DataGrid
+      key={key}
       rows={rows}
       columns={columns}
       checkboxSelection={checkboxEnabled}

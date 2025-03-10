@@ -30,9 +30,18 @@ export default function CandidateAPI() {
     });
   };
 
+  const getCandidatesInReview = async () => {
+    return await route({
+      url: `${API_URL}/in-review`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
   return {
     getCurriculums,
     getSubjects,
-    getContests
+    getContests,
+    getCandidatesInReview
   };
 }
