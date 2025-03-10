@@ -9,26 +9,13 @@ const initUserSelection = {
 
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
+  const [selectedFaculty, setSelecetedFaculty] = useState();
   const [faculties, setFaculties] = useState([]);
   const [form, setForm] = useState(initUserSelection);
   const [activeStep, setActiveStep] = useState(0);
 
   const { getCurriculums, getFaculty, getSubjects } = CandidateAPI();
   const { t, ready } = useTranslation("client-page");
-
-  const fetchCurriculumsByFaculty = useCallback(async () => {
-    if (curriculumsByFaculty.length > 0) return;
-
-    const curriculumsResponse = await getCurriculums();
-    curriculumsResponse.forEach((curriculum, index) => {
-      curriculum.id = index;
-      curriculum.name = ready ? t(curriculum.name) : curriculum.name;
-      curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
-      curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
-    });
-
-    setCurriculumsByFaculty(curriculumsResponse);
-  }, []);
 
   const fetchFaculties = useCallback(async () => {
     if (faculties.length > 0) return;
@@ -41,6 +28,22 @@ export default function AppllyHook() {
 
     setFaculties(facultiesRes);
   }, []);
+
+  const fetchCurriculumsByFaculty = useCallback(async () => {
+    if (curriculumsByFaculty.length > 0) return;
+
+    const curriculumsResponse = await getCurriculums();
+    curriculumsResponse.forEach((curriculum, index) => {
+      if (curriculum.faculty == selectedFaculty) {
+        curriculum.id = index;
+        curriculum.name = ready ? t(curriculum.name) : curriculum.name;
+        curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
+        curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
+      }
+    });
+
+    setCurriculumsByFaculty(curriculumsResponse);
+  }, [faculties]);
 
   useEffect(() => {
     if (activeStep == 0) {
@@ -57,6 +60,7 @@ export default function AppllyHook() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    form
+    form,
+    setSelecetedFaculty
   };
 }

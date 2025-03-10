@@ -17,7 +17,7 @@ export default function ApplyGrid() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    form,
+    setSelecetedFaculty,
     fetchCurriculumsByFaculty,
     fetchFaculties
   } = AppllyHook();
