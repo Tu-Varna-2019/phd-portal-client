@@ -12,7 +12,8 @@ export default function Milestones({
   activeStep,
   setActiveStep,
   steps,
-  finishMsg
+  finishMsg,
+  nextBtnDisabled
 }) {
   const [skipped, setSkipped] = React.useState(new Set());
   const { t } = useTranslation("client-page");
@@ -114,7 +115,7 @@ export default function Milestones({
                 {t("Skip")}
               </Button>
             )}
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} disabled={nextBtnDisabled}>
               {activeStep === steps.length - 1 ? t("Finish") : t("Next")}
             </Button>
           </Box>

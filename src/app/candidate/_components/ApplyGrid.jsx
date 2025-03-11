@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import AppllyHook from "../_hooks/ApplyHook";
 import Milestones from "@/components/main-layout/common/Milestones";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
 export default function ApplyGrid() {
   const {
@@ -17,9 +17,10 @@ export default function ApplyGrid() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    setSelecetedFaculty,
-    fetchCurriculumsByFaculty,
-    fetchFaculties
+    disableNextBtn,
+    selectedFaculty,
+    setSelectedFaculty,
+    titleText
   } = AppllyHook();
   const { t } = useTranslation("client-page");
 
@@ -27,11 +28,21 @@ export default function ApplyGrid() {
     switch (activeStep) {
       case 0:
         return (
-          <Table
-            rows={faculties}
-            columns={facultiesColumns}
-            density="comfortable"
-          />
+          <>
+            {selectedFaculty !== "" && (
+              <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
+                {selectedFaculty}
+              </Typography>
+            )}
+            <Table
+              onRowSelect={(rowIndex) =>
+                setSelectedFaculty(JSON.stringify(faculties[rowIndex].name))
+              }
+              rows={faculties}
+              columns={facultiesColumns}
+              density="comfortable"
+            />
+          </>
         );
       case 1:
         return (
@@ -58,13 +69,7 @@ export default function ApplyGrid() {
           />
         );
     }
-  }, [
-    activeStep,
-    faculties,
-    fetchFaculties,
-    curriculumsByFaculty,
-    fetchCurriculumsByFaculty
-  ]);
+  }, [activeStep, faculties, curriculumsByFaculty, selectedFaculty]);
 
   return (
     <Grid container spacing={4} columns={5}>
@@ -78,13 +83,14 @@ export default function ApplyGrid() {
           t("Fill in your details")
         ]}
         finishMsg={t("Your application has been submitted successfully")}
+        nextBtnDisabled={disableNextBtn}
       >
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
           {t("Apply for a PhD")}
         </Typography>
         <Box sx={{ width: "100%" }}>
           <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-            {t("Doctoral candidates admitted to the examination")}
+            {titleText}
           </Typography>
           <RenderGrid />
         </Box>
