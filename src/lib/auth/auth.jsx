@@ -25,8 +25,8 @@ export default function Auth() {
     dispatch(clearDoctoralCenter());
 
     instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/"
+      postLogoutRedirectUri: "/en",
+      mainWindowRedirectUri: "/en"
     });
   };
 

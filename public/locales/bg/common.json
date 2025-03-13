@@ -1,5 +1,8 @@
 {
   "Hello": "Здравей",
+  "Home": "Начало",
+  "Announcement of competitions": "Обявяване на конкурси",
+  "Candidate": "Кандидатствай",
   "Back": "Назaде",
   "Next": "Следващ",
   "waiting": "Чакащи",
@@ -32,7 +35,8 @@
   "Home page": "Начална страница",
   "description": "Описание",
   "Unauthorized users": "Неудостоверени потребители",
-  "User management": "Неудостоверени потребители",
+  "User management": "Управление на потребители",
+  "Applications": "Кандидатури",
   "time": "Време",
   "action": "Действие",
   "level": "Ниво",

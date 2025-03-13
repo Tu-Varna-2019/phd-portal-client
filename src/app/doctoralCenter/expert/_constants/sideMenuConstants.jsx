@@ -3,26 +3,35 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArticleIcon from "@mui/icons-material/Article";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { path } from "./pathConstant";
+import Translate from "@/lib/helpers/Translate";
 
-export const sideMenu = [
-  {
-    text: "Начална страница",
-    icon: <HomeRoundedIcon />,
-    url: path
-  },
-  {
-    text: "Неудостоверени потребители",
-    icon: <AccountCircleIcon />,
-    url: path + "/unauthorized-users"
-  },
-  {
-    text: "Кандидатури",
-    icon: <ArticleIcon />,
-    url: path + "/candidates"
-  },
-  {
-    text: "Изпити",
-    icon: <CalendarTodayIcon />,
-    url: path + "/exams"
-  }
-];
+export const SideMenuConstants = () => {
+  const { tr } = Translate();
+
+  const navigation = [
+    {
+      text: tr("Home page"),
+      icon: <HomeRoundedIcon />,
+      url: path
+    },
+    {
+      text: tr("Unauthorized users"),
+      icon: <AccountCircleIcon />,
+      url: path + "/unauthorized-users"
+    },
+    {
+      text: tr("Applications"),
+      icon: <ArticleIcon />,
+      url: path + "/candidates"
+    },
+    {
+      text: tr("Exams"),
+      icon: <CalendarTodayIcon />,
+      url: path + "/exams"
+    }
+  ];
+
+  return {
+    navigation
+  };
+};

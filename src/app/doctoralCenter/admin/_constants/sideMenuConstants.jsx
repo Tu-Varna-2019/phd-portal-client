@@ -4,25 +4,33 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { path } from "./pathConstant";
 
-export const sideMenu = [
-  {
-    text: "Начална страница",
-    icon: <HomeRoundedIcon />,
-    url: path
-  },
-  {
-    text: "Управление на събития",
-    icon: <ReceiptLongIcon />,
-    url: path + "/event-management"
-  },
-  {
-    text: "Управление на  потребители",
-    icon: <AccountCircleIcon />,
-    url: path + "/user-management"
-  },
-  {
-    text: "Неоторизирани потребители",
-    icon: <NoAccountsIcon />,
-    url: path + "/unauthorized-users-management"
-  }
-];
+export const SideMenuConstants = () => {
+  const { tr } = Translate();
+
+  const navigation = [
+    {
+      text: tr("Home page"),
+      icon: <HomeRoundedIcon />,
+      url: path
+    },
+    {
+      text: tr("Event Management"),
+      icon: <ReceiptLongIcon />,
+      url: path + "/event-management"
+    },
+    {
+      text: tr("User management"),
+      icon: <AccountCircleIcon />,
+      url: path + "/user-management"
+    },
+    {
+      text: tr("Unauthorized users"),
+      icon: <NoAccountsIcon />,
+      url: path + "/unauthorized-users-management"
+    }
+  ];
+
+  return {
+    navigation
+  };
+};
