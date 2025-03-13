@@ -2,14 +2,16 @@
 import Layout from "@/components/main-layout/Layout";
 import { sideMenu } from "../../_constants/sideMenuConstants";
 import { path } from "../../_constants/pathConstant";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
-  const { t } = useTranslation("client-page");
+  const { tr } = Translate();
 
   return (
     <Layout
-      headerTitle={t("Automated information processing and management systems")}
+      headerTitle={tr(
+        "Automated information processing and management systems"
+      )}
       MainView={<></>}
       basePath={path}
       mainListItems={sideMenu}

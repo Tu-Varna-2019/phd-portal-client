@@ -1,14 +1,16 @@
 import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  candidatesLabelStuct,
-  candidatesPieChartStruct
-} from "../_constants/dashboardConstants";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 import { runPeriodically } from "@/lib/helpers/utils";
+import Translate from "@/lib/helpers/Translate";
+import { DashboardConstants } from "../_constants/dashboardConstants";
 
 export default function HomeHook() {
+  const { tr } = Translate();
+  const { candidatesLabelStuct, candidatesPieChartStruct } =
+    DashboardConstants();
+
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const [candidates, setCandidates] = useState([]);
   const { getCandidates } = DoctoralCenterAPI();
@@ -31,20 +33,10 @@ export default function HomeHook() {
 
   const getChartCandidates = useCallback(
     (candidatesStruct, pieChartKeyName) => {
-      const candidateStatusesLangMapping = {
-        Чакащи: "waiting",
-        Приети: "accepted",
-        Отказани: "rejected"
-      };
-
       Object.entries(candidatesStruct).map(([_, value], index) => {
         candidatesStruct[index].value = candidates.reduce(
           (prev, currentValue) => {
-            if (
-              currentValue.status ==
-              candidateStatusesLangMapping[value[pieChartKeyName]]
-            )
-              prev++;
+            if (currentValue.status == tr(value[pieChartKeyName], "en")) prev++;
             return prev;
           },
           0

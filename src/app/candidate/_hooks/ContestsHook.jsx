@@ -1,6 +1,6 @@
 import CandidateAPI from "@/lib/api/candidate";
+import Translate from "@/lib/helpers/Translate";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 export default function ContestsHook() {
   const [contests, setContests] = useState([]);
@@ -8,13 +8,13 @@ export default function ContestsHook() {
   const [candidatesInReview, setCandidatesInReview] = useState();
 
   const { getContests, getCandidatesInReview } = CandidateAPI();
-  const { t, ready } = useTranslation("client-page");
+  const { tr } = Translate();
 
   const fetchContests = useCallback(async () => {
     const contestsRes = await getContests();
     contestsRes.forEach((contest, index) => {
       contest.id = index;
-      contest.faculty = ready ? t(contest.faculty) : contest.faculty;
+      contest.faculty = tr(contest.faculty);
       return contest;
     });
     contestsRes.sort(
@@ -29,7 +29,7 @@ export default function ContestsHook() {
     const candidatesInReviewRes = await getCandidatesInReview();
     candidatesInReviewRes.forEach((candidate, index) => {
       candidate.id = index;
-      candidate.faculty = ready ? t(candidate.faculty) : candidate.faculty;
+      candidate.faculty = tr(candidate.faculty);
       return candidate;
     });
     setCandidatesInReview(candidatesInReviewRes);

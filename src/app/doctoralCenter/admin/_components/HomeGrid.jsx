@@ -8,8 +8,10 @@ import { Pagination } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { LogsHook, UserHook } from "../_hooks/HomeHook";
+import Translate from "@/lib/helpers/Translate";
 
 export default function HomeGrid() {
+  const { tr } = Translate();
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const {
     selectedYearLog,
@@ -25,7 +27,7 @@ export default function HomeGrid() {
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Добре дошли {doctoralCenter.name}
+        {tr("Welcome")} {doctoralCenter.name}
       </Typography>
 
       <Grid
@@ -37,7 +39,7 @@ export default function HomeGrid() {
         <Grid size={{ xs: 12, lg: 3 }}>
           <Stack gap={2} direction={{ xs: "column", sm: "row", lg: "column" }}>
             <PieChartDiagram
-              title={"Потребители в системата"}
+              title={tr("Users into the system")}
               chartAvgValue={getSumUsers()}
               pieChartLabels={userGroupsData}
               data={userGroupsChartData}
@@ -47,8 +49,8 @@ export default function HomeGrid() {
 
         <Grid size={{ xs: 12, md: 6 }}>
           <BarChartDashboard
-            title={`Събития за година ${selectedYearLog}`}
-            description={"Времева линия на събитията"}
+            title={tr("Events for year") + "" + selectedYearLog}
+            description={tr("Timeline for the events")}
             avgValue={sumOfLogsByYear}
             logsBarChartSeries={logsByYear}
           />

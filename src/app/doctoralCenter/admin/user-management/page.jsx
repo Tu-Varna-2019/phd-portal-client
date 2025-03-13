@@ -5,11 +5,14 @@ import UserManagementGrid from "../_components/UserManagementGrid";
 import { sideMenu } from "../_constants/sideMenuConstants";
 
 import { path } from "../_constants/pathConstant";
+import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
+  const { tr } = Translate();
+
   return (
     <Layout
-      headerTitle={"Управление на потребители"}
+      headerTitle={tr("User management")}
       basePath={path}
       MainView={<UserManagementGrid />}
       mainListItems={sideMenu}

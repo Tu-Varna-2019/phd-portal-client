@@ -7,22 +7,24 @@ import { setDoctoralCenter } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
 import { sideMenu } from "../_constants/sideMenuConstants";
 import ProfileGrid from "@/app/(common)/_profile/_components/ProfileGrid";
+import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
+  const { tr } = Translate();
   const doctoralCenter = useSelector(selectDoctoralCenter);
 
-  const nameFields = ["Име", "Имейл"];
+  const nameFields = [tr("name"), tr("email")];
   const user = {
     name: doctoralCenter.name,
     email: doctoralCenter.email,
     picture: doctoralCenter.picture,
     pictureBlob: doctoralCenter.pictureBlob,
-    role: "Администратор"
+    role: tr("admin")
   };
 
   return (
     <Layout
-      headerTitle={"Профил"}
+      headerTitle={"Profile"}
       basePath={path}
       MainView={
         <ProfileGrid

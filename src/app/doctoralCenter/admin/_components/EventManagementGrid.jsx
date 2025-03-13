@@ -7,7 +7,7 @@ import Loading from "@/app/loading";
 import { eventColumns } from "../_constants/eventConstants";
 import EventManagementHook from "../_hooks/EventManagementHook";
 import Table from "@/components/main-layout/common/Table";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 const filterButtons = [
   "description",
@@ -28,7 +28,7 @@ export default function EventManagementGrid() {
     filterState,
     filterLogs
   } = EventManagementHook();
-  const { t, ready } = useTranslation("client-page");
+  const { tr } = Translate();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -42,7 +42,7 @@ export default function EventManagementGrid() {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  {t("Please wait")}
+                  {tr("Please wait")}
                 </Typography>
                 <Loading />
               </>
@@ -58,9 +58,7 @@ export default function EventManagementGrid() {
                           variant={value ? "contained" : "outlined"}
                           onClick={() => setFilterStateOnClick(key)}
                         >
-                          {ready
-                            ? t(filterButtons[index])
-                            : filterButtons[index]}
+                          {tr(filterButtons[index])}
                         </Button>
                       );
                     })}

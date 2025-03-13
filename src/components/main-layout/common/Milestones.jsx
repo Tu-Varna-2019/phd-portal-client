@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function Milestones({
   children,
@@ -16,7 +16,7 @@ export default function Milestones({
   nextBtnDisabled
 }) {
   const [skipped, setSkipped] = React.useState(new Set());
-  const { t } = useTranslation("client-page");
+  const { tr } = Translate();
 
   const isStepOptional = (step) => {
     //NOTE: For now disable optional step skipping
@@ -70,7 +70,7 @@ export default function Milestones({
           const labelProps = {};
           if (isStepOptional(index)) {
             labelProps.optional = (
-              <Typography variant="caption">{t("Optional")}</Typography>
+              <Typography variant="caption">{tr("Optional")}</Typography>
             );
           }
           if (isStepSkipped(index)) {
@@ -89,7 +89,7 @@ export default function Milestones({
           {/* NOTE: Don't need to provide reset
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>{t("Reset")}</Button>
+            <Button onClick={handleReset}>{tr("Reset")}</Button>
           </Box>
             */}
         </React.Fragment>
@@ -98,7 +98,7 @@ export default function Milestones({
           <br />
           {children}
           <Typography sx={{ mt: 2, mb: 1 }}>
-            {t("Step")} {activeStep + 1}
+            {tr("Step")} {activeStep + 1}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -107,16 +107,16 @@ export default function Milestones({
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
-              {t("Back")}
+              {tr("Back")}
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                {t("Skip")}
+                {tr("Skip")}
               </Button>
             )}
             <Button onClick={handleNext} disabled={nextBtnDisabled}>
-              {activeStep === steps.length - 1 ? t("Finish") : t("Next")}
+              {activeStep === steps.length - 1 ? tr("Finish") : tr("Next")}
             </Button>
           </Box>
         </React.Fragment>
