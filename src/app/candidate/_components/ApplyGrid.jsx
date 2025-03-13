@@ -5,11 +5,11 @@ import {
   facultiesColumns
 } from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
-import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import AppllyHook from "../_hooks/ApplyHook";
 import Milestones from "@/components/main-layout/common/Milestones";
 import { useCallback } from "react";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ApplyGrid() {
   const {
@@ -23,7 +23,7 @@ export default function ApplyGrid() {
     titleText,
     disableNextBtn
   } = AppllyHook();
-  const { t } = useTranslation("client-page");
+  const { tr } = Translate();
 
   const RenderGrid = useCallback(() => {
     switch (activeStep) {
@@ -78,16 +78,16 @@ export default function ApplyGrid() {
         activeStep={activeStep}
         setActiveStep={setActiveStep}
         steps={[
-          t("Choose a faculty"),
-          t("Choose a study programme"),
-          t("Select disciplines"),
-          t("Fill in your details")
+          tr("Choose a faculty"),
+          tr("Choose a study programme"),
+          tr("Select disciplines"),
+          tr("Fill in your details")
         ]}
-        finishMsg={t("Your application has been submitted successfully")}
+        finishMsg={tr("Your application has been submitted successfully")}
         nextBtnDisabled={disableNextBtn}
       >
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-          {t("Apply for a PhD")}
+          {tr("Apply for a PhD")}
         </Typography>
         <Box sx={{ width: "100%" }}>
           <Typography component="h2" variant="h6" sx={{ mb: 2 }}>

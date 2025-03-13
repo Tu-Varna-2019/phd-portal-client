@@ -8,26 +8,21 @@ import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import { usePathname } from "next/navigation";
-import { useTranslation } from "react-i18next";
 import { MenuItem, Select } from "@mui/material";
+import Translate from "@/lib/helpers/Translate";
 
 export default function MenuContent({ mainListItems }) {
   const path = usePathname();
-  const { t, i18n } = useTranslation("client-page");
-
-  const languagesShort = [t("bg"), t("en")];
-
-  const changeLanguage = (lang) => {
-    i18n.changeLanguage(t(lang, { lng: "en" }));
-  };
+  const { tr, changeLanguage, language } = Translate();
+  const languagesShort = [tr("bg"), tr("en")];
 
   const secondaryListItems = [
-    { text: "Контакти", icon: <ContactsIcon /> },
+    { text: tr("Contacts"), icon: <ContactsIcon /> },
     {
-      text: "Език: Български",
+      text: tr("Language"),
       icon: <LanguageIcon />,
       component: (
-        <Select value={t(i18n.language)} onChange={changeLanguage}>
+        <Select value={tr(language)} onChange={changeLanguage}>
           {languagesShort.map((lang) => {
             return <MenuItem value={lang}>{lang}</MenuItem>;
           })}

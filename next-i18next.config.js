@@ -1,5 +1,6 @@
 const isBrowser = typeof window !== "undefined";
-/** @type {import('next-i18next').UserConfig} */
+
+/* eslint-disable no-undef */
 module.exports = {
   i18n: {
     defaultLocale: "bg",
