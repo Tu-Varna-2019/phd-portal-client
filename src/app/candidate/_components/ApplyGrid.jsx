@@ -17,10 +17,11 @@ export default function ApplyGrid() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    disableNextBtn,
+    form,
     selectedFaculty,
     setSelectedFaculty,
-    titleText
+    titleText,
+    disableNextBtn
   } = AppllyHook();
   const { t } = useTranslation("client-page");
 
@@ -36,7 +37,7 @@ export default function ApplyGrid() {
             )}
             <Table
               onRowSelect={(rowIndex) =>
-                setSelectedFaculty(JSON.stringify(faculties[rowIndex].name))
+                setSelectedFaculty(faculties[rowIndex].name)
               }
               rows={faculties}
               columns={facultiesColumns}

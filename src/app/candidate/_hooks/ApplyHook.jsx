@@ -33,17 +33,21 @@ export default function AppllyHook() {
     if (curriculumsByFaculty.length > 0) return;
 
     const curriculumsResponse = await getCurriculums();
-    curriculumsResponse.forEach((curriculum, index) => {
-      // if (curriculum.faculty == selectedFaculty) {
-      curriculum.id = index;
-      curriculum.name = ready ? t(curriculum.name) : curriculum.name;
-      curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
-      curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
-      // }
-    });
+    console.log(`selected faculty is: ${selectedFaculty} `);
 
-    setCurriculumsByFaculty(curriculumsResponse);
-  }, [faculties]);
+    const curriculumFilterBySelectedFaculty = curriculumsResponse
+      .map((curriculum, index) => {
+        console.log(`Curriculum faculty: ${curriculum.faculty}`);
+        curriculum.id = index;
+        curriculum.name = ready ? t(curriculum.name) : curriculum.name;
+        curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
+        curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
+      })
+      .filter((curriculum) => curriculum.faculty == selectedFaculty);
+
+    console.log(`Filtered is: ${curriculumFilterBySelectedFaculty}`);
+    setCurriculumsByFaculty(curriculumFilterBySelectedFaculty);
+  }, [faculties, selectedFaculty]);
 
   const titleText = useMemo(() => {
     if (activeStep == 0) {
