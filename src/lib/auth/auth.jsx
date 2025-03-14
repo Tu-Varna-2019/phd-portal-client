@@ -45,13 +45,11 @@ export default function Auth() {
     return response;
   };
 
-  const amIAuthenticated = () => {
-    return isAuthenticated && accounts.length > 0;
-  };
+  const amIAuthenticated = isAuthenticated && accounts.length > 0;
 
   const evaluateGroup = async (data, group) => {
     switch (group) {
-      case "doctoralCenter":
+      case "doctoral-center":
         dispatch(setDoctoralCenter({ data }));
         break;
       case "phd":

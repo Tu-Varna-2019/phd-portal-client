@@ -62,6 +62,7 @@
             denofmt.enable = false;
             denolint.enable = false;
             eslint.enable = true;
+            # eslint src/**/*.jsx --fix
           };
 
           devenv.root = let

@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useTheme } from "@mui/material/styles";
+import Translate from "@/lib/helpers/Translate";
 
 export default function BarChartDashboard({
   title,
@@ -12,6 +13,7 @@ export default function BarChartDashboard({
   avgValue,
   logsBarChartSeries
 }) {
+  const { tr } = Translate();
   const theme = useTheme();
   const colorPalette = [
     (theme.vars || theme).palette.primary.dark,
@@ -51,18 +53,18 @@ export default function BarChartDashboard({
               scaleType: "band",
               categoryGapRatio: 0.5,
               data: [
-                "Януари",
-                "Февуари",
-                "Март",
-                "Април",
-                "Май",
-                "Юни",
-                "Юли",
-                "Август",
-                "Септември",
-                "Октомври",
-                "Ноември",
-                "Декември"
+                tr("January"),
+                tr("Febuary"),
+                tr("March"),
+                tr("April"),
+                tr("May"),
+                tr("June"),
+                tr("July"),
+                tr("August"),
+                tr("September"),
+                tr("October"),
+                tr("November"),
+                tr("December")
               ]
             }
           ]}

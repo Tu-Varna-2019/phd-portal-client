@@ -7,7 +7,7 @@ export const msalConfig = {
     clientId: "2e32e834-5b18-4f82-a0b8-32e623d944b4",
     authority: `https://login.microsoftonline.com/${TENANT_ID}/`,
     redirectUri: "/authentication/login-callback",
-    postLogoutRedirectUri: ["/phd", "/doctoralCenter"],
+    postLogoutRedirectUri: ["/phd", "/doctoral-center"],
     navigateToLoginRequestUrl: false
   },
   cache: {

@@ -8,13 +8,49 @@ export default function CandidateAPI() {
 
   const getCurriculums = async () => {
     return await route({
-      url: `${API_URL}/curriculum`,
+      url: `${API_URL}/curriculums`,
       method: "GET",
       accessTokenProvided: ""
-    }).then((res) => res.data);
+    });
+  };
+
+  const getSubjects = async () => {
+    return await route({
+      url: `${API_URL}/subjects`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
+  const getContests = async () => {
+    return await route({
+      url: `${API_URL}/contests`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
+  const getCandidatesInReview = async () => {
+    return await route({
+      url: `${API_URL}/in-review`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
+  const getFaculty = async () => {
+    return await route({
+      url: `${API_URL}/faculty`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
   };
 
   return {
-    getCurriculums
+    getCurriculums,
+    getSubjects,
+    getContests,
+    getCandidatesInReview,
+    getFaculty
   };
 }
