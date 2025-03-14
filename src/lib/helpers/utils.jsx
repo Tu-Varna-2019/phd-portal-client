@@ -72,7 +72,7 @@ export const getUserByGroup = () => {
       };
       break;
 
-    case "doctoralCenter":
+    case "doctoral-center":
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,

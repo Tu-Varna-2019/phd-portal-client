@@ -1,21 +1,21 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch } from "@/features/constants";
 import { setSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
 import { useSelector } from "react-redux";
 import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 import Auth from "@/lib/auth/auth";
-import { useMsal } from "@azure/msal-react";
 
 export const GlobalApp = () => {
   const dispatch = useAppDispatch();
-  const { silentLogin, amIAuthenticated } = Auth();
-  const { instance, accounts } = useMsal();
+  const { silentLogin } = Auth();
   const sessionToken = useSelector(selectSessionToken);
+  const { amIAuthenticated } = Auth();
+  const timeout = useRef(null);
+  const interval = useRef(null);
 
   useEffect(() => {
-    let timeout, interval;
-
+    // TODO: Refactor this code
     const refreshToken = async () => {
       try {
         console.log("Refreshing token...");
@@ -36,36 +36,38 @@ export const GlobalApp = () => {
           : 0;
 
         const refreshTime = expiry ? Math.max(0, expiry / 2) : 0;
-        timeout = setTimeout(refreshToken, refreshTime);
+        timeout.current = setTimeout(refreshToken, refreshTime);
 
-        if (interval) {
-          clearInterval(interval);
+        if (interval.current) {
+          clearInterval(interval.current);
         }
 
-        interval = setInterval(() => {
+        interval.current = setInterval(() => {
           if (expiry > 0) {
             expiry -= 1000;
             // const tokenExpiry = Math.round(expiry / 1000);
             return;
           }
-          clearInterval(interval);
+          clearInterval(interval.current);
         }, 1000);
       } catch (exception) {
         console.log(`Error in refreshing token: ${exception} `);
       }
     };
 
-    if (amIAuthenticated && sessionToken.group != null) {
+    if ((amIAuthenticated, sessionToken.group != null)) {
       refreshToken();
     }
 
     return () => {
-      if (timeout) {
-        clearTimeout(timeout);
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+        timeout.current = null;
       }
-      if (interval) {
-        clearInterval(interval);
+      if (interval.current) {
+        clearInterval(interval.current);
+        interval.current = null;
       }
     };
-  }, [instance, accounts]);
+  }, [amIAuthenticated, sessionToken.group]);
 };

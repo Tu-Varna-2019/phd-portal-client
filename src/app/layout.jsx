@@ -27,7 +27,7 @@ const geistMono = localFont({
 // };
 
 let languageStorage = "bg";
-if (typeof window !== undefined) {
+if (typeof window !== "undefined") {
   const languageStorageItem = localStorage.getItem("language");
   const languageStorageFound = languageStorageItem != null;
 

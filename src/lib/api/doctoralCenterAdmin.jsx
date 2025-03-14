@@ -1,7 +1,7 @@
 "use client";
 import ClientRoute from "@/router/client";
 
-const API_URL = "/api/doctoralCenter/admin";
+const API_URL = "/api/doctoral-center/admin";
 // TODO: maybe move the logs api to the doo center admin api route
 const API_BASE_URL = "/api";
 
@@ -43,7 +43,7 @@ export default function DoctoralCenterAdminAPI() {
     // TODO: Improve this pls
     let reqRole = role;
     if (role == "manager" || role == "expert" || role == "admin")
-      reqRole = "doctoralCenter";
+      reqRole = "doctoral-center";
 
     return await route({
       url: `${API_URL}/authorized-users?oid=${oid}`,

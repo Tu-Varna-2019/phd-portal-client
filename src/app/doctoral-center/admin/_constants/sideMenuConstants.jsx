@@ -3,6 +3,7 @@ import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { path } from "./pathConstant";
+import Translate from "@/lib/helpers/Translate";
 
 export const SideMenuConstants = () => {
   const { tr } = Translate();

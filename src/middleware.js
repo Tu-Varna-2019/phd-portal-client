@@ -9,9 +9,9 @@ const corsOptions = {
 const routes = [
   "/phd",
   "/committee",
-  "/doctoralCenter/expert",
-  "/doctoralCenter/manager",
-  "/doctoralCenter/admin"
+  "/doctoral-center/expert",
+  "/doctoral-center/manager",
+  "/doctoral-center/admin"
 ];
 
 export function middleware(request) {
@@ -43,6 +43,7 @@ export function middleware(request) {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",
+      /* eslint-disable no-undef */
       secure: process.env.NODE_ENV != "production"
     });
 
@@ -51,6 +52,7 @@ export function middleware(request) {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",
+      /* eslint-disable no-undef */
       secure: process.env.NODE_ENV != "production"
     });
 
@@ -61,7 +63,7 @@ const redirectByCookiePath = (url, groupCookie, roleCookie) => {
   let cookie = null;
 
   switch (groupCookie) {
-    case "doctoralCenter":
+    case "doctoral-center":
       cookie = groupCookie + "/" + roleCookie;
       break;
     case ("phd", "committee", "supervisor"):
@@ -101,7 +103,7 @@ export const config = {
     "/",
     "/api/:function*",
     "/phd/:path*",
-    "/doctoralCenter/:path*",
+    "/doctoral-center/:path*",
     "/committee/:path*"
   ]
 };

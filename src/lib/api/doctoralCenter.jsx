@@ -1,7 +1,7 @@
 "use client";
 import ClientRoute from "@/router/client";
 
-const API_URL = "/api/doctoralCenter/manager-expert";
+const API_URL = "/api/doctoral-center/manager-expert";
 
 export default function DoctoralCenterAPI() {
   const { route } = ClientRoute();

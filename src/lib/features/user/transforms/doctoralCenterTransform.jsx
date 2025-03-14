@@ -7,7 +7,6 @@ export const doctoralCenterTransform = createTransform(
   (incomingState) => {
     const doctoralCenter = new DoctoralCenter(incomingState.doctoralCenter);
     doctoralCenter.extractName(incomingState.doctoralCenter.name);
-    console.log(`transform: ${doctoralCenter.printName()}`);
 
     return {
       doctoralCenter: doctoralCenter
@@ -16,7 +15,6 @@ export const doctoralCenterTransform = createTransform(
   (state) => {
     const doctoralCenter = new DoctoralCenter(incomingState.doctoralCenter);
     doctoralCenter.extractName(incomingState.doctoralCenter.name);
-    console.log(`transform: ${doctoralCenter.printName()}`);
 
     return {
       ...state,

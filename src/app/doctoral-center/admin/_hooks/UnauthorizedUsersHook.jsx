@@ -1,4 +1,4 @@
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import DoctoralCenterAdminAPI from "@/api/doctoral-centerAdmin";
 import { useAppDispatch } from "@/features/constants";
 
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
