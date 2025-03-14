@@ -17,7 +17,7 @@ export const SideMenuConstants = () => {
     {
       text: tr("Unauthorized users"),
       icon: <AccountCircleIcon />,
-      url: path + "/unauthorized-users"
+      url: path + "/unauthorized"
     },
     {
       text: tr("Applications"),

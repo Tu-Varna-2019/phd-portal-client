@@ -27,7 +27,7 @@ export const SideMenuConstants = () => {
     {
       text: tr("Unauthorized users"),
       icon: <NoAccountsIcon />,
-      url: path + "/unauthorized-users-management"
+      url: path + "/unauthorized"
     }
   ];
 

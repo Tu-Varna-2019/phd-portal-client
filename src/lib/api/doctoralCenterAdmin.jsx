@@ -9,12 +9,12 @@ export default function DoctoralCenterAdminAPI() {
   const { route } = ClientRoute();
 
   const getAuthorizedUsers = async () => {
-    return await route({ url: `${API_URL}/authorized-users`, method: "GET" });
+    return await route({ url: `${API_URL}/authorized`, method: "GET" });
   };
 
   const getUnauthorizedUsers = async () => {
     return await route({
-      url: `${API_URL}/unauthorized-users`,
+      url: `${API_URL}/unauthorized`,
       method: "GET"
     });
   };
@@ -25,7 +25,7 @@ export default function DoctoralCenterAdminAPI() {
 
   const setUnauthorizedUserGroup = async (unauthUsers, group) => {
     return await route({
-      url: `${API_URL}/unauthorized-users/group?group=${group}`,
+      url: `${API_URL}/unauthorized/group?group=${group}`,
       method: "POST",
       body: unauthUsers
     });
@@ -33,7 +33,7 @@ export default function DoctoralCenterAdminAPI() {
 
   const setUnauthorizedUserIsAllowed = async (oid, isAllowed) => {
     return await route({
-      url: `${API_URL}/unauthorized-users/is-allowed?isAllowed=${isAllowed}`,
+      url: `${API_URL}/unauthorized/is-allowed?isAllowed=${isAllowed}`,
       method: "PATCH",
       body: { oid: oid }
     });
@@ -46,7 +46,7 @@ export default function DoctoralCenterAdminAPI() {
       reqRole = "doctoral-center";
 
     return await route({
-      url: `${API_URL}/authorized-users?oid=${oid}`,
+      url: `${API_URL}/authorized?oid=${oid}`,
       method: "DELETE",
       body: {
         role: reqRole

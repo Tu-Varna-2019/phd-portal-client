@@ -1,4 +1,4 @@
-import DoctoralCenterAdminAPI from "@/api/doctoral-centerAdmin";
+import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { useAppDispatch } from "@/features/constants";
 
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
@@ -7,13 +7,13 @@ import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
 import { runPeriodically } from "@/lib/helpers/utils";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
   const dispatch = useAppDispatch();
-  const { t, ready } = useTranslation("client-page");
+  const { tr } = Translate();
 
   const [unauthUsers, setUnauthUsers] = useState([]);
   const [docCenterRoles, setDoctorCenterRoles] = useState([]);
@@ -45,7 +45,7 @@ export default function UnauthorizedUsersHook() {
   }, [fetchUnauthorizedUsers, fetchDocCenterRoles]);
 
   const docCenterRolesBG = useMemo(() => {
-    return docCenterRoles.map((role) => (ready ? t(role) : role));
+    return docCenterRoles.map((role) => tr(role));
   }, [docCenterRoles]);
 
   const changeIsAllowedOnClick = async (oid, email, isAllowed) => {

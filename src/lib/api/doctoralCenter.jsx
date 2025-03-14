@@ -15,14 +15,14 @@ export default function DoctoralCenterAPI() {
 
   const getUnauthorizedUsers = async () => {
     return await route({
-      url: `${API_URL}/unauthorized-users`,
+      url: `${API_URL}/unauthorized`,
       method: "GET"
     });
   };
 
   const setUnauthorizedUserGroup = async (unauthUsers, group) => {
     return await route({
-      url: `${API_URL}/unauthorized-users/group?group=${group}`,
+      url: `${API_URL}/unauthorized/group?group=${group}`,
       method: "POST",
       body: unauthUsers
     });
