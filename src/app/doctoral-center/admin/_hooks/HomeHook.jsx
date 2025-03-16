@@ -7,6 +7,7 @@ import {
   userGroupsLabelStuct,
   userGroupsPieChartStruct
 } from "../_constants/dashboardConstants";
+import Translate from "@/lib/helpers/Translate";
 
 export function LogsHook() {
   const { getLogs } = DoctoralCenterAdminAPI();
@@ -29,6 +30,7 @@ export function LogsHook() {
   }, [fetchLogs]);
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
+    console.log(`LogLevel: ${logLevel} , year: ${year}`);
     const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
 
     levelSpecificLogs.sort(
@@ -97,7 +99,7 @@ export function LogsHook() {
 export function UserHook() {
   const [authUsers, setAuthUsers] = useState([]);
   const [unauthUsers, setUnauthUsers] = useState([]);
-
+  const users = ["phd", "committee", "manager", "expert", "admin"];
   const { getAuthorizedUsers, getUnauthorizedUsers } = DoctoralCenterAdminAPI();
 
   const fetchUsers = useCallback(async () => {
@@ -117,12 +119,11 @@ export function UserHook() {
     authUsers,
     unauthUsers
   ) => {
-    const users = ["phd", "committee", "manager", "expert", "admin"];
     const userCounts = [unauthUsers.length];
 
     users.forEach((userGroup) => {
       const userCount = authUsers.filter(
-        (user) => user.role == userGroup
+        (user) => user.group == userGroup
       ).length;
       userCounts.push(userCount);
     });

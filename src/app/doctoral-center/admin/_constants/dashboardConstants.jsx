@@ -4,35 +4,27 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 
-export const dashboardStruct = {
-  title: "",
-  value: 0,
-  interval: "",
-  trend: "neutral",
-  data: []
-};
-
 export const logBarChartSeriesStruct = [
   {
-    id: "INFO",
+    id: "info",
     label: "Информация",
     data: [],
     stack: "A"
   },
   {
-    id: "SUCCESS",
+    id: "success",
     label: "Успешност",
     data: [],
     stack: "A"
   },
   {
-    id: "WARN",
+    id: "warn",
     label: "Предупреждение",
     data: [],
     stack: "A"
   },
   {
-    id: "ERROR",
+    id: "error",
     label: "Грешка",
     data: [],
     stack: "A"
