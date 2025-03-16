@@ -5,6 +5,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ConfirmDialogYesNo({
   title,
@@ -15,6 +16,7 @@ export default function ConfirmDialogYesNo({
 }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { tr } = Translate();
 
   const handleClose = () => {
     setOpen(false);
@@ -34,7 +36,7 @@ export default function ConfirmDialogYesNo({
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Не
+            {tr("No")}
           </Button>
           <Button
             onClick={() => {
@@ -43,7 +45,7 @@ export default function ConfirmDialogYesNo({
             }}
             autoFocus
           >
-            Да
+            {tr("Yes")}
           </Button>
         </DialogActions>
       </Dialog>

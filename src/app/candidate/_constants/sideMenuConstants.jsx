@@ -1,23 +1,32 @@
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
-import ContactsIcon from "@mui/icons-material/Contacts";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 import { path } from "./pathConstant";
+import Translate from "@/lib/helpers/Translate";
 
-export const sideMenu = [
-  {
-    text: "Началнo",
-    icon: <HomeRoundedIcon />,
-    url: path
-  },
-  {
-    text: "Обявяване на конкурси",
-    icon: <AnnouncementIcon />,
-    url: path + "/announcements"
-  },
-  {
-    text: "Контакти",
-    icon: <ContactsIcon />,
-    url: path + "/contacts"
-  }
-];
+export const SideMenuConstants = () => {
+  const { tr } = Translate();
+
+  const navigation = [
+    {
+      text: tr("Home"),
+      icon: <HomeRoundedIcon />,
+      url: path
+    },
+    {
+      text: tr("Announcement of competitions"),
+      icon: <AnnouncementIcon />,
+      url: path + "/contests"
+    },
+    {
+      text: tr("Candidate"),
+      icon: <AppRegistrationIcon />,
+      url: path + "/apply"
+    }
+  ];
+
+  return {
+    navigation
+  };
+};

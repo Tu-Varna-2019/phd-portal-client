@@ -8,14 +8,28 @@ import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import { usePathname } from "next/navigation";
-
-const secondaryListItems = [
-  { text: "Контакти", icon: <ContactsIcon /> },
-  { text: "Език: Български", icon: <LanguageIcon /> }
-];
+import { MenuItem, Select } from "@mui/material";
+import Translate from "@/lib/helpers/Translate";
 
 export default function MenuContent({ mainListItems }) {
   const path = usePathname();
+  const { tr, changeLanguage, language } = Translate();
+  const languagesShort = [tr("bg"), tr("en")];
+
+  const secondaryListItems = [
+    { text: tr("Contacts"), icon: <ContactsIcon /> },
+    {
+      text: tr("Language"),
+      icon: <LanguageIcon />,
+      component: (
+        <Select value={tr(language)} onChange={changeLanguage}>
+          {languagesShort.map((lang) => {
+            return <MenuItem value={lang}>{lang}</MenuItem>;
+          })}
+        </Select>
+      )
+    }
+  ];
 
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
@@ -32,11 +46,12 @@ export default function MenuContent({ mainListItems }) {
 
       <List dense>
         {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
+          <ListItem key={index} disablePadding sx={{ display: "flex" }}>
             <ListItemButton>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
+            {item.component != undefined ? item.component : <></>}
           </ListItem>
         ))}
       </List>

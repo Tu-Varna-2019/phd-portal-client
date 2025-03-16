@@ -7,21 +7,18 @@ export default function ServerRoute() {
     url,
     method,
     request,
+    queryParams,
     requestContentType = mediaType.AppJson,
     responseContentType = mediaType.AppJson,
-    queryParams,
     getResultData = false
   }) => {
     try {
       let { headers } = await getHeaders(requestContentType);
-      let body;
 
-      if (method != "GET")
-        body = await getBodyByContentType(request, requestContentType);
+      let body = await getBodyByContentType(request, requestContentType);
+      url += constructUrlByQueryParams(request, queryParams);
 
-      if (queryParams != null)
-        url += constructUrlByQueryParams(request.url, queryParams);
-
+      console.log(`Url is: ${url}`);
       const response = await fetch(url, {
         method: method,
         headers: headers,
@@ -66,25 +63,29 @@ export default function ServerRoute() {
     };
   };
 
-  const constructUrlByQueryParams = (requestURL, queryParams) => {
+  const constructUrlByQueryParams = (request, queryParams) => {
+    if (queryParams == null || request.url == undefined) return "";
     let queryValue;
     let url = "?";
 
     queryParams.forEach((query, index) => {
-      queryValue = new URL(requestURL).searchParams.get(query);
-      url += `${query}=` + queryValue;
-
-      if (queryParams.length > 1 && index < queryParams.length) url += "&";
+      queryValue = new URL(request.url).searchParams.get(query);
+      url += `${query}=${queryValue}`;
+      if (index + 1 < queryParams.length) url += "&";
     });
 
     return url;
   };
 
   const getBodyByContentType = async (request, contentType) => {
-    if (contentType == mediaType.AppJson) {
-      return JSON.stringify(await request.json());
-    } else if (contentType == mediaType.FormData) {
-      return await request.formData();
+    try {
+      if (contentType == mediaType.AppJson) {
+        return JSON.stringify(await request.json());
+      } else if (contentType == mediaType.FormData) {
+        return await request.formData();
+      }
+    } catch (error) {
+      console.warn("NextJs Api warn: No body was provided");
     }
   };
 

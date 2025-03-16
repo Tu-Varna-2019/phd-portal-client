@@ -12,6 +12,7 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
 import Auth from "@/lib/auth/auth";
 import { useRouter } from "next/navigation";
+import Translate from "@/lib/helpers/Translate";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -21,6 +22,7 @@ export default function OptionsMenu({ basePath }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { handleLogout } = Auth();
   const router = useRouter();
+  const { tr } = Translate();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -65,7 +67,7 @@ export default function OptionsMenu({ basePath }) {
         }}
       >
         <MenuItem onClick={() => handleUrlRedirect(basePath + "/profile")}>
-          Профил
+          {tr("Profile")}
         </MenuItem>
         <Divider />
         <MenuItem
@@ -77,7 +79,7 @@ export default function OptionsMenu({ basePath }) {
             }
           }}
         >
-          <ListItemText>Изход</ListItemText>
+          <ListItemText>{tr("Exit")}</ListItemText>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>
