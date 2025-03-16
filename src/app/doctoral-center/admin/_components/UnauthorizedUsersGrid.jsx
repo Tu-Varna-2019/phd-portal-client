@@ -4,6 +4,7 @@ import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox
 import AlertBox from "@/common/AlertBox";
 import UnauthorizedUsersHook from "../_hooks/UnauthorizedUsersHook";
 import Table from "@/components/main-layout/common/Table";
+import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersGrid() {
   const {
@@ -13,8 +14,9 @@ export default function UnauthorizedUsersGrid() {
     groupOption,
     onButtonPermitOnClick,
     onAutocompleteChange,
-    docCenterRolesBG
+    docCenterRolesOptions
   } = UnauthorizedUsersHook();
+  const { tr } = Translate();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -29,14 +31,14 @@ export default function UnauthorizedUsersGrid() {
           <AlertBox />
 
           <ConfirmDialogComboBox
-            title={"Разреши потебител към системата"}
-            contentText={
-              "Разрешете потребителят към системата и му добавете групата"
-            }
-            options={docCenterRolesBG}
+            title={tr("Allow user into the system")}
+            contentText={tr(
+              "Allow the user into the system and add him to a group"
+            )}
+            options={docCenterRolesOptions}
             optionChosen={groupOption}
-            buttonName={"Разреши"}
-            label={"Група"}
+            buttonName={tr("Allow")}
+            label={tr("group")}
             onButtonConfirmClick={onButtonPermitOnClick}
             onAutocompleteChange={onAutocompleteChange}
           />

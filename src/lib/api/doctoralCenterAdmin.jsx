@@ -33,9 +33,8 @@ export default function DoctoralCenterAdminAPI() {
 
   const setUnauthorizedUserIsAllowed = async (oid, isAllowed) => {
     return await route({
-      url: `${API_URL}/unauthorized/is-allowed?isAllowed=${isAllowed}`,
-      method: "PATCH",
-      body: { oid: oid }
+      url: `${API_URL}/unauthorized/is-allowed?oid=${oid}&isAllowed=${isAllowed}`,
+      method: "PATCH"
     });
   };
 

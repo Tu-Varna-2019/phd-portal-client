@@ -2,8 +2,9 @@ import { renderAvatar } from "@/components/cells-renderers/avatar";
 import { renderEmail } from "@/components/cells-renderers/email";
 import LinearScaleIcon from "@mui/icons-material/LinearScale";
 import ContextMenu from "../_components/ContextMenu";
+import Translate from "@/lib/helpers/Translate";
 
-export function UserManagementColunms(
+export default function UserManagementColunms(
   menuAnchor,
   setMenuAnchor,
   selectedUserOid,
@@ -11,10 +12,12 @@ export function UserManagementColunms(
   handleOpenMenu,
   onMenuClick
 ) {
+  const { tr } = Translate();
+
   const columns = [
     {
       field: "avatar",
-      headerName: "Снимка",
+      headerName: tr("picture"),
       display: "flex",
       renderCell: renderAvatar,
       valueGetter: (_, row) =>
@@ -25,13 +28,13 @@ export function UserManagementColunms(
     { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 100 },
     {
       field: "name",
-      headerName: "Име",
+      headerName: tr("name"),
       flex: 1,
       minWidth: 200
     },
     {
       field: "email",
-      headerName: "Имейл",
+      headerName: tr("email"),
       headerAlign: "right",
       align: "right",
       flex: 1,
@@ -40,7 +43,7 @@ export function UserManagementColunms(
     },
     {
       field: "group",
-      headerName: "Група",
+      headerName: tr("group"),
       headerAlign: "right",
       align: "right",
       flex: 2,
@@ -48,7 +51,7 @@ export function UserManagementColunms(
     },
     {
       field: "actions",
-      headerName: "Действия",
+      headerName: tr("action"),
       sortable: false,
       headerAlign: "center",
       align: "center",

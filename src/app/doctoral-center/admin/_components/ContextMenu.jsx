@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Menu } from "@mui/material";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ContextMenu({
   menuAnchor,
@@ -13,6 +14,8 @@ export default function ContextMenu({
   onDeleteClick,
   deleteDisabled
 }) {
+  const { tr } = Translate();
+
   return (
     <Paper sx={{ width: 320, maxWidth: "100%" }}>
       <Menu
@@ -25,7 +28,7 @@ export default function ContextMenu({
             <ListItemIcon>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText>Премахни</ListItemText>
+            <ListItemText>{tr("delete")}</ListItemText>
           </MenuItem>
           <Divider />
         </MenuList>

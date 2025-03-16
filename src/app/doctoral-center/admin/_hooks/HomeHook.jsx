@@ -2,15 +2,11 @@ import Log from "@/models/Log";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { getMonth, runPeriodically } from "@/helpers/utils";
-import {
-  logBarChartSeriesStruct,
-  userGroupsLabelStuct,
-  userGroupsPieChartStruct
-} from "../_constants/dashboardConstants";
-import Translate from "@/lib/helpers/Translate";
+import HomeConstants from "../_constants/dashboardConstants";
 
 export function LogsHook() {
   const { getLogs } = DoctoralCenterAdminAPI();
+  const { logBarChartSeriesStruct } = HomeConstants();
 
   const [logs, setLogs] = useState([]);
   const [selectedYearLog, setSelectedYearLog] = useState();
@@ -30,7 +26,6 @@ export function LogsHook() {
   }, [fetchLogs]);
 
   const aggregateLogsByYearMonths = (logLevel, year) => {
-    console.log(`LogLevel: ${logLevel} , year: ${year}`);
     const levelSpecificLogs = Log.filterByLevelAndYear(logs, logLevel, year);
 
     levelSpecificLogs.sort(
@@ -101,6 +96,7 @@ export function UserHook() {
   const [unauthUsers, setUnauthUsers] = useState([]);
   const users = ["phd", "committee", "manager", "expert", "admin"];
   const { getAuthorizedUsers, getUnauthorizedUsers } = DoctoralCenterAdminAPI();
+  const { userGroupsPieChartStruct, userGroupsLabelStuct } = HomeConstants();
 
   const fetchUsers = useCallback(async () => {
     setAuthUsers(await getAuthorizedUsers());

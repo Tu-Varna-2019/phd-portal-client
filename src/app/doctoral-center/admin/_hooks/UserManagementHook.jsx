@@ -3,7 +3,7 @@ import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
-import { UserManagementColunms } from "../_constants/userManagementColumns";
+import UserManagementColunms from "../_constants/userManagementColumns";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
@@ -46,9 +46,12 @@ export default function UserManagementHook() {
   const onMenuClick = (option) => {
     switch (option) {
       case "delete":
-        setDialogTitle(`Изтриване на потребител: ${selectedUser.name} `);
+        setDialogTitle(tr("Deleting a user") + " " + selectedUser.name);
         setDialogContent(
-          `Сигурни ли сте че искате да изтриете потребитеря: ${selectedUser.name} ?`
+          tr("Are you sure you want to delete users") +
+            " " +
+            selectedUser.name +
+            " ?"
         );
         setOpenDialogBoxYesNo(true);
         setMenuAnchor(false);
@@ -75,7 +78,12 @@ export default function UserManagementHook() {
     logNotifyAlert({
       title: `Потребител ${selectedUser.name} е изтрит от системата`,
       description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
-      message: `Потребител ${selectedUser.name} е изтрит от системата`,
+      message:
+        tr("the user") +
+        " " +
+        selectedUser.name +
+        " " +
+        tr("is deleted flom the system!"),
       action: `Потребител ${selectedUser.name} е изтрит от системата`,
       level: "success",
       scope: "group",

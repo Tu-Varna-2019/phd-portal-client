@@ -49,7 +49,7 @@ export default function HomeGrid() {
 
         <Grid size={{ xs: 12, md: 6 }}>
           <BarChartDashboard
-            title={tr("Events for year") + "" + selectedYearLog}
+            title={tr("Events for year") + " " + selectedYearLog}
             description={tr("Timeline for the events")}
             avgValue={sumOfLogsByYear}
             logsBarChartSeries={logsByYear}

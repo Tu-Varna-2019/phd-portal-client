@@ -1,12 +1,15 @@
 import { Checkbox } from "@mui/material";
 import { renderAvatar } from "@/components/cells-renderers/avatar";
 import { renderEmail } from "@/components/cells-renderers/email";
+import Translate from "@/lib/helpers/Translate";
 
 export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
+  const { tr } = Translate();
+
   const columns = [
     {
       field: "avatar",
-      headerName: "Снимка",
+      headerName: tr("picture"),
       display: "flex",
       renderCell: renderAvatar,
       valueGetter: (_, row) =>
@@ -17,13 +20,13 @@ export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
     { field: "oid", headerName: "Oid", flex: 1.5, minWidth: 200 },
     {
       field: "name",
-      headerName: "Име",
+      headerName: tr("name"),
       flex: 1,
       minWidth: 150
     },
     {
       field: "email",
-      headerName: "Имейл",
+      headerName: tr("email"),
       headerAlign: "right",
       align: "right",
       flex: 1,
@@ -32,7 +35,7 @@ export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
     },
     {
       field: "formattedTimestamp",
-      headerName: "Време на достъп",
+      headerName: tr("Time for access"),
       headerAlign: "right",
       align: "right",
       flex: 2,
@@ -40,7 +43,7 @@ export function UnauthorizedUsersColunms(changeIsAllowedOnClick) {
     },
     {
       field: "isAllowed",
-      headerName: "Позволен ли е в систематай",
+      headerName: tr("Is he allowed into the system"),
       sortable: false,
       headerAlign: "center",
       align: "center",

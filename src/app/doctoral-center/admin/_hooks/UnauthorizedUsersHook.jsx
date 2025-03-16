@@ -44,7 +44,7 @@ export default function UnauthorizedUsersHook() {
     });
   }, [fetchUnauthorizedUsers, fetchDocCenterRoles]);
 
-  const docCenterRolesBG = useMemo(() => {
+  const docCenterRolesOptions = useMemo(() => {
     return docCenterRoles.map((role) => tr(role));
   }, [docCenterRoles]);
 
@@ -52,12 +52,12 @@ export default function UnauthorizedUsersHook() {
     const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
 
     if (result != []) {
-      const allowedMsg = isAllowed ? "позволен" : "забранен";
+      const allowedMsg = isAllowed ? tr("Allowed") : tr("Rejected");
 
       logNotifyAlert({
         title: `Неудостоверен потребител ${allowedMsg} в системата`,
         description: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
-        message: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
+        message: `${tr("The unauthorized user")} ${email} ${tr("is")} ${allowedMsg} ${tr("into the system")}`,
         action: `Неудостоверен потребител ${email} е ${allowedMsg} в системата`,
         level: "success",
         scope: "group",
@@ -65,7 +65,9 @@ export default function UnauthorizedUsersHook() {
       });
     } else {
       logAlert({
-        message: `Проблем при сменяне на позволяване статуса на неудостоверен потребител`,
+        message: tr(
+          "Problem when changing the enable status of an unauthenticated user"
+        ),
         description: `Проблем при сменяне на позволяване статуса на неудостоверен потребител`,
         action:
           "Пробем при смяна на позволяване статус неудостоверен потребител",
@@ -100,7 +102,14 @@ export default function UnauthorizedUsersHook() {
       logNotifyAlert({
         title: "Потребител добавен в системата",
         description: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-        message: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
+        message:
+          tr("the user") +
+          " " +
+          user.email +
+          " " +
+          tr("is added into the system as group") +
+          " " +
+          groupOption,
         action: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
         level: "success",
         scope: "group",
@@ -128,6 +137,6 @@ export default function UnauthorizedUsersHook() {
     groupOption,
     onButtonPermitOnClick,
     onAutocompleteChange,
-    docCenterRolesBG
+    docCenterRolesOptions
   };
 }

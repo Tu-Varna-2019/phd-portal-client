@@ -65,15 +65,13 @@ export default function ServerRoute() {
 
   const constructUrlByQueryParams = (request, queryParams) => {
     if (queryParams == null || request.url == undefined) return "";
-
     let queryValue;
     let url = "?";
 
     queryParams.forEach((query, index) => {
       queryValue = new URL(request.url).searchParams.get(query);
-      url += `${query}=` + queryValue;
-
-      if (queryParams.length > 1 && index < queryParams.length) url += "&";
+      url += `${query}=${queryValue}`;
+      if (index + 1 < queryParams.length) url += "&";
     });
 
     return url;

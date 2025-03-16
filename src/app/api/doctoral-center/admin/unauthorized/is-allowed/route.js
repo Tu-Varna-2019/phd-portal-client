@@ -8,6 +8,6 @@ export async function PATCH(request) {
     url: url + "/unauthorized-users/is-allowed",
     method: "PATCH",
     request: request,
-    queryParams: ["isAllowed"]
+    queryParams: ["oid", "isAllowed"]
   });
 }

@@ -5,7 +5,7 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 import { runPeriodically } from "@/lib/helpers/utils";
 import { useAppDispatch } from "@/lib/features/constants";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersHook() {
   const { logNotifyAlert } = APIWrapper();
@@ -15,8 +15,8 @@ export default function UnauthorizedUsersHook() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [groupOption, setGroupOption] = useState("");
   const dispatch = useAppDispatch();
+  const { tr } = Translate();
 
-  const { t, ready } = useTranslation("client-page");
   const [docCenterRoles, setDoctorCenterRoles] = useState([]);
 
   const fetchUnauthorizedUsers = useCallback(async () => {
@@ -36,8 +36,8 @@ export default function UnauthorizedUsersHook() {
     });
   }, [fetchUnauthorizedUsers, fetchDocCenterRoles]);
 
-  const docCenterRolesBG = useMemo(() => {
-    return docCenterRoles.map((role) => (ready ? t(role) : role));
+  const docCenterRolesOptions = useMemo(() => {
+    return docCenterRoles.map((role) => tr(role));
   }, [docCenterRoles]);
 
   const onAutocompleteChange = (index, _) => {
@@ -55,30 +55,24 @@ export default function UnauthorizedUsersHook() {
       selectedUsers.includes(elem.id)
     );
     await authorizeUsers(unauthorizedUsers);
-
-    const message = [];
     unauthorizedUsers.map((user) => {
-      message.push(
-        `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`
-      );
-
       logNotifyAlert({
         title: "Потребител добавен в системата",
         description: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
-        message: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
+        message:
+          tr("the user") +
+          " " +
+          user.email +
+          " " +
+          tr("is added into the system as group") +
+          " " +
+          groupOption,
         action: `Потребителят ${user.email} е добавен в системата като група: ${groupOption}`,
         level: "success",
         scope: "group",
         group: "admin"
       });
     });
-
-    dispatch(
-      setAlertBox({
-        message: message.join("\r\n"),
-        severity: "success"
-      })
-    );
   };
 
   return {
@@ -87,6 +81,6 @@ export default function UnauthorizedUsersHook() {
     onButtonPermitOnClick,
     onAutocompleteChange,
     setSelectedUsers,
-    docCenterRolesBG
+    docCenterRolesBG: docCenterRolesOptions
   };
 }

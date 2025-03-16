@@ -12,7 +12,7 @@ export default function Page() {
 
   return (
     <Layout
-      headerTitle={tr("Известия")}
+      headerTitle={tr("Notifications")}
       basePath={path}
       MainView={<NotificationsGrid />}
       mainListItems={navigation}

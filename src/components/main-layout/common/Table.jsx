@@ -22,7 +22,7 @@ export default function Table({
         pagination: { paginationModel: { pageSize: 20 } }
       }}
       pageSizeOptions={[10, 20, 50]}
-      disableColumnResize
+      // disableColumnResize
       dataSet="Commodity"
       density={density}
       slotProps={{

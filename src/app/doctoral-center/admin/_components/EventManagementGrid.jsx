@@ -4,10 +4,10 @@ import Typography from "@mui/material/Typography";
 import { Button, ButtonGroup, Stack } from "@mui/material";
 import Search from "@/common/Search";
 import Loading from "@/app/loading";
-import { eventColumns } from "../_constants/eventConstants";
 import EventManagementHook from "../_hooks/EventManagementHook";
 import Table from "@/components/main-layout/common/Table";
 import Translate from "@/lib/helpers/Translate";
+import EventManagementConstants from "../_constants/eventConstants";
 
 const filterButtons = [
   "description",
@@ -29,6 +29,7 @@ export default function EventManagementGrid() {
     filterLogs
   } = EventManagementHook();
   const { tr } = Translate();
+  const { eventColumns } = EventManagementConstants();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
