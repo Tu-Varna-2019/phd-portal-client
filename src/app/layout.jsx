@@ -51,6 +51,11 @@ i18n
     backend: {
       loadPath: "/locales/{{lng}}/common.json"
     }
+    // backend: {
+    //   loadPath: '/locales/{{lng}}/{{ns}}.json',
+    // },
+    // ns: ['common', 'homepage', 'profile'],
+    // defaultNS: 'common',
   });
 
 function RootLayout({ children }) {
