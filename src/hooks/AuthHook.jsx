@@ -29,7 +29,7 @@ export default function AuthHook() {
 
           dispatch(setSessionToken({ session }));
           await evaluateGroup(loginResponse.data, loginResponse.group);
-          // window.location.reload();
+          window.location.reload();
         }
       }
     };

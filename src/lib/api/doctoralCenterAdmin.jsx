@@ -39,18 +39,13 @@ export default function DoctoralCenterAdminAPI() {
     });
   };
 
-  const deleteAuthorizedUser = async (oid, role) => {
-    // TODO: Improve this pls
-    let reqRole = role;
-    if (role == "manager" || role == "expert" || role == "admin")
-      reqRole = "doctoral-center";
+  const deleteAuthorizedUser = async (oid, group) => {
+    if (group == "manager" || group == "expert" || group == "admin")
+      group = "doctoral-center";
 
     return await route({
-      url: `${API_URL}/authorized?oid=${oid}`,
-      method: "DELETE",
-      body: {
-        role: reqRole
-      }
+      url: `${API_URL}/authorized?oid=${oid}&group=${group}`,
+      method: "DELETE"
     });
   };
 

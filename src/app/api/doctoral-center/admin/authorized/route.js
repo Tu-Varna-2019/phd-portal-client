@@ -16,6 +16,6 @@ export async function DELETE(request) {
     url: url + "/authorized-users",
     method: "DELETE",
     request: request,
-    queryParams: ["oid"]
+    queryParams: ["oid", "group"]
   });
 }

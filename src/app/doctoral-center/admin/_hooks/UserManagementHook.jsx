@@ -6,7 +6,7 @@ import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { UserManagementColunms } from "../_constants/userManagementColumns";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function UserManagementHook() {
   const { logNotifyAlert } = APIWrapper();
@@ -20,13 +20,13 @@ export default function UserManagementHook() {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
-  const { t, ready } = useTranslation("client-page");
+  const { tr } = Translate();
 
   const fetchAuthorizedUsers = useCallback(async () => {
     const authUsersRes = await getAuthorizedUsers();
     authUsersRes.forEach((user, index) => {
       user.id = index;
-      user.group = ready ? t(user.group) : user.group;
+      user.group = tr(user.group);
     });
     setUsers(authUsersRes);
   }, []);
@@ -70,11 +70,11 @@ export default function UserManagementHook() {
   );
 
   const buttonConfirmOnClick = async () => {
-    await deleteAuthorizedUser(selectedUser.oid, selectedUser.role);
+    await deleteAuthorizedUser(selectedUser.oid, tr(selectedUser.group, "en"));
 
     logNotifyAlert({
       title: `Потребител ${selectedUser.name} е изтрит от системата`,
-      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.role}`,
+      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
       message: `Потребител ${selectedUser.name} е изтрит от системата`,
       action: `Потребител ${selectedUser.name} е изтрит от системата`,
       level: "success",
