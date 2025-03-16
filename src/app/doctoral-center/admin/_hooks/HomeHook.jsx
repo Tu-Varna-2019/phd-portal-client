@@ -3,10 +3,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
 import { getMonth, runPeriodically } from "@/helpers/utils";
 import HomeConstants from "../_constants/dashboardConstants";
+import Translate from "@/lib/helpers/Translate";
 
 export function LogsHook() {
   const { getLogs } = DoctoralCenterAdminAPI();
   const { logBarChartSeriesStruct } = HomeConstants();
+  const { language } = Translate();
 
   const [logs, setLogs] = useState([]);
   const [selectedYearLog, setSelectedYearLog] = useState();
@@ -16,7 +18,7 @@ export function LogsHook() {
   const fetchLogs = useCallback(async () => {
     const fetchedLogs = await getLogs();
     setLogs(fetchedLogs);
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchLogs();
@@ -97,11 +99,12 @@ export function UserHook() {
   const users = ["phd", "committee", "manager", "expert", "admin"];
   const { getAuthorizedUsers, getUnauthorizedUsers } = DoctoralCenterAdminAPI();
   const { userGroupsPieChartStruct, userGroupsLabelStuct } = HomeConstants();
+  const { language } = Translate();
 
   const fetchUsers = useCallback(async () => {
     setAuthUsers(await getAuthorizedUsers());
     setUnauthUsers(await getUnauthorizedUsers());
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchUsers();

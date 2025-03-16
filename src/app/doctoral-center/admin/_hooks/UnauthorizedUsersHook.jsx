@@ -13,7 +13,7 @@ export default function UnauthorizedUsersHook() {
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { setUnauthorizedUserGroup } = DoctoralCenterAdminAPI();
   const dispatch = useAppDispatch();
-  const { tr } = Translate();
+  const { tr, language } = Translate();
 
   const [unauthUsers, setUnauthUsers] = useState([]);
   const [docCenterRoles, setDoctorCenterRoles] = useState([]);
@@ -29,11 +29,11 @@ export default function UnauthorizedUsersHook() {
 
   const fetchUnauthorizedUsers = useCallback(async () => {
     setUnauthUsers(await getUnauthorizedUsers());
-  }, []);
+  }, [language]);
 
   const fetchDocCenterRoles = useCallback(async () => {
     setDoctorCenterRoles(await getDocCenterRoles());
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchUnauthorizedUsers();

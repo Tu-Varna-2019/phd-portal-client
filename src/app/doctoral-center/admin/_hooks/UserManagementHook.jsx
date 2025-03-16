@@ -20,7 +20,7 @@ export default function UserManagementHook() {
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogContent, setDialogContent] = useState("");
   const [selectedUser, setSelectedUser] = useState();
-  const { tr } = Translate();
+  const { tr, language } = Translate();
 
   const fetchAuthorizedUsers = useCallback(async () => {
     const authUsersRes = await getAuthorizedUsers();
@@ -29,7 +29,7 @@ export default function UserManagementHook() {
       user.group = tr(user.group);
     });
     setUsers(authUsersRes);
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchAuthorizedUsers();

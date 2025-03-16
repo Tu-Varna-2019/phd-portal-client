@@ -3,9 +3,8 @@ import Typography from "@mui/material/Typography";
 import HomeHook from "../_hooks/HomeHook";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { curriculumColumns } from "../_constants/columnsConstant";
+import CandidateColumnConstants from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
-import { useTranslation } from "react-i18next";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
@@ -13,16 +12,17 @@ import Tab from "@mui/material/Tab";
 import { Card, Divider, List, ListItem } from "@mui/material";
 import CollapseMenu from "@/components/main-layout/common/CollapseMenu";
 import { TabContext, TabPanel } from "@mui/lab";
+import Translate from "@/lib/helpers/Translate";
 
 export default function HomeGrid() {
   const { curriculums } = HomeHook();
   const [value, setValue] = React.useState(0);
+  const { tr } = Translate();
+  const { curriculumColumns } = CandidateColumnConstants();
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-
-  const { t } = useTranslation("client-page");
 
   return (
     <Grid container spacing={4} columns={13}>
@@ -128,7 +128,7 @@ export default function HomeGrid() {
         <br />
         <Card>
           <Typography component="h3" variant="h6" sx={{ mb: 2 }} align="center">
-            {t(
+            {tr(
               "Curriculum of the Doctoral Programme for the Degree of Doctor of Education and Science"
             )}
           </Typography>

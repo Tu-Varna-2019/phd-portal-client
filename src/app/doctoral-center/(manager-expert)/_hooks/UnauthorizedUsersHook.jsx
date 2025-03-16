@@ -1,10 +1,8 @@
-import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import UnauthorizedUsers from "@/models/UnauthorizedUsers";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 import { runPeriodically } from "@/lib/helpers/utils";
-import { useAppDispatch } from "@/lib/features/constants";
 import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersHook() {
@@ -14,18 +12,16 @@ export default function UnauthorizedUsersHook() {
     DoctoralCenterAPI();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [groupOption, setGroupOption] = useState("");
-  const dispatch = useAppDispatch();
-  const { tr } = Translate();
-
+  const { tr, language } = Translate();
   const [docCenterRoles, setDoctorCenterRoles] = useState([]);
 
   const fetchUnauthorizedUsers = useCallback(async () => {
     setUnauthUsers(await getUnauthorizedUsers());
-  }, []);
+  }, [language]);
 
   const fetchDocCenterRoles = useCallback(async () => {
     setDoctorCenterRoles(await getDocCenterRoles());
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchUnauthorizedUsers();

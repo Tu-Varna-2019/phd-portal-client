@@ -1,9 +1,5 @@
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import {
-  candidatesInReviewColumns,
-  contestsColumns
-} from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import * as React from "react";
 import Box from "@mui/material/Box";
@@ -11,6 +7,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import ContestsHook from "../_hooks/ContestsHook";
 import Translate from "@/lib/helpers/Translate";
+import CandidateColumnConstants from "../_constants/columnsConstant";
 
 export default function ContestsGrid() {
   const {
@@ -20,6 +17,8 @@ export default function ContestsGrid() {
     candidatesInReview
   } = ContestsHook();
   const [tabState, setTabState] = React.useState(0);
+  const { candidatesInReviewColumns, contestsColumns } =
+    CandidateColumnConstants();
 
   const handleChange = (_, tabIndexValue) => {
     setTabState(tabIndexValue);

@@ -7,7 +7,7 @@ import Translate from "@/lib/helpers/Translate";
 import { DashboardConstants } from "../_constants/dashboardConstants";
 
 export default function HomeHook() {
-  const { tr } = Translate();
+  const { tr, language } = Translate();
   const { candidatesLabelStuct, candidatesPieChartStruct } =
     DashboardConstants();
 
@@ -18,7 +18,7 @@ export default function HomeHook() {
   const fetchCandidates = useCallback(async () => {
     const candidatesResponse = await getCandidates("status");
     setCandidates(candidatesResponse);
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchCandidates();
