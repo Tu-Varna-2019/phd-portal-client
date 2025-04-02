@@ -11,6 +11,7 @@ import {
   Autocomplete,
   TextField
 } from "@mui/material";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ConfirmDialogComboBox({
   title,
@@ -25,6 +26,7 @@ export default function ConfirmDialogComboBox({
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const { tr } = Translate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -62,7 +64,7 @@ export default function ConfirmDialogComboBox({
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Отажи се
+            {tr("Cancel")}
           </Button>
           <Button
             disabled={optionChosen == ""}
@@ -72,7 +74,7 @@ export default function ConfirmDialogComboBox({
             }}
             autoFocus
           >
-            Потвърди
+            {tr("Confirm")}
           </Button>
         </DialogActions>
       </Dialog>

@@ -26,6 +26,7 @@ export const userSlice = createSlice({
         DoctoralCenter,
         action.payload.data
       );
+
       state.doctoralCenter = serialize(doctoralCenterObj);
     },
 

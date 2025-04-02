@@ -23,7 +23,7 @@ export default function NotificationHook() {
       dispatch(filteredNotificationsByIds({ ids: selectedRows }));
 
       logAlert({
-        message: deletedNotifs.message,
+        message: tr(deletedNotifs.message),
         description: "Потребителят си изтри нотификациите!",
         action: "Изтриване на нотификации",
         level: "success"

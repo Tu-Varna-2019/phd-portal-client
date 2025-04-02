@@ -19,6 +19,7 @@ import { HighlightOff } from "@mui/icons-material";
 import CustomTable from "@/common/CustomTable";
 import Loading from "@/app/loading";
 import ProfileHook from "../_hooks/ProfileHook";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ProfileGrid({ user, nameFields, setUser }) {
   const {
@@ -29,6 +30,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
     setDeletePictureDialog,
     deletePicture
   } = ProfileHook(setUser);
+  const { tr } = Translate();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -85,7 +87,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                   startIcon={<HighlightOff />}
                   onClick={() => setDeletePictureDialog(true)}
                 >
-                  Премахване на снимка
+                  {tr("Remove photo")}
                 </Button>
               </CardActions>
 
@@ -97,11 +99,11 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                   fullWidth
                   startIcon={<InsertPhoto />}
                 >
-                  Качване на снимка
+                  {tr("Upload a photo")}
                   <input
                     type="file"
                     onChange={(event) => uploadPicture(event, user)}
-                    jidden
+                    hidden
                   />
                 </Button>
               </CardActions>
@@ -114,7 +116,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                   startIcon={<Logout />}
                   onClick={handleLogout}
                 >
-                  Излизане
+                  {tr("Exit")}
                 </Button>
               </CardActions>
             </Stack>
@@ -128,7 +130,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
                 onChange={() => console.log("Tab change")}
                 aria-label="Change profile tabs"
               >
-                <Tab label="Допълнителна информация" value="1" />
+                <Tab label={tr("Additional information")} value="1" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -141,11 +143,11 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
       <AlertBox />
 
       <ConfirmDialogYesNo
-        title={"Изтриване на снимка"}
-        contentText={"Сигурни ли сте че искате да премахнете вашата снимка?"}
+        title={tr("Deleting a photo")}
+        contentText={tr("Are you sure you want to remove your photo?")}
         open={deletePictureDialog}
         setOpen={setDeletePictureDialog}
-        onButtonConfirmClick={deletePicture}
+        onButtonConfirmClick={() => deletePicture(user)}
       />
     </Box>
   );

@@ -1,27 +1,24 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
-import { useTranslation } from "react-i18next";
+import Translate from "@/lib/helpers/Translate";
 
 export default function HomeHook() {
   const [curriculums, setCurriculums] = useState([]);
   const { getCurriculums } = CandidateAPI();
-  const { t, ready } = useTranslation("client-page");
+  const { tr, language } = Translate();
 
   const fetchCurriculums = useCallback(async () => {
-    let idCounter = 0;
     const curriculumsResponse = await getCurriculums();
-    curriculumsResponse.forEach((curriculum) => {
-      curriculum.id = idCounter++;
-      curriculum.description = ready
-        ? t(curriculum.description)
-        : curriculum.description;
-      curriculum.mode = ready ? t(curriculum.mode) : curriculum.mode;
-      curriculum.faculty = ready ? t(curriculum.faculty) : curriculum.faculty;
+    curriculumsResponse.forEach((curriculum, index) => {
+      curriculum.id = index;
+      curriculum.name = tr(curriculum.name);
+      curriculum.mode = tr(curriculum.mode);
+      curriculum.faculty = tr(curriculum.faculty);
     });
 
     setCurriculums(curriculumsResponse);
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     fetchCurriculums();
@@ -30,20 +27,7 @@ export default function HomeHook() {
     });
   }, [fetchCurriculums]);
 
-  const curriculumSubjects = useMemo(() => {
-    return curriculums.map((curriculum) => {
-      return {
-        description: curriculum.description,
-        subjects: curriculum.subjects.map((subject, index) => ({
-          id: index,
-          name: ready ? t(subject) : subject
-        }))
-      };
-    });
-  }, [curriculums]);
-
   return {
-    curriculums,
-    curriculumSubjects
+    curriculums
   };
 }

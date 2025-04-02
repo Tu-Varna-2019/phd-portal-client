@@ -30,6 +30,6 @@ createModelSchema(DoctoralCenter, {
   picture: primitive({
     default: ""
   }),
-  pictureBlob: primitive({}),
+  pictureBlob: primitive(),
   role: object(DoctoralCenterRole)
 });

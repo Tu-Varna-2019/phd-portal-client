@@ -1,28 +1,28 @@
 "use client";
 import ClientRoute from "@/router/client";
 
-const API_URL = "/api/doctoralCenter/manager-expert";
+const API_URL = "/api/doctoral-center/manager-expert";
 
 export default function DoctoralCenterAPI() {
   const { route } = ClientRoute();
 
-  const getCandidates = async () => {
+  const getCandidates = async (fields) => {
     return await route({
-      url: `${API_URL}/candidates`,
+      url: `${API_URL}/candidates?fields=${fields}`,
       method: "GET"
     });
   };
 
   const getUnauthorizedUsers = async () => {
     return await route({
-      url: `${API_URL}/unauthorized-users`,
+      url: `${API_URL}/unauthorized`,
       method: "GET"
     });
   };
 
   const setUnauthorizedUserGroup = async (unauthUsers, group) => {
     return await route({
-      url: `${API_URL}/unauthorized-users/group?group=${group}`,
+      url: `${API_URL}/unauthorized/group?group=${group}`,
       method: "POST",
       body: unauthUsers
     });

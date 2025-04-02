@@ -5,12 +5,14 @@ import { useState } from "react";
 import Auth from "@/lib/auth/auth";
 import FileAPI from "@/api/file";
 import { useAppDispatch } from "@/features/constants";
+import Translate from "@/lib/helpers/Translate";
 
 export default function ProfileHook(setUser) {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const { logAlert } = APIWrapper();
   const { handleLogout } = Auth();
   const dispatch = useAppDispatch();
+  const { tr } = Translate();
 
   const [deletePictureDialog, setDeletePictureDialog] = useState(false);
   const { upload, deleteFile } = FileAPI();
@@ -35,15 +37,15 @@ export default function ProfileHook(setUser) {
       dispatch(setUser({ data: user }));
 
       logAlert({
-        message: `Потребител ${user.email} си смени снимката`,
-        description: `Потребителят си смени снимката успешно!`,
+        message: tr("You have successfully changed your picture!"),
+        description: "Потребителят си смени снимката успешно!",
         action: "Потребител смени снимка",
         level: "success"
       });
     } else {
       dispatch(
         setAlertBox({
-          message: "Грешка при качването на снимката!",
+          message: tr("Error when uploading a picture"),
           severity: "error"
         })
       );
@@ -52,7 +54,7 @@ export default function ProfileHook(setUser) {
     setIsImageLoading(false);
   };
 
-  const deletePicture = async () => {
+  const deletePicture = async (user) => {
     setIsImageLoading(true);
 
     const result = await deleteFile({ filename: user.picture }, "avatar");
@@ -62,7 +64,7 @@ export default function ProfileHook(setUser) {
       dispatch(setUser({ data: user }));
 
       logAlert({
-        message: `Потребител ${user.email} си изтри снимката`,
+        message: tr("You have successfully deleted your picture!"),
         description: `Потребителят си изтри снимката успешно!`,
         action: "Потребител изтри снимка",
         level: "success"
@@ -70,7 +72,7 @@ export default function ProfileHook(setUser) {
     } else {
       dispatch(
         setAlertBox({
-          message: "Грешка при изтриването на снимката!",
+          message: tr("Error when deleting a picture"),
           severity: "error"
         })
       );

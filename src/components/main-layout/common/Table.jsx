@@ -1,13 +1,16 @@
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function Table({
+  key = 0,
   rows,
   columns,
   checkboxEnabled = false,
-  onRowSelect
+  onRowSelect,
+  density = "compact"
 }) {
   return (
     <DataGrid
+      key={key}
       rows={rows}
       columns={columns}
       checkboxSelection={checkboxEnabled}
@@ -19,9 +22,9 @@ export default function Table({
         pagination: { paginationModel: { pageSize: 20 } }
       }}
       pageSizeOptions={[10, 20, 50]}
-      disableColumnResize
+      // disableColumnResize
       dataSet="Commodity"
-      density="compact"
+      density={density}
       slotProps={{
         filterPanel: {
           filterFormProps: {

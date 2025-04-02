@@ -3,8 +3,9 @@ import AlertBox from "@/common/AlertBox";
 import ConfirmDialogYesNo from "@/components/dialog-box/ConfirmDialogYesNo";
 import { Button } from "@mui/material";
 import NotificationHook from "../_hooks/NotificationsHook";
-import { columns } from "../_constants/columnsConstant";
+import NotificationConstants from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
+import Translate from "@/lib/helpers/Translate";
 
 export default function NotificationsGrid() {
   const {
@@ -15,6 +16,8 @@ export default function NotificationsGrid() {
     onDeleteNotisClick,
     openDialogBoxYesNo
   } = NotificationHook();
+  const { tr } = Translate();
+  const { columns } = NotificationConstants();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -28,15 +31,15 @@ export default function NotificationsGrid() {
 
       {selectedRows.length != 0 && (
         <Button variant="outlined" onClick={() => setOpenDialogBoxYesNo(true)}>
-          Изтрии
+          {tr("delete")}
         </Button>
       )}
 
       <ConfirmDialogYesNo
-        title={"Изтриване на нотификации"}
-        contentText={
-          "Сигурни ли сте че искате да изтриете избраните нотификации?"
-        }
+        title={tr("Deletion of notifications")}
+        contentText={tr(
+          "Are you sure you want to delete the selected notifications?"
+        )}
         open={openDialogBoxYesNo}
         setOpen={setOpenDialogBoxYesNo}
         onButtonConfirmClick={onDeleteNotisClick}

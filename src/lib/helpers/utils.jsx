@@ -12,10 +12,15 @@ export const mediaType = Object.freeze({
   OctetStream: "application/octet-stream"
 });
 
-export const formatDateTime = (rawDateTime) => {
+export const DateTimeLocale = {
+  bg: "bg-BG",
+  en: "en-US"
+};
+
+export const formatDateTime = (rawDateTime, locale = DateTimeLocale.bg) => {
   const dateTime = new Date(rawDateTime);
 
-  return dateTime.toLocaleString("bg-BG", {
+  return dateTime.toLocaleString(locale, {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -72,7 +77,7 @@ export const getUserByGroup = () => {
       };
       break;
 
-    case "doctoralCenter":
+    case "doctoral-center":
       user = {
         name: doctoralCenterStore.name,
         email: doctoralCenterStore.email,
