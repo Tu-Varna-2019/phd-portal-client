@@ -13,7 +13,11 @@ export default function HomeHook() {
     curriculumsResponse.forEach((curriculum, index) => {
       curriculum.id = index;
       curriculum.name = tr(curriculum.name);
-      curriculum.mode = tr(curriculum.mode);
+
+      let mode = tr(curriculum.mode);
+      if (mode == "part_time") mode = "part time";
+
+      curriculum.mode = mode;
       curriculum.faculty = tr(curriculum.faculty);
     });
 

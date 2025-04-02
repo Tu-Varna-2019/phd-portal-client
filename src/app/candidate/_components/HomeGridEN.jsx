@@ -113,14 +113,14 @@ export default function HomeGridEN() {
         <CollapseMenu
           title="The order and conditions of admission to a doctorate,"
           body="Doctoral studies as well as conducting the public
- Protection is in compliance with the Higher Education Act, the Law on
- the development of the academic staff in the Republic of Bulgaria, the Rules
- for the implementation of the Law on the Development of Academic Company in
- Republic of Bulgaria, decrees of the Council of Ministers, Rules
- for admission, training of doctoral students and acquisition of
- Doctor's educational and scientific degree and the Doctor's Scientific Degree
- of the Sciences ”at the Technical University - Varna and solutions of
- The Academic Council."
+         Protection is in compliance with the Higher Education Act, the Law on
+         the development of the academic staff in the Republic of Bulgaria, the Rules
+         for the implementation of the Law on the Development of Academic Company in
+         Republic of Bulgaria, decrees of the Council of Ministers, Rules
+         for admission, training of doctoral students and acquisition of
+         Doctor's educational and scientific degree and the Doctor's Scientific Degree
+         of the Sciences ”at the Technical University - Varna and solutions of
+         The Academic Council."
         />
 
         <br />

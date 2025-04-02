@@ -12,6 +12,7 @@ export default function ContestsHook() {
 
   const fetchContests = useCallback(async () => {
     const contestsRes = await getContests();
+
     contestsRes.forEach((contest, index) => {
       contest.id = index;
       contest.faculty = tr(contest.faculty);
@@ -22,7 +23,8 @@ export default function ContestsHook() {
     );
 
     setContests(contestsRes);
-    setSelectedYearContest(contestsRes[0].yearAccepted);
+    if (contestsRes.length > 0)
+      setSelectedYearContest(contestsRes[0].yearAccepted);
   }, []);
 
   const fetchCandidatesInReview = useCallback(async () => {
