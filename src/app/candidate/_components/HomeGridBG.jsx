@@ -14,7 +14,7 @@ import CollapseMenu from "@/components/main-layout/common/CollapseMenu";
 import { TabContext, TabPanel } from "@mui/lab";
 import Translate from "@/lib/helpers/Translate";
 
-export default function HomeGrid() {
+export default function HomeGridBG() {
   const { curriculums } = HomeHook();
   const [value, setValue] = React.useState(0);
   const { tr } = Translate();

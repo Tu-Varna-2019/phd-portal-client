@@ -1,20 +1,19 @@
 "use client";
-import Layout from "@/components/main-layout/Layout";
-import HomeGrid from "../_components/HomeGrid";
-import { SideMenuConstants } from "../_constants/sideMenuConstants";
-import { path } from "../_constants/pathConstant";
 import Translate from "@/lib/helpers/Translate";
+import { useRouter } from "next/navigation";
+import { path } from "../_constants/pathConstant";
+import Loading from "@/app/loading";
+import { useEffect } from "react";
 
 export default function Page() {
-  const { tr } = Translate();
-  const { navigation } = SideMenuConstants();
+  const { language } = Translate();
+  const router = useRouter();
 
-  return (
-    <Layout
-      headerTitle={tr("Home Page")}
-      MainView={<HomeGrid />}
-      basePath={path}
-      mainListItems={navigation}
-    />
-  );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      router.replace(path + "/" + language);
+    }
+  }, [language, router]);
+
+  return <Loading />;
 }
