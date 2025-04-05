@@ -11,7 +11,6 @@ export default function Translate() {
 
   const changeLanguage = (event) => {
     const langCode = tr(event.target.value, "en");
-    redirectToLangUrl(langCode);
 
     localStorage.setItem("language", langCode);
     i18n.changeLanguage(langCode);

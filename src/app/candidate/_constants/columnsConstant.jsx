@@ -1,36 +1,39 @@
+"use client";
 import { renderLink } from "@/components/cells-renderers/link";
 import Translate from "@/lib/helpers/Translate";
+import { useMemo } from "react";
 
-export default function CandidateColumnConstants() {
-  const { tr } = Translate();
+export default function CandidateColumnConstants(
+  faculties,
+  curriculumsByFaculty
+) {
+  const { tr, language } = Translate();
 
-  const curriculumColumns = [
-    {
-      field: "name",
-      headerName: tr("naming"),
-      flex: 1.5,
-      minWidth: 700,
-      renderCell: (param) => renderLink(param.row.name, "candidate/curriculum/")
-    },
-    {
-      field: "yearPeriod",
-      headerName: tr("Study period (years)"),
-      flex: 1.5,
-      minWidth: 170
-    },
-    {
-      field: "mode",
-      headerName: tr("Mode of studying"),
-      flex: 1.5,
-      minWidth: 200
-    },
-    {
-      field: "faculty",
-      headerName: tr("faculty"),
-      flex: 1.5,
-      minWidth: 400
-    }
-  ];
+  const curriculumColumns = useMemo(
+    () => [
+      {
+        field: "name",
+        headerName: tr("naming"),
+        flex: 1.5,
+        minWidth: 700,
+        renderCell: (param) =>
+          renderLink(param.row.name, "candidate/curriculum/")
+      },
+      {
+        field: "yearPeriod",
+        headerName: tr("Study period (years)"),
+        flex: 1.5,
+        minWidth: 170
+      },
+      {
+        field: "mode",
+        headerName: tr("Mode of studying"),
+        flex: 1.5,
+        minWidth: 200
+      }
+    ],
+    [language, curriculumsByFaculty]
+  );
 
   const contestsColumns = [
     {
@@ -68,14 +71,17 @@ export default function CandidateColumnConstants() {
     }
   ];
 
-  const facultiesColumns = [
-    {
-      field: "name",
-      headerName: tr("faculty"),
-      flex: 1.5,
-      minWidth: 700
-    }
-  ];
+  const facultiesColumns = useMemo(
+    () => [
+      {
+        field: "name",
+        headerName: tr("faculty"),
+        flex: 1.5,
+        minWidth: 700
+      }
+    ],
+    [language, faculties]
+  );
 
   const subjectsColumns = [
     {

@@ -1,14 +1,9 @@
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
-import {
-  curriculumColumns,
-  facultiesColumns
-} from "../_constants/columnsConstant";
 import Table from "@/components/main-layout/common/Table";
 import Box from "@mui/material/Box";
 import AppllyHook from "../_hooks/ApplyHook";
 import Milestones from "@/components/main-layout/common/Milestones";
-import { useCallback } from "react";
 import Translate from "@/lib/helpers/Translate";
 
 export default function ApplyGrid() {
@@ -17,15 +12,16 @@ export default function ApplyGrid() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    form,
     selectedFaculty,
     setSelectedFaculty,
     titleText,
-    disableNextBtn
+    disableNextBtn,
+    curriculumColumns,
+    facultiesColumns
   } = AppllyHook();
   const { tr } = Translate();
 
-  const RenderGrid = useCallback(() => {
+  const RenderGrid = () => {
     switch (activeStep) {
       case 0:
         return (
@@ -37,7 +33,7 @@ export default function ApplyGrid() {
             )}
             <Table
               onRowSelect={(rowIndex) =>
-                setSelectedFaculty(faculties[rowIndex].name)
+                setSelectedFaculty(tr(faculties[rowIndex].name, "en"))
               }
               rows={faculties}
               columns={facultiesColumns}
@@ -53,6 +49,7 @@ export default function ApplyGrid() {
             density="comfortable"
           />
         );
+
       case 2:
         return (
           <Table
@@ -70,7 +67,7 @@ export default function ApplyGrid() {
           />
         );
     }
-  }, [activeStep, faculties, curriculumsByFaculty, selectedFaculty]);
+  };
 
   return (
     <Grid container spacing={4} columns={5}>
@@ -79,15 +76,15 @@ export default function ApplyGrid() {
         setActiveStep={setActiveStep}
         steps={[
           tr("Choose a faculty"),
-          tr("Choose a study programme"),
-          tr("Select disciplines"),
-          tr("Fill in your details")
+          tr("Choose or create a new curriculum"),
+          tr("Select subjects"),
+          tr("Fill in your candidate details")
         ]}
-        finishMsg={tr("Your application has been submitted successfully")}
+        finishMsg={tr("Your application has been submitted successfully!")}
         nextBtnDisabled={disableNextBtn}
       >
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-          {tr("Apply for a PhD")}
+          {tr("Apply for a Phd")}
         </Typography>
         <Box sx={{ width: "100%" }}>
           <Typography component="h2" variant="h6" sx={{ mb: 2 }}>

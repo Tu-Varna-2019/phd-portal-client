@@ -1,6 +1,8 @@
 import CandidateAPI from "@/lib/api/candidate";
 import Translate from "@/lib/helpers/Translate";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import CandidateColumnConstants from "../_constants/columnsConstant";
+import { cleanColumns } from "@/lib/helpers/utils";
 
 const initUserSelection = {
   faculty: "",
@@ -11,41 +13,45 @@ export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [faculties, setFaculties] = useState([]);
-  const [form, setForm] = useState(initUserSelection);
+  const [form] = useState(initUserSelection);
   const [activeStep, setActiveStep] = useState(0);
-  const { tr } = Translate();
+  const { tr, language } = Translate();
 
-  const { getCurriculums, getFaculty, getSubjects } = CandidateAPI();
+  const { getFaculty, getCurriculums } = CandidateAPI();
 
-  const fetchFaculties = useCallback(async () => {
-    if (faculties.length > 0) return;
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      const facultiesRes = await getFaculty();
+      facultiesRes.forEach((faculty, index) => {
+        faculty.id = index;
+        faculty.name = tr(faculty.name);
+      });
+      setFaculties(facultiesRes);
+    };
 
-    const facultiesRes = await getFaculty();
-    facultiesRes.forEach((faculty, index) => {
-      faculty.id = index;
-      faculty.name = tr(faculty.name);
-    });
+    fetchFaculties();
+  }, [language]);
 
-    setFaculties(facultiesRes);
-  }, [faculties, tr]);
-
-  const fetchCurriculumsByFaculty = useCallback(async () => {
-    if (curriculumsByFaculty.length > 0) return;
-
-    const curriculumsResponse = await getCurriculums();
-    const selectedFacultyEN = tr(selectedFaculty, "en");
-
-    const curriculumFilterBySelectedFaculty = curriculumsResponse
-      .filter((curriculum) => curriculum.faculty == selectedFacultyEN)
-      .map((curriculum, index) => {
+  useEffect(() => {
+    const fetchCurriculumByFaculty = async () => {
+      const result = await getCurriculums();
+      result.filter((curriculum) => curriculum.faculty == selectedFaculty);
+      result.forEach((curriculum, index) => {
         curriculum.id = index;
         curriculum.name = tr(curriculum.name);
-        curriculum.mode = tr(curriculum.mode);
-        curriculum.faculty = tr(curriculum.faculty);
+        curriculum.mode = tr(cleanColumns(curriculum.mode));
       });
+      setCurriculumsByFaculty(result);
+    };
 
-    setCurriculumsByFaculty(curriculumFilterBySelectedFaculty);
-  }, [faculties, selectedFaculty]);
+    const isUserInCurriculumStep = activeStep == 1;
+    if (isUserInCurriculumStep) fetchCurriculumByFaculty();
+  }, [selectedFaculty, activeStep, language]);
+
+  const { curriculumColumns, facultiesColumns } = CandidateColumnConstants(
+    faculties,
+    curriculumsByFaculty
+  );
 
   const titleText = useMemo(() => {
     if (activeStep == 0) {
@@ -53,15 +59,7 @@ export default function AppllyHook() {
     } else if (activeStep == 1) {
       return tr("Choose or create your curriculum");
     }
-  }, [activeStep]);
-
-  useEffect(() => {
-    if (activeStep == 0) {
-      fetchFaculties();
-    } else if (activeStep == 1) {
-      fetchCurriculumsByFaculty();
-    }
-  }, [activeStep, fetchFaculties, fetchCurriculumsByFaculty]);
+  }, [activeStep, language]);
 
   const disableNextBtn = useMemo(() => {
     if (activeStep == 0) {
@@ -79,6 +77,8 @@ export default function AppllyHook() {
     selectedFaculty,
     setSelectedFaculty,
     titleText,
-    disableNextBtn
+    disableNextBtn,
+    curriculumColumns,
+    facultiesColumns
   };
 }

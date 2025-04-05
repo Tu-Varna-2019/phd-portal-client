@@ -129,3 +129,8 @@ export const runPeriodically = (func) => {
   );
   return () => clearInterval(interval);
 };
+
+export const cleanColumns = (columnName) => {
+  if (columnName == "part_time") return "part time";
+  return columnName;
+};

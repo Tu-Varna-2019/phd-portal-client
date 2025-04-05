@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { runPeriodically } from "@/lib/helpers/utils";
+import { cleanColumns, runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
 import Translate from "@/lib/helpers/Translate";
 
@@ -15,7 +15,7 @@ export default function HomeHook() {
       curriculum.name = tr(curriculum.name);
 
       let mode = tr(curriculum.mode);
-      if (mode == "part_time") mode = "part time";
+      mode = cleanColumns(mode);
 
       curriculum.mode = mode;
       curriculum.faculty = tr(curriculum.faculty);
