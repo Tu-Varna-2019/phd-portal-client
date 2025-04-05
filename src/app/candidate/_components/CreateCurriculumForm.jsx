@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Table from "@/components/main-layout/common/Table";
 import CandidateAPI from "@/lib/api/candidate";
 import CandidateColumnConstants from "../_constants/columnsConstant";
+import { Paper } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -64,6 +65,20 @@ export default function CreateCurriculumForm({ faculty }) {
 
   const { getSubjectsByFacultyName } = CandidateAPI();
 
+  const removeMandatorySubjects = (subjectsArg) => {
+    const mandatorySubjects = [
+      "English",
+      "Methods of Research and Development of dissertation",
+      "Block C (PhD minimum)"
+    ];
+
+    const subjectFitered = subjectsArg.filter(
+      (subject) => !mandatorySubjects.includes(tr(subject.name, "en"))
+    );
+
+    return subjectFitered;
+  };
+
   useEffect(() => {
     const fetchSubjects = async () => {
       const subjectsRes = await getSubjectsByFacultyName(faculty);
@@ -73,8 +88,7 @@ export default function CreateCurriculumForm({ faculty }) {
         subject.name = tr(subject.name);
       });
 
-      console.log(`Subjects response: ${JSON.stringify(subjectsRes)}`);
-      setSubjects(subjectsRes);
+      setSubjects(removeMandatorySubjects(subjectsRes));
     };
 
     fetchSubjects();
@@ -101,7 +115,7 @@ export default function CreateCurriculumForm({ faculty }) {
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           <FormControl>
-            <FormLabel htmlFor="name">Name</FormLabel>
+            <FormLabel htmlFor="name">{tr("Name")}</FormLabel>
             <TextField
               autoComplete="name"
               name={tr("Name of the curriculum")}
@@ -114,21 +128,27 @@ export default function CreateCurriculumForm({ faculty }) {
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="email">Subjects</FormLabel>
-            <Table
-              checkboxEnabled
-              onRowSelect={(rowIndex) =>
-                setSubjects(tr(subjects[rowIndex].name, "en"))
-              }
-              rows={subjects}
-              columns={subjectsColumns}
-              density="comfortable"
-            />
+            <FormLabel htmlFor="email">{tr("Subjects")}</FormLabel>
+            <Paper
+              variant="outlined"
+              sx={{ maxHeight: 300, overflowY: "auto", mt: 1 }}
+            >
+              <Table
+                checkboxEnabled
+                onRowSelect={(rowIndex) =>
+                  setSubjects(tr(subjects[rowIndex].name, "en"))
+                }
+                rows={subjects}
+                columns={subjectsColumns}
+                density="compact"
+              />
+            </Paper>
           </FormControl>
           <Button
             type="submit"
             fullWidth
             variant="contained"
+            disabled={curriculumNameError || subjects == []}
             onClick={() => console.log("Click!")}
           >
             {tr("Create")}
