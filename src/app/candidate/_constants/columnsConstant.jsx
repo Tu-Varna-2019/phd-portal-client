@@ -83,14 +83,17 @@ export default function CandidateColumnConstants(
     [language, faculties]
   );
 
-  const subjectsColumns = [
-    {
-      field: "name",
-      headerName: tr("subject"),
-      flex: 1.5,
-      minWidth: 700
-    }
-  ];
+  const subjectsColumns = useMemo(
+    () => [
+      {
+        field: "name",
+        headerName: tr("subject"),
+        flex: 1.5,
+        minWidth: 700
+      }
+    ],
+    [language]
+  );
 
   return {
     subjectsColumns,

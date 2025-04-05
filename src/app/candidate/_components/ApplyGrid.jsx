@@ -5,6 +5,11 @@ import Box from "@mui/material/Box";
 import AppllyHook from "../_hooks/ApplyHook";
 import Milestones from "@/components/main-layout/common/Milestones";
 import Translate from "@/lib/helpers/Translate";
+import { Button } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useState } from "react";
+import OverflowBox from "@/components/main-layout/common/OverflowBox";
+import CreateCurriculumForm from "./CreateCurriculumForm";
 
 export default function ApplyGrid() {
   const {
@@ -14,12 +19,16 @@ export default function ApplyGrid() {
     faculties,
     selectedFaculty,
     setSelectedFaculty,
+    selectedCurriculum,
+    setSelectedCurriculum,
     titleText,
     disableNextBtn,
     curriculumColumns,
     facultiesColumns
   } = AppllyHook();
   const { tr } = Translate();
+  const [isCreatingNewCurriculum, setIsCreatingNewCurriculums] =
+    useState(false);
 
   const RenderGrid = () => {
     switch (activeStep) {
@@ -43,11 +52,43 @@ export default function ApplyGrid() {
         );
       case 1:
         return (
-          <Table
-            rows={curriculumsByFaculty}
-            columns={curriculumColumns}
-            density="comfortable"
-          />
+          <>
+            {selectedCurriculum !== "" && (
+              <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
+                {selectedCurriculum}
+              </Typography>
+            )}
+
+            <OverflowBox
+              open={isCreatingNewCurriculum}
+              setOpen={setIsCreatingNewCurriculums}
+            >
+              <CreateCurriculumForm faculty={tr(selectedFaculty, "en")} />
+            </OverflowBox>
+
+            <Table
+              rows={curriculumsByFaculty}
+              columns={curriculumColumns}
+              density="comfortable"
+              onRowSelect={(rowIndex) =>
+                setSelectedCurriculum(
+                  tr(curriculumsByFaculty[rowIndex].name, "en")
+                )
+              }
+            />
+            {selectedCurriculum == "" && (
+              <Button
+                color="info"
+                size="medium"
+                variant="contained"
+                startIcon={<AddCircleOutlineIcon />}
+                onClick={() => setIsCreatingNewCurriculums(true)}
+                sx={{ marginRight: 2 }}
+              >
+                {tr("Create")}
+              </Button>
+            )}
+          </>
         );
 
       case 2:

@@ -12,6 +12,7 @@ const initUserSelection = {
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [selectedCurriculum, setSelectedCurriculum] = useState("");
   const [faculties, setFaculties] = useState([]);
   const [form] = useState(initUserSelection);
   const [activeStep, setActiveStep] = useState(0);
@@ -65,8 +66,9 @@ export default function AppllyHook() {
     if (activeStep == 0) {
       return selectedFaculty === "";
     } else if (activeStep === 1) {
+      return selectedCurriculum === "";
     }
-  }, [activeStep, selectedFaculty]);
+  }, [activeStep, selectedFaculty, selectedCurriculum]);
 
   return {
     activeStep,
@@ -76,6 +78,8 @@ export default function AppllyHook() {
     form,
     selectedFaculty,
     setSelectedFaculty,
+    selectedCurriculum,
+    setSelectedCurriculum,
     titleText,
     disableNextBtn,
     curriculumColumns,
