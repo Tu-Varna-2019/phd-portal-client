@@ -11,6 +11,7 @@ import { useState } from "react";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
 import CurriculumForm from "./CurriculumForm";
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
+import CandidateForm from "./CandidateForm";
 
 export default function ApplyGrid() {
   const {
@@ -127,13 +128,8 @@ export default function ApplyGrid() {
         );
 
       case 2:
-        return (
-          <Table
-            rows={curriculumsByFaculty}
-            columns={curriculumColumns}
-            density="comfortable"
-          />
-        );
+        return <CandidateForm />;
+
       case 3:
         return (
           <Table
@@ -153,8 +149,8 @@ export default function ApplyGrid() {
         steps={[
           tr("Choose a faculty"),
           tr("Choose or create a new curriculum"),
-          tr("Select subjects"),
-          tr("Fill in your candidate details")
+          tr("Fill in your candidate details"),
+          tr("Verify your details")
         ]}
         finishMsg={tr("Your application has been submitted successfully!")}
         nextBtnDisabled={disableNextBtn}

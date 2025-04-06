@@ -4,18 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import CandidateColumnConstants from "../_constants/columnsConstant";
 import { cleanColumns } from "@/lib/helpers/utils";
 
-const initUserSelection = {
-  faculty: "",
-  curriculum: ""
-};
-
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [selectedCurriculum, setSelectedCurriculum] = useState("");
   const [selectedSubjectsIds, setSelectedSubjectsIds] = useState([]);
   const [faculties, setFaculties] = useState([]);
-  const [form] = useState(initUserSelection);
   const [activeStep, setActiveStep] = useState(0);
   const { tr, language } = Translate();
 
@@ -72,6 +66,10 @@ export default function AppllyHook() {
       return tr("Choose a faculty");
     } else if (activeStep == 1) {
       return tr("Choose or create your curriculum");
+    } else if (activeStep == 2) {
+      return tr("Fill in your candidate details");
+    } else if (activeStep == 3) {
+      return tr("Verify your details");
     }
   }, [activeStep, language]);
 
@@ -80,7 +78,7 @@ export default function AppllyHook() {
       return selectedFaculty === "";
     } else if (activeStep === 1) {
       return selectedCurriculum === "";
-    }
+    } else return true;
   }, [activeStep, selectedFaculty, selectedCurriculum]);
 
   return {
@@ -88,7 +86,6 @@ export default function AppllyHook() {
     setActiveStep,
     curriculumsByFaculty,
     faculties,
-    form,
     selectedFaculty,
     setSelectedFaculty,
     selectedCurriculum,
