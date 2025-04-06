@@ -134,3 +134,9 @@ export const cleanColumns = (columnName) => {
   if (columnName == "part_time") return "part time";
   return columnName;
 };
+
+export const mandatorySubjects = [
+  "English",
+  "Methods of Research and Development of dissertation",
+  "Block C (PhD minimum)"
+];

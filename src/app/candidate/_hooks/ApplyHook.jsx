@@ -13,6 +13,7 @@ export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [selectedCurriculum, setSelectedCurriculum] = useState("");
+  const [selectedSubjectsIds, setSelectedSubjectsIds] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [form] = useState(initUserSelection);
   const [activeStep, setActiveStep] = useState(0);
@@ -43,6 +44,18 @@ export default function AppllyHook() {
         curriculum.mode = tr(cleanColumns(curriculum.mode));
       });
       setCurriculumsByFaculty(result);
+
+      if (localStorage.getItem("curriculum")) {
+        const curriculumLocalStg = JSON.parse(
+          localStorage.getItem("curriculum")
+        );
+        setSelectedCurriculum(curriculumLocalStg.curriculumName);
+        setSelectedSubjectsIds(
+          curriculumLocalStg.subjects.map((subject) => {
+            return subject.id;
+          })
+        );
+      }
     };
 
     const isUserInCurriculumStep = activeStep == 1;
@@ -79,6 +92,7 @@ export default function AppllyHook() {
     selectedFaculty,
     setSelectedFaculty,
     selectedCurriculum,
+    selectedSubjectsIds,
     setSelectedCurriculum,
     titleText,
     disableNextBtn,

@@ -11,9 +11,10 @@ import Translate from "@/lib/helpers/Translate";
 import { useEffect, useState } from "react";
 import Table from "@/components/main-layout/common/Table";
 import CandidateAPI from "@/lib/api/candidate";
-import CandidateColumnConstants from "../_constants/columnsConstant";
 import { Paper } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import CreateIcon from "@mui/icons-material/Create";
+import SubjectColumns from "../_constants/subjectColumns";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -56,46 +57,65 @@ const StyleContainer = styled(Stack)(({ theme }) => ({
   }
 }));
 
-export default function CreateCurriculumForm({ faculty }) {
-  const { tr, language } = Translate();
-  const [curriculumName] = useState("");
-  const [subjects, setSubjects] = useState([]);
-  const curriculumNameError = curriculumName == "" || curriculumName.length < 0;
-  const { subjectsColumns } = CandidateColumnConstants();
-
+export default function CurriculumForm({
+  btnName,
+  faculty,
+  initSelectedSubjects,
+  initSelectedCurriculum
+}) {
   const { getSubjectsByFacultyName } = CandidateAPI();
+  const { tr, language } = Translate();
+  const [curriculumName, setCurriculumName] = useState(initSelectedCurriculum);
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] =
+    useState(initSelectedSubjects);
+  const [alertErrorMsg, setAlertErrorMsg] = useState("");
 
-  const removeMandatorySubjects = (subjectsArg) => {
-    const mandatorySubjects = [
-      "English",
-      "Methods of Research and Development of dissertation",
-      "Block C (PhD minimum)"
-    ];
+  const curriculumNameError = curriculumName == "" || curriculumName.length < 0;
+  const submitBtnError = curriculumNameError || selectedSubjects.length == 6;
 
-    const subjectFitered = subjectsArg.filter(
-      (subject) => !mandatorySubjects.includes(tr(subject.name, "en"))
-    );
+  const { subjectsColumns } = SubjectColumns({
+    selectedRows: selectedSubjects,
+    setSelectedRows: setSelectedSubjects
+  });
 
-    return subjectFitered;
-  };
+  useEffect(() => {
+    if (curriculumNameError) {
+      setAlertErrorMsg(tr("Curriculum name is empty!"));
+    } else if (selectedSubjects.length == 6) {
+      setAlertErrorMsg(tr("You have reached 6 maximum subjects to select!"));
+    } else {
+      setAlertErrorMsg("");
+    }
+  }, [curriculumName, selectedSubjects]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
       const subjectsRes = await getSubjectsByFacultyName(faculty);
-
       subjectsRes.forEach((subject, index) => {
         subject.id = index;
         subject.name = tr(subject.name);
       });
-
-      setSubjects(removeMandatorySubjects(subjectsRes));
+      setSubjects(subjectsRes);
     };
-
     fetchSubjects();
   }, [language]);
 
   const handleCreateCurriculum = () => {
-    console.log(`You created dem curriculums!`);
+    const subjectNames = subjects
+      .filter((subject) => selectedSubjects.includes(subject.id))
+      .map((subject) => {
+        subject.name = tr(subject.name, "en");
+        return subject;
+      });
+
+    localStorage.setItem(
+      "curriculum",
+      JSON.stringify({
+        curriculumName: curriculumName,
+        subjects: subjectNames
+      })
+    );
   };
 
   return (
@@ -118,7 +138,9 @@ export default function CreateCurriculumForm({ faculty }) {
             <FormLabel htmlFor="name">{tr("Name")}</FormLabel>
             <TextField
               autoComplete="name"
+              value={curriculumName}
               name={tr("Name of the curriculum")}
+              onChange={(event) => setCurriculumName(event.target.value)}
               required
               fullWidth
               id="name"
@@ -134,24 +156,25 @@ export default function CreateCurriculumForm({ faculty }) {
               sx={{ maxHeight: 300, overflowY: "auto", mt: 1 }}
             >
               <Table
-                checkboxEnabled
-                onRowSelect={(rowIndex) =>
-                  setSubjects(tr(subjects[rowIndex].name, "en"))
-                }
                 rows={subjects}
                 columns={subjectsColumns}
                 density="compact"
               />
             </Paper>
           </FormControl>
+          {submitBtnError && (
+            <Alert variant="filled" severity="error">
+              {tr(alertErrorMsg)}
+            </Alert>
+          )}
+
           <Button
             type="submit"
             fullWidth
-            variant="contained"
-            disabled={curriculumNameError || subjects == []}
-            onClick={() => console.log("Click!")}
+            disabled={submitBtnError}
+            onClick={handleCreateCurriculum}
           >
-            {tr("Create")}
+            {btnName}
           </Button>
         </Box>
       </Card>

@@ -5,6 +5,7 @@ export default function Table({
   rows,
   columns,
   checkboxEnabled = false,
+  disableMultiCheckboxSelection = false,
   onRowSelect,
   density = "compact"
 }) {
@@ -15,6 +16,7 @@ export default function Table({
       columns={columns}
       checkboxSelection={checkboxEnabled}
       onRowSelectionModelChange={onRowSelect}
+      disableMultipleRowSelection={disableMultiCheckboxSelection}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
       }

@@ -9,7 +9,8 @@ import { Button } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useState } from "react";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
-import CreateCurriculumForm from "./CreateCurriculumForm";
+import CurriculumForm from "./CurriculumForm";
+import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 
 export default function ApplyGrid() {
   const {
@@ -20,15 +21,18 @@ export default function ApplyGrid() {
     selectedFaculty,
     setSelectedFaculty,
     selectedCurriculum,
+    selectedSubjectsIds,
     setSelectedCurriculum,
     titleText,
     disableNextBtn,
     curriculumColumns,
     facultiesColumns
   } = AppllyHook();
+
   const { tr } = Translate();
   const [isCreatingNewCurriculum, setIsCreatingNewCurriculums] =
     useState(false);
+  const [isModifyingExCurriculum, setIsModifyingExCurriculum] = useState(false);
 
   const RenderGrid = () => {
     switch (activeStep) {
@@ -63,7 +67,24 @@ export default function ApplyGrid() {
               open={isCreatingNewCurriculum}
               setOpen={setIsCreatingNewCurriculums}
             >
-              <CreateCurriculumForm faculty={tr(selectedFaculty, "en")} />
+              <CurriculumForm
+                initSelectedCurriculum={""}
+                initSelectedSubjects={[0, 1, 2]}
+                btnName={tr("Create")}
+                faculty={tr(selectedFaculty, "en")}
+              />
+            </OverflowBox>
+
+            <OverflowBox
+              open={isModifyingExCurriculum}
+              setOpen={setIsModifyingExCurriculum}
+            >
+              <CurriculumForm
+                initSelectedCurriculum={selectedCurriculum}
+                initSelectedSubjects={selectedSubjectsIds}
+                btnName={tr("Modify")}
+                faculty={tr(selectedFaculty, "en")}
+              />
             </OverflowBox>
 
             <Table
@@ -76,6 +97,7 @@ export default function ApplyGrid() {
                 )
               }
             />
+
             {selectedCurriculum == "" && (
               <Button
                 color="info"
@@ -86,6 +108,19 @@ export default function ApplyGrid() {
                 sx={{ marginRight: 2 }}
               >
                 {tr("Create")}
+              </Button>
+            )}
+
+            {selectedCurriculum != "" && selectedSubjectsIds != [] && (
+              <Button
+                color="info"
+                size="medium"
+                variant="contained"
+                startIcon={<AutoFixNormalIcon />}
+                onClick={() => setIsModifyingExCurriculum(true)}
+                sx={{ marginRight: 2 }}
+              >
+                {tr("Modify")}
               </Button>
             )}
           </>

@@ -8,7 +8,6 @@ export default function CandidateColumnConstants(
   curriculumsByFaculty
 ) {
   const { tr, language } = Translate();
-
   const curriculumColumns = useMemo(
     () => [
       {
@@ -83,20 +82,7 @@ export default function CandidateColumnConstants(
     [language, faculties]
   );
 
-  const subjectsColumns = useMemo(
-    () => [
-      {
-        field: "name",
-        headerName: tr("subject"),
-        flex: 1.5,
-        minWidth: 700
-      }
-    ],
-    [language]
-  );
-
   return {
-    subjectsColumns,
     facultiesColumns,
     candidatesInReviewColumns,
     contestsColumns,

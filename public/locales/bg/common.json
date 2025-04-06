@@ -1,5 +1,6 @@
 {
   "Hello": "Здравей",
+  "You have reached 6 maximum subjects to select!": "Вие достигнахте до 6 максимални дисциплини, които можете да изберете!",
   "Home": "Начало",
   "Announcement of competitions": "Обявяване на конкурси",
   "Candidate": "Кандидатствай",
@@ -18,6 +19,8 @@
   "Rejected": "Забранен",
   "is": "e",
   "PhD Candidates": "Кандидати докторанти",
+  "Curriculum name is empty!": "Името на учебната програма е празно!",
+  "You have successfully created a curriculum!": "Успешно сте създали учебна програма!",
   "Allow user into the system": "Разреши потебител към системата",
   "The unauthorized user": "Неудостоверен потребител",
   "Allow the user into the system and add him to a group": "Разрешете потребителят към системата и му добавете групата",
@@ -144,6 +147,7 @@
   "Name of the curriculum": "Име на учебната програма",
   "Curriculum name is incorrect!": "Името на учебната програма е неправилна!",
   "Create": "Създайте",
+  "Modify": "Модифицирайте",
   "January": "Януари",
   "Febuary": "Февуари",
   "March": "Март",
