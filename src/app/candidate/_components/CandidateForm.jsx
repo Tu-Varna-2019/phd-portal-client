@@ -1,4 +1,5 @@
 import { Button, Card, Divider, Grid, TextField } from "@mui/material";
+import { createDataUrl } from "@/helpers/utils";
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import FormLabel from "@mui/material/FormLabel";
 import Translate from "@/lib/helpers/Translate";
@@ -19,7 +20,7 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: "column"
 }));
 
-export default function CandidateForm(selectedCurriculum, selectedSubjects) {
+export default function CandidateForm({ selectedCurriculum }) {
   const { tr } = Translate();
   const dispatch = useAppDispatch();
 
@@ -30,7 +31,8 @@ export default function CandidateForm(selectedCurriculum, selectedSubjects) {
   const [postCode, setPostCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-  const [biographyData] = useState();
+  const [biographyData, setBiographyData] = useState();
+  const [biographyFilename, setBiographyFilename] = useState();
   const [biographyUploadLoading, setBiographyUploadLoading] = useState(false);
 
   const submitBtnError = () => {
@@ -49,12 +51,9 @@ export default function CandidateForm(selectedCurriculum, selectedSubjects) {
   const handleUploadBiographyClick = (event) => {
     setBiographyUploadLoading(true);
     const fileBytes = event.target.files[0];
-    const { name, type } = fileBytes;
 
-    const formData = new FormData();
-    formData.append("data", fileBytes);
-    formData.append("filename", name);
-    formData.append("mimetype", type);
+    setBiographyFilename(fileBytes.name);
+    setBiographyData(fileBytes);
 
     dispatch(
       setAlertBox({
@@ -66,7 +65,7 @@ export default function CandidateForm(selectedCurriculum, selectedSubjects) {
     setBiographyUploadLoading(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (localStorage.getItem("curriculum")) {
       const data = {
         name: name,
@@ -77,11 +76,15 @@ export default function CandidateForm(selectedCurriculum, selectedSubjects) {
         city: city,
         country: country,
         status: "waiting",
-        yarAccepted: "",
+        biography: biographyFilename,
+        biographyBlob: await createDataUrl({
+          picture: biographyData,
+          fileType: "file"
+        }),
         curriculum: {
           name: selectedCurriculum.name,
           mode: selectedCurriculum.mode,
-          subjects: selectedCurriculum.subjects
+          subjects: selectedCurriculum.subjects.map((subject) => subject.name)
         }
       };
       dispatch(selectCandidate({ data }));
@@ -250,16 +253,27 @@ export default function CandidateForm(selectedCurriculum, selectedSubjects) {
         />
       </FormGrid>
       <FormLabel htmlFor="biography">{tr("Biography") + " "}</FormLabel>
-      <Button
-        size="small"
-        onClick={handleUploadBiographyClick}
-        endIcon={<FileUpload />}
-        loading={biographyUploadLoading}
-        loadingPosition="middle"
-        variant="contained"
-      >
-        {tr("Send")}
-      </Button>
+
+      <label htmlFor="biography-upload">
+        <input
+          id="biography-upload"
+          type="file"
+          onChange={(event) => handleUploadBiographyClick(event)}
+          hidden
+        />
+        <Button
+          component="label"
+          htmlFor="biography-upload"
+          size="small"
+          startIcon={<FileUpload />}
+          loading={biographyUploadLoading}
+          loadingPosition="middle"
+          variant="contained"
+        >
+          {tr("Send")}
+        </Button>
+      </label>
+
       <Divider orientation="vertical" variant="middle" flexItem />
 
       <FormGrid size={{ xs: 12 }}>

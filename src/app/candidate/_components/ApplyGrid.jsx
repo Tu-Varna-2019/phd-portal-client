@@ -14,6 +14,8 @@ import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 import CandidateForm from "./CandidateForm";
 import CandidateApplyConfirmation from "./CandidateApplyConfirmation";
 import { modes } from "@/lib/helpers/utils";
+import { useSelector } from "react-redux";
+import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ApplyGrid() {
   const {
@@ -35,6 +37,14 @@ export default function ApplyGrid() {
   const [isCreatingNewCurriculum, setIsCreatingNewCurriculums] =
     useState(false);
   const [isModifyingExCurriculum, setIsModifyingExCurriculum] = useState(false);
+  const candidate = useSelector(selectCandidate);
+
+  const activeStepNames = [
+    tr("Choose a faculty"),
+    tr("Choose or create a new curriculum"),
+    tr("Fill in your candidate details"),
+    tr("Verify your details")
+  ];
 
   const RenderGrid = () => {
     switch (activeStep) {
@@ -143,7 +153,7 @@ export default function ApplyGrid() {
         );
 
       case 2:
-        return <CandidateForm />;
+        return <CandidateForm selectedCurriculum={selectedCurriculum} />;
 
       case 3:
         return <CandidateApplyConfirmation />;
@@ -155,12 +165,11 @@ export default function ApplyGrid() {
       <Milestones
         activeStep={activeStep}
         setActiveStep={setActiveStep}
-        steps={[
-          tr("Choose a faculty"),
-          tr("Choose or create a new curriculum"),
-          tr("Fill in your candidate details"),
-          tr("Verify your details")
-        ]}
+        steps={
+          candidate.name != undefined
+            ? activeStepNames.slice(2, 1)
+            : activeStepNames
+        }
         finishMsg={tr("Your application has been submitted successfully!")}
         nextBtnDisabled={disableNextBtn}
       >

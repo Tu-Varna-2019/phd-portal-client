@@ -28,5 +28,6 @@ createModelSchema(Candidate, {
   yearAccepted: primitive(),
   status: primitive(),
   biography: primitive(),
+  biographyBlob: primitive(),
   curriculum: object(Curriculum)
 });
