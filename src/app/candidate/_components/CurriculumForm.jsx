@@ -11,10 +11,10 @@ import Translate from "@/lib/helpers/Translate";
 import { useEffect, useState } from "react";
 import Table from "@/components/main-layout/common/Table";
 import CandidateAPI from "@/lib/api/candidate";
-import { Paper } from "@mui/material";
+import { MenuItem, Paper, Select } from "@mui/material";
 import Alert from "@mui/material/Alert";
-import CreateIcon from "@mui/icons-material/Create";
 import SubjectColumns from "../_constants/subjectColumns";
+import { modes } from "@/lib/helpers/utils";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -61,18 +61,20 @@ export default function CurriculumForm({
   btnName,
   faculty,
   initSelectedSubjects,
+  initSelectedMode,
   initSelectedCurriculum
 }) {
   const { getSubjectsByFacultyName } = CandidateAPI();
   const { tr, language } = Translate();
   const [curriculumName, setCurriculumName] = useState(initSelectedCurriculum);
+  const [mode, setModes] = useState(initSelectedMode);
   const [subjects, setSubjects] = useState([]);
   const [selectedSubjects, setSelectedSubjects] =
     useState(initSelectedSubjects);
   const [alertErrorMsg, setAlertErrorMsg] = useState("");
 
   const curriculumNameError = curriculumName == "" || curriculumName.length < 0;
-  const submitBtnError = curriculumNameError || selectedSubjects.length == 6;
+  const submitBtnError = curriculumNameError || selectedSubjects.length == 7;
 
   const { subjectsColumns } = SubjectColumns({
     selectedRows: selectedSubjects,
@@ -82,7 +84,7 @@ export default function CurriculumForm({
   useEffect(() => {
     if (curriculumNameError) {
       setAlertErrorMsg(tr("Curriculum name is empty!"));
-    } else if (selectedSubjects.length == 6) {
+    } else if (selectedSubjects.length == 7) {
       setAlertErrorMsg(tr("You have reached 6 maximum subjects to select!"));
     } else {
       setAlertErrorMsg("");
@@ -102,7 +104,7 @@ export default function CurriculumForm({
   }, [language]);
 
   const handleCreateCurriculum = () => {
-    const subjectNames = subjects
+    const subjectEN = subjects
       .filter((subject) => selectedSubjects.includes(subject.id))
       .map((subject) => {
         subject.name = tr(subject.name, "en");
@@ -112,8 +114,9 @@ export default function CurriculumForm({
     localStorage.setItem(
       "curriculum",
       JSON.stringify({
-        curriculumName: curriculumName,
-        subjects: subjectNames
+        name: curriculumName,
+        mode: mode,
+        subjects: subjectEN
       })
     );
   };
@@ -121,7 +124,6 @@ export default function CurriculumForm({
   return (
     <StyleContainer direction="column" justifyContent="space-between">
       <Card variant="outlined">
-        <CreateIcon />
         <Typography
           component="h1"
           variant="h4"
@@ -144,10 +146,24 @@ export default function CurriculumForm({
               required
               fullWidth
               id="name"
-              error={curriculumNameError}
-              helperText={tr("Curriculum name is incorrect!")}
-              color={curriculumNameError ? "error" : "primary"}
             />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="mode">{tr("Mode")}</FormLabel>
+            <Select
+              id="select-box"
+              onChange={(event) => setModes(event.target.value)}
+              defaultValue={initSelectedMode}
+              sx={{ width: 300 }}
+            >
+              {modes.map((mode, index) => {
+                return (
+                  <MenuItem key={index} value={mode}>
+                    {tr(mode)}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="email">{tr("Subjects")}</FormLabel>

@@ -7,8 +7,7 @@ import { cleanColumns } from "@/lib/helpers/utils";
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
-  const [selectedCurriculum, setSelectedCurriculum] = useState("");
-  const [selectedSubjectsIds, setSelectedSubjectsIds] = useState([]);
+  const [selectedCurriculum, setSelectedCurriculum] = useState();
   const [faculties, setFaculties] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const { tr, language } = Translate();
@@ -43,12 +42,7 @@ export default function AppllyHook() {
         const curriculumLocalStg = JSON.parse(
           localStorage.getItem("curriculum")
         );
-        setSelectedCurriculum(curriculumLocalStg.curriculumName);
-        setSelectedSubjectsIds(
-          curriculumLocalStg.subjects.map((subject) => {
-            return subject.id;
-          })
-        );
+        setSelectedCurriculum(curriculumLocalStg);
       }
     };
 
@@ -89,7 +83,6 @@ export default function AppllyHook() {
     selectedFaculty,
     setSelectedFaculty,
     selectedCurriculum,
-    selectedSubjectsIds,
     setSelectedCurriculum,
     titleText,
     disableNextBtn,

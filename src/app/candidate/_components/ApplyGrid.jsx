@@ -12,6 +12,8 @@ import OverflowBox from "@/components/main-layout/common/OverflowBox";
 import CurriculumForm from "./CurriculumForm";
 import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 import CandidateForm from "./CandidateForm";
+import CandidateApplyConfirmation from "./CandidateApplyConfirmation";
+import { modes } from "@/lib/helpers/utils";
 
 export default function ApplyGrid() {
   const {
@@ -22,7 +24,6 @@ export default function ApplyGrid() {
     selectedFaculty,
     setSelectedFaculty,
     selectedCurriculum,
-    selectedSubjectsIds,
     setSelectedCurriculum,
     titleText,
     disableNextBtn,
@@ -58,10 +59,16 @@ export default function ApplyGrid() {
       case 1:
         return (
           <>
-            {selectedCurriculum !== "" && (
-              <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
-                {selectedCurriculum}
-              </Typography>
+            {selectedCurriculum != undefined && (
+              <>
+                <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
+                  {tr("Curriculum") + " " + selectedCurriculum.name}
+                </Typography>
+
+                <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
+                  {tr("Mode") + " " + tr(selectedCurriculum.mode)}
+                </Typography>
+              </>
             )}
 
             <OverflowBox
@@ -70,23 +77,31 @@ export default function ApplyGrid() {
             >
               <CurriculumForm
                 initSelectedCurriculum={""}
+                initSelectedMode={modes[0]}
                 initSelectedSubjects={[0, 1, 2]}
                 btnName={tr("Create")}
                 faculty={tr(selectedFaculty, "en")}
               />
             </OverflowBox>
 
-            <OverflowBox
-              open={isModifyingExCurriculum}
-              setOpen={setIsModifyingExCurriculum}
-            >
-              <CurriculumForm
-                initSelectedCurriculum={selectedCurriculum}
-                initSelectedSubjects={selectedSubjectsIds}
-                btnName={tr("Modify")}
-                faculty={tr(selectedFaculty, "en")}
-              />
-            </OverflowBox>
+            {selectedCurriculum != undefined && (
+              <OverflowBox
+                open={isModifyingExCurriculum}
+                setOpen={setIsModifyingExCurriculum}
+              >
+                <CurriculumForm
+                  initSelectedCurriculum={selectedCurriculum.name}
+                  initSelectedMode={selectedCurriculum.mode}
+                  initSelectedSubjects={selectedCurriculum.subjects.map(
+                    (subject) => {
+                      return subject.id;
+                    }
+                  )}
+                  btnName={tr("Modify")}
+                  faculty={tr(selectedFaculty, "en")}
+                />
+              </OverflowBox>
+            )}
 
             <Table
               rows={curriculumsByFaculty}
@@ -99,7 +114,7 @@ export default function ApplyGrid() {
               }
             />
 
-            {selectedCurriculum == "" && (
+            {selectedCurriculum == undefined ? (
               <Button
                 color="info"
                 size="medium"
@@ -110,19 +125,19 @@ export default function ApplyGrid() {
               >
                 {tr("Create")}
               </Button>
-            )}
-
-            {selectedCurriculum != "" && selectedSubjectsIds != [] && (
-              <Button
-                color="info"
-                size="medium"
-                variant="contained"
-                startIcon={<AutoFixNormalIcon />}
-                onClick={() => setIsModifyingExCurriculum(true)}
-                sx={{ marginRight: 2 }}
-              >
-                {tr("Modify")}
-              </Button>
+            ) : (
+              selectedCurriculum.subjects != [] && (
+                <Button
+                  color="info"
+                  size="medium"
+                  variant="contained"
+                  startIcon={<AutoFixNormalIcon />}
+                  onClick={() => setIsModifyingExCurriculum(true)}
+                  sx={{ marginRight: 2 }}
+                >
+                  {tr("Modify")}
+                </Button>
+              )
             )}
           </>
         );
@@ -131,13 +146,7 @@ export default function ApplyGrid() {
         return <CandidateForm />;
 
       case 3:
-        return (
-          <Table
-            rows={curriculumsByFaculty}
-            columns={curriculumColumns}
-            density="comfortable"
-          />
-        );
+        return <CandidateApplyConfirmation />;
     }
   };
 

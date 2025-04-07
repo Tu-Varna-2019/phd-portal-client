@@ -140,3 +140,5 @@ export const mandatorySubjects = [
   "Methods of Research and Development of dissertation",
   "Block C (PhD minimum)"
 ];
+
+export const modes = ["regular", "part time"];

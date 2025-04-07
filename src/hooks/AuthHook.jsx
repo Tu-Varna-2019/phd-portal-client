@@ -16,8 +16,6 @@ export default function AuthHook() {
     const handleAuth = async () => {
       const response = await handleLogin();
 
-      console.log(`Response: ${response}`);
-
       if (response) {
         const loginResponse = await login(response.accessToken);
 

@@ -1,4 +1,5 @@
 import { Button, Card, Divider, Grid, TextField } from "@mui/material";
+import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import FormLabel from "@mui/material/FormLabel";
 import Translate from "@/lib/helpers/Translate";
 import { FileUpload } from "@mui/icons-material";
@@ -10,14 +11,18 @@ import {
   validatePIN,
   validateTextNotEmpty
 } from "@/lib/helpers/validate";
+import { useAppDispatch } from "@/lib/features/constants";
+import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column"
 }));
 
-export default function CandidateForm() {
+export default function CandidateForm(selectedCurriculum, selectedSubjects) {
   const { tr } = Translate();
+  const dispatch = useAppDispatch();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pin, setPin] = useState("");
@@ -41,16 +46,57 @@ export default function CandidateForm() {
     );
   };
 
-  const handleUploadBiographyClick = () => {
+  const handleUploadBiographyClick = (event) => {
     setBiographyUploadLoading(true);
+    const fileBytes = event.target.files[0];
+    const { name, type } = fileBytes;
+
+    const formData = new FormData();
+    formData.append("data", fileBytes);
+    formData.append("filename", name);
+    formData.append("mimetype", type);
+
+    dispatch(
+      setAlertBox({
+        message: tr("Biography is saved"),
+        severity: "success"
+      })
+    );
+
     setBiographyUploadLoading(false);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    if (localStorage.getItem("curriculum")) {
+      const data = {
+        name: name,
+        email: email,
+        pin: pin,
+        address: address,
+        postCode: postCode,
+        city: city,
+        country: country,
+        status: "waiting",
+        yarAccepted: "",
+        curriculum: {
+          name: selectedCurriculum.name,
+          mode: selectedCurriculum.mode,
+          subjects: selectedCurriculum.subjects
+        }
+      };
+      dispatch(selectCandidate({ data }));
+    } else {
+      dispatch(
+        setAlertBox({
+          message: tr("Error: Please try again later!"),
+          severity: "error"
+        })
+      );
 
-  console.log(
-    `Post code: ${postCode} and if it's valid or not: ${validateIsNumber(postCode)}`
-  );
+      throw new Error("Error: Curriculum local storage is not set!");
+    }
+  };
+
   return (
     <Card spacing={3}>
       <FormGrid size={{ xs: 12, md: 6 }}>
