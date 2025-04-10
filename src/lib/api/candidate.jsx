@@ -14,9 +14,17 @@ export default function CandidateAPI() {
     });
   };
 
-  const getSubjects = async () => {
+  const getSubjectsByCurriculumName = async (curriculum) => {
     return await route({
-      url: `${API_URL}/subjects`,
+      url: `${API_URL}/subjects/queryParam/curriculum?curriculumName=${curriculum}`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
+  const getSubjectsByFacultyName = async (faculty) => {
+    return await route({
+      url: `${API_URL}/subjects/queryParam/faculty?facultyName=${faculty}`,
       method: "GET",
       accessTokenProvided: ""
     });
@@ -48,7 +56,8 @@ export default function CandidateAPI() {
 
   return {
     getCurriculums,
-    getSubjects,
+    getSubjectsByFacultyName,
+    getSubjectsByCurriculumName,
     getContests,
     getCandidatesInReview,
     getFaculty

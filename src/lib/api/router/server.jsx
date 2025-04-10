@@ -18,7 +18,6 @@ export default function ServerRoute() {
       let body = await getBodyByContentType(request, requestContentType);
       url += constructUrlByQueryParams(request, queryParams);
 
-      console.log(`Url is: ${url}`);
       const response = await fetch(url, {
         method: method,
         headers: headers,

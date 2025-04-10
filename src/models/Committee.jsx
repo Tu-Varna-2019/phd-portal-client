@@ -1,6 +1,4 @@
-import { createModelSchema, object, primitive } from "serializr";
-import CommitteeType from "./CommitteeType";
-import Department from "./Department";
+import { createModelSchema, primitive } from "serializr";
 
 export default class Committee {
   constructor({
@@ -35,6 +33,6 @@ createModelSchema(Committee, {
   }),
   pictureBlob: primitive({}),
   grade: primitive(),
-  department: object(Department),
-  committeeType: object(CommitteeType)
+  department: primitive(),
+  committeeType: primitive()
 });
