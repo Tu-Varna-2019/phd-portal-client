@@ -58,8 +58,10 @@ export const {
   setPhd,
   setCommittee,
   setDoctoralCenter,
+  setCandidate,
   clearPhd,
   clearCommittee,
-  clearDoctoralCenter
+  clearDoctoralCenter,
+  clearCandidate
 } = userSlice.actions;
 export default userSlice.reducer;

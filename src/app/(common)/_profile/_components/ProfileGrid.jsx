@@ -54,9 +54,7 @@ export default function ProfileGrid({ user, nameFields, setUser }) {
             <Stack spacing={{ xs: 2, sm: 2 }}>
               <CardActionArea>
                 {isImageLoading ? (
-                  <>
-                    <Loading />
-                  </>
+                  <Loading />
                 ) : (
                   <Tooltip title={user.role}>
                     <CardMedia

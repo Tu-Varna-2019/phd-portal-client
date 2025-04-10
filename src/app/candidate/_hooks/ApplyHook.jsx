@@ -3,6 +3,8 @@ import Translate from "@/lib/helpers/Translate";
 import { useEffect, useMemo, useState } from "react";
 import CandidateColumnConstants from "../_constants/columnsConstant";
 import { cleanColumns } from "@/lib/helpers/utils";
+import { useSelector } from "react-redux";
+import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
@@ -11,6 +13,7 @@ export default function AppllyHook() {
   const [faculties, setFaculties] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const { tr, language } = Translate();
+  const candidate = useSelector(selectCandidate);
 
   const { getFaculty, getCurriculums } = CandidateAPI();
 
@@ -72,8 +75,12 @@ export default function AppllyHook() {
       return selectedFaculty === "";
     } else if (activeStep === 1) {
       return selectedCurriculum === "";
+    } else if (activeStep === 2) {
+      return candidate.name == undefined;
+    } else if (activeStep === 3) {
+      return true;
     } else return true;
-  }, [activeStep, selectedFaculty, selectedCurriculum]);
+  }, [activeStep, selectedFaculty, selectedCurriculum, candidate]);
 
   return {
     activeStep,

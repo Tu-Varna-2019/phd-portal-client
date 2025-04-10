@@ -92,15 +92,15 @@ export const getUserByGroup = () => {
   return user;
 };
 
-export const createDataUrl = async ({ picture, fileType }) => {
+export const createDataUrl = async ({ file, fileType }) => {
   let reader = new FileReader();
 
   try {
     if (fileType == "blob") {
-      const blob = await picture.blob();
+      const blob = await file.blob();
       reader.readAsDataURL(blob);
     } else if (fileType == "file") {
-      reader.readAsDataURL(picture);
+      reader.readAsDataURL(file);
     } else {
       throw new Error(
         `Cannot create data url due to incorrect fileType: ${fileType}`
@@ -118,7 +118,7 @@ export const createDataUrl = async ({ picture, fileType }) => {
     });
   } catch (error) {
     console.error(`Error occured: ${error}`);
-    return null;
+    return "";
   }
 };
 
@@ -142,3 +142,16 @@ export const mandatorySubjects = [
 ];
 
 export const modes = ["regular", "part time"];
+
+export const dataUrlToBlob = () => {
+  const binaryData = atob(dataUrl.split(",")[1]);
+  const arrayBuffer = new ArrayBuffer(binaryData.length);
+  const view = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < binaryData.length; i++) {
+    view[i] = binaryData.charCodeAt(i);
+  }
+  const mimeType = dataUrl.split(";")[0].split(":")[1];
+
+  return new Blob([arrayBuffer], { type: mimeType });
+};

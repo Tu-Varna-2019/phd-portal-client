@@ -14,5 +14,5 @@ export const validateIsNumber = (text) => {
 };
 
 export const validateTextNotEmpty = (text) => {
-  return text == "" || text.length == 0;
+  return text !== "" || text.length > 0;
 };

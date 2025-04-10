@@ -14,8 +14,6 @@ import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 import CandidateForm from "./CandidateForm";
 import CandidateApplyConfirmation from "./CandidateApplyConfirmation";
 import { modes } from "@/lib/helpers/utils";
-import { useSelector } from "react-redux";
-import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ApplyGrid() {
   const {
@@ -37,7 +35,6 @@ export default function ApplyGrid() {
   const [isCreatingNewCurriculum, setIsCreatingNewCurriculums] =
     useState(false);
   const [isModifyingExCurriculum, setIsModifyingExCurriculum] = useState(false);
-  const candidate = useSelector(selectCandidate);
 
   const activeStepNames = [
     tr("Choose a faculty"),
@@ -53,7 +50,7 @@ export default function ApplyGrid() {
           <>
             {selectedFaculty !== "" && (
               <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
-                {selectedFaculty}
+                {tr(selectedFaculty)}
               </Typography>
             )}
             <Table
@@ -66,6 +63,7 @@ export default function ApplyGrid() {
             />
           </>
         );
+
       case 1:
         return (
           <>
@@ -153,10 +151,15 @@ export default function ApplyGrid() {
         );
 
       case 2:
-        return <CandidateForm selectedCurriculum={selectedCurriculum} />;
+        return (
+          <CandidateForm
+            selectedCurriculum={selectedCurriculum}
+            selectedFaculty={selectedFaculty}
+          />
+        );
 
       case 3:
-        return <CandidateApplyConfirmation />;
+        return <CandidateApplyConfirmation curriculumColumns />;
     }
   };
 
@@ -165,11 +168,7 @@ export default function ApplyGrid() {
       <Milestones
         activeStep={activeStep}
         setActiveStep={setActiveStep}
-        steps={
-          candidate.name != undefined
-            ? activeStepNames.slice(2, 1)
-            : activeStepNames
-        }
+        steps={activeStepNames}
         finishMsg={tr("Your application has been submitted successfully!")}
         nextBtnDisabled={disableNextBtn}
       >

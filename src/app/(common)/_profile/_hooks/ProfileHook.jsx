@@ -31,7 +31,7 @@ export default function ProfileHook(setUser) {
     if (result != []) {
       user.picture = result.data;
       user.pictureBlob = await createDataUrl({
-        picture: fileBytes,
+        file: fileBytes,
         fileType: "file"
       });
       dispatch(setUser({ data: user }));
