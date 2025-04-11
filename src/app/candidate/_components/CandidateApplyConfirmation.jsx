@@ -2,16 +2,15 @@ import { Button, Card, Stack, Typography } from "@mui/material";
 import Translate from "@/lib/helpers/Translate";
 import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
 import { useSelector } from "react-redux";
-import Table from "@/components/main-layout/common/Table";
 
 import Divider from "@mui/material/Divider";
+import SimpleTable from "@/components/main-layout/common/SimpleTable";
 
-export default function CandidateApplyConfirmation({ curriculumColumns }) {
+export default function CandidateApplyConfirmation() {
   const { tr } = Translate();
   const candidate = useSelector(selectCandidate);
   const handleApply = () => {};
 
-  console.log(candidate.curriculum.subjects);
   return (
     <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
       <Card
@@ -87,10 +86,10 @@ export default function CandidateApplyConfirmation({ curriculumColumns }) {
           margin: "auto"
         }}
       >
-        <Table
+        <SimpleTable
           rows={candidate.curriculum}
-          columns={curriculumColumns}
-          density="comfortable"
+          headerNames={["Name", "Mode"]}
+          rowKeys={["name", "mode"]}
         />
       </Card>
 
@@ -102,10 +101,9 @@ export default function CandidateApplyConfirmation({ curriculumColumns }) {
           margin: "auto"
         }}
       >
-        <Table
+        <SimpleTable
           rows={candidate.curriculum.subjects}
-          columns={{}}
-          density="comfortable"
+          headerNames={["Name"]}
         />
       </Card>
 

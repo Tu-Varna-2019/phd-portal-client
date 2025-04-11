@@ -8,6 +8,7 @@ export default function CandidateColumnConstants(
   curriculumsByFaculty
 ) {
   const { tr, language } = Translate();
+
   const curriculumColumns = useMemo(
     () => [
       {
