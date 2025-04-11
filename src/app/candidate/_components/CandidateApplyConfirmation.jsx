@@ -5,11 +5,38 @@ import { useSelector } from "react-redux";
 
 import Divider from "@mui/material/Divider";
 import SimpleTable from "@/components/main-layout/common/SimpleTable";
+import { useState } from "react";
+import CandidateAPI from "@/lib/api/candidate";
+import { dataUrlToBlob } from "@/lib/helpers/utils";
+import { useAppDispatch } from "@/lib/features/constants";
+import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 
 export default function CandidateApplyConfirmation() {
   const { tr } = Translate();
+  const dispatch = useAppDispatch();
+  const { uploadBiography } = CandidateAPI();
+  const [submitLoading, setSubmitLoading] = useState(false);
   const candidate = useSelector(selectCandidate);
-  const handleApply = () => {};
+
+  const handleApply = async () => {
+    setSubmitLoading(true);
+
+    const formData = new FormData();
+    formData.append("data", dataUrlToBlob(candidate.biography.data));
+    formData.append("filename", candidate.biography.name);
+    formData.append("mimetype", candidate.biography.mimeType);
+
+    await uploadBiography(formData);
+
+    dispatch(
+      setAlertBox({
+        message: tr("Application sent!"),
+        severity: "success"
+      })
+    );
+
+    setSubmitLoading(false);
+  };
 
   return (
     <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
@@ -38,7 +65,7 @@ export default function CandidateApplyConfirmation() {
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-          <strong>{tr("Pin")}:</strong> {candidate.pin}
+          <strong>{tr("PIN")}:</strong> {candidate.pin}
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
@@ -46,25 +73,21 @@ export default function CandidateApplyConfirmation() {
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-          <strong>{tr("post code")}:</strong> {candidate.postCode}
+          <strong>{tr("Post code")}:</strong> {candidate.postCode}
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-          <strong>{tr("city")}:</strong> {candidate.city}
+          <strong>{tr("City")}:</strong> {candidate.city}
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-          <strong>{tr("city")}:</strong> {candidate.city}
-        </Typography>
-
-        <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-          <strong>{tr("country")}:</strong> {candidate.country}
+          <strong>{tr("Country")}:</strong> {candidate.country}
         </Typography>
 
         <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
           <a
             target="_blank"
-            href={candidate.biographyBlob}
+            href={candidate.biography.data}
             rel="noopener noreferrer"
             style={{
               color: "#1976d2",
@@ -107,7 +130,13 @@ export default function CandidateApplyConfirmation() {
         />
       </Card>
 
-      <Button type="submit" fullWidth onClick={handleApply} variant="contained">
+      <Button
+        type="submit"
+        fullWidth
+        onClick={handleApply}
+        variant="contained"
+        loading={submitLoading}
+      >
         {tr("Confirm")}
       </Button>
     </Stack>

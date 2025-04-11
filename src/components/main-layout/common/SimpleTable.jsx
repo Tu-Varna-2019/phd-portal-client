@@ -10,8 +10,6 @@ import Translate from "@/lib/helpers/Translate";
 export default function SimpleTable({ rows, headerNames, rowKeys }) {
   const { tr } = Translate();
 
-  console.log(`Rows are: ${JSON.stringify(rows)}`);
-  console.log(`Type of ${Array.isArray(rows)}`);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

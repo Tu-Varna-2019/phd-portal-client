@@ -1,5 +1,6 @@
 import { createModelSchema, object, primitive } from "serializr";
 import Curriculum from "./Curriculum";
+import File from "./File";
 
 export default class Candidate {
   name;
@@ -27,7 +28,6 @@ createModelSchema(Candidate, {
   faculty: primitive(),
   yearAccepted: primitive(),
   status: primitive(),
-  biography: primitive(),
-  biographyBlob: primitive(),
+  biography: object(File),
   curriculum: object(Curriculum)
 });

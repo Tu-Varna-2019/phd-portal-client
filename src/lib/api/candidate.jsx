@@ -1,5 +1,6 @@
 "use client";
 import ClientRoute from "@/router/client";
+import { mediaType } from "../helpers/utils";
 
 const API_URL = "/api/candidate";
 
@@ -54,12 +55,22 @@ export default function CandidateAPI() {
     });
   };
 
+  const uploadBiography = (file) => {
+    return route({
+      url: `${API_URL}/upload`,
+      method: "POST",
+      body: file,
+      requestContentType: mediaType.FormData
+    });
+  };
+
   return {
     getCurriculums,
     getSubjectsByFacultyName,
     getSubjectsByCurriculumName,
     getContests,
     getCandidatesInReview,
-    getFaculty
+    getFaculty,
+    uploadBiography
   };
 }

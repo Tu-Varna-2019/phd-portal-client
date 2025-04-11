@@ -43,7 +43,6 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [biographyBlob, setBiographyBlob] = useState();
-  const [biographyFilename, setBiographyFilename] = useState("");
   const [biographyUploadLoading, setBiographyUploadLoading] = useState(false);
 
   const submitBtnError = () => {
@@ -62,8 +61,6 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
   const handleUploadBiographyClick = (event) => {
     setBiographyUploadLoading(true);
     const fileBytes = event.target.files[0];
-
-    setBiographyFilename(fileBytes.name);
     setBiographyBlob(fileBytes);
 
     dispatch(
@@ -89,11 +86,14 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
         faculty: selectedFaculty,
         yearAccepted: CURRENT_YEAR,
         status: "waiting",
-        biography: biographyFilename,
-        biographyBlob: await createDataUrl({
-          file: biographyBlob,
-          fileType: "file"
-        }),
+        biography: {
+          name: biographyBlob.name,
+          mimeType: biographyBlob.mimeType,
+          data: await createDataUrl({
+            file: biographyBlob,
+            fileType: "file"
+          })
+        },
         curriculum: {
           name: selectedCurriculum.name,
           mode: selectedCurriculum.mode,
@@ -169,7 +169,7 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
             <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
               <a
                 target="_blank"
-                href={candidate.biographyBlob}
+                href={candidate.biography.data}
                 rel="noopener noreferrer"
                 style={{
                   color: "#1976d2",

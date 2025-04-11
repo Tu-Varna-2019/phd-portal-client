@@ -14,7 +14,7 @@ export default function ServerRoute() {
   }) => {
     try {
       let { headers } = await getHeaders(requestContentType);
-
+      console.log(`Headres: ${JSON.stringify(headers)}`);
       let body = await getBodyByContentType(request, requestContentType);
       url += constructUrlByQueryParams(request, queryParams);
 
@@ -42,7 +42,11 @@ export default function ServerRoute() {
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
     const cookieHeader =
-      reqHeaders.getSetCookie("group") + ";" + reqHeaders.getSetCookie("role");
+      reqHeaders.getSetCookie("group") +
+      ";" +
+      reqHeaders.getSetCookie("role") +
+      ";" +
+      reqHeaders.getSetCookie("candidate");
 
     // BUG: for some reason setting up content type to multipart/form-data causes an error
     if (requestContentType == mediaType.FormData) {

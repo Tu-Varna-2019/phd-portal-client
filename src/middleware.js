@@ -20,6 +20,7 @@ export function middleware(request) {
 
   const groupCookie = request.cookies.get("group")?.value;
   const roleCookie = request.cookies.get("role")?.value;
+  const candidateCookie = request.cookies.get("candidate")?.value;
 
   const url = request.nextUrl.clone();
   const isUrlApiRoute = url.pathname.startsWith("/api/");
@@ -49,6 +50,15 @@ export function middleware(request) {
 
   if (roleCookie != undefined)
     response.cookies.set("role", roleCookie, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "Lax",
+      /* eslint-disable no-undef */
+      secure: process.env.NODE_ENV != "production"
+    });
+
+  if (candidateCookie != undefined)
+    response.cookies.set("candidate", candidateCookie, {
       path: "/",
       httpOnly: true,
       sameSite: "Lax",

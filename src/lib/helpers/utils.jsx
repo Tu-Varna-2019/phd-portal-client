@@ -143,7 +143,7 @@ export const mandatorySubjects = [
 
 export const modes = ["regular", "part time"];
 
-export const dataUrlToBlob = () => {
+export const dataUrlToBlob = (dataUrl) => {
   const binaryData = atob(dataUrl.split(",")[1]);
   const arrayBuffer = new ArrayBuffer(binaryData.length);
   const view = new Uint8Array(arrayBuffer);
