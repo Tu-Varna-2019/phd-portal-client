@@ -7,11 +7,12 @@ const { route } = ServerRoute();
 
 export async function POST(request) {
   const nextCookies = await cookies();
+
   nextCookies.set("candidate", "iliyan", {
     path: "/",
     httpOnly: true,
     sameSite: "Lax",
-    /* eslint-disable no-undef */
+
     secure: process.env.NODE_ENV != "production"
   });
 

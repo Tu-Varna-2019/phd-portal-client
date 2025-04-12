@@ -14,9 +14,9 @@ export default function ServerRoute() {
   }) => {
     try {
       let { headers } = await getHeaders(requestContentType);
-      console.log(`Headres: ${JSON.stringify(headers)}`);
       let body = await getBodyByContentType(request, requestContentType);
       url += constructUrlByQueryParams(request, queryParams);
+      console.log(`Headers: ${JSON.stringify(headers)}`);
 
       const response = await fetch(url, {
         method: method,
@@ -48,21 +48,23 @@ export default function ServerRoute() {
       ";" +
       reqHeaders.getSetCookie("candidate");
 
+    const headersRes = {
+      "Content-Type": requestContentType,
+      Authorization: `Bearer ${accessToken}`,
+      Cookie: cookieHeader
+    };
+
+    if (accessToken == "undefined") {
+      delete headersRes.Authorization;
+    }
+
     // BUG: for some reason setting up content type to multipart/form-data causes an error
     if (requestContentType == mediaType.FormData) {
-      return {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Cookie: cookieHeader
-        }
-      };
+      delete headersRes["Content-Type"];
     }
+
     return {
-      headers: {
-        "Content-Type": requestContentType,
-        Authorization: `Bearer ${accessToken}`,
-        Cookie: cookieHeader
-      }
+      headers: headersRes
     };
   };
 
