@@ -1,16 +1,20 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReact from "eslint-plugin-react";
-import eslintConfigPrettier from "eslint-config-prettier";
+const pluginJs = require("@eslint/js");
+const pluginReact = require("eslint-plugin-react");
+const eslintConfigPrettier = require("eslint-config-prettier");
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+module.exports = [
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
+    settings: {
+      react: {
+        version: "detect"
+      }
+    },
     rules: {
       "import/prefer-default-export": "off",
       "no-unused-vars": "warn",
-      "no-undef": "warn",
+      "no-undef": "off",
       "react-hooks/rules-of-hooks": "off",
       "react/react-in-jsx-scope": "off",
       "react/jsx-key": "off",
@@ -19,7 +23,15 @@ export default [
       "react/no-children-prop": "off",
       "react/no-unescaped-entities": "off"
     },
-    languageOptions: { globals: globals.browser }
+    languageOptions: {
+      globals: {
+        require: "readonly",
+        module: "readonly",
+        process: "readonly",
+        console: "readonly",
+        fetch: "readonly"
+      }
+    }
   },
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,

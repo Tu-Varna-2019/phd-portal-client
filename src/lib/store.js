@@ -29,7 +29,7 @@ const uiStatePersistConfig = {
 const userPersistConfig = {
   key: "user",
   storage,
-  whitelist: ["phd", "committee", "doctoralCenter"]
+  whitelist: ["phd", "committee", "doctoralCenter", "candidate"]
   // BUG: Not working for some magical reason
   // transform: [doctoralCenterTransform]
 };
@@ -44,10 +44,11 @@ export const store = configureStore({
     user: persistReducer(userPersistConfig, userReducer),
     sessionToken: persistReducer(sessionTokenPersistConfig, sessionTokenReducer)
   },
+
+  /* eslint-disable no-undef */
   devTools: process.env.NODE_ENV != "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false,
       serializableCheck: {
         ignoredActions: [PERSIST, REHYDRATE],
         ignoredActionPaths: ["meta.arg", "payload.response"]

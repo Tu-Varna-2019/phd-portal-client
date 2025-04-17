@@ -1,6 +1,4 @@
-import { createModelSchema, object, primitive } from "serializr";
-import StatusPhd from "./statusPhd";
-import Department from "./Department";
+import { createModelSchema, primitive } from "serializr";
 
 export default class Phd {
   oid;

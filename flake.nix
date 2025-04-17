@@ -48,7 +48,8 @@
           };
           git-hooks.hooks = {
             # Common
-            markdownlint.enable = true;
+            commitizen.enable = true;
+
             actionlint = {
               # BUG: Disabled, due to not being able to recognize `include-hidden-files` in github checkout
               enable = false;

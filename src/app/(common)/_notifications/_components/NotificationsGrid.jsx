@@ -24,7 +24,7 @@ export default function NotificationsGrid() {
       <Table
         rows={notifications}
         columns={columns}
-        checkboxEnabled={true}
+        checkboxEnabled
         onRowSelect={(selectedRows) => setSelectedRows(selectedRows)}
       />
       <AlertBox />

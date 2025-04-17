@@ -11,7 +11,7 @@ export default function Page() {
 
   return (
     <Layout
-      headerTitle={tr("Apply for a PhD")}
+      headerTitle={tr("Apply for a Phd")}
       MainView={<ApplyGrid />}
       basePath={path}
       mainListItems={navigation}
