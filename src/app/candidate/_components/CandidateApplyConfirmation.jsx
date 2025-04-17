@@ -14,7 +14,7 @@ import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 export default function CandidateApplyConfirmation() {
   const { tr } = Translate();
   const dispatch = useAppDispatch();
-  const { uploadBiography } = CandidateAPI();
+  const { apply } = CandidateAPI();
   const [submitLoading, setSubmitLoading] = useState(false);
   const candidate = useSelector(selectCandidate);
 
@@ -26,7 +26,15 @@ export default function CandidateApplyConfirmation() {
     formData.append("filename", candidate.biography.name);
     formData.append("mimetype", candidate.biography.mimeType);
 
-    await uploadBiography(formData);
+    const candidateApply = {
+      ...candidate,
+      curriculum: { ...candidate.curriculum, faculty: candidate.faculty },
+      biography: candidate.biography.name
+    };
+
+    await apply(candidateApply);
+    // await createCurriculum(curriculumCreate);
+    // await uploadBiography(formData);
 
     dispatch(
       setAlertBox({

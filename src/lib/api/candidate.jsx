@@ -64,6 +64,24 @@ export default function CandidateAPI() {
     });
   };
 
+  const createCurriculum = async (curriculum) => {
+    return await route({
+      url: `${API_URL}/curriculums`,
+      method: "POST",
+      body: curriculum,
+      accessTokenProvided: ""
+    });
+  };
+
+  const apply = async (candidate) => {
+    return await route({
+      url: `${API_URL}/apply`,
+      method: "POST",
+      body: candidate,
+      accessTokenProvided: ""
+    });
+  };
+
   return {
     getCurriculums,
     getSubjectsByFacultyName,
@@ -71,6 +89,8 @@ export default function CandidateAPI() {
     getContests,
     getCandidatesInReview,
     getFaculty,
-    uploadBiography
+    uploadBiography,
+    createCurriculum,
+    apply
   };
 }

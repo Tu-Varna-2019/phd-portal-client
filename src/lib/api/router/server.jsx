@@ -16,7 +16,6 @@ export default function ServerRoute() {
       let { headers } = await getHeaders(requestContentType);
       let body = await getBodyByContentType(request, requestContentType);
       url += constructUrlByQueryParams(request, queryParams);
-      console.log(`Headers: ${JSON.stringify(headers)}`);
 
       const response = await fetch(url, {
         method: method,
