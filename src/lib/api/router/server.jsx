@@ -104,6 +104,8 @@ export default function ServerRoute() {
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
       case 400:
         throw new Error("NextJS Api route client error");
+      case 403:
+        throw new Error("Forbidden!");
       case 500:
         throw new Error("Nextjs Server side error");
       case 200:

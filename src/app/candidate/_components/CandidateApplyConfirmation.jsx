@@ -14,7 +14,7 @@ import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 export default function CandidateApplyConfirmation() {
   const { tr } = Translate();
   const dispatch = useAppDispatch();
-  const { apply } = CandidateAPI();
+  const { apply, uploadBiography } = CandidateAPI();
   const [submitLoading, setSubmitLoading] = useState(false);
   const candidate = useSelector(selectCandidate);
 
@@ -32,16 +32,27 @@ export default function CandidateApplyConfirmation() {
       biography: candidate.biography.name
     };
 
-    await apply(candidateApply);
-    // await createCurriculum(curriculumCreate);
-    // await uploadBiography(formData);
+    const responseApplication = await apply(candidateApply);
+    const responseBiography = await uploadBiography(formData);
 
-    dispatch(
-      setAlertBox({
-        message: tr("Application sent!"),
-        severity: "success"
-      })
-    );
+    if (responseApplication.length == 0 || responseBiography.length == 0) {
+      // TODO: For some reason the toast bar isn't showing at all
+      dispatch(
+        setAlertBox({
+          message: tr("Error, please try again later!"),
+          severity: "error"
+        })
+      );
+    } else {
+      dispatch(
+        setAlertBox({
+          message: tr("Application sent!"),
+          severity: "success"
+        })
+      );
+      localStorage.clear();
+      location.reload();
+    }
 
     setSubmitLoading(false);
   };

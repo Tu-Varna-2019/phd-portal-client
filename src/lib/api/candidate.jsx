@@ -64,15 +64,6 @@ export default function CandidateAPI() {
     });
   };
 
-  const createCurriculum = async (curriculum) => {
-    return await route({
-      url: `${API_URL}/curriculums`,
-      method: "POST",
-      body: curriculum,
-      accessTokenProvided: ""
-    });
-  };
-
   const apply = async (candidate) => {
     return await route({
       url: `${API_URL}/apply`,
@@ -90,7 +81,6 @@ export default function CandidateAPI() {
     getCandidatesInReview,
     getFaculty,
     uploadBiography,
-    createCurriculum,
     apply
   };
 }

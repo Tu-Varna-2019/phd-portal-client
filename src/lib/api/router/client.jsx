@@ -40,7 +40,7 @@ export default function ClientRoute() {
         // window.location.reload();
       } else if (response.status >= 400 && response.status <= 500) {
         const result = await response.json();
-        console.error(`Client side error with error: ${result.message}`);
+        console.error(`Client side error with message: ${result.message}`);
         return [];
       } else if (response.status == 200 || response.status == 201) {
         return await getContentTypeResponse(responseContentType, response);

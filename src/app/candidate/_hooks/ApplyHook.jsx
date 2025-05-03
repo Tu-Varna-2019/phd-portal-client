@@ -11,7 +11,7 @@ export default function AppllyHook() {
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [selectedCurriculum, setSelectedCurriculum] = useState();
   const [faculties, setFaculties] = useState([]);
-  const [activeStep, setActiveStep] = useState(3);
+  const [activeStep, setActiveStep] = useState(0);
   const { tr, language } = Translate();
   const candidate = useSelector(selectCandidate);
 
