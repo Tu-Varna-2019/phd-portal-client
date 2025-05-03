@@ -1,5 +1,6 @@
 "use client";
 import ClientRoute from "@/router/client";
+import { mediaType } from "../helpers/utils";
 
 const API_URL = "/api/candidate";
 
@@ -14,9 +15,17 @@ export default function CandidateAPI() {
     });
   };
 
-  const getSubjects = async () => {
+  const getSubjectsByCurriculumName = async (curriculum) => {
     return await route({
-      url: `${API_URL}/subjects`,
+      url: `${API_URL}/subjects/queryParam/curriculum?curriculumName=${curriculum}`,
+      method: "GET",
+      accessTokenProvided: ""
+    });
+  };
+
+  const getSubjectsByFacultyName = async (faculty) => {
+    return await route({
+      url: `${API_URL}/subjects/queryParam/faculty?facultyName=${faculty}`,
       method: "GET",
       accessTokenProvided: ""
     });
@@ -46,11 +55,32 @@ export default function CandidateAPI() {
     });
   };
 
+  const uploadBiography = (file) => {
+    return route({
+      url: `${API_URL}/upload`,
+      method: "POST",
+      body: file,
+      requestContentType: mediaType.FormData
+    });
+  };
+
+  const apply = async (candidate) => {
+    return await route({
+      url: `${API_URL}/apply`,
+      method: "POST",
+      body: candidate,
+      accessTokenProvided: ""
+    });
+  };
+
   return {
     getCurriculums,
-    getSubjects,
+    getSubjectsByFacultyName,
+    getSubjectsByCurriculumName,
     getContests,
     getCandidatesInReview,
-    getFaculty
+    getFaculty,
+    uploadBiography,
+    apply
   };
 }

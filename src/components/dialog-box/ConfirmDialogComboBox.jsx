@@ -9,7 +9,8 @@ import {
   DialogContent,
   DialogTitle,
   Autocomplete,
-  TextField
+  TextField,
+  Select
 } from "@mui/material";
 import Translate from "@/lib/helpers/Translate";
 
@@ -51,16 +52,22 @@ export default function ConfirmDialogComboBox({
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{contentText}</DialogContentText>
-          <Autocomplete
-            disablePortal
-            options={options}
-            onInputChange={(event, value) => {
+          <Select
+            id="select-box"
+            onChange={(event, value) => {
               const id = event.target.id.toString();
               onAutocompleteChange(id.charAt(id.length - 1), value);
             }}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label={label} />}
-          />
+          >
+            {options.map((option, index) => {
+              return (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              );
+            })}
+          </Select>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

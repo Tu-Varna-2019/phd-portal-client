@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { runPeriodically } from "@/lib/helpers/utils";
+import { cleanColumns, runPeriodically } from "@/lib/helpers/utils";
 import CandidateAPI from "@/lib/api/candidate";
 import Translate from "@/lib/helpers/Translate";
 
@@ -13,7 +13,11 @@ export default function HomeHook() {
     curriculumsResponse.forEach((curriculum, index) => {
       curriculum.id = index;
       curriculum.name = tr(curriculum.name);
-      curriculum.mode = tr(curriculum.mode);
+
+      let mode = tr(curriculum.mode);
+      mode = cleanColumns(mode);
+
+      curriculum.mode = mode;
       curriculum.faculty = tr(curriculum.faculty);
     });
 

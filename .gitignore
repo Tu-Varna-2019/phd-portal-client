@@ -32,7 +32,6 @@ yarn-error.log*
 .vscode/
 .direnv
 .devenv
-.envrc
 .pre-commit-config.yaml
 .next
 

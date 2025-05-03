@@ -1,3 +1,4 @@
+import Candidate from "@/models/Candidate";
 import Committee from "@/models/Committee";
 import DoctoralCenter from "@/models/DoctoralCenter";
 import Phd from "@/models/Phd";
@@ -10,7 +11,8 @@ export const userSlice = createSlice({
     // NOTE: needed to putt null value due to non-serializable errors if otherwise
     phd: null,
     committee: null,
-    doctoralCenter: null
+    doctoralCenter: null,
+    candidate: null
   },
   reducers: {
     setPhd: (state, action) => {
@@ -29,6 +31,10 @@ export const userSlice = createSlice({
 
       state.doctoralCenter = serialize(doctoralCenterObj);
     },
+    setCandidate: (state, action) => {
+      const candidateObj = deserialize(Candidate, action.payload.data);
+      state.candidate = serialize(candidateObj);
+    },
 
     clearPhd(state) {
       state.phd = null;
@@ -40,6 +46,10 @@ export const userSlice = createSlice({
 
     clearDoctoralCenter(state) {
       state.doctoralCenter = null;
+    },
+
+    clearCandidate(state) {
+      state.candidate = null;
     }
   }
 });
@@ -48,8 +58,10 @@ export const {
   setPhd,
   setCommittee,
   setDoctoralCenter,
+  setCandidate,
   clearPhd,
   clearCommittee,
-  clearDoctoralCenter
+  clearDoctoralCenter,
+  clearCandidate
 } = userSlice.actions;
 export default userSlice.reducer;

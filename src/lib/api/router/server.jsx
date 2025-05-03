@@ -14,11 +14,9 @@ export default function ServerRoute() {
   }) => {
     try {
       let { headers } = await getHeaders(requestContentType);
-
       let body = await getBodyByContentType(request, requestContentType);
       url += constructUrlByQueryParams(request, queryParams);
 
-      console.log(`Url is: ${url}`);
       const response = await fetch(url, {
         method: method,
         headers: headers,
@@ -43,23 +41,29 @@ export default function ServerRoute() {
     const reqHeaders = await headers();
     const accessToken = reqHeaders.get("authorization");
     const cookieHeader =
-      reqHeaders.getSetCookie("group") + ";" + reqHeaders.getSetCookie("role");
+      reqHeaders.getSetCookie("group") +
+      ";" +
+      reqHeaders.getSetCookie("role") +
+      ";" +
+      reqHeaders.getSetCookie("candidate");
+
+    const headersRes = {
+      "Content-Type": requestContentType,
+      Authorization: `Bearer ${accessToken}`,
+      Cookie: cookieHeader
+    };
+
+    if (accessToken == "undefined") {
+      delete headersRes.Authorization;
+    }
 
     // BUG: for some reason setting up content type to multipart/form-data causes an error
     if (requestContentType == mediaType.FormData) {
-      return {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Cookie: cookieHeader
-        }
-      };
+      delete headersRes["Content-Type"];
     }
+
     return {
-      headers: {
-        "Content-Type": requestContentType,
-        Authorization: `Bearer ${accessToken}`,
-        Cookie: cookieHeader
-      }
+      headers: headersRes
     };
   };
 
@@ -100,6 +104,8 @@ export default function ServerRoute() {
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
       case 400:
         throw new Error("NextJS Api route client error");
+      case 403:
+        throw new Error("Forbidden!");
       case 500:
         throw new Error("Nextjs Server side error");
       case 200:
