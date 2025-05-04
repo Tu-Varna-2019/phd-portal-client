@@ -16,8 +16,7 @@ export default function CandidateColumnConstants(
         headerName: tr("naming"),
         flex: 1.5,
         minWidth: 700,
-        renderCell: (param) =>
-          renderLink(param.row.name, "candidate/curriculum/")
+        renderCell: (param) => renderLink(param.row.name, "curriculum/")
       },
       {
         field: "yearPeriod",

@@ -50,7 +50,7 @@ export default function CandidateApplyConfirmation() {
           severity: "success"
         })
       );
-      localStorage.clear();
+      localStorage.removeItem("curriculum");
       location.reload();
     }
 
@@ -134,7 +134,6 @@ export default function CandidateApplyConfirmation() {
           rowKeys={["name", "mode"]}
         />
       </Card>
-
       <Card
         sx={{
           padding: 3,
@@ -146,6 +145,7 @@ export default function CandidateApplyConfirmation() {
         <SimpleTable
           rows={candidate.curriculum.subjects}
           headerNames={["Name"]}
+          rowKeys={["name"]}
         />
       </Card>
 

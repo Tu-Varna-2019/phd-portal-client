@@ -70,7 +70,7 @@ export default function ApplyGrid() {
             {selectedCurriculum != undefined && (
               <>
                 <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
-                  {tr("Curriculum") + " " + selectedCurriculum.name}
+                  {tr("Curriculum") + " " + tr(selectedCurriculum.name)}
                 </Typography>
 
                 <Typography component="h2" variant="h7" sx={{ mb: 2 }}>
@@ -115,11 +115,19 @@ export default function ApplyGrid() {
               rows={curriculumsByFaculty}
               columns={curriculumColumns}
               density="comfortable"
-              onRowSelect={(rowIndex) =>
-                setSelectedCurriculum(
-                  tr(curriculumsByFaculty[rowIndex].name, "en")
-                )
-              }
+              onRowSelect={(rowIndex) => {
+                const curriculum = curriculumsByFaculty[rowIndex];
+
+                localStorage.setItem(
+                  "curriculum",
+                  JSON.stringify({
+                    name: tr(curriculum.name, "en"),
+                    mode: tr(curriculum.mode, "en"),
+                    subjects: curriculum.subjects
+                  })
+                );
+                setSelectedCurriculum(curriculum);
+              }}
             />
 
             {selectedCurriculum == undefined ? (
@@ -151,12 +159,7 @@ export default function ApplyGrid() {
         );
 
       case 2:
-        return (
-          <CandidateForm
-            selectedCurriculum={selectedCurriculum}
-            selectedFaculty={selectedFaculty}
-          />
-        );
+        return <CandidateForm selectedFaculty={selectedFaculty} />;
 
       case 3:
         return <CandidateApplyConfirmation curriculumColumns />;
