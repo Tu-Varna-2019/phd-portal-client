@@ -17,6 +17,9 @@ export default function CandidateApplyConfirmation() {
   const { apply, uploadBiography } = CandidateAPI();
   const [submitLoading, setSubmitLoading] = useState(false);
   const candidate = useSelector(selectCandidate);
+  console.log(
+    `Candidate: ` + candidate.curriculum.name + " " + candidate.curriculum.mode
+  );
 
   const handleApply = async () => {
     setSubmitLoading(true);
@@ -50,7 +53,7 @@ export default function CandidateApplyConfirmation() {
           severity: "success"
         })
       );
-      localStorage.clear();
+      localStorage.removeItem("curriculum");
       location.reload();
     }
 
@@ -134,7 +137,6 @@ export default function CandidateApplyConfirmation() {
           rowKeys={["name", "mode"]}
         />
       </Card>
-
       <Card
         sx={{
           padding: 3,
@@ -146,6 +148,7 @@ export default function CandidateApplyConfirmation() {
         <SimpleTable
           rows={candidate.curriculum.subjects}
           headerNames={["Name"]}
+          rowKeys={["name"]}
         />
       </Card>
 
