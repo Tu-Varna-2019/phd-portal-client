@@ -17,9 +17,6 @@ export default function CandidateApplyConfirmation() {
   const { apply, uploadBiography } = CandidateAPI();
   const [submitLoading, setSubmitLoading] = useState(false);
   const candidate = useSelector(selectCandidate);
-  console.log(
-    `Candidate: ` + candidate.curriculum.name + " " + candidate.curriculum.mode
-  );
 
   const handleApply = async () => {
     setSubmitLoading(true);

@@ -102,7 +102,6 @@ export default function CandidateForm({ selectedFaculty }) {
         }
       };
 
-      console.log(`Data: ${data.curriculum.name} ${data.curriculum.mode}`);
       dispatch(setCandidate({ data }));
     } else {
       dispatch(
