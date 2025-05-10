@@ -44,7 +44,7 @@
     "serializr": "^3.0.3"
   },
   "devDependencies": {
-    "eslint": "^9.21.0",
+    "eslint": "^9.25.1",
     "eslint-config-next": "15.1.7",
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
