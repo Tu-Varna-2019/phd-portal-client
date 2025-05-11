@@ -162,7 +162,7 @@ export default function ApplyGrid() {
         return <CandidateForm selectedFaculty={selectedFaculty} />;
 
       case 3:
-        return <CandidateApplyConfirmation curriculumColumns />;
+        return <CandidateApplyConfirmation />;
     }
   };
 

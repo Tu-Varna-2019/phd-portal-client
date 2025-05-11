@@ -44,12 +44,10 @@ export default function CandidateApplyConfirmation() {
         })
       );
     } else {
-      dispatch(
-        setAlertBox({
-          message: tr("Application sent!"),
-          severity: "success"
-        })
-      );
+      notificationAlert({
+        message: tr("Application sent!"),
+        severity: "success"
+      });
       localStorage.removeItem("curriculum");
       location.reload();
     }
