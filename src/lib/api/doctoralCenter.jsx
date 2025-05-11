@@ -35,10 +35,18 @@ export default function DoctoralCenterAPI() {
     });
   };
 
+  const review = async () => {
+    return await route({
+      url: `${API_URL}/candidate/application`,
+      method: "PATCH"
+    });
+  };
+
   return {
     getCandidates,
     getUnauthorizedUsers,
     setUnauthorizedUserGroup,
-    getDocCenterRoles
+    getDocCenterRoles,
+    review
   };
 }
