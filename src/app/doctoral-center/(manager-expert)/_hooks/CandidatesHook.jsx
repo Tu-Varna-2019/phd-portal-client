@@ -1,20 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
-import APIWrapper from "@/lib/helpers/APIWrapper";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
 
 export default function CandidatesHook() {
-  const { logNotifyAlert } = APIWrapper();
   const { getCandidates } = DoctoralCenterAPI();
   const [candidates, setCandidates] = useState([]);
-
-  const [menuAnchor, setMenuAnchor] = useState(false);
-  const [openDialogBoxYesNo, setOpenDialogBoxYesNo] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState("");
-  const [dialogContent, setDialogContent] = useState("");
-  const [selectedUser, setSelectedUser] = useState();
   const { tr, language } = Translate();
 
   const fetchCandidates = useCallback(async () => {
@@ -36,34 +28,7 @@ export default function CandidatesHook() {
     });
   }, [fetchCandidates]);
 
-  const buttonConfirmOnClick = async () => {
-    await deleteAuthorizedUser(selectedUser.oid, tr(selectedUser.group, "en"));
-
-    logNotifyAlert({
-      title: `Потребител ${selectedUser.name} е изтрит от системата`,
-      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
-      message:
-        tr("the user") +
-        " " +
-        selectedUser.name +
-        " " +
-        tr("is deleted flom the system!"),
-      action: `Потребител ${selectedUser.name} е изтрит от системата`,
-      level: "success",
-      scope: "group",
-      group: "admin"
-    });
-
-    const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
-    setUsers(updatedRows);
-  };
-
   return {
-    candidates,
-    buttonConfirmOnClick,
-    openDialogBoxYesNo,
-    dialogTitle,
-    dialogContent,
-    setOpenDialogBoxYesNo
+    candidates
   };
 }

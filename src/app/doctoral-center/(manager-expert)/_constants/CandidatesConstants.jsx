@@ -110,6 +110,7 @@ export default function CandidateConstants() {
   ];
 
   return {
-    columns
+    columns,
+    downloadBiography
   };
 }
