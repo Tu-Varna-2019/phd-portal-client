@@ -15,32 +15,32 @@ export default function CandidatesGrid() {
   const { tr } = Translate();
   const { logNotifyAlert, logAlert } = APIWrapper();
   const { columns, downloadBiography } = CandidateConstants();
-  DoctoralCenterAPI();
+  const { review } = DoctoralCenterAPI();
 
   const [selectedCandidate, setSelectedCandidate] = useState();
   const [isCandidateSelected, setIsCandidateSelected] = useState(false);
   const [isActionLoading, setIsActionLoading] = useState(false);
 
-  const processApplication = async (action) => {
+  const processApplication = async (status) => {
     setIsActionLoading(true);
 
-    switch (action) {
+    switch (status) {
       case "approved":
       case "rejected":
-        const result = await review(selectedCandidate.email, action);
+        const result = await review(selectedCandidate.email, status);
         if (result != []) {
           logNotifyAlert({
-            title: `Кандидат ${selectedCandidate.email} е ${tr("action")}`,
-            description: `Кандидат ${selectedCandidate.email} е ${tr("action")}`,
-            message: `Кандидат ${selectedCandidate.email} е ${tr("action")}`,
-            action: `Кандидат ${selectedCandidate.email} е ${tr("action")}`,
+            title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+            description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+            message: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+            action: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
             level: "success",
             scope: "group",
             group: "expert-manager"
           });
         }
       default:
-        console.error("Action doesn't exist!");
+        console.error(`Status doesn't exist! ${status}`);
         logAlert({
           message: tr("Проблем, моля пробвайте по-късно"),
           description: "Проблем, моля пробвайте по-късно",

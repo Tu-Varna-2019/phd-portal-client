@@ -35,10 +35,15 @@ export default function DoctoralCenterAPI() {
     });
   };
 
-  const review = async () => {
+  const review = async (email, status) => {
     return await route({
       url: `${API_URL}/candidate/application`,
-      method: "PATCH"
+      method: "PATCH",
+      // NOTE: temp solutino
+      body: {
+        email: email,
+        status: status
+      }
     });
   };
 
