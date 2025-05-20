@@ -16,9 +16,9 @@ export default function FileAPI() {
     });
   };
 
-  const download = (type, filename) => {
+  const download = (key) => {
     return route({
-      url: API_URL + "?type=" + type + "&filename=" + filename,
+      url: API_URL + "?key=" + key,
       method: "GET",
       responseContentType: mediaType.OctetStream
     });

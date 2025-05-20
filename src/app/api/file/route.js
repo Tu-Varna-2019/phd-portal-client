@@ -11,7 +11,7 @@ export async function GET(request) {
     request: request,
     requestContentType: mediaType.AppJson,
     responseContentType: mediaType.OctetStream,
-    queryParams: ["type", "filename"]
+    queryParams: ["key"]
   });
 }
 

@@ -8,9 +8,8 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Autocomplete,
-  TextField,
-  Select
+  Select,
+  MenuItem
 } from "@mui/material";
 import Translate from "@/lib/helpers/Translate";
 
@@ -18,7 +17,6 @@ export default function ConfirmDialogComboBox({
   title,
   contentText,
   buttonName,
-  label,
   optionChosen,
   options,
   onButtonConfirmClick,

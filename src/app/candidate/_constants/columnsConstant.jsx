@@ -8,6 +8,12 @@ export default function CandidateColumnConstants(
   curriculumsByFaculty
 ) {
   const { tr, language } = Translate();
+  const curriculumLinkMapper = {
+    "Автоматизирани системи за обработка и управление на информация":
+      "automated-information-processing-and-management-systems",
+    "Automated information processing and management systems":
+      "automated-information-processing-and-management-systems"
+  };
 
   const curriculumColumns = useMemo(
     () => [
@@ -17,7 +23,10 @@ export default function CandidateColumnConstants(
         flex: 1.5,
         minWidth: 700,
         renderCell: (param) =>
-          renderLink(param.row.name, "candidate/curriculum/")
+          renderLink(
+            param.row.name,
+            "curriculum/" + curriculumLinkMapper[param.row.name]
+          )
       },
       {
         field: "yearPeriod",
