@@ -42,7 +42,7 @@ const ClientErrorPage = () => {
             </Typography>
 
             <Typography variant="body1">
-              Сесията ви е изтекла, моля влезте отново
+              Възникна проблем, моля опитайте отново!
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
