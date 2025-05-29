@@ -30,7 +30,7 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: "column"
 }));
 
-export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
+export default function CandidateForm({ selectedFaculty }) {
   const { tr } = Translate();
   const dispatch = useAppDispatch();
   const candidate = useSelector(selectCandidate);
@@ -74,7 +74,8 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
   };
 
   const handleSubmit = async () => {
-    if (localStorage.getItem("curriculum")) {
+    const curriculumLocalStg = JSON.parse(localStorage.getItem("curriculum"));
+    if (curriculumLocalStg != null) {
       const data = {
         name: name,
         email: email,
@@ -95,11 +96,12 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
           })
         },
         curriculum: {
-          name: selectedCurriculum.name,
-          mode: selectedCurriculum.mode,
-          subjects: selectedCurriculum.subjects.map((subject) => subject.name)
+          name: curriculumLocalStg.name,
+          mode: curriculumLocalStg.mode,
+          subjects: curriculumLocalStg.subjects
         }
       };
+
       dispatch(setCandidate({ data }));
     } else {
       dispatch(
@@ -169,7 +171,7 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
             <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
               <a
                 target="_blank"
-                href={candidate.biography.data}
+                // href={candidate.biography.data}
                 rel="noopener noreferrer"
                 style={{
                   color: "#1976d2",
@@ -192,9 +194,9 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
               id="first-name"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              error={() => validateTextNotEmpty(name)}
+              error={() => !validateTextNotEmpty(name)}
               helperText={
-                validateTextNotEmpty(name)
+                !validateTextNotEmpty(name)
                   ? tr("Name") + " " + tr("must not be empty!")
                   : ""
               }
@@ -256,9 +258,9 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
               id="address"
               value={address}
               onChange={(event) => setAddress(event.target.value)}
-              error={() => validateTextNotEmpty(address)}
+              error={() => !validateTextNotEmpty(address)}
               helperText={
-                validateTextNotEmpty(address)
+                !validateTextNotEmpty(address)
                   ? tr("Address") + " " + tr("must not be empty!")
                   : ""
               }
@@ -300,9 +302,9 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
               id="city"
               value={city}
               onChange={(event) => setCity(event.target.value)}
-              error={() => validateTextNotEmpty(city)}
+              error={() => !validateTextNotEmpty(city)}
               helperText={
-                validateTextNotEmpty(city)
+                !validateTextNotEmpty(city)
                   ? tr("City") + " " + tr("must not be empty!")
                   : ""
               }
@@ -322,9 +324,9 @@ export default function CandidateForm({ selectedCurriculum, selectedFaculty }) {
               id="country"
               value={country}
               onChange={(event) => setCountry(event.target.value)}
-              error={() => validateTextNotEmpty(country)}
+              error={() => !validateTextNotEmpty(country)}
               helperText={
-                validateTextNotEmpty(country)
+                !validateTextNotEmpty(country)
                   ? tr("Country") + " " + tr("must not be empty!")
                   : ""
               }
