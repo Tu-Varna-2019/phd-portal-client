@@ -43,8 +43,28 @@ export default function APIWrapper() {
     dispatch(setAlertBox({ message: message, level: level }));
   };
 
+  const notificationAlert = ({
+    title,
+    description,
+    scope,
+    group,
+    message,
+    level
+  }) => {
+    saveNotification({
+      title: title,
+      description: description,
+      severity: level,
+      scope: scope,
+      group: group
+    });
+
+    dispatch(setAlertBox({ message: message, level: level }));
+  };
+
   return {
     logNotifyAlert,
-    logAlert
+    logAlert,
+    notificationAlert
   };
 }
