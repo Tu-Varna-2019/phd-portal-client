@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@azure/msal-browser':
-        specifier: ^4.9.1
-        version: 4.9.1
+        specifier: ^4.12.0
+        version: 4.12.0
       '@azure/msal-react':
         specifier: ^2.2.0
-        version: 2.2.0(@azure/msal-browser@4.9.1)(react@19.0.0)
+        version: 2.2.0(@azure/msal-browser@4.12.0)(react@19.0.0)
       '@emotion/react':
         specifier: ^11.13.3
         version: 11.14.0(@types/react@19.0.4)(react@19.0.0)
@@ -115,8 +115,8 @@ importers:
         specifier: 15.1.7
         version: 15.1.7(eslint@9.27.0(jiti@1.21.7))(typescript@5.7.3)
       globals:
-        specifier: ^16.0.0
-        version: 16.0.0
+        specifier: ^16.2.0
+        version: 16.2.0
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -130,13 +130,12 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@azure/msal-browser@4.9.1':
-    resolution: {integrity: sha512-GTKj/2xvgD918xULWRwoJ3kiCCZNzeopxa/nDfMC4o6KzrnuWbT3K1AtIFUxok9yC6VrUOgIZXMygky06xDA1g==}
+  '@azure/msal-browser@4.12.0':
+    resolution: {integrity: sha512-WD1lmVWchg7wn1mI7Tr4v7QPyTwK+8Nuyje3jRpOFENLRLEBsdK8VVdTw3C+TypZmYn4cOAdj3zREnuFXgvfIA==}
     engines: {node: '>=0.8.0'}
-    deprecated: A bug was identified in msal-browser v4.9.1 that could be production impacting. Please roll back to v4.8.0 or before until a new release is made with the bug fix.
 
-  '@azure/msal-common@15.4.0':
-    resolution: {integrity: sha512-reeIUDXt6Xc+FpCBDEbUFQWvJ6SjE0JwsGYIfa3ZCR6Tpzjc9J1v+/InQgfCeJzfTRd7PDJVxI6TSzOmOd7+Ag==}
+  '@azure/msal-common@15.6.0':
+    resolution: {integrity: sha512-EotmBz42apYGjqiIV9rDUdptaMptpTn4TdGf3JfjLvFvinSe9BJ6ywU92K9ky+t/b0ghbeTSe9RfqlgLh8f2jA==}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-react@2.2.0':
@@ -1647,8 +1646,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@16.0.0:
-    resolution: {integrity: sha512-iInW14XItCXET01CQFqudPOWP2jYMl7T+QRQT+UNcR/iQncN/F0UNpgd76iFkBPgNQb4+X3LV9tLJYzwh+Gl3A==}
+  globals@16.2.0:
+    resolution: {integrity: sha512-O+7l9tPdHCU320IigZZPj5zmRCFG9xHmx9cU8FqU2Rp+JN714seHV+2S9+JslCpY4gJwU2vOGox0wzgae/MCEg==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -2677,15 +2676,15 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@azure/msal-browser@4.9.1':
+  '@azure/msal-browser@4.12.0':
     dependencies:
-      '@azure/msal-common': 15.4.0
+      '@azure/msal-common': 15.6.0
 
-  '@azure/msal-common@15.4.0': {}
+  '@azure/msal-common@15.6.0': {}
 
-  '@azure/msal-react@2.2.0(@azure/msal-browser@4.9.1)(react@19.0.0)':
+  '@azure/msal-react@2.2.0(@azure/msal-browser@4.12.0)(react@19.0.0)':
     dependencies:
-      '@azure/msal-browser': 4.9.1
+      '@azure/msal-browser': 4.12.0
       react: 19.0.0
 
   '@babel/code-frame@7.26.2':
@@ -4426,7 +4425,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@16.0.0: {}
+  globals@16.2.0: {}
 
   globalthis@1.0.4:
     dependencies:

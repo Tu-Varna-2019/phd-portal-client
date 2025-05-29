@@ -44,13 +44,11 @@ export default function CandidateApplyConfirmation() {
         })
       );
     } else {
-      dispatch(
-        setAlertBox({
-          message: tr("Application sent!"),
-          severity: "success"
-        })
-      );
-      localStorage.clear();
+      notificationAlert({
+        message: tr("Application sent!"),
+        severity: "success"
+      });
+      localStorage.removeItem("curriculum");
       location.reload();
     }
 
@@ -134,7 +132,6 @@ export default function CandidateApplyConfirmation() {
           rowKeys={["name", "mode"]}
         />
       </Card>
-
       <Card
         sx={{
           padding: 3,
@@ -146,6 +143,7 @@ export default function CandidateApplyConfirmation() {
         <SimpleTable
           rows={candidate.curriculum.subjects}
           headerNames={["Name"]}
+          rowKeys={["name"]}
         />
       </Card>
 
