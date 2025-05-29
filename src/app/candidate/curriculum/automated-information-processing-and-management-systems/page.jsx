@@ -1,21 +1,23 @@
 "use client";
-import Layout from "@/components/main-layout/Layout";
-import { SideMenuConstants } from "../_constants/sideMenuConstants";
-import { path } from "../../_constants/pathConstant";
 import Translate from "@/lib/helpers/Translate";
+import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+import { useEffect } from "react";
+import { path } from "../../_constants/pathConstant";
 
 export default function Page() {
-  const { tr } = Translate();
-  const { navigation } = SideMenuConstants();
+  const { language } = Translate();
+  const router = useRouter();
 
-  return (
-    <Layout
-      headerTitle={tr(
-        "Automated information processing and management systems"
-      )}
-      MainView={<></>}
-      basePath={path}
-      mainListItems={navigation}
-    />
-  );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      router.replace(
+        path +
+          "/curriculum/automated-information-processing-and-management-systems/" +
+          language
+      );
+    }
+  }, [language, router]);
+
+  return <Loading />;
 }
