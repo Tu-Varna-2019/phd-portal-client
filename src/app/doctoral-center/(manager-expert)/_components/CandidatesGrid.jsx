@@ -52,28 +52,6 @@ export default function CandidatesGrid() {
     setIsActionLoading(false);
   };
 
-  // const buttonConfirmOnClick = async () => {
-  //   await deleteAuthorizedUser(selectedUser.oid, tr(selectedUser.group, "en"));
-  //
-  //   logNotifyAlert({
-  //     title: `Потребител ${selectedUser.name} е изтрит от системата`,
-  //     description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
-  //     message:
-  //       tr("the user") +
-  //       " " +
-  //       selectedUser.name +
-  //       " " +
-  //       tr("is deleted flom the system!"),
-  //     action: `Потребител ${selectedUser.name} е изтрит от системата`,
-  //     level: "success",
-  //     scope: "group",
-  //     group: "admin"
-  //   });
-  //
-  //   const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
-  //   setUsers(updatedRows);
-  // };
-
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       <Table
@@ -113,8 +91,14 @@ export default function CandidatesGrid() {
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
                 <strong>{tr("name")}:</strong> {selectedCandidate.name}
               </Typography>
+
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
                 <strong>{tr("email")}:</strong> {selectedCandidate.email}
+              </Typography>
+
+              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+                <strong>{tr("progress in exam")}:</strong>{" "}
+                {selectedCandidate.exam_step}
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
