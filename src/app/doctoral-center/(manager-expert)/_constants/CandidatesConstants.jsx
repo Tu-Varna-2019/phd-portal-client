@@ -149,9 +149,20 @@ export default function CandidateConstants() {
     }
   ];
 
+  const commisionColumns = [
+    {
+      field: "name",
+      headerName: tr("name"),
+      display: "flex",
+      sortable: true,
+      filterable: false
+    }
+  ];
+
   return {
     columns,
     downloadBiography,
-    examColumns
+    examColumns,
+    commisionColumns
   };
 }

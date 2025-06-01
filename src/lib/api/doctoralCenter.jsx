@@ -44,7 +44,7 @@ export default function DoctoralCenterAPI() {
 
   const getCommision = async () => {
     return await route({
-      url: `${API_URL}/commision`,
+      url: `${API_URL}/commission`,
       method: "GET"
     });
   };

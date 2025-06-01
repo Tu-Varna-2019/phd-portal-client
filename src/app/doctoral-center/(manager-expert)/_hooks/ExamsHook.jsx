@@ -5,8 +5,9 @@ import Translate from "@/lib/helpers/Translate";
 
 export default function ExamsHook() {
   const { language, tr } = Translate();
-  const { getGrades } = DoctoralCenterAPI();
+  const { getGrades, getCommision } = DoctoralCenterAPI();
   const [exams, setExams] = useState();
+  const [commisions, setCommisions] = useState();
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
@@ -18,14 +19,26 @@ export default function ExamsHook() {
     setExams(examsResponse);
   }, [language]);
 
+  const fetchCommisions = useCallback(async () => {
+    const commisionsResponse = await getCommision();
+
+    commisionsResponse.forEach((commision, index) => {
+      commision.id = index;
+    });
+    setCommisions(commisionsResponse);
+  }, [language]);
+
   useEffect(() => {
     fetchExams();
+    fetchCommisions();
     return runPeriodically(() => {
       fetchExams();
+      fetchCommisions();
     });
-  }, [fetchExams]);
+  }, [fetchExams, fetchCommisions]);
 
   return {
-    exams
+    exams,
+    commisions
   };
 }
