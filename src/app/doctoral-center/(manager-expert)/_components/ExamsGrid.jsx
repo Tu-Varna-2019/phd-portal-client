@@ -38,11 +38,10 @@ export default function ExamsGrid() {
 
   const setCommisionOnClick = async () => {
     setIsSetCommitteeLoading(true);
+    const id = selectedExam.id;
+    const name = selectedCommission.name;
 
-    const result = await setCommissionOnGrade(
-      selectedExam.id,
-      selectedCommission.name
-    );
+    const result = await setCommissionOnGrade(id, name);
     if (result != []) {
       logNotifyAlert({
         title: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
