@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 ARG DOCKER_USER=react
 RUN addgroup -S ${DOCKER_USER} && adduser -S ${DOCKER_USER} -G ${DOCKER_USER}
 
