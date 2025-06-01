@@ -24,29 +24,27 @@ export default function CandidatesGrid() {
   const processApplication = async (status) => {
     setIsActionLoading(true);
 
-    switch (status) {
-      case "approved":
-      case "rejected":
-        const result = await review(selectedCandidate.email, status);
-        if (result != []) {
-          logNotifyAlert({
-            title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            message: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            action: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            level: "success",
-            scope: "group",
-            group: "expert-manager"
-          });
-        }
-      default:
-        console.error(`Status doesn't exist! ${status}`);
-        logAlert({
-          message: tr("Проблем, моля пробвайте по-късно"),
-          description: "Проблем, моля пробвайте по-късно",
-          action: "Проблем, моля пробвайте по-късно",
-          level: "error"
+    if (status == "approved" || status == "rejected") {
+      const result = await review(selectedCandidate.email, status);
+      if (result != []) {
+        logNotifyAlert({
+          title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          message: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          action: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          level: "success",
+          scope: "group",
+          group: "expert-manager"
         });
+      }
+    } else {
+      console.error(`Status doesn't exist! ${status}`);
+      logAlert({
+        message: tr("Проблем, моля пробвайте по-късно"),
+        description: "Проблем, моля пробвайте по-късно",
+        action: "Проблем, моля пробвайте по-късно",
+        level: "error"
+      });
     }
 
     setIsActionLoading(false);

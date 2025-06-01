@@ -35,11 +35,25 @@ export default function DoctoralCenterAPI() {
     });
   };
 
+  const getGrades = async () => {
+    return await route({
+      url: `${API_URL}/grades`,
+      method: "GET"
+    });
+  };
+
+  const getCommision = async () => {
+    return await route({
+      url: `${API_URL}/commision`,
+      method: "GET"
+    });
+  };
+
   const review = async (email, status) => {
     return await route({
       url: `${API_URL}/candidate/application`,
       method: "PATCH",
-      // NOTE: temp solutino
+      // NOTE: temp solution
       body: {
         email: email,
         status: status
@@ -52,6 +66,8 @@ export default function DoctoralCenterAPI() {
     getUnauthorizedUsers,
     setUnauthorizedUserGroup,
     getDocCenterRoles,
-    review
+    review,
+    getGrades,
+    getCommision
   };
 }
