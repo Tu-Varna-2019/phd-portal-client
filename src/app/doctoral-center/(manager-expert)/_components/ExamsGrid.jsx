@@ -3,26 +3,43 @@ import AlertBox from "@/common/AlertBox";
 import Table from "@/components/main-layout/common/Table";
 import { Button, ButtonGroup, Card, Stack, Typography } from "@mui/material";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
-import APIWrapper from "@/lib/helpers/APIWrapper";
-import Translate from "@/lib/helpers/Translate";
 import ExamsHook from "../_hooks/ExamsHook";
+import { useState } from "react";
+import CandidateConstants from "../_constants/CandidatesConstants";
+import FileAPI from "@/lib/api/file";
+import Translate from "@/lib/helpers/Translate";
+import { createDataUrl } from "@/lib/helpers/utils";
 
 export default function ExamsGrid() {
   const { tr } = Translate();
+  const { exams } = ExamsHook();
+  const { download } = FileAPI();
+  const { examColumns } = CandidateConstants();
 
   const [selectedExam, setSelectedExam] = useState();
   const [isExamSelected, setIsExamSelected] = useState(false);
+  const [isActionLoading] = useState(false);
 
-  const { exams } = ExamsHook();
+  const setCommision = async () => {};
+
+  const openGradeAttachmentOnClick = async (attachment) => {
+    const blobData = await download(`grades/${attachment}`);
+
+    const dataUrl = await createDataUrl({
+      file: blobData,
+      fileType: "blob"
+    });
+    window.open(dataUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
       <Table
         rows={exams}
-        // columns={}
+        columns={examColumns}
         checkboxEnabled
         onRowSelect={(index) => {
-          setSelectedCandidate(candidates[index]);
+          setSelectedExam(exams[index]);
           setIsExamSelected(true);
         }}
       />
@@ -49,69 +66,60 @@ export default function ExamsGrid() {
 
             <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("name")}:</strong> {selectedExam.name}
+                <strong>{tr("grade")}:</strong> {selectedExam.grade}
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("email")}:</strong> {selectedExam.email}
+                <strong>{tr("evaluation date")}:</strong>{" "}
+                {selectedExam.evalDate}
               </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("progress in exam")}:</strong>{" "}
-                {selectedExam.exam_step}
-              </Typography>
-
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("pin")}:</strong> {selectedExam.pin}
-              </Typography>
-
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Biography")}:</strong>
-                <Button
-                  onClick={() =>
-                    downloadBiography(selectedExam.name, selectedExam.biography)
-                  }
+              {selectedExam.commision?.name != undefined && (
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
                 >
-                  {selectedExam.biography}
-                </Button>
+                  <strong>{tr("name of the commision")}:</strong>{" "}
+                  {selectedExam.commision.name}
+                </Typography>
+              )}
+
+              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+                <strong>{tr("report")}:</strong> {selectedExam.report}
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Country")}:</strong> {selectedExam.country}
+                <strong>{tr("subject")}:</strong> {selectedExam.subject}
               </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("City")}:</strong> {selectedExam.city}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Address")}:</strong> {selectedExam.address}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Post code")}:</strong> {selectedExam.post_code}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Faculty")}:</strong> {selectedExam.faculty}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Curriculum")}:</strong> {selectedExam.curriculum}
-              </Typography>
+
+              {selectedExam.attachments != undefined && (
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("attachments")}:</strong>
+                  {selectedExam.attachments.map((attachment, index) => {
+                    return (
+                      <Button
+                        key={index}
+                        onClick={() => openGradeAttachmentOnClick(attachment)}
+                      >
+                        {tr("file") + " " + (index + 1)}
+                      </Button>
+                    );
+                  })}
+                </Typography>
+              )}
             </Stack>
-            <ButtonGroup
-              variant="outlined"
-              aria-label="Approve/Deny application"
-            >
+            <ButtonGroup variant="outlined" aria-label="Set commision">
               <Button
-                onClick={async () => await processApplication("approved")}
+                onClick={async () => await setCommision()}
                 loading={isActionLoading}
                 loadingPosition="start"
               >
-                {tr("Approve application")}
-              </Button>
-              <Button
-                onClick={async () => await processApplication("rejected")}
-                loading={isActionLoading}
-                loadingPosition="start"
-              >
-                {tr("Deny application")}
+                {tr("Set commision")}
               </Button>
             </ButtonGroup>
           </Card>

@@ -4,21 +4,24 @@ import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 
 export default function ExamsHook() {
-  const { language } = Translate();
-  const { getExams } = DoctoralCenterAPI();
+  const { language, tr } = Translate();
+  const { getGrades } = DoctoralCenterAPI();
   const [exams, setExams] = useState();
 
   const fetchExams = useCallback(async () => {
-    const examsResponse = await getExams();
+    const examsResponse = await getGrades();
+    examsResponse.forEach((exam, index) => {
+      exam.id = index;
+      exam.subject = tr(exam.subject);
+    });
+
     setExams(examsResponse);
   }, [language]);
 
   useEffect(() => {
     fetchExams();
-    fetchCommision();
     return runPeriodically(() => {
       fetchExams();
-      fetchCommision();
     });
   }, [fetchExams]);
 
