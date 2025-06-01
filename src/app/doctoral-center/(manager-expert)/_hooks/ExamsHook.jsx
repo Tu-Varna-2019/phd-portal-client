@@ -11,8 +11,7 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam, index) => {
-      exam.id = index;
+    examsResponse.forEach((exam) => {
       exam.subject = tr(exam.subject);
     });
 

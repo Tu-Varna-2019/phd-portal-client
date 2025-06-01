@@ -61,6 +61,18 @@ export default function DoctoralCenterAPI() {
     });
   };
 
+  const setCommissionOnGrade = async (id, name) => {
+    return await route({
+      url: `${API_URL}/grade/commission`,
+      method: "PATCH",
+      // NOTE: temp solution
+      body: {
+        id: id,
+        name: name
+      }
+    });
+  };
+
   return {
     getCandidates,
     getUnauthorizedUsers,
@@ -68,6 +80,7 @@ export default function DoctoralCenterAPI() {
     getDocCenterRoles,
     review,
     getGrades,
-    getCommision
+    getCommision,
+    setCommissionOnGrade
   };
 }

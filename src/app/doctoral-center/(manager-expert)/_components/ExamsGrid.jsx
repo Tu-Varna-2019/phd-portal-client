@@ -9,26 +9,61 @@ import FileAPI from "@/lib/api/file";
 import Translate from "@/lib/helpers/Translate";
 import { createDataUrl } from "@/lib/helpers/utils";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
+import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import APIWrapper from "@/lib/helpers/APIWrapper";
+import { useSelector } from "react-redux";
+import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ExamsGrid() {
   const { tr } = Translate();
   const { download } = FileAPI();
+  const doctoralCenter = useSelector(selectDoctoralCenter);
+
+  const { setCommissionOnGrade } = DoctoralCenterAPI();
+  const { logNotifyAlert } = APIWrapper();
 
   const { exams, commisions } = ExamsHook();
   const { examColumns, commisionColumns } = CandidateConstants();
 
   const [selectedExam, setSelectedExam] = useState();
-  const [, setSelectedCommision] = useState();
+  const [selectedCommission, setSelectedCommision] = useState();
 
   const [isExamOpened, setIsExamOpened] = useState(false);
   const [isCommisionOpened, setIsCommisionOpened] = useState(false);
+  const [isSetCommitteeLoading, setIsSetCommitteeLoading] = useState(false);
 
   const showCommisionPageOnClick = () => {
     setIsCommisionOpened(true);
   };
 
   const setCommisionOnClick = async () => {
-    setIsCommisionOpened(true);
+    setIsSetCommitteeLoading(true);
+
+    const result = await setCommissionOnGrade(
+      selectedExam.id,
+      selectedCommission.name
+    );
+    if (result != []) {
+      logNotifyAlert({
+        title: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
+        description: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
+        message: `Успешно зададохте комитет: ${name} към оценка с id: ${id}`,
+        action: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
+        level: "success",
+        scope: "group",
+        group: "expert-manager"
+      });
+    } else {
+      console.error("Error in setting commission to grade: " + id);
+      logAlert({
+        message: tr("Проблем, моля пробвайте по-късно"),
+        description: "Проблем, моля пробвайте по-късно",
+        action: "Проблем, моля пробвайте по-късно",
+        level: "error"
+      });
+    }
+
+    setIsSetCommitteeLoading(true);
   };
 
   const openGradeAttachmentOnClick = async (attachment) => {
@@ -155,13 +190,15 @@ export default function ExamsGrid() {
                 columns={commisionColumns}
                 checkboxEnabled
                 onRowSelect={(index) => setSelectedCommision(commisions[index])}
+                density="comfortable"
               />
 
               <ButtonGroup variant="outlined" aria-label="Set commision">
                 <Button
                   onClick={async () => await setCommisionOnClick()}
                   loadingPosition="start"
-                  disabled={selectedExam == null}
+                  disabled={selectedCommission == null}
+                  loading={isSetCommitteeLoading}
                 >
                   {tr("Confirm")}
                 </Button>
