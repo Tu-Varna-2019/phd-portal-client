@@ -13,11 +13,16 @@ const style = {
   zIndex: 1301
 };
 
-export default function OverflowBox({ children, open, setOpen }) {
+export default function OverflowBoxObjectSet({
+  children,
+  open,
+  setOpen,
+  objectSet
+}) {
   return (
     <Modal
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => setOpen(objectSet)}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{

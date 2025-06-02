@@ -7,7 +7,7 @@ export async function PATCH(request) {
   const body = await request.json();
 
   return await route({
-    url: url + `/candidate/${body.email}/application/${body.status}`,
+    url: url + `/grade/${body.id}/commission/${body.name}`,
     method: "PATCH",
     request: request
   });

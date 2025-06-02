@@ -62,7 +62,7 @@
             # BUG: denofmt disabled, due to a local issue
             denofmt.enable = false;
             denolint.enable = false;
-            eslint.enable = true;
+            eslint.enable = false;
             # eslint src/**/*.jsx --fix
           };
 

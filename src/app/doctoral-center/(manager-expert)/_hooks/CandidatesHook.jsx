@@ -11,7 +11,7 @@ export default function CandidatesHook() {
 
   const fetchCandidates = useCallback(async () => {
     const candidatesRes = await getCandidates(
-      "name,status,email,pin,post_code,country,city,address,faculty,biography,post_code,curriculum"
+      "name,status,exam_step,email,pin,post_code,country,city,address,faculty,biography,post_code,curriculum"
     );
     candidatesRes.forEach((user, index) => {
       user.id = index;

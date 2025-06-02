@@ -7,7 +7,7 @@ export default function Table({
   checkboxEnabled = false,
   disableMultiCheckboxSelection = false,
   onRowSelect,
-  density = "compact"
+  density = "compact" // compact, comfortable, ...
 }) {
   return (
     <DataGrid
