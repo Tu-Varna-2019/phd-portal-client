@@ -3,77 +3,32 @@ import AlertBox from "@/common/AlertBox";
 import Table from "@/components/main-layout/common/Table";
 import { Button, ButtonGroup, Card, Stack, Typography } from "@mui/material";
 import ExamsHook from "../_hooks/ExamsHook";
-import { useState } from "react";
 import CandidateConstants from "../_constants/CandidatesConstants";
-import FileAPI from "@/lib/api/file";
 import Translate from "@/lib/helpers/Translate";
-import { createDataUrl } from "@/lib/helpers/utils";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
-import APIWrapper from "@/lib/helpers/APIWrapper";
-import { useSelector } from "react-redux";
-import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
+import ConfirmDialogMultiChoices from "@/components/dialog-box/ConfirmDialogMultiChoices";
 
 export default function ExamsGrid() {
   const { tr } = Translate();
-  const { download } = FileAPI();
-  const doctoralCenter = useSelector(selectDoctoralCenter);
-
-  const { setCommissionOnGrade } = DoctoralCenterAPI();
-  const { logNotifyAlert } = APIWrapper();
-
-  const { exams, commisions } = ExamsHook();
+  const {
+    exams,
+    commisions,
+    openGradeAttachmentOnClick,
+    setCommisionOnClick,
+    onApproveCandidatePhdClick,
+    onRejectCandidatePhdClick,
+    selectedExam,
+    setSelectedExam,
+    selectedCommission,
+    isExamOpened,
+    setIsExamOpened,
+    isCommisionOpened,
+    isSetCommitteeLoading,
+    setIsCommisionOpened,
+    setSelectedCommission,
+    showCommisionPageOnClick
+  } = ExamsHook();
   const { examColumns, commisionColumns } = CandidateConstants();
-
-  const [selectedExam, setSelectedExam] = useState();
-  const [selectedCommission, setSelectedCommision] = useState();
-
-  const [isExamOpened, setIsExamOpened] = useState(false);
-  const [isCommisionOpened, setIsCommisionOpened] = useState(false);
-  const [isSetCommitteeLoading, setIsSetCommitteeLoading] = useState(false);
-
-  const showCommisionPageOnClick = () => {
-    setIsCommisionOpened(true);
-  };
-
-  const setCommisionOnClick = async () => {
-    setIsSetCommitteeLoading(true);
-    const id = selectedExam.id;
-    const name = selectedCommission.name;
-
-    const result = await setCommissionOnGrade(id, name);
-    if (result != []) {
-      logNotifyAlert({
-        title: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        description: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        message: `Успешно зададохте комитет: ${name} към оценка с id: ${id}`,
-        action: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        level: "success",
-        scope: "group",
-        group: "expert-manager"
-      });
-    } else {
-      console.error("Error in setting commission to grade: " + id);
-      logAlert({
-        message: tr("Проблем, моля пробвайте по-късно"),
-        description: "Проблем, моля пробвайте по-късно",
-        action: "Проблем, моля пробвайте по-късно",
-        level: "error"
-      });
-    }
-
-    setIsSetCommitteeLoading(true);
-  };
-
-  const openGradeAttachmentOnClick = async (attachment) => {
-    const blobData = await download(`grades/${attachment}`);
-
-    const dataUrl = await createDataUrl({
-      file: blobData,
-      fileType: "blob"
-    });
-    window.open(dataUrl, "_blank", "noopener,noreferrer");
-  };
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -87,6 +42,16 @@ export default function ExamsGrid() {
         }}
       />
       <AlertBox />
+
+      <ConfirmDialogMultiChoices
+        title={tr("Approve or refuse the applicant/doctoral student")}
+        description={tr("Approve or refuse the applicant/doctoral student")}
+        buttonNames={[tr("approve"), tr("reject")]}
+        onButtonsConfirmClick={[
+          onApproveCandidatePhdClick,
+          onRejectCandidatePhdClick
+        ]}
+      />
 
       <OverflowBox open={isExamOpened} setOpen={setIsExamOpened}>
         <Card
@@ -109,13 +74,15 @@ export default function ExamsGrid() {
               </Typography>
 
               <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
-                <Typography
-                  component="h3"
-                  variant="body1"
-                  sx={{ color: "#555" }}
-                >
-                  <strong>{tr("grade")}:</strong> {selectedExam.grade}
-                </Typography>
+                {selectedExam.grade != undefined && (
+                  <Typography
+                    component="h3"
+                    variant="body1"
+                    sx={{ color: "#555" }}
+                  >
+                    <strong>{tr("grade")}:</strong> {selectedExam.grade}
+                  </Typography>
+                )}
 
                 <Typography
                   component="h3"
@@ -153,6 +120,41 @@ export default function ExamsGrid() {
                   <strong>{tr("subject")}:</strong> {selectedExam.subject}
                 </Typography>
 
+                <Typography
+                  component="h1"
+                  variant="body2"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("Evaluated person")}</strong>
+                </Typography>
+
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("name")}:</strong>{" "}
+                  {selectedExam.evaluatedUser.name}
+                </Typography>
+
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("email")}:</strong>{" "}
+                  {selectedExam.evaluatedUser.email}
+                </Typography>
+
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("Type")}:</strong>{" "}
+                  {selectedExam.evaluatedUser.group}
+                </Typography>
+
                 {selectedExam.attachments != undefined && (
                   <Typography
                     component="h3"
@@ -173,12 +175,23 @@ export default function ExamsGrid() {
                   </Typography>
                 )}
               </Stack>
-              <Button
-                onClick={() => showCommisionPageOnClick()}
-                loadingPosition="start"
-              >
-                {tr("Set commision")}
-              </Button>
+              {selectedExam.commission == undefined && (
+                <Button
+                  onClick={() => showCommisionPageOnClick()}
+                  loadingPosition="start"
+                >
+                  {tr("Set commision")}
+                </Button>
+              )}
+
+              {selectedExam.grade != undefined && (
+                <Button
+                  onClick={() => showCommisionPageOnClick()}
+                  loadingPosition="start"
+                >
+                  {tr("Approve/Reject")}
+                </Button>
+              )}
             </>
           )}
 
@@ -188,7 +201,9 @@ export default function ExamsGrid() {
                 rows={commisions}
                 columns={commisionColumns}
                 checkboxEnabled
-                onRowSelect={(index) => setSelectedCommision(commisions[index])}
+                onRowSelect={(index) =>
+                  setSelectedCommission(commisions[index])
+                }
                 density="comfortable"
               />
 
