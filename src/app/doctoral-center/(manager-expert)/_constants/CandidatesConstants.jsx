@@ -8,6 +8,7 @@ export default function CandidateConstants() {
   const { tr } = Translate();
   const { download } = FileAPI();
 
+  // TODO: Move this to utils.jsx
   const downloadBiography = async (name, biography) => {
     const biographyData = await download(
       `candidates/${name}/biography/${biography}`
@@ -109,8 +110,59 @@ export default function CandidateConstants() {
     }
   ];
 
+  const examColumns = [
+    {
+      field: "grade",
+      headerName: tr("grade"),
+      display: "flex",
+      renderCell: renderAvatar,
+      sortable: true,
+      filterable: false
+    },
+    {
+      field: "evalDate",
+      headerName: tr("evaluation date"),
+      display: "flex"
+    },
+    { field: "email", headerName: tr("email"), flex: 1.5, minWidth: 200 },
+    {
+      field: "commision name",
+      headerName: tr("name of the commision"),
+      flex: 1,
+      minWidth: 150
+    },
+    {
+      field: "report",
+      headerName: tr("report"),
+      headerAlign: "right",
+      align: "right",
+      flex: 1,
+      minWidth: 100
+    },
+    {
+      field: "subject",
+      headerName: tr("subject"),
+      headerAlign: "right",
+      align: "right",
+      flex: 2,
+      minWidth: 300
+    }
+  ];
+
+  const commisionColumns = [
+    {
+      field: "name",
+      headerName: tr("name"),
+      display: "flex",
+      sortable: true,
+      filterable: false
+    }
+  ];
+
   return {
     columns,
-    downloadBiography
+    downloadBiography,
+    examColumns,
+    commisionColumns
   };
 }

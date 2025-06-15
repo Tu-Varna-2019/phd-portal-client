@@ -57,10 +57,10 @@ jobs:
           node-version: ${{ matrix.nodejs_version  }}
           check-latest: false
 
-      # - name: Test
-      #   run: |
-      #     npm ci
-      #     npm test
+      - name: Test
+        run: |
+          npm ci
+          npm test
 
   lint:
     name: Lint

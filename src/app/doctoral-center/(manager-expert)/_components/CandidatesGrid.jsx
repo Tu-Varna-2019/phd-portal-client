@@ -24,55 +24,31 @@ export default function CandidatesGrid() {
   const processApplication = async (status) => {
     setIsActionLoading(true);
 
-    switch (status) {
-      case "approved":
-      case "rejected":
-        const result = await review(selectedCandidate.email, status);
-        if (result != []) {
-          logNotifyAlert({
-            title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            message: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            action: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
-            level: "success",
-            scope: "group",
-            group: "expert-manager"
-          });
-        }
-      default:
-        console.error(`Status doesn't exist! ${status}`);
-        logAlert({
-          message: tr("Проблем, моля пробвайте по-късно"),
-          description: "Проблем, моля пробвайте по-късно",
-          action: "Проблем, моля пробвайте по-късно",
-          level: "error"
+    if (status == "approved" || status == "rejected") {
+      const result = await review(selectedCandidate.email, status);
+      if (result != []) {
+        logNotifyAlert({
+          title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          message: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          action: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
+          level: "success",
+          scope: "group",
+          group: "expert-manager"
         });
+      }
+    } else {
+      console.error(`Status doesn't exist! ${status}`);
+      logAlert({
+        message: tr("Проблем, моля пробвайте по-късно"),
+        description: "Проблем, моля пробвайте по-късно",
+        action: "Проблем, моля пробвайте по-късно",
+        level: "error"
+      });
     }
 
     setIsActionLoading(false);
   };
-
-  // const buttonConfirmOnClick = async () => {
-  //   await deleteAuthorizedUser(selectedUser.oid, tr(selectedUser.group, "en"));
-  //
-  //   logNotifyAlert({
-  //     title: `Потребител ${selectedUser.name} е изтрит от системата`,
-  //     description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
-  //     message:
-  //       tr("the user") +
-  //       " " +
-  //       selectedUser.name +
-  //       " " +
-  //       tr("is deleted flom the system!"),
-  //     action: `Потребител ${selectedUser.name} е изтрит от системата`,
-  //     level: "success",
-  //     scope: "group",
-  //     group: "admin"
-  //   });
-  //
-  //   const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
-  //   setUsers(updatedRows);
-  // };
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -113,8 +89,14 @@ export default function CandidatesGrid() {
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
                 <strong>{tr("name")}:</strong> {selectedCandidate.name}
               </Typography>
+
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
                 <strong>{tr("email")}:</strong> {selectedCandidate.email}
+              </Typography>
+
+              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+                <strong>{tr("progress in exam")}:</strong>{" "}
+                {selectedCandidate.exam_step}
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
