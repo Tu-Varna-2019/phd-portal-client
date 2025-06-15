@@ -5,12 +5,12 @@ export default function NotificationConstants() {
   const { tr } = Translate();
 
   const columns = [
-    { field: "title", headerName: tr("title"), flex: 1.5, minWidth: 400 },
+    { field: "title", headerName: tr("title"), flex: 1.5, minWidth: 100 },
     {
       field: "description",
       headerName: tr("description"),
       flex: 1.5,
-      minWidth: 700
+      minWidth: 200
     },
     {
       field: "severity",
@@ -29,7 +29,7 @@ export default function NotificationConstants() {
       headerAlign: "right",
       align: "right",
       flex: 2,
-      minWidth: 400
+      minWidth: 200
     }
   ];
 
