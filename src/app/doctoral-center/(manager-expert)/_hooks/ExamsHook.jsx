@@ -19,7 +19,7 @@ export default function ExamsHook() {
   const [exams, setExams] = useState();
   const [commisions, setCommisions] = useState();
 
-  const [selectedExam, setSelectedExam] = useState();
+  const [selectedExam, setSelectedExam] = useState({});
   const [selectedCommission, setSelectedCommission] = useState();
 
   const [isExamOpened, setIsExamOpened] = useState(false);
