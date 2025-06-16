@@ -14,7 +14,7 @@ export const DashboardConstants = () => {
       color: "hsl(220, 25%, 65%)"
     },
     {
-      name: tr("accepted"),
+      name: tr("approved"),
       value: 0,
       icon: <ThumbUpIcon />,
       color: "hsl(220, 25%, 65%)"
@@ -29,7 +29,7 @@ export const DashboardConstants = () => {
 
   const candidatesPieChartStruct = [
     { label: tr("waiting"), value: 0 },
-    { label: tr("accepted"), value: 0 },
+    { label: tr("approved"), value: 0 },
     { label: tr("rejected"), value: 0 }
   ];
 
