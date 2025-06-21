@@ -1,6 +1,6 @@
 import CandidateAPI from "@/lib/api/candidate";
 import Translate from "@/lib/helpers/Translate";
-import { useCallback, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CandidateColumnConstants from "../_constants/columnsConstant";
 import { cleanColumns } from "@/lib/helpers/utils";
 import { useSelector } from "react-redux";
