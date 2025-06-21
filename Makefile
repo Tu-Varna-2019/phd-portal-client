@@ -11,6 +11,10 @@ run:
 test:
 	pnpm test
 
+cypress:
+	pnpm run cypress:open
+
+
 install:
 	pnpm i
 
