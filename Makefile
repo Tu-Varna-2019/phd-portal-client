@@ -9,7 +9,7 @@ run:
 	pnpm run dev --experimental-https
 
 test:
-	pnpm run test
+	pnpm test
 
 install:
 	pnpm i

@@ -5,6 +5,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
+      "@/lib/*": ["lib/*"],
       "@/api/*": ["lib/api/*"],
       "@/router/*": ["lib/api/router/*"],
       "@/helpers/*": ["lib/helpers/*"],
