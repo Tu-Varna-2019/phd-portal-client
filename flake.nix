@@ -70,6 +70,10 @@
             devenvRootFileContent = builtins.readFile devenv-root.outPath;
           in
             pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
+
+          packages = with pkgs; [
+            cypress
+          ];
         };
       };
     };

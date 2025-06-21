@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-101ksu7"
+  >
+    <span
+      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-vkmcds-MuiCircularProgress-root"
+      role="progressbar"
+      style="width: 80px; height: 80px;"
+    >
+      <svg
+        class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+        viewBox="22 22 44 44"
+      >
+        <circle
+          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+          cx="44"
+          cy="44"
+          fill="none"
+          r="20.2"
+          stroke-width="3.6"
+        />
+      </svg>
+    </span>
+  </div>
+</div>
+`;

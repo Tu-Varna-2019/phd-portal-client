@@ -1,10 +1,10 @@
 import CandidateAPI from "@/lib/api/candidate";
 import Translate from "@/lib/helpers/Translate";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useCallback, useEffect, useMemo, useState } from "react";
 import CandidateColumnConstants from "../_constants/columnsConstant";
 import { cleanColumns } from "@/lib/helpers/utils";
 import { useSelector } from "react-redux";
-import { selectCandidate } from "@/lib/features/user/slices/userMemoSelector";
+import { selectCandidate } from "@/features/user/slices/userMemoSelector";
 
 export default function AppllyHook() {
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
@@ -17,41 +17,36 @@ export default function AppllyHook() {
 
   const { getFaculty, getCurriculums } = CandidateAPI();
 
-  useEffect(() => {
-    const fetchFaculties = async () => {
-      const facultiesRes = await getFaculty();
-      facultiesRes.forEach((faculty, index) => {
-        faculty.id = index;
-        faculty.name = tr(faculty.name);
-      });
-      setFaculties(facultiesRes);
-    };
-
-    fetchFaculties();
+  const fetchFaculties = useCallback(async () => {
+    const facultiesRes = await getFaculty();
+    facultiesRes.forEach((faculty, index) => {
+      faculty.id = index;
+      faculty.name = tr(faculty.name);
+    });
+    setFaculties(facultiesRes);
   }, [language]);
 
+  const fetchCurriculumByFaculty = useCallback(async () => {
+    const result = await getCurriculums();
+    result.filter((curriculum) => curriculum.faculty == selectedFaculty);
+    result.forEach((curriculum, index) => {
+      curriculum.id = index;
+      curriculum.name = tr(curriculum.name);
+      curriculum.mode = tr(cleanColumns(curriculum.mode));
+    });
+    setCurriculumsByFaculty(result);
+
+    if (localStorage.getItem("curriculum")) {
+      const curriculumLocalStg = JSON.parse(localStorage.getItem("curriculum"));
+      setSelectedCurriculum(curriculumLocalStg);
+    }
+  }, [selectedFaculty, language]);
+
   useEffect(() => {
-    const fetchCurriculumByFaculty = async () => {
-      const result = await getCurriculums();
-      result.filter((curriculum) => curriculum.faculty == selectedFaculty);
-      result.forEach((curriculum, index) => {
-        curriculum.id = index;
-        curriculum.name = tr(curriculum.name);
-        curriculum.mode = tr(cleanColumns(curriculum.mode));
-      });
-      setCurriculumsByFaculty(result);
-
-      if (localStorage.getItem("curriculum")) {
-        const curriculumLocalStg = JSON.parse(
-          localStorage.getItem("curriculum")
-        );
-        setSelectedCurriculum(curriculumLocalStg);
-      }
-    };
-
-    const isUserInCurriculumStep = activeStep == 1;
-    if (isUserInCurriculumStep) fetchCurriculumByFaculty();
-  }, [selectedFaculty, activeStep, language]);
+    // NOTE: Don't need to retrieve the contests every N number of seconds
+    fetchFaculties();
+    fetchCurriculumByFaculty();
+  }, [fetchFaculties, fetchCurriculumByFaculty]);
 
   const { curriculumColumns, facultiesColumns } = CandidateColumnConstants(
     faculties,
@@ -83,6 +78,8 @@ export default function AppllyHook() {
   }, [activeStep, selectedFaculty, selectedCurriculum, candidate]);
 
   return {
+    fetchFaculties,
+    fetchCurriculumByFaculty,
     activeStep,
     setActiveStep,
     curriculumsByFaculty,

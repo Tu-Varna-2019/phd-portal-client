@@ -9,7 +9,11 @@ run:
 	pnpm run dev --experimental-https
 
 test:
-	pnpm run test
+	pnpm test
+
+cypress:
+	pnpm run cypress:open
+
 
 install:
 	pnpm i
