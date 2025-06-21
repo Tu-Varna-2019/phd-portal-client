@@ -5,11 +5,11 @@ import Page from "../../../../../src/app/doctoral-center/admin/profile/page.jsx"
 import { storeMockProvider } from "../../../../../__mocks__/store.jsx";
 
 describe("Page", () => {
-  it("renders a heading", () => {
+  it("renders the admin profile page", () => {
     const container = render(<Page />, { wrapper: storeMockProvider });
     expect(container).toMatchSnapshot();
 
-    const progressbar = screen.getByRole("img", { name: "admin" });
-    expect(progressbar).toBeInTheDocument();
+    const adminRole = screen.getByRole("img", { name: "admin" });
+    expect(adminRole).toBeInTheDocument();
   });
 });

@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import Page from "../../../../src/app/candidate/(home)/page.jsx";
 
 describe("Page", () => {
-  it("renders a heading", () => {
+  it("renders candidate page", () => {
     render(<Page />);
 
     const progressbar = screen.getByRole("progressbar");
