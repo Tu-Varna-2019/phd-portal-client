@@ -21,7 +21,7 @@
     "@mui/x-data-grid": "^7.27.2",
     "@mui/x-date-pickers": "^7.28.2",
     "@mui/x-tree-view": "^7.22.1",
-    "@react-spring/web": "^9.7.5",
+    "@react-spring/web": "^10.0.1",
     "@reduxjs/toolkit": "^2.6.0",
     "axios": "^1.9.0",
     "clsx": "^2.1.1",
@@ -47,7 +47,7 @@
     "eslint": "^9.27.0",
     "eslint-config-next": "15.1.7",
     "globals": "^16.2.0",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.5",
     "tailwindcss": "^3.4.17"
   }
 }
