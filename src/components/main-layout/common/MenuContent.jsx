@@ -23,8 +23,12 @@ export default function MenuContent({ mainListItems }) {
       icon: <LanguageIcon />,
       component: (
         <Select value={tr(language)} onChange={changeLanguage}>
-          {languagesShort.map((lang) => {
-            return <MenuItem value={lang}>{lang}</MenuItem>;
+          {languagesShort.map((lang, index) => {
+            return (
+              <MenuItem key={index} value={lang}>
+                {lang}
+              </MenuItem>
+            );
           })}
         </Select>
       )

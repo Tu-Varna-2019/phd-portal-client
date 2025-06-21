@@ -16,6 +16,10 @@ jest.mock("next/navigation", () => ({
       beforePopState: jest.fn(() => null),
       prefetch: jest.fn(() => null)
     };
+  },
+
+  usePathname() {
+    return "/";
   }
 }));
 
