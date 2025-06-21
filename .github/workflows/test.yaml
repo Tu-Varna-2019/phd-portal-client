@@ -59,7 +59,7 @@ jobs:
 
       - name: Test
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm test
 
   lint:
