@@ -3,7 +3,7 @@ import {
   selectCommittee,
   selectDoctoralCenter,
   selectPhd
-} from "@/features/user/slices/userMemoSelector";
+} from "@/lib/features/user/slices/userMemoSelector";
 import selectSessionToken from "@/features/sessionToken/slices/sessionTokenMemoSelector";
 
 export const mediaType = Object.freeze({

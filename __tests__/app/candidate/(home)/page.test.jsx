@@ -6,9 +6,9 @@ describe("Page", () => {
   it("renders a heading", () => {
     render(<Page />);
 
-    const heading = screen.getByRole("progressbar");
+    const progressbar = screen.getByRole("progressbar");
 
-    expect(heading).toBeInTheDocument();
+    expect(progressbar).toBeInTheDocument();
   });
 });
 

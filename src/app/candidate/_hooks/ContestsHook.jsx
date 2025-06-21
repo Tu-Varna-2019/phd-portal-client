@@ -54,9 +54,12 @@ export default function ContestsHook() {
   }, [contests, selectedContestYear]);
 
   return {
+    contests,
+    candidatesInReview,
     contestYears,
     selectedCandidatesByYear,
     setSelectedYearContest,
-    candidatesInReview
+    fetchContests,
+    fetchCandidatesInReview
   };
 }
