@@ -1,22 +1,14 @@
-import { createModelSchema, primitive } from "serializr";
+import { createModelSchema, primitive, object } from "serializr";
+import CommitteeRole from "./CommitteeRole";
 
 export default class Committee {
-  constructor({
-    oid,
-    name,
-    email,
-    picture,
-    grade,
-    department,
-    committeeType
-  } = {}) {
+  constructor({ oid, name, email, picture, department, role } = {}) {
     this.oid = oid;
     this.name = name;
     this.email = email;
     this.picture = picture;
-    this.grade = grade;
     this.department = department;
-    this.committeeType = committeeType;
+    this.role = role;
   }
 
   static isDefaultImageNameEQ(picture) {
@@ -32,7 +24,6 @@ createModelSchema(Committee, {
     default: ""
   }),
   pictureBlob: primitive({}),
-  grade: primitive(),
   department: primitive(),
-  committeeType: primitive()
+  role: object(CommitteeRole)
 });

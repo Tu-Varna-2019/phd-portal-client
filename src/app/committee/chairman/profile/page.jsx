@@ -18,7 +18,8 @@ export default function Page() {
     name: committee.name,
     email: committee.email,
     picture: committee.picture,
-    pictureBlob: committee.pictureBlob
+    pictureBlob: committee.pictureBlob,
+    role: tr("chairman")
   };
 
   return (
