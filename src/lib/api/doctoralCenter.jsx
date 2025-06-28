@@ -51,7 +51,7 @@ export default function DoctoralCenterAPI() {
 
   const review = async (email, status) => {
     return await route({
-      url: `${API_URL}/candidate/application`,
+      url: `${API_URL}/candidate/review`,
       method: "PATCH",
       // NOTE: temp solution
       body: {
