@@ -5,11 +5,15 @@ import {
 } from "@azure/msal-react";
 
 import AuthInfo from "@/components/pages/AuthInfo";
+import { GlobalApp } from "../GlobalApp";
 
 export default function RootLayout({ children }) {
   return (
     <>
-      <AuthenticatedTemplate>{children}</AuthenticatedTemplate>
+      <AuthenticatedTemplate>
+        {children}
+        <GlobalApp />
+      </AuthenticatedTemplate>
 
       <UnauthenticatedTemplate>
         <AuthInfo />
