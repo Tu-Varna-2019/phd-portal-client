@@ -16,6 +16,11 @@ export const SideMenuConstants = () => {
       text: tr("Exams"),
       icon: <CalendarTodayIcon />,
       url: path + "/exams"
+    },
+    {
+      text: tr("Commissions"),
+      icon: <CalendarTodayIcon />,
+      url: path + "/commissions"
     }
   ];
 

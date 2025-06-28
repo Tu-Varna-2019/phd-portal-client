@@ -3,19 +3,18 @@ import { createDataUrl } from "@/lib/helpers/utils";
 import FileAPI from "@/lib/api/file";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import CommitteeAPI from "@/lib/api/committee";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { useSelector } from "react-redux";
-import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";
+import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ExamsHook() {
-  const doctoralCenter = useSelector(selectDoctoralCenter);
+  const committee = useSelector(selectCommittee);
 
-  const { setCommissionOnGrade } = DoctoralCenterAPI();
   const { logNotifyAlert } = APIWrapper();
   const { download } = FileAPI();
   const { language, tr } = Translate();
-  const { getGrades, getCommision } = DoctoralCenterAPI();
+  const { getGrades, getCommision } = CommitteeAPI();
   const [exams, setExams] = useState();
   const [commisions, setCommisions] = useState();
 
@@ -61,35 +60,6 @@ export default function ExamsHook() {
       fileType: "blob"
     });
     window.open(dataUrl, "_blank", "noopener,noreferrer");
-  };
-
-  const setCommisionOnClick = async () => {
-    setIsSetCommitteeLoading(true);
-    const id = selectedExam.id;
-    const name = selectedCommission.name;
-
-    const result = await setCommissionOnGrade(id, name);
-    if (result != []) {
-      logNotifyAlert({
-        title: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        description: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        message: `Успешно зададохте комитет: ${name} към оценка с id: ${id}`,
-        action: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
-        level: "success",
-        scope: "group",
-        group: "expert-manager"
-      });
-    } else {
-      console.error("Error in setting commission to grade: " + id);
-      logAlert({
-        message: tr("Проблем, моля пробвайте по-късно"),
-        description: "Проблем, моля пробвайте по-късно",
-        action: "Проблем, моля пробвайте по-късно",
-        level: "error"
-      });
-    }
-
-    setIsSetCommitteeLoading(true);
   };
 
   const showCommisionPageOnClick = () => {

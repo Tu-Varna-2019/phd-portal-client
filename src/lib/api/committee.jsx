@@ -8,12 +8,28 @@ export default function CommitteeAPI() {
 
   const getCandidates = async (fields) => {
     return await route({
-      url: `${API_URL}/candidates?fields=${fields}`,
+      url: `${API_URL}/chairman-member/candidates?fields=${fields}`,
+      method: "GET"
+    });
+  };
+
+  const getGrades = async () => {
+    return await route({
+      url: `${API_URL}/grades`,
+      method: "GET"
+    });
+  };
+
+  const getCommission = async () => {
+    return await route({
+      url: `${API_URL}/commission`,
       method: "GET"
     });
   };
 
   return {
-    getCandidates
+    getCandidates,
+    getGrades,
+    getCommission
   };
 }
