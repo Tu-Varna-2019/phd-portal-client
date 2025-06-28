@@ -13,7 +13,7 @@ RUN npm install --legacy-peer-deps
 
 
 
-LABEL org.opencontainers.image.source=https://codeberg.org/Tu-Varna-2019/phd-portal-server \
+LABEL org.opencontainers.image.source=https://github.com/Tu-Varna-2019/phd-portal-client \
 	version="1.0.0-RELEASE" \
 	description="Masters thesis for developing Client web app" \
 	author="Iliyan Kostov" \

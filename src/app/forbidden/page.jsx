@@ -6,9 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import CancelIcon from "@mui/icons-material/Cancel";
 import AppTheme from "@/components/shared-theme/AppTheme";
 import Auth from "@/lib/auth/auth";
+import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
   const { handleLogout } = Auth();
+  const { tr } = Translate();
 
   return (
     <AppTheme>
@@ -40,12 +42,13 @@ export default function Page() {
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              403 - Забранен
+              {"403 " + tr("Forbidden")}
             </Typography>
 
             <Typography variant="body1">
-              Вие нямате необходимата оторизация да достъпите тази страница.
-              Моля свържете се с администратора за достъп.
+              {tr(
+                "You do not have the necessary authorization to access this page. Please contact the Administrator for access."
+              )}
             </Typography>
             <Box sx={{ marginTop: 2 }}>
               <Button
@@ -57,7 +60,7 @@ export default function Page() {
                 onClick={() => {}}
                 sx={{ marginRight: 2 }}
               >
-                Обратно
+                {tr("Back")}
               </Button>
 
               <Button
@@ -68,7 +71,7 @@ export default function Page() {
                 startIcon={<HomeIcon />}
                 sx={{ marginRight: 2 }}
               >
-                Изход
+                {tr("Exit")}
               </Button>
             </Box>
           </Paper>

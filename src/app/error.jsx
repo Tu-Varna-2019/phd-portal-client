@@ -4,9 +4,11 @@ import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import CssBaseline from "@mui/material/CssBaseline";
 import Auth from "@/lib/auth/auth";
 import AppTheme from "@/components/shared-theme/AppTheme";
+import Translate from "@/lib/helpers/Translate";
 
 const ClientErrorPage = () => {
   const { handleLogout, handleLogin } = Auth();
+  const { tr } = Translate();
 
   return (
     <AppTheme>
@@ -38,11 +40,11 @@ const ClientErrorPage = () => {
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              Проблем!
+              {tr("Problem") + "!"}
             </Typography>
 
             <Typography variant="body1">
-              Възникна проблем, моля опитайте отново!
+              {tr("There has been a problem please try again") + "!"}
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
@@ -53,7 +55,7 @@ const ClientErrorPage = () => {
                 onClick={handleLogin}
                 sx={{ marginRight: 2 }}
               >
-                Вход
+                {tr("Login")}
               </Button>
 
               <Button
@@ -63,7 +65,7 @@ const ClientErrorPage = () => {
                 onClick={handleLogout}
                 sx={{ marginRight: 2 }}
               >
-                Изход
+                {tr("Exit")}
               </Button>
             </Box>
           </Paper>

@@ -4,8 +4,8 @@ import {
   UnauthenticatedTemplate
 } from "@azure/msal-react";
 
-import { GlobalApp } from "@/app/GlobalApp";
 import AuthInfo from "@/components/pages/AuthInfo";
+import { GlobalApp } from "../GlobalApp";
 
 export default function RootLayout({ children }) {
   return (
