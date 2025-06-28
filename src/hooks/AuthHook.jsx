@@ -21,7 +21,6 @@ export default function AuthHook() {
         localStorage.setItem("logout", logout + 1);
         return;
       } else {
-        console.log("EOEOEO");
         const response = await handleLogin();
 
         if (response) {
