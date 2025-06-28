@@ -5,8 +5,11 @@ import HelpIcon from "@mui/icons-material/Help";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeIcon from "@mui/icons-material/Home";
 import AppTheme from "@/components/shared-theme/AppTheme";
+import Translate from "@/lib/helpers/Translate";
 
 const NotFoundErrorPage = () => {
+  const { tr } = Translate();
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -39,11 +42,13 @@ const NotFoundErrorPage = () => {
             <title>404 Not Found</title>
 
             <Typography variant="h4" color="info" gutterBottom>
-              404 Страницата на съществува
+              {"404 " + tr("Page doesn't exist")}
             </Typography>
 
             <Typography variant="body1">
-              За съжаление не можахме да намерим страницата, която търсите. :(
+              {tr(
+                "Unfortunately, we couldn't find the page you are looking for. :("
+              )}
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
@@ -56,7 +61,7 @@ const NotFoundErrorPage = () => {
                 onClick={() => {}}
                 sx={{ marginRight: 2 }}
               >
-                Обратно
+                {tr("Back")}
               </Button>
             </Box>
           </Paper>

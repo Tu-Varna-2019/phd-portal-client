@@ -206,5 +206,12 @@
   "Problem": "Проблем",
   "There has been a problem please try again": "Възникна проблем, моля опитайте отново",
   "Login": "Вход",
-  "Exit": "Изход"
+  "Exit": "Изход",
+  "Back": "Обратно",
+  "Unauthorized": "Неоторизиран",
+  "Forbidden": "Забранен",
+  "You do not have the necessary authorization to access this page. Please contact the Administrator for access.": "Вие нямате необходимата оторизация да достъпите тази страница. Моля свържете се с администратора за достъп.",
+  "Unauthorized": "Вие нямате права да достъпите тази страница. Моля свържете се администратора за достъп.",
+  "Page doesn't exist": "Страницата не съществува",
+  "Unfortunately, we couldn't find the page you are looking for. :(": "За съжаление не можахме да намерим страницата, която търсите. :("
 }
