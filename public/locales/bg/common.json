@@ -57,7 +57,6 @@
   "Optional": "По желание",
   "Application Platform": "Платформа за кандидатстване",
   "Exams": "Изпити",
-  "Exit": "Изход",
   "Mode": "Режим",
   "naming": "Наименование",
   "Study period (years)": "Срок за обучение (години)",
@@ -203,5 +202,9 @@
   "October": "Октомври",
   "November": "Ноември",
   "December": "Декември",
-  "progress in exam": "прогрес на изпит"
+  "progress in exam": "прогрес на изпит",
+  "Problem": "Проблем",
+  "There has been a problem please try again": "Възникна проблем, моля опитайте отново",
+  "Login": "Вход",
+  "Exit": "Изход"
 }
