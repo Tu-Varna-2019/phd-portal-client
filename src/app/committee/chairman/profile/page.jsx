@@ -2,7 +2,7 @@
 import Layout from "@/components/main-layout/Layout";
 import { useSelector } from "react-redux";
 import { selectCommittee } from "@/features/user/slices/userMemoSelector";
-import { setDoctoralCenter } from "@/features/user/slices/userSlice";
+import { setCommittee } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
 import ProfileGrid from "@/app/(common)/_profile/_components/ProfileGrid";
 import { SideMenuConstants } from "../_constants/sideMenuConstants";
@@ -30,7 +30,7 @@ export default function Page() {
         <ProfileGrid
           user={user}
           nameFields={nameFields}
-          setUser={setDoctoralCenter}
+          setUser={setCommittee}
         />
       }
       mainListItems={navigation}
