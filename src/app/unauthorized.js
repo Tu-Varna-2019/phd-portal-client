@@ -5,8 +5,11 @@ import { Box, Button, Container, Paper, Typography } from "@mui/material";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "@/components/shared-theme/AppTheme";
+import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedErrorPage() {
+  const { tr } = Translate();
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -37,12 +40,13 @@ export default function UnauthorizedErrorPage() {
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              401 - Неоторизиран
+              {"401 " + tr("Unauthorized")}
             </Typography>
 
             <Typography variant="body1">
-              Вие нямате права да достъпите тази страница. Моля свържете се с
-              администратора за достъп.
+              {tr(
+                "You have no right to access this page. Please contact the Access Administrator."
+              )}
             </Typography>
 
             <Box sx={{ marginTop: 2 }}>
@@ -55,7 +59,7 @@ export default function UnauthorizedErrorPage() {
                 onClick={() => {}}
                 sx={{ marginRight: 2 }}
               >
-                Обратно
+                {tr("Back")}
               </Button>
             </Box>
           </Paper>

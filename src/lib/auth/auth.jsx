@@ -2,15 +2,10 @@ import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/features/constants";
 import {
-  clearCommittee,
-  clearDoctoralCenter,
-  clearPhd,
   setCommittee,
   setDoctoralCenter,
   setPhd
 } from "@/features/user/slices/userSlice";
-import { clearSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
-import { clearNotifications } from "@/features/notification/slices/notificationsSlice";
 
 export default function Auth() {
   const { instance, accounts } = useMsal();
@@ -18,12 +13,7 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    dispatch(clearSessionToken());
-    dispatch(clearNotifications());
-    dispatch(clearPhd());
-    dispatch(clearCommittee());
-    dispatch(clearDoctoralCenter());
-
+    localStorage.setItem("logout", 0);
     instance.logoutPopup({
       postLogoutRedirectUri: "/",
       mainWindowRedirectUri: "/"
@@ -66,8 +56,8 @@ export default function Auth() {
   return {
     handleLogout,
     handleLogin,
-    silentLogin,
     amIAuthenticated,
+    silentLogin,
     evaluateGroup
   };
 }
