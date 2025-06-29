@@ -1,20 +1,19 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
-
 import { path } from "../_constants/pathConstant";
-import HomeGrid from "../../(manager-expert)/_components/HomeGrid";
+import NotificationsGrid from "@/app/(common)/_notifications/_components/NotificationsGrid";
 import { SideMenuConstants } from "../_constants/sideMenuConstants";
 import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
-  const { navigation } = SideMenuConstants();
   const { tr } = Translate();
+  const { navigation } = SideMenuConstants();
 
   return (
     <Layout
-      headerTitle={tr("Home page")}
+      headerTitle={tr("Notifications")}
+      MainView={<NotificationsGrid />}
       basePath={path}
-      MainView={<HomeGrid />}
       mainListItems={navigation}
     />
   );

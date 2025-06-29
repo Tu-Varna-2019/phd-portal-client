@@ -8,7 +8,8 @@ const corsOptions = {
 
 const routes = [
   "/phd",
-  "/committee",
+  "/committee/chairman",
+  "/committee/member",
   "/doctoral-center/expert",
   "/doctoral-center/manager",
   "/doctoral-center/admin"
@@ -73,10 +74,10 @@ const redirectByCookiePath = (url, groupCookie, roleCookie) => {
   let cookie = null;
 
   switch (groupCookie) {
-    case "doctoral-center":
+    case ("doctoral-center", "committee"):
       cookie = groupCookie + "/" + roleCookie;
       break;
-    case ("phd", "committee", "supervisor"):
+    case ("phd", "supervisor"):
       cookie = groupCookie;
       break;
     default:

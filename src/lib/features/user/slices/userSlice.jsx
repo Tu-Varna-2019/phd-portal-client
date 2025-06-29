@@ -8,7 +8,7 @@ import { deserialize, serialize } from "serializr";
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    // NOTE: needed to putt null value due to non-serializable errors if otherwise
+    // NOTE: needed to put null value due to non-serializable errors if otherwise
     phd: null,
     committee: null,
     doctoralCenter: null,
@@ -50,7 +50,14 @@ export const userSlice = createSlice({
 
     clearCandidate(state) {
       state.candidate = null;
-    }
+    },
+
+    clearAll: () => ({
+      phd: null,
+      committee: null,
+      doctoralCenter: null,
+      candidate: null
+    })
   }
 });
 
@@ -62,6 +69,7 @@ export const {
   clearPhd,
   clearCommittee,
   clearDoctoralCenter,
-  clearCandidate
+  clearCandidate,
+  clearAll
 } = userSlice.actions;
 export default userSlice.reducer;

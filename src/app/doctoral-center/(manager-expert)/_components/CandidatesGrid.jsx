@@ -26,7 +26,7 @@ export default function CandidatesGrid() {
 
     if (status == "approved" || status == "rejected") {
       const result = await review(selectedCandidate.email, status);
-      if (result != []) {
+      if (result.length != 0) {
         logNotifyAlert({
           title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
           description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
@@ -35,6 +35,16 @@ export default function CandidatesGrid() {
           level: "success",
           scope: "group",
           group: "expert-manager"
+        });
+      } else {
+        //TODO: Don't hardcode this but get it from the server
+        logAlert({
+          message: tr(
+            "Cannot move to to next step, because the commission hasn't evaluated the previous exams yet!"
+          ),
+          description: "Грешка при приемането на изпит",
+          action: "Грешка при приемането на изпит",
+          level: "error"
         });
       }
     } else {
@@ -95,7 +105,7 @@ export default function CandidatesGrid() {
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("progress in exam")}:</strong>{" "}
+                <strong>{tr("Progress in exam")}:</strong>{" "}
                 {selectedCandidate.exam_step}
               </Typography>
 
@@ -113,7 +123,7 @@ export default function CandidatesGrid() {
                     )
                   }
                 >
-                  {selectedCandidate.biography}
+                  {tr("Click to view")}
                 </Button>
               </Typography>
 
@@ -141,20 +151,42 @@ export default function CandidatesGrid() {
             <ButtonGroup
               variant="outlined"
               aria-label="Approve/Deny application"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                backgroundColor: "background.paper",
+                boxShadow: 3
+              }}
             >
               <Button
                 onClick={async () => await processApplication("approved")}
+                variant="contained"
+                color="success"
                 loading={isActionLoading}
                 loadingPosition="start"
+                sx={{
+                  borderRadius: "999px",
+                  textTransform: "none",
+                  fontWeight: "bold"
+                }}
               >
-                {tr("Approve application")}
+                ✅ {tr("Approve application")}
               </Button>
+
               <Button
                 onClick={async () => await processApplication("rejected")}
+                variant="outlined"
+                color="error"
                 loading={isActionLoading}
                 loadingPosition="start"
+                sx={{
+                  borderRadius: "999px",
+                  textTransform: "none",
+                  fontWeight: "bold"
+                }}
               >
-                {tr("Deny application")}
+                ❌ {tr("Deny application")}
               </Button>
             </ButtonGroup>
           </Card>

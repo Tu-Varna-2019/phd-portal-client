@@ -1,12 +1,11 @@
 "use client";
 import Layout from "@/components/main-layout/Layout";
-
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";
 import { setDoctoralCenter } from "@/features/user/slices/userSlice";
 import { path } from "../_constants/pathConstant";
-import { SideMenuConstants } from "../_constants/sideMenuConstants";
 import ProfileGrid from "@/app/(common)/_profile/_components/ProfileGrid";
+import { SideMenuConstants } from "../_constants/sideMenuConstants";
 import Translate from "@/lib/helpers/Translate";
 
 export default function Page() {
@@ -20,7 +19,7 @@ export default function Page() {
     email: doctoralCenter.email,
     picture: doctoralCenter.picture,
     pictureBlob: doctoralCenter.pictureBlob,
-    role: tr("admin")
+    role: tr("expert")
   };
 
   return (
