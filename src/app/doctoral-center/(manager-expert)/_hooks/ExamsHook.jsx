@@ -28,7 +28,8 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam) => {
+    examsResponse.forEach((exam, index) => {
+      exam.id = index;
       exam.subject = tr(exam.subject);
     });
 
@@ -101,8 +102,6 @@ export default function ExamsHook() {
     commisions,
     openGradeAttachmentOnClick,
     setCommisionOnClick,
-    onApproveCandidatePhdClick,
-    onRejectCandidatePhdClick,
     selectedExam,
     setSelectedExam,
     selectedCommission,

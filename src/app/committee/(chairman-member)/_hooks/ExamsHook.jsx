@@ -4,53 +4,44 @@ import FileAPI from "@/lib/api/file";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import CommitteeAPI from "@/lib/api/committee";
-import APIWrapper from "@/lib/helpers/APIWrapper";
-import { useSelector } from "react-redux";
-import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ExamsHook() {
-  const committee = useSelector(selectCommittee);
-
-  const { logNotifyAlert } = APIWrapper();
   const { download } = FileAPI();
   const { language, tr } = Translate();
-  const { getGrades, getCommision } = CommitteeAPI();
-  const [exams, setExams] = useState();
-  const [commisions, setCommisions] = useState();
+  const { getGrades } = CommitteeAPI();
+
+  const [exams, setExams] = useState([]);
+  const [committees, setCommittees] = useState([]);
 
   const [selectedExam, setSelectedExam] = useState({});
-  const [selectedCommission, setSelectedCommission] = useState();
-
   const [isExamOpened, setIsExamOpened] = useState(false);
-  const [isCommisionOpened, setIsCommisionOpened] = useState(false);
-  const [isSetCommitteeLoading, setIsSetCommitteeLoading] = useState(false);
 
   const fetchExams = useCallback(async () => {
+    const committeesArr = [];
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam) => {
+    examsResponse.forEach((exam, index) => {
+      exam.id = index;
       exam.subject = tr(exam.subject);
+      exam.commission.committees.forEach((committee, index) => {
+        committeesArr.push({
+          id: index,
+          name: committee.name,
+          grade: committee.grade == null ? 0 : committee.grade,
+          role: tr(committee.role)
+        });
+      });
     });
 
     setExams(examsResponse);
-  }, [language]);
-
-  const fetchCommisions = useCallback(async () => {
-    const commisionsResponse = await getCommision();
-
-    commisionsResponse.forEach((commision, index) => {
-      commision.id = index;
-    });
-    setCommisions(commisionsResponse);
+    setCommittees(committeesArr);
   }, [language]);
 
   useEffect(() => {
     fetchExams();
-    fetchCommisions();
     return runPeriodically(() => {
       fetchExams();
-      fetchCommisions();
     });
-  }, [fetchExams, fetchCommisions]);
+  }, [fetchExams]);
 
   const openGradeAttachmentOnClick = async (attachment) => {
     const blobData = await download(`grades/${attachment}`);
@@ -62,26 +53,13 @@ export default function ExamsHook() {
     window.open(dataUrl, "_blank", "noopener,noreferrer");
   };
 
-  const showCommisionPageOnClick = () => {
-    setIsCommisionOpened(true);
-  };
-
   return {
     exams,
-    commisions,
+    committees,
     openGradeAttachmentOnClick,
-    setCommisionOnClick,
-    onApproveCandidatePhdClick,
-    onRejectCandidatePhdClick,
     selectedExam,
     setSelectedExam,
-    selectedCommission,
     isExamOpened,
-    setIsExamOpened,
-    isCommisionOpened,
-    isSetCommitteeLoading,
-    setIsCommisionOpened,
-    setSelectedCommission,
-    showCommisionPageOnClick
+    setIsExamOpened
   };
 }

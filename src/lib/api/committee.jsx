@@ -15,7 +15,7 @@ export default function CommitteeAPI() {
 
   const getGrades = async () => {
     return await route({
-      url: `${API_URL}/grades`,
+      url: `${API_URL}/chairman-member/grades`,
       method: "GET"
     });
   };

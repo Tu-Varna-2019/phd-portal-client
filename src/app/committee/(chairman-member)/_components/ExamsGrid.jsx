@@ -3,7 +3,7 @@ import AlertBox from "@/common/AlertBox";
 import Table from "@/components/main-layout/common/Table";
 import { Button, ButtonGroup, Card, Stack, Typography } from "@mui/material";
 import ExamsHook from "../_hooks/ExamsHook";
-import CandidateConstants from "../_constants/CandidatesConstants";
+import CandidateConstants from "../_constants/CandidateConstants";
 import Translate from "@/lib/helpers/Translate";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
 import ConfirmDialogMultiChoices from "@/components/dialog-box/ConfirmDialogMultiChoices";
@@ -13,10 +13,8 @@ export default function ExamsGrid() {
   const {
     exams,
     commisions,
+    committees,
     openGradeAttachmentOnClick,
-    setCommisionOnClick,
-    onApproveCandidatePhdClick,
-    onRejectCandidatePhdClick,
     selectedExam,
     setSelectedExam,
     selectedCommission,
@@ -28,7 +26,7 @@ export default function ExamsGrid() {
     setSelectedCommission,
     showCommisionPageOnClick
   } = ExamsHook();
-  const { examColumns, commisionColumns } = CandidateConstants();
+  const { examColumns, committeeColumns } = CandidateConstants();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -37,7 +35,7 @@ export default function ExamsGrid() {
         columns={examColumns}
         checkboxEnabled
         onRowSelect={(index) => {
-          setSelectedExam(exams[index]);
+          if (exams[index] != undefined) setSelectedExam(exams[index]);
           setIsExamOpened(true);
         }}
       />
@@ -48,8 +46,8 @@ export default function ExamsGrid() {
         description={tr("Approve or refuse the applicant/doctoral student")}
         buttonNames={[tr("approve"), tr("reject")]}
         onButtonsConfirmClick={[
-          onApproveCandidatePhdClick,
-          onRejectCandidatePhdClick
+          () => console.log("approve"),
+          () => console.log("approve")
         ]}
       />
 
@@ -93,16 +91,28 @@ export default function ExamsGrid() {
                   {selectedExam.evalDate}
                 </Typography>
 
-                {selectedExam.commision?.name != undefined && (
-                  <Typography
-                    component="h3"
-                    variant="body1"
-                    sx={{ color: "#555" }}
-                  >
-                    <strong>{tr("name of the commision")}:</strong>{" "}
-                    {selectedExam.commision.name}
-                  </Typography>
-                )}
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("Name of the commision")}:</strong>{" "}
+                  {selectedExam.commission.name}
+                </Typography>
+
+                <Typography
+                  component="h3"
+                  variant="body1"
+                  sx={{ color: "#555" }}
+                >
+                  <strong>{tr("Committees")}:</strong>{" "}
+                </Typography>
+
+                <Table
+                  rows={committees}
+                  columns={committeeColumns}
+                  density="comfortable"
+                />
 
                 <Typography
                   component="h3"
@@ -180,7 +190,7 @@ export default function ExamsGrid() {
                   onClick={() => showCommisionPageOnClick()}
                   loadingPosition="start"
                 >
-                  {tr("Set commision")}
+                  {tr("Evaluate")}
                 </Button>
               )}
 
@@ -209,7 +219,7 @@ export default function ExamsGrid() {
 
               <ButtonGroup variant="outlined" aria-label="Set commision">
                 <Button
-                  onClick={async () => await setCommisionOnClick()}
+                  onClick={() => console.log("click")}
                   loadingPosition="start"
                   disabled={selectedCommission == null}
                   loading={isSetCommitteeLoading}
