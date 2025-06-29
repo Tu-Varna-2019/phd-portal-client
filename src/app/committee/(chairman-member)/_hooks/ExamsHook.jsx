@@ -4,8 +4,11 @@ import FileAPI from "@/lib/api/file";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import CommitteeAPI from "@/lib/api/committee";
+import { useSelector } from "react-redux";
+import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ExamsHook() {
+  const signedCommittee = useSelector(selectCommittee);
   const { download } = FileAPI();
   const { language, tr } = Translate();
   const { getGrades } = CommitteeAPI();
@@ -22,13 +25,16 @@ export default function ExamsHook() {
     examsResponse.forEach((exam, index) => {
       exam.id = index;
       exam.subject = tr(exam.subject);
+
       exam.commission.committees.forEach((committee, index) => {
-        committeesArr.push({
-          id: index,
-          name: committee.name,
-          grade: committee.grade == null ? 0 : committee.grade,
-          role: tr(committee.role)
-        });
+        if (signedCommittee.oid != committee.oid) {
+          committeesArr.push({
+            id: index,
+            name: committee.name,
+            grade: committee.grade == null ? 0 : committee.grade,
+            role: tr(committee.role)
+          });
+        }
       });
     });
 
