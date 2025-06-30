@@ -1,30 +1,28 @@
 import Box from "@mui/material/Box";
 import AlertBox from "@/common/AlertBox";
 import Table from "@/components/main-layout/common/Table";
-import { Button, ButtonGroup, Card, Stack, Typography } from "@mui/material";
+import { Button, Card, Stack, Typography } from "@mui/material";
 import ExamsHook from "../_hooks/ExamsHook";
 import CandidateConstants from "../_constants/CandidateConstants";
 import Translate from "@/lib/helpers/Translate";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
-import ConfirmDialogMultiChoices from "@/components/dialog-box/ConfirmDialogMultiChoices";
+import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 
 export default function ExamsGrid() {
   const { tr } = Translate();
   const {
     exams,
-    commisions,
     committees,
     openGradeAttachmentOnClick,
     selectedExam,
     setSelectedExam,
-    selectedCommission,
     isExamOpened,
     setIsExamOpened,
-    isCommisionOpened,
-    isSetCommitteeLoading,
-    setIsCommisionOpened,
-    setSelectedCommission,
-    showCommisionPageOnClick
+    isSignedCommitteeEvalGrade,
+    gradeOption,
+    onEvaluateExamOnClick,
+    onEvaluateGradeChange,
+    grades
   } = ExamsHook();
   const { examColumns, committeeColumns } = CandidateConstants();
 
@@ -41,16 +39,6 @@ export default function ExamsGrid() {
       />
       <AlertBox />
 
-      <ConfirmDialogMultiChoices
-        title={tr("Approve or refuse the applicant/doctoral student")}
-        description={tr("Approve or refuse the applicant/doctoral student")}
-        buttonNames={[tr("approve"), tr("reject")]}
-        onButtonsConfirmClick={[
-          () => console.log("approve"),
-          () => console.log("approve")
-        ]}
-      />
-
       <OverflowBox open={isExamOpened} setOpen={setIsExamOpened}>
         <Card
           sx={{
@@ -61,7 +49,7 @@ export default function ExamsGrid() {
             margin: "auto"
           }}
         >
-          {isExamOpened && !isCommisionOpened && (
+          {isExamOpened && (
             <>
               <Typography
                 component="h2"
@@ -162,7 +150,7 @@ export default function ExamsGrid() {
                   sx={{ color: "#555" }}
                 >
                   <strong>{tr("Type")}:</strong>{" "}
-                  {selectedExam.evaluatedUser.group}
+                  {tr(selectedExam.evaluatedUser.group)}
                 </Typography>
 
                 {selectedExam.attachments != undefined && (
@@ -184,58 +172,44 @@ export default function ExamsGrid() {
                     })}
                   </Typography>
                 )}
+
+                {isSignedCommitteeEvalGrade && (
+                  <ConfirmDialogComboBox
+                    title={tr("Modify") + " " + tr("grade")}
+                    contentText={
+                      tr("Evaluate") +
+                      " " +
+                      tr("user") +
+                      " " +
+                      tr("into the system")
+                    }
+                    options={grades}
+                    optionChosen={gradeOption}
+                    buttonName={tr("Modify") + " " + tr("grade")}
+                    label={tr("Exams")}
+                    onButtonConfirmClick={onEvaluateExamOnClick}
+                    onAutocompleteChange={onEvaluateGradeChange}
+                  />
+                )}
+                {!isSignedCommitteeEvalGrade && (
+                  <ConfirmDialogComboBox
+                    title={tr("Create") + " " + tr("grade")}
+                    contentText={
+                      tr("Evaluate") +
+                      " " +
+                      tr("user") +
+                      " " +
+                      tr("into the system")
+                    }
+                    options={grades}
+                    optionChosen={gradeOption}
+                    buttonName={tr("Create") + " " + tr("grade")}
+                    label={tr("Exams")}
+                    onButtonConfirmClick={onEvaluateExamOnClick}
+                    onAutocompleteChange={onEvaluateGradeChange}
+                  />
+                )}
               </Stack>
-              {selectedExam.commission == undefined && (
-                <Button
-                  onClick={() => showCommisionPageOnClick()}
-                  loadingPosition="start"
-                >
-                  {tr("Evaluate")}
-                </Button>
-              )}
-
-              {selectedExam.grade != undefined && (
-                <Button
-                  onClick={() => showCommisionPageOnClick()}
-                  loadingPosition="start"
-                >
-                  {tr("Approve/Reject")}
-                </Button>
-              )}
-            </>
-          )}
-
-          {isCommisionOpened && (
-            <>
-              <Table
-                rows={commisions}
-                columns={commisionColumns}
-                checkboxEnabled
-                onRowSelect={(index) =>
-                  setSelectedCommission(commisions[index])
-                }
-                density="comfortable"
-              />
-
-              <ButtonGroup variant="outlined" aria-label="Set commision">
-                <Button
-                  onClick={() => console.log("click")}
-                  loadingPosition="start"
-                  disabled={selectedCommission == null}
-                  loading={isSetCommitteeLoading}
-                >
-                  {tr("Confirm")}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setIsExamOpened(true);
-                    setIsCommisionOpened(false);
-                  }}
-                  loadingPosition="start"
-                >
-                  {tr("Back")}
-                </Button>
-              </ButtonGroup>
             </>
           )}
         </Card>

@@ -8,14 +8,19 @@ import { useSelector } from "react-redux";
 import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 
 export default function ExamsHook() {
-  const signedCommittee = useSelector(selectCommittee);
+  const grades = [2, 3, 4, 5, 6];
+
   const { download } = FileAPI();
   const { language, tr } = Translate();
   const { getGrades } = CommitteeAPI();
 
   const [exams, setExams] = useState([]);
   const [committees, setCommittees] = useState([]);
+  const [gradeOption, setGradeOption] = useState();
 
+  const [isSignedCommitteeEvalGrade, setIsSignedCommitteeEvalGrade] =
+    useState(false);
+  const signedCommittee = useSelector(selectCommittee);
   const [selectedExam, setSelectedExam] = useState({});
   const [isExamOpened, setIsExamOpened] = useState(false);
 
@@ -27,13 +32,16 @@ export default function ExamsHook() {
       exam.subject = tr(exam.subject);
 
       exam.commission.committees.forEach((committee, index) => {
-        if (signedCommittee.oid != committee.oid) {
-          committeesArr.push({
-            id: index,
-            name: committee.name,
-            grade: committee.grade == null ? 0 : committee.grade,
-            role: tr(committee.role)
-          });
+        committeesArr.push({
+          id: index,
+          name: committee.name,
+          grade: committee.grade == null ? 0 : committee.grade,
+          role: tr(committee.role)
+        });
+
+        // NOTE: Check if the signed committee signed a grade or not
+        if (signedCommittee.oid == committee && signedCommittee.grade != null) {
+          setIsSignedCommitteeEvalGrade(true);
         }
       });
     });
@@ -59,13 +67,26 @@ export default function ExamsHook() {
     window.open(dataUrl, "_blank", "noopener,noreferrer");
   };
 
+  const onEvaluateExamOnClick = async () => {
+    console.log("test");
+  };
+
+  const onEvaluateGradeChange = async (index, _) => {
+    setGradeOption(grades[index]);
+  };
+
   return {
     exams,
     committees,
+    isSignedCommitteeEvalGrade,
     openGradeAttachmentOnClick,
     selectedExam,
     setSelectedExam,
     isExamOpened,
-    setIsExamOpened
+    setIsExamOpened,
+    gradeOption,
+    onEvaluateExamOnClick,
+    onEvaluateGradeChange,
+    grades
   };
 }

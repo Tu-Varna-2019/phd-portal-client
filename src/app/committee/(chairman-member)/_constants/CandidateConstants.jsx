@@ -124,10 +124,21 @@ export default function CandidateConstants() {
       headerName: tr("evaluation date"),
       display: "flex"
     },
-    { field: "email", headerName: tr("email"), flex: 1.5, minWidth: 200 },
     {
-      field: "commision name",
-      headerName: tr("name of the commision"),
+      field: "evaluatedUser.email",
+      headerName: tr("email"),
+      renderCell: (param) => {
+        return param.row?.evaluatedUser.email;
+      },
+      flex: 1.5,
+      minWidth: 200
+    },
+    {
+      field: "commission name",
+      headerName: tr("Name of the commission"),
+      renderCell: (param) => {
+        return param.row.commission.name;
+      },
       flex: 1,
       minWidth: 150
     },
