@@ -23,7 +23,7 @@ export default function CandidateConstants() {
   const examColumns = [
     {
       field: "avatar",
-      headerName: tr("avatar"),
+      headerName: tr("picture"),
       display: "flex",
       renderCell: renderAvatar,
       valueGetter: (_, row) =>

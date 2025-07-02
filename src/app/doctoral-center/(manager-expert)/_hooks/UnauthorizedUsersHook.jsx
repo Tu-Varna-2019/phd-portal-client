@@ -36,8 +36,8 @@ export default function UnauthorizedUsersHook() {
     return docCenterRoles.map((role) => tr(role));
   }, [docCenterRoles]);
 
-  const onAutocompleteChange = (index, _) => {
-    setGroupOption(docCenterRoles[index]);
+  const onAutocompleteChange = (value) => {
+    setGroupOption(value);
   };
 
   const authorizeUsers = async (unauthorizedUsers) => {

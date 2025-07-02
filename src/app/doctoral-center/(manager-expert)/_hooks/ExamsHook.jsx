@@ -66,7 +66,7 @@ export default function ExamsHook() {
 
   const setCommisionOnClick = async () => {
     setIsSetCommitteeLoading(true);
-    const id = selectedExam.id;
+    const id = selectedExam.gradeId;
     const name = selectedCommission.name;
 
     const result = await setCommissionOnGrade(id, name);

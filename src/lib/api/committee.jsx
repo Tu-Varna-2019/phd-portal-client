@@ -27,9 +27,22 @@ export default function CommitteeAPI() {
     });
   };
 
+  const evaluateGrade = async (type, grade, subject, pin) => {
+    return await route({
+      url: `${API_URL}/chairman-member/grade/evaluate/${type}`,
+      method: "PATCH",
+      body: {
+        grade,
+        subject,
+        pin
+      }
+    });
+  };
+
   return {
     getCandidates,
     getGrades,
-    getCommission
+    getCommission,
+    evaluateGrade
   };
 }

@@ -52,9 +52,8 @@ export default function ConfirmDialogComboBox({
           <DialogContentText>{contentText}</DialogContentText>
           <Select
             id="select-box"
-            onChange={(event, value) => {
-              const id = event.target.id.toString();
-              onAutocompleteChange(id.charAt(id.length - 1), value);
+            onChange={(event) => {
+              onAutocompleteChange(event.target.value);
             }}
             sx={{ width: 300 }}
           >

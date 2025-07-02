@@ -12,7 +12,6 @@ export default function ExamsGrid() {
   const { tr } = Translate();
   const {
     exams,
-    committees,
     openGradeAttachmentOnClick,
     selectedExam,
     setSelectedExam,
@@ -97,7 +96,7 @@ export default function ExamsGrid() {
                 </Typography>
 
                 <Table
-                  rows={committees}
+                  rows={selectedExam.commission.committees}
                   columns={committeeColumns}
                   density="comfortable"
                 />
