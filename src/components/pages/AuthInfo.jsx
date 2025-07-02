@@ -4,8 +4,10 @@ import { Box, Container, Paper, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppTheme from "@/components/shared-theme/AppTheme";
+import Translate from "@/lib/helpers/Translate";
 
 export default function AuthInfo() {
+  const { tr } = Translate();
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -36,12 +38,13 @@ export default function AuthInfo() {
             </Box>
 
             <Typography variant="h4" color="info" gutterBottom>
-              Вход
+              {tr("Login")}
             </Typography>
 
             <Typography variant="body1">
-              В момента ви пренасочваме в Microsoft страницата. Моля влезте с
-              профила си, който е предназначен за Технически университет Варна
+              {tr(
+                "We are currently redirecting you to the Microsoft page. Please log in with your account, which is intended for Technical University of Varna"
+              )}
             </Typography>
 
             <AuthHook />

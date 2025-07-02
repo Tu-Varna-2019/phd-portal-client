@@ -51,25 +51,15 @@ export default function DoctoralCenterAPI() {
 
   const review = async (email, status) => {
     return await route({
-      url: `${API_URL}/candidate/application`,
-      method: "PATCH",
-      // NOTE: temp solution
-      body: {
-        email: email,
-        status: status
-      }
+      url: `${API_URL}/candidate/${email}/application/${status}`,
+      method: "PATCH"
     });
   };
 
   const setCommissionOnGrade = async (id, name) => {
     return await route({
-      url: `${API_URL}/grade/commission`,
-      method: "PATCH",
-      // NOTE: temp solution
-      body: {
-        id: id,
-        name: name
-      }
+      url: `${API_URL}/grade/${id}/commission/${name}`,
+      method: "PATCH"
     });
   };
 

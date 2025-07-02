@@ -25,7 +25,7 @@ export default function ServerRoute() {
 
       return await sendResponseByStatusCode(
         response,
-        url,
+        method,
         responseContentType,
         getResultData
       );
@@ -95,7 +95,7 @@ export default function ServerRoute() {
 
   const sendResponseByStatusCode = async (
     response,
-    url,
+    method,
     responseContentType,
     getResultData
   ) => {
@@ -114,8 +114,7 @@ export default function ServerRoute() {
           const result = await response.json();
           const data = getResultData ? result.data : result;
 
-          // NOTE: Disable logging API response for notifications
-          if (!url.endsWith("notifiy")) {
+          if (method != "GET") {
             console.log(`API response: ${JSON.stringify(data)}`);
           }
           return NextResponse.json(data, {

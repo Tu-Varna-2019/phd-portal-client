@@ -3,12 +3,11 @@ import { url } from "../../url";
 
 const { route } = ServerRoute();
 
-export async function PATCH(request) {
-  const body = await request.json();
-
+export async function GET(request) {
   return await route({
-    url: url + `/grade/${body.id}/commission/${body.name}`,
-    method: "PATCH",
+    url: url + "/grades",
+    method: "GET",
+    getResultData: true,
     request: request
   });
 }

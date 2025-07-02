@@ -77,8 +77,8 @@ export default function UnauthorizedUsersHook() {
   };
   const { columns } = UnauthorizedUsersColunms(changeIsAllowedOnClick);
 
-  const onAutocompleteChange = (index, _) => {
-    setGroupOption(docCenterRoles[index]);
+  const onAutocompleteChange = (value) => {
+    setGroupOption(value);
   };
 
   const authorizeUsers = async (unauthorizedUsers) => {

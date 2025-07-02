@@ -25,7 +25,7 @@ export default function Page() {
 
   return (
     <Layout
-      headerTitle={"Profile"}
+      headerTitle={tr("Profile")}
       basePath={path}
       MainView={
         <ProfileGrid

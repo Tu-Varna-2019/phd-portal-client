@@ -28,7 +28,8 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam) => {
+    examsResponse.forEach((exam, index) => {
+      exam.id = index;
       exam.subject = tr(exam.subject);
     });
 
@@ -65,7 +66,7 @@ export default function ExamsHook() {
 
   const setCommisionOnClick = async () => {
     setIsSetCommitteeLoading(true);
-    const id = selectedExam.id;
+    const id = selectedExam.gradeId;
     const name = selectedCommission.name;
 
     const result = await setCommissionOnGrade(id, name);
@@ -92,14 +93,6 @@ export default function ExamsHook() {
     setIsSetCommitteeLoading(true);
   };
 
-  const onApproveCandidatePhdClick = async () => {
-    console.log("test");
-  };
-
-  const onRejectCandidatePhdClick = async () => {
-    console.log("test");
-  };
-
   const showCommisionPageOnClick = () => {
     setIsCommisionOpened(true);
   };
@@ -109,8 +102,6 @@ export default function ExamsHook() {
     commisions,
     openGradeAttachmentOnClick,
     setCommisionOnClick,
-    onApproveCandidatePhdClick,
-    onRejectCandidatePhdClick,
     selectedExam,
     setSelectedExam,
     selectedCommission,

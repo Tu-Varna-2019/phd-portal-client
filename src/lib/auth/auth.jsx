@@ -2,6 +2,7 @@ import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { loginRequest } from "@/lib/auth/authConfig";
 import { useAppDispatch } from "@/features/constants";
 import {
+  clearAll,
   setCommittee,
   setDoctoralCenter,
   setPhd
@@ -13,6 +14,7 @@ export default function Auth() {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
+    dispatch(clearAll());
     localStorage.setItem("logout", 0);
     instance.logoutPopup({
       postLogoutRedirectUri: "/",

@@ -37,7 +37,7 @@ export default function ExamsGrid() {
         columns={examColumns}
         checkboxEnabled
         onRowSelect={(index) => {
-          setSelectedExam(exams[index]);
+          if (exams[index] != undefined) setSelectedExam(exams[index]);
           setIsExamOpened(true);
         }}
       />
@@ -93,14 +93,14 @@ export default function ExamsGrid() {
                   {selectedExam.evalDate}
                 </Typography>
 
-                {selectedExam.commision?.name != undefined && (
+                {selectedExam.commission?.name != undefined && (
                   <Typography
                     component="h3"
                     variant="body1"
                     sx={{ color: "#555" }}
                   >
                     <strong>{tr("name of the commision")}:</strong>{" "}
-                    {selectedExam.commision.name}
+                    {selectedExam.commission.name}
                   </Typography>
                 )}
 
