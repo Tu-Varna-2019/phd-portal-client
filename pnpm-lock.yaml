@@ -79,7 +79,7 @@ importers:
         version: 15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       next-i18next:
         specifier: ^15.4.2
-        version: 15.4.2(i18next@25.2.1(typescript@5.7.3))(next@15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.5.2(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react@19.0.0)
+        version: 15.4.2(i18next@25.2.1(typescript@5.7.3))(next@15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.5.3(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react@19.0.0)
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
@@ -90,8 +90,8 @@ importers:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
       react-i18next:
-        specifier: ^15.4.1
-        version: 15.5.2(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
+        specifier: ^15.5.3
+        version: 15.5.3(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
       react-redux:
         specifier: ^9.1.2
         version: 9.2.0(@types/react@19.0.4)(react@19.0.0)(redux@5.0.1)
@@ -3636,8 +3636,8 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  react-i18next@15.5.2:
-    resolution: {integrity: sha512-ePODyXgmZQAOYTbZXQn5rRsSBu3Gszo69jxW6aKmlSgxKAI1fOhDwSu6bT4EKHciWPKQ7v7lPrjeiadR6Gi+1A==}
+  react-i18next@15.5.3:
+    resolution: {integrity: sha512-ypYmOKOnjqPEJZO4m1BI0kS8kWqkBNsKYyhVUfij0gvjy9xJNoG/VcGkxq5dRlVwzmrmY1BQMAmpbbUBLwC4Kw==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -8158,7 +8158,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next-i18next@15.4.2(i18next@25.2.1(typescript@5.7.3))(next@15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.5.2(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react@19.0.0):
+  next-i18next@15.4.2(i18next@25.2.1(typescript@5.7.3))(next@15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-i18next@15.5.3(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.9
       '@types/hoist-non-react-statics': 3.3.6
@@ -8168,7 +8168,7 @@ snapshots:
       i18next-fs-backend: 2.6.0
       next: 15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react: 19.0.0
-      react-i18next: 15.5.2(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
+      react-i18next: 15.5.3(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
 
   next@15.2.4(@babel/core@7.27.4)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
@@ -8449,9 +8449,9 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-i18next@15.5.2(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3):
+  react-i18next@15.5.3(i18next@25.2.1(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3):
     dependencies:
-      '@babel/runtime': 7.26.9
+      '@babel/runtime': 7.27.6
       html-parse-stringify: 3.0.1
       i18next: 25.2.1(typescript@5.7.3)
       react: 19.0.0
