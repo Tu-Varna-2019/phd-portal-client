@@ -3,8 +3,8 @@ import Layout from "@/components/main-layout/Layout";
 
 import { SideMenuConstants } from "../_constants/sideMenuConstants";
 import { path } from "../_constants/pathConstant";
-import ExamsGrid from "../../(chairman-member)/_components/ExamsGrid";
 import Translate from "@/lib/helpers/Translate";
+import CommissionsGrid from "../../(chairman-member)/_components/CommissionsGrid";
 
 export default function Page() {
   const { tr } = Translate();
@@ -12,9 +12,9 @@ export default function Page() {
 
   return (
     <Layout
-      headerTitle={tr("Exams")}
+      headerTitle={tr("Commissions")}
       basePath={path}
-      MainView={<ExamsGrid />}
+      MainView={<CommissionsGrid />}
       mainListItems={navigation}
     />
   );
