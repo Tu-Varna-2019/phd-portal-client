@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CandidateAPI from "@/lib/api/candidate";
+import CandidateAPI from "@/api/CandidateAPI";
 import Translate from "@/lib/helpers/Translate";
 
 export default function AutomatedInfoProcessingMngmentSystemsHook() {

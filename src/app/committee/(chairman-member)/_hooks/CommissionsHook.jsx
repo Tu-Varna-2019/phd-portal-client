@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
-import CommitteeAPI from "@/lib/api/committee";
+import CommitteeAPI from "@/lib/api/CommitteeAPI";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { useSelector } from "react-redux";
 import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";

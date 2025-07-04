@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 
 export default function CandidatesHook() {
   const { getCandidates } = DoctoralCenterAPI();

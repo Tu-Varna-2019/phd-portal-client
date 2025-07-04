@@ -1,6 +1,6 @@
 import { renderAvatar } from "@/components/cells-renderers/avatar";
 import { renderButton } from "@/components/cells-renderers/button";
-import FileAPI from "@/lib/api/file";
+import FileAPI from "@/api/FileAPI";
 import Translate from "@/lib/helpers/Translate";
 import { createDataUrl } from "@/lib/helpers/utils";
 

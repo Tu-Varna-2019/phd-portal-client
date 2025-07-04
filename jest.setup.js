@@ -23,7 +23,7 @@ jest.mock("next/navigation", () => ({
   }
 }));
 
-jest.mock("@/lib/api/candidate", () => {
+jest.mock("@/api/CandidateAPI", () => {
   const getContests = jest.fn(() =>
     Promise.resolve([
       {

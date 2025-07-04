@@ -1,4 +1,4 @@
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import DoctoralCenterAdminAPI from "@/api/DoctoralCenterAdminAPI";
 import { formatDateTime, runPeriodically } from "@/helpers/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { cleanColumns, runPeriodically } from "@/lib/helpers/utils";
-import CandidateAPI from "@/lib/api/candidate";
+import CandidateAPI from "@/api/CandidateAPI";
 import Translate from "@/lib/helpers/Translate";
 
 export default function HomeHook() {

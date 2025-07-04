@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { createDataUrl } from "@/lib/helpers/utils";
-import FileAPI from "@/lib/api/file";
+import FileAPI from "@/api/FileAPI";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 import APIWrapper from "@/lib/helpers/APIWrapper";
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/lib/features/user/slices/userMemoSelector";

@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 import Translate from "@/lib/helpers/Translate";
 import { useEffect, useState } from "react";
 import Table from "@/components/main-layout/common/Table";
-import CandidateAPI from "@/lib/api/candidate";
+import CandidateAPI from "@/api/CandidateAPI";
 import { MenuItem, Paper, Select } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import SubjectColumns from "../_constants/subjectColumns";

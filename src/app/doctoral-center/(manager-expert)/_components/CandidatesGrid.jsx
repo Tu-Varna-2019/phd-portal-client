@@ -8,7 +8,7 @@ import Translate from "@/lib/helpers/Translate";
 import { useState } from "react";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
 import APIWrapper from "@/lib/helpers/APIWrapper";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 
 export default function CandidatesGrid() {
   const { candidates } = CandidatesHook();

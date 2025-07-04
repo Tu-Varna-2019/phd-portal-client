@@ -1,5 +1,5 @@
-import LogsAPI from "@/api/logs";
-import NotificationAPI from "@/api/notification";
+import LogsAPI from "@/api/LogsAPI";
+import NotificationAPI from "@/api/NotificationAPI";
 import { useAppDispatch } from "@/features/constants";
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 

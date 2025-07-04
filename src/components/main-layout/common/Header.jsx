@@ -7,7 +7,7 @@ import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
 import MenuButton from "./MenuButton";
 import ColorModeIconDropdown from "../../shared-theme/ColorModeIconDropdown";
 import { useCallback, useEffect, useRef } from "react";
-import NotificationAPI from "@/lib/api/notification";
+import NotificationAPI from "@/api/NotificationAPI";
 import { useAppDispatch } from "@/lib/features/constants";
 import { setNotifications } from "@/lib/features/notification/slices/notificationsSlice";
 import { useSelector } from "react-redux";

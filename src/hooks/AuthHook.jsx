@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Auth from "@/lib/auth/auth";
-import UnauthorizedAPI from "@/api/unauthorized";
+import UnauthorizedAPI from "@/api/UnauthorizedAPI";
 import { useAppDispatch } from "@/features/constants";
 import { setSessionToken } from "@/features/sessionToken/slices/sessionTokenSlice";
 import { useMsal } from "@azure/msal-react";

@@ -1,6 +1,6 @@
 import APIWrapper from "@/helpers/APIWrapper";
 import { filteredNotificationsByIds } from "@/features/notification/slices/notificationsSlice";
-import NotificationAPI from "@/api/notification";
+import NotificationAPI from "@/api/NotificationAPI";
 import { useState } from "react";
 import { useAppDispatch } from "@/features/constants";
 import { useSelector } from "react-redux";

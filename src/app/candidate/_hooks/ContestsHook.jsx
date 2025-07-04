@@ -1,4 +1,4 @@
-import CandidateAPI from "@/lib/api/candidate";
+import CandidateAPI from "@/api/CandidateAPI";
 import Translate from "@/lib/helpers/Translate";
 import { useCallback, useEffect, useMemo, useState } from "react";
 

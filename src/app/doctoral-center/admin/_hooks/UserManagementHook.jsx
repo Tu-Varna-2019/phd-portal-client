@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import DoctoralCenterAdminAPI from "@/api/DoctoralCenterAdminAPI";
 
 import { useSelector } from "react-redux";
 import { selectDoctoralCenter } from "@/features/user/slices/userMemoSelector";

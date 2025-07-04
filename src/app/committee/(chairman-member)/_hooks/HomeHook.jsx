@@ -1,7 +1,7 @@
 import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import { DashboardConstants } from "../_constants/dashboardConstants";
