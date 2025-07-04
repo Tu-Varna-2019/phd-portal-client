@@ -11,16 +11,33 @@ export default function CommissionsHook() {
 
   const { logNotifyAlert } = APIWrapper();
   const signedCommittee = useSelector(selectCommittee);
-  const { createCommission, modifyCommission, getCommissions } = CommitteeAPI();
+  const {
+    createCommission,
+    modifyCommission,
+    getCommissions,
+    getCommittees,
+    deleteCommission
+  } = CommitteeAPI();
 
   const [commissions, setCommisions] = useState();
+  const [allCommittees, setAllCommittees] = useState();
+
   const [newCommissionName, setNewCommissionName] = useState();
 
   const [selectedCommission, setSelectedCommission] = useState({});
+  const [selectedCommittees, setSelectedCommittees] = useState({});
+
   const [isCommissionOpened, setIsCommissionOpened] = useState(false);
   const [isModifyCommissionOpened, setIsModifyCommissionOpened] =
     useState(false);
   const [isCreateCommissionOpened, setIsCreateCommissionOpened] =
+    useState(false);
+
+  const [openConfirmCreateDialogYesNo, setOpenConfirmCreateDialogYesNo] =
+    useState(false);
+  const [openConfirmModifyDialogYesNo, setOpenConfirmModifyDialogYesNo] =
+    useState(false);
+  const [openConfirmDeleteDialogYesNo, setOpenConfirmDeleteDialogYesNo] =
     useState(false);
 
   const fetchCommissions = useCallback(async () => {
@@ -38,18 +55,60 @@ export default function CommissionsHook() {
     setCommisions(commissionsResponse);
   }, [language]);
 
+  //TODO: Fetch only when needed (when user is in modify or create state)
+  const fetchAllCommittees = useCallback(async () => {
+    if (signedCommittee.role.role == "chairman") {
+      const committeesResponse = await getCommittees();
+      committeesResponse.forEach((committee, index) => {
+        committee.id = index;
+        committee.role = tr(committee.role);
+      });
+
+      setAllCommittees(committeesResponse);
+    }
+  }, [language]);
+
   useEffect(() => {
     fetchCommissions();
+    fetchAllCommittees();
     return runPeriodically(() => {
       fetchCommissions();
+      fetchAllCommittees();
     });
-  }, [fetchCommissions]);
+  }, [fetchCommissions, fetchAllCommittees]);
+
+  useEffect(() => {
+    if (!isModifyCommissionOpened || selectedCommission == null) {
+      return;
+    }
+    setNewCommissionName(selectedCommission.name);
+
+    const selectedCommitteesIDs = [];
+    selectedCommission.committees.forEach((committee) => {
+      selectedCommitteesIDs.push(committee.id);
+    });
+    console.log(
+      `Selected Commission: ${JSON.stringify(selectedCommitteesIDs)}`
+    );
+
+    setSelectedCommittees(selectedCommitteesIDs);
+  }, [isModifyCommissionOpened, selectedCommission]);
+
+  useEffect(() => {
+    if (!isCreateCommissionOpened || selectedCommission == null) {
+      return;
+    }
+    setNewCommissionName("");
+    setSelectedCommittees([]);
+  }, [isCreateCommissionOpened, selectedCommission]);
 
   const onCreateCommissionOnClick = async () => {
-    await createCommission(
-      selectedCommission.name,
-      selectedCommission.committees
+    const committees = allCommittees.filter((elem) =>
+      selectedCommittees.includes(elem.id)
     );
+    committees.push({ oid: signedCommittee.oid });
+
+    await createCommission(newCommissionName, committees);
 
     logNotifyAlert({
       title:
@@ -81,6 +140,7 @@ export default function CommissionsHook() {
       newCommissionName,
       selectedCommission.committees
     );
+
     logNotifyAlert({
       title:
         `Член от комитета: ${signedCommittee.name} промени комитет: ` +
@@ -105,6 +165,33 @@ export default function CommissionsHook() {
     });
   };
 
+  const onDeleteCommissionOnClick = async () => {
+    await deleteCommission(selectedCommission.name);
+
+    logNotifyAlert({
+      title:
+        `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
+        selectedCommission.name,
+      description:
+        `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
+        selectedCommission.name,
+      message:
+        tr("You have successfully") +
+        " " +
+        tr("deleted") +
+        " " +
+        tr("commission") +
+        " " +
+        selectedCommission.name,
+      action:
+        `Потребителят ${signedCommittee.name} изтри комитет: ` +
+        selectedCommission.name,
+      level: "success",
+      scope: "group",
+      group: "committee"
+    });
+  };
+
   return {
     signedCommittee,
     commissions,
@@ -119,6 +206,16 @@ export default function CommissionsHook() {
     isModifyCommissionOpened,
     setIsModifyCommissionOpened,
     isCreateCommissionOpened,
-    setIsCreateCommissionOpened
+    setIsCreateCommissionOpened,
+    allCommittees,
+    selectedCommittees,
+    setSelectedCommittees,
+    openConfirmCreateDialogYesNo,
+    setOpenConfirmCreateDialogYesNo,
+    onDeleteCommissionOnClick,
+    openConfirmModifyDialogYesNo,
+    setOpenConfirmModifyDialogYesNo,
+    openConfirmDeleteDialogYesNo,
+    setOpenConfirmDeleteDialogYesNo
   };
 }

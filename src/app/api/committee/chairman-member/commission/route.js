@@ -19,6 +19,7 @@ export async function POST(request) {
     request: request
   });
 }
+
 export async function PUT(request) {
   return await route({
     url: url + "/commission",

@@ -35,6 +35,20 @@ export default function CommitteeAPI() {
     });
   };
 
+  const getCommittees = async () => {
+    return await route({
+      url: `${API_SHARED_URL}/committees`,
+      method: "GET"
+    });
+  };
+
+  const deleteCommission = async (name) => {
+    return await route({
+      url: `${API_SHARED_URL}/commission/${name}`,
+      method: "DELETE"
+    });
+  };
+
   const createCommission = async (name, committees) => {
     const committeOids = [];
     committees.forEach((committee) => {
@@ -86,6 +100,8 @@ export default function CommitteeAPI() {
     getCommissions,
     evaluateGrade,
     createCommission,
-    modifyCommission
+    modifyCommission,
+    getCommittees,
+    deleteCommission
   };
 }

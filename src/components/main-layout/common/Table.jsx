@@ -1,12 +1,14 @@
 import { DataGrid } from "@mui/x-data-grid";
 
 export default function Table({
-  key = 0,
+  key,
   rows,
+  selectedRows,
   columns,
   checkboxEnabled = false,
   disableMultiCheckboxSelection = false,
   onRowSelect,
+  onRowSelectDisable = false,
   density = "compact" // compact, comfortable, ...
 }) {
   return (
@@ -14,8 +16,10 @@ export default function Table({
       key={key}
       rows={rows}
       columns={columns}
+      rowSelectionModel={selectedRows}
       checkboxSelection={checkboxEnabled}
       onRowSelectionModelChange={onRowSelect}
+      isRowSelectable={onRowSelectDisable}
       disableMultipleRowSelection={disableMultiCheckboxSelection}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
