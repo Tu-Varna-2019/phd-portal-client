@@ -3,7 +3,7 @@ import AlertBox from "@/common/AlertBox";
 import Table from "@/components/main-layout/common/Table";
 import CandidateConstants from "../_constants/CandidatesConstants";
 import CandidatesHook from "../_hooks/CandidatesHook";
-import { Button, ButtonGroup, Card, Stack, Typography } from "@mui/material";
+import { Button, ButtonGroup, Stack, Typography } from "@mui/material";
 import Translate from "@/lib/helpers/Translate";
 import { useState } from "react";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
@@ -78,118 +78,107 @@ export default function CandidatesGrid() {
           open={isCandidateSelected}
           setOpen={setIsCandidateSelected}
         >
-          <Card
-            sx={{
-              padding: 3,
-              borderRadius: 2,
-              boxShadow: 3,
-              maxWidth: 400,
-              margin: "auto"
-            }}
+          <Typography
+            component="h2"
+            variant="h6"
+            sx={{ mb: 3, fontWeight: "bold", color: "#333" }}
           >
-            <Typography
-              component="h2"
-              variant="h6"
-              sx={{ mb: 3, fontWeight: "bold", color: "#333" }}
-            >
-              {tr("Details")}
+            {tr("Details")}
+          </Typography>
+
+          <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("name")}:</strong> {selectedCandidate.name}
             </Typography>
 
-            <Stack direction="column" spacing={2} sx={{ textAlign: "left" }}>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("name")}:</strong> {selectedCandidate.name}
-              </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("email")}:</strong> {selectedCandidate.email}
+            </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("email")}:</strong> {selectedCandidate.email}
-              </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Progress in exam")}:</strong>{" "}
+              {selectedCandidate.exam_step}
+            </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Progress in exam")}:</strong>{" "}
-                {selectedCandidate.exam_step}
-              </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("pin")}:</strong> {selectedCandidate.pin}
+            </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("pin")}:</strong> {selectedCandidate.pin}
-              </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Biography")}:</strong>
+              <Button
+                onClick={() =>
+                  downloadBiography(
+                    selectedCandidate.name,
+                    selectedCandidate.biography
+                  )
+                }
+              >
+                {tr("Click to view")}
+              </Button>
+            </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Biography")}:</strong>
-                <Button
-                  onClick={() =>
-                    downloadBiography(
-                      selectedCandidate.name,
-                      selectedCandidate.biography
-                    )
-                  }
-                >
-                  {tr("Click to view")}
-                </Button>
-              </Typography>
-
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Country")}:</strong> {selectedCandidate.country}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("City")}:</strong> {selectedCandidate.city}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Address")}:</strong> {selectedCandidate.address}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Post code")}:</strong>{" "}
-                {selectedCandidate.post_code}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Faculty")}:</strong> {selectedCandidate.faculty}
-              </Typography>
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Curriculum")}:</strong>{" "}
-                {selectedCandidate.curriculum}
-              </Typography>
-            </Stack>
-            <ButtonGroup
-              variant="outlined"
-              aria-label="Approve/Deny application"
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Country")}:</strong> {selectedCandidate.country}
+            </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("City")}:</strong> {selectedCandidate.city}
+            </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Address")}:</strong> {selectedCandidate.address}
+            </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Post code")}:</strong> {selectedCandidate.post_code}
+            </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Faculty")}:</strong> {selectedCandidate.faculty}
+            </Typography>
+            <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
+              <strong>{tr("Curriculum")}:</strong>{" "}
+              {selectedCandidate.curriculum}
+            </Typography>
+          </Stack>
+          <ButtonGroup
+            variant="outlined"
+            aria-label="Approve/Deny application"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              backgroundColor: "background.paper",
+              boxShadow: 3
+            }}
+          >
+            <Button
+              onClick={async () => await processApplication("approved")}
+              variant="contained"
+              color="success"
+              loading={isActionLoading}
+              loadingPosition="start"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-                backgroundColor: "background.paper",
-                boxShadow: 3
+                borderRadius: "999px",
+                textTransform: "none",
+                fontWeight: "bold"
               }}
             >
-              <Button
-                onClick={async () => await processApplication("approved")}
-                variant="contained"
-                color="success"
-                loading={isActionLoading}
-                loadingPosition="start"
-                sx={{
-                  borderRadius: "999px",
-                  textTransform: "none",
-                  fontWeight: "bold"
-                }}
-              >
-                ✅ {tr("Approve application")}
-              </Button>
+              ✅ {tr("Approve application")}
+            </Button>
 
-              <Button
-                onClick={async () => await processApplication("rejected")}
-                variant="outlined"
-                color="error"
-                loading={isActionLoading}
-                loadingPosition="start"
-                sx={{
-                  borderRadius: "999px",
-                  textTransform: "none",
-                  fontWeight: "bold"
-                }}
-              >
-                ❌ {tr("Deny application")}
-              </Button>
-            </ButtonGroup>
-          </Card>
+            <Button
+              onClick={async () => await processApplication("rejected")}
+              variant="outlined"
+              color="error"
+              loading={isActionLoading}
+              loadingPosition="start"
+              sx={{
+                borderRadius: "999px",
+                textTransform: "none",
+                fontWeight: "bold"
+              }}
+            >
+              ❌ {tr("Deny application")}
+            </Button>
+          </ButtonGroup>
         </OverflowBox>
       )}
     </Box>

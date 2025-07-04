@@ -10,7 +10,7 @@ export default function CommissionsHook() {
   const { language, tr } = Translate();
 
   const { logNotifyAlert } = APIWrapper();
-  const { signedCommittee } = useSelector(selectCommittee);
+  const signedCommittee = useSelector(selectCommittee);
   const { createCommission, modifyCommission, getCommissions } = CommitteeAPI();
 
   const [commissions, setCommisions] = useState();
@@ -18,6 +18,10 @@ export default function CommissionsHook() {
 
   const [selectedCommission, setSelectedCommission] = useState({});
   const [isCommissionOpened, setIsCommissionOpened] = useState(false);
+  const [isModifyCommissionOpened, setIsModifyCommissionOpened] =
+    useState(false);
+  const [isCreateCommissionOpened, setIsCreateCommissionOpened] =
+    useState(false);
 
   const fetchCommissions = useCallback(async () => {
     const commissionsResponse = await getCommissions();
@@ -111,6 +115,10 @@ export default function CommissionsHook() {
     onCreateCommissionOnClick,
     onModifyCommissionOnClick,
     isCommissionOpened,
-    setIsCommissionOpened
+    setIsCommissionOpened,
+    isModifyCommissionOpened,
+    setIsModifyCommissionOpened,
+    isCreateCommissionOpened,
+    setIsCreateCommissionOpened
   };
 }
