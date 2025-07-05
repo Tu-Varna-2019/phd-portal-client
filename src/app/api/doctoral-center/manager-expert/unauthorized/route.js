@@ -5,8 +5,17 @@ const { route } = ServerRoute();
 
 export async function GET() {
   return await route({
-    url: url + "/unauthorized-users",
+    url: url + "/unauthorized",
     method: "GET",
     getResultData: true
+  });
+}
+
+export async function POST(request) {
+  return await route({
+    url: url + "/unauthorized",
+    method: "POST",
+    request: request,
+    queryParams: ["group"]
   });
 }

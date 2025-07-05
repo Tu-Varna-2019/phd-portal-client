@@ -6,7 +6,7 @@ import APIWrapper from "@/lib/helpers/APIWrapper";
 import Unauthorized from "@/models/Unauthorized";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
-import { runPeriodically } from "@/lib/helpers/utils";
+import { formatDateTime, runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersHook() {
@@ -28,7 +28,11 @@ export default function UnauthorizedUsersHook() {
   const [groupOption, setGroupOption] = useState("");
 
   const fetchUnauthorizedUsers = useCallback(async () => {
-    setUnauthUsers(await getUnauthorizedUsers());
+    const unauthUsersResponse = await getUnauthorizedUsers();
+    unauthUsersResponse.forEach((unauth) => {
+      unauth.formattedTimestamp = formatDateTime(unauth.timestamp);
+    });
+    setUnauthUsers(unauthUsersResponse);
   }, [language]);
 
   const fetchDocCenterRoles = useCallback(async () => {
@@ -84,13 +88,14 @@ export default function UnauthorizedUsersHook() {
   const authorizeUsers = async (unauthorizedUsers) => {
     const normalizedUnauthUsers =
       Unauthorized.getServerFormatList(unauthorizedUsers);
-    await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
+    await setUnauthorizedUserGroup(normalizedUnauthUsers, tr(groupOption));
   };
 
   const onButtonPermitOnClick = async () => {
     const unauthorizedUsers = unauthUsers.filter((elem) =>
       selectedUsers.includes(elem.id)
     );
+
     await authorizeUsers(unauthorizedUsers);
 
     const message = [];

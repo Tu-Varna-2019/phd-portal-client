@@ -5,7 +5,7 @@ const { route } = ServerRoute();
 
 export async function GET(request) {
   return await route({
-    url: url + "/commission",
+    url: url + "/commissions",
     method: "GET",
     getResultData: true,
     request: request

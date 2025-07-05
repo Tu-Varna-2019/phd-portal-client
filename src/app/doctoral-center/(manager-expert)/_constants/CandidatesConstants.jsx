@@ -112,22 +112,21 @@ export default function CandidateConstants() {
 
   const examColumns = [
     {
-      field: "grade",
-      headerName: tr("grade"),
-      display: "flex",
-      renderCell: renderAvatar,
-      sortable: true,
-      filterable: false
-    },
-    {
       field: "evalDate",
       headerName: tr("evaluation date"),
       display: "flex"
     },
-    { field: "email", headerName: tr("email"), flex: 1.5, minWidth: 200 },
     {
       field: "commission name",
-      headerName: tr("name of the commission"),
+      headerName: tr("Name of the commission"),
+      renderCell: (params) => {
+        const name = params.row?.commission?.name;
+        const color = params.row?.avatar;
+
+        if (!name) return null;
+
+        return <div style={{ color }}>{name}</div>;
+      },
       flex: 1,
       minWidth: 150
     },

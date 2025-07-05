@@ -6,14 +6,16 @@ import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 
 export default function UnauthorizedUsersHook() {
+  const { tr, language } = Translate();
   const { logNotifyAlert } = APIWrapper();
-  const [unauthUsers, setUnauthUsers] = useState([]);
   const { getUnauthorizedUsers, setUnauthorizedUserGroup, getDocCenterRoles } =
     DoctoralCenterAPI();
+
+  const [unauthUsers, setUnauthUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [groupOption, setGroupOption] = useState("");
-  const { tr, language } = Translate();
+
   const [docCenterRoles, setDoctorCenterRoles] = useState([]);
+  const [groupOption, setGroupOption] = useState("");
 
   const fetchUnauthorizedUsers = useCallback(async () => {
     setUnauthUsers(await getUnauthorizedUsers());
@@ -43,14 +45,17 @@ export default function UnauthorizedUsersHook() {
   const authorizeUsers = async (unauthorizedUsers) => {
     const normalizedUnauthUsers =
       Unauthorized.getServerFormatList(unauthorizedUsers);
-    await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
+    await setUnauthorizedUserGroup(
+      normalizedUnauthUsers,
+      tr(groupOption, "en")
+    );
   };
-
   const onButtonPermitOnClick = async () => {
     const unauthorizedUsers = unauthUsers.filter((elem) =>
       selectedUsers.includes(elem.id)
     );
     await authorizeUsers(unauthorizedUsers);
+
     unauthorizedUsers.map((user) => {
       logNotifyAlert({
         title: "Потребител добавен в системата",

@@ -9,7 +9,7 @@ export default function EventManagementConstants() {
       field: "description",
       headerName: tr("description"),
       flex: 1.5,
-      minWidth: 200
+      minWidth: 300
     },
     {
       field: "formattedTimestamp",
@@ -23,7 +23,7 @@ export default function EventManagementConstants() {
       headerAlign: "right",
       align: "right",
       flex: 1,
-      minWidth: 250
+      minWidth: 350
     },
     {
       field: "level",

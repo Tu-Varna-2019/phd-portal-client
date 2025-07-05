@@ -4,7 +4,7 @@ import { url } from "../../../../url";
 const { route } = ServerRoute();
 
 export async function PATCH(request, { params }) {
-  const { type } = params;
+  const { type } = await params;
 
   return await route({
     url: url + `/grade/evaluate/${type}`,

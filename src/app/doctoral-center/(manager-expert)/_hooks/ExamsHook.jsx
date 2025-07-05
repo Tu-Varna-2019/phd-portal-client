@@ -15,15 +15,18 @@ export default function ExamsHook() {
   const { logNotifyAlert } = APIWrapper();
   const { download } = FileAPI();
   const { language, tr } = Translate();
-  const { getGrades, getcommission } = DoctoralCenterAPI();
+  const { getGrades, getCommissions } = DoctoralCenterAPI();
   const [exams, setExams] = useState();
-  const [commissions, setcommissions] = useState();
+  const [commissions, setCommissions] = useState();
 
   const [selectedExam, setSelectedExam] = useState({});
   const [selectedCommission, setSelectedCommission] = useState();
 
   const [isExamOpened, setIsExamOpened] = useState(false);
-  const [iscommissionOpened, setIscommissionOpened] = useState(false);
+  const [isCommissionOpened, setIsCommissionOpened] = useState(false);
+  const [isModifyCommissionOpened, setIsModifyCommissionOpened] =
+    useState(false);
+
   const [isSetCommitteeLoading, setIsSetCommitteeLoading] = useState(false);
 
   const fetchExams = useCallback(async () => {
@@ -36,23 +39,23 @@ export default function ExamsHook() {
     setExams(examsResponse);
   }, [language]);
 
-  const fetchcommissions = useCallback(async () => {
-    const commissionsResponse = await getcommission();
+  const fetchCommissions = useCallback(async () => {
+    const commissionsResponse = await getCommissions();
 
     commissionsResponse.forEach((commission, index) => {
       commission.id = index;
     });
-    setcommissions(commissionsResponse);
+    setCommissions(commissionsResponse);
   }, [language]);
 
   useEffect(() => {
     fetchExams();
-    fetchcommissions();
+    fetchCommissions();
     return runPeriodically(() => {
       fetchExams();
-      fetchcommissions();
+      fetchCommissions();
     });
-  }, [fetchExams, fetchcommissions]);
+  }, [fetchExams, fetchCommissions]);
 
   const openGradeAttachmentOnClick = async (attachment) => {
     const blobData = await download(`grades/${attachment}`);
@@ -64,7 +67,7 @@ export default function ExamsHook() {
     window.open(dataUrl, "_blank", "noopener,noreferrer");
   };
 
-  const setcommissionOnClick = async () => {
+  const setCommissionOnClick = async () => {
     setIsSetCommitteeLoading(true);
     const id = selectedExam.gradeId;
     const name = selectedCommission.name;
@@ -93,20 +96,61 @@ export default function ExamsHook() {
     setIsSetCommitteeLoading(true);
   };
 
+  const setModifyCommissionOnClick = async () => {
+    setIsSetCommitteeLoading(true);
+    const id = selectedExam.gradeId;
+    const name = selectedCommission.name;
+
+    const result = await setCommissionOnGrade(id, name);
+    if (result != []) {
+      logNotifyAlert({
+        title: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
+        description: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
+        message: `Успешно зададохте комитет: ${name} към оценка с id: ${id}`,
+        action: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
+        level: "success",
+        scope: "group",
+        group: "expert-manager"
+      });
+    } else {
+      console.error("Error in setting commission to grade: " + id);
+      logAlert({
+        message: tr("Проблем, моля пробвайте по-късно"),
+        description: "Проблем, моля пробвайте по-късно",
+        action: "Проблем, моля пробвайте по-късно",
+        level: "error"
+      });
+    }
+
+    setIsSetCommitteeLoading(false);
+  };
+
+  const showCommissionPageOnClick = () => {
+    setIsCommissionOpened(true);
+  };
+
+  const showModifyCommissionPageOnClick = () => {
+    setIsModifyCommissionOpened(true);
+  };
+
   return {
     exams,
     commissions,
     openGradeAttachmentOnClick,
-    setcommissionOnClick,
+    setCommissionOnClick,
     selectedExam,
     setSelectedExam,
     selectedCommission,
     isExamOpened,
     setIsExamOpened,
-    iscommissionOpened,
+    isCommissionOpened,
+    isModifyCommissionOpened,
     isSetCommitteeLoading,
     setIsCommissionOpened,
+    setIsModifyCommissionOpened,
     setSelectedCommission,
-    showCommissionPageOnClick
+    showCommissionPageOnClick,
+    showModifyCommissionPageOnClick,
+    setModifyCommissionOnClick
   };
 }
