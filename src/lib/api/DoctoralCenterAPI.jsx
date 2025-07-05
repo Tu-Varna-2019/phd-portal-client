@@ -42,9 +42,9 @@ export default function DoctoralCenterAPI() {
     });
   };
 
-  const getCommission = async () => {
+  const getCommissions = async () => {
     return await route({
-      url: `${API_URL}/commission`,
+      url: `${API_URL}/commissions`,
       method: "GET"
     });
   };
@@ -70,7 +70,7 @@ export default function DoctoralCenterAPI() {
     getDocCenterRoles,
     review,
     getGrades,
-    getCommission,
+    getCommissions,
     setCommissionOnGrade
   };
 }
