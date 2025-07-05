@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { createDataUrl } from "@/lib/helpers/utils";
-import FileAPI from "@/lib/api/file";
+import FileAPI from "@/api/FileAPI";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
-import CommitteeAPI from "@/lib/api/committee";
+import CommitteeAPI from "@/lib/api/CommitteeAPI";
 import { useSelector } from "react-redux";
 import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 import APIWrapper from "@/lib/helpers/APIWrapper";

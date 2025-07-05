@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import UnauthorizedUsers from "@/models/UnauthorizedUsers";
+import Unauthorized from "@/models/Unauthorized";
 import APIWrapper from "@/lib/helpers/APIWrapper";
-import DoctoralCenterAPI from "@/lib/api/doctoralCenter";
+import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 
@@ -42,7 +42,7 @@ export default function UnauthorizedUsersHook() {
 
   const authorizeUsers = async (unauthorizedUsers) => {
     const normalizedUnauthUsers =
-      UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
+      Unauthorized.getServerFormatList(unauthorizedUsers);
     await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
   };
 

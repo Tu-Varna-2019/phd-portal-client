@@ -1,50 +1,80 @@
-# This is a [Next.js](https://nextjs.org) project bootstrapped with
+# 🎓 Designing and implementing a Doctoral Admission and Training System 🎓
 
-[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![License](https://img.shields.io/github/license/Tu-Varna-2019/phd-portal-client)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Dependabot Updates](https://github.com/Tu-Varna-2019/phd-portal-client/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Tu-Varna-2019/phd-portal-server/actions/workflows/dependabot/dependabot-updates)
+[![Create and publish a Docker image](https://github.com/Tu-Varna-2019/phd-portal-client/actions/workflows/docker-publish.yaml/badge.svg)](https://github.com/Tu-Varna-2019/phd-portal-server/actions/workflows/docker-publish.yaml)
+[![Security scanning](https://github.com/Tu-Varna-2019/phd-portal-client/actions/workflows/security-scan.yaml/badge.svg)](https://github.com/Tu-Varna-2019/phd-portal-server/actions/workflows/security-scan.yaml)
+[![Test](https://github.com/Tu-Varna-2019/phd-portal-client/actions/workflows/test.yaml/badge.svg)](https://github.com/Tu-Varna-2019/phd-portal-server/actions/workflows/test.yaml)
+[![GitHub release](https://img.shields.io/github/v/release/Tu-Varna-2019/phd-portal-client)](#)
+[![GitHub release date](https://img.shields.io/github/release-date/Tu-Varna-2019/phd-portal-client)](#)
+[![itHub last commit](https://img.shields.io/github/last-commit/Tu-Varna-2019/phd-portal-client)](#)
 
-## Getting Started
+## 🚀 About
 
-First, run the development server:
+The project should develop an engineering solution for digitizing an information system for doctoral students and candidates in order to be used by higher education institutions, which would integrate into the systematic process for the management and management of the so -called "digital university".
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🎉 Getting started
+
+### ✅ Prerequisites
+
+In order to run the app, make sure you have installed the following dependencies
+
+| Program |                     URL                     |
+| :------ | :-----------------------------------------: |
+| NodeJs  | [NodeJs](https://www.java.com/en/download/) |
+
+> If you are using Nix or NixOS you can install them in flake.nix via _devenv_
+
+### 🌱 Setup
+
+1. Add your env vars in `.env` file.
+
+### 🏗️ Build via Docker
+
+```sh
+docker build -t IliyanKostov9/phd-client:1.0.0 .
+# Or
+make docker-build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the
-result.
+### 🛠️ Install the deps
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates
-as you edit the file.
+```sh
+pnpm i
+# Or
+make install
+```
 
-This project uses
-[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
-to automatically optimize and load [Geist](https://vercel.com/font), a new font
-family for Vercel.
+### 🏃 Run
 
-## Learn More
+```sh
+pnpm run dev --experimental-https
+# Or
+make run
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🧑‍💻 Commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command             | Description                                    |
+| :------------------ | :--------------------------------------------- |
+| make help           | Show available commands with their description |
+| make all            | Run all commands at once                       |
+| make run            | Run the app                                    |
+| make test           | Run tests                                      |
+| make cypress        | Run e2e tests                                  |
+| make clean          | Uninstall the deps                             |
+| make install        | Install the deps                               |
+| make elastic-attach | Attach to the Elastic search TUI via _devenv_  |
 
-You can check out
-[the Next.js GitHub repository](https://github.com/vercel/next.js) - your
-feedback and contributions are welcome!
+#### 📚 Docs
 
-## Deploy on Vercel
+- [ Javascript ](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [ ReactJS ](https://react.dev/)
+- [ NextJS ](https://nextjs.org/docs)
+- [ Docker ](https://docs.docker.com/)
+- [ Nix ](https://nix.dev/manual/nix/2.18/)
+- [ MaterialUI ](https://mui.com/)
 
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+### 📃 License
 
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
-for more details.
+This product is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl-3.0.en.html)

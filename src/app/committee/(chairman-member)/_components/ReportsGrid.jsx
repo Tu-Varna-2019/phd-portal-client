@@ -8,7 +8,7 @@ import Translate from "@/lib/helpers/Translate";
 import OverflowBox from "@/components/main-layout/common/OverflowBox";
 import ConfirmDialogComboBox from "@/components/dialog-box/ConfirmDialogComboBox";
 
-export default function ExamsGrid() {
+export default function ReportsGrid() {
   const { tr } = Translate();
   const {
     exams,
@@ -27,18 +27,15 @@ export default function ExamsGrid() {
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
-      <div style={{ height: 400, width: "100%" }}>
-        <Table
-          rows={exams}
-          columns={examColumns}
-          checkboxEnabled
-          showToolbar
-          onRowSelect={(index) => {
-            if (exams[index] != undefined) setSelectedExam(exams[index]);
-            setIsExamOpened(true);
-          }}
-        />
-      </div>
+      <Table
+        rows={exams}
+        columns={examColumns}
+        checkboxEnabled
+        onRowSelect={(index) => {
+          if (exams[index] != undefined) setSelectedExam(exams[index]);
+          setIsExamOpened(true);
+        }}
+      />
       <AlertBox />
 
       <OverflowBox open={isExamOpened} setOpen={setIsExamOpened}>

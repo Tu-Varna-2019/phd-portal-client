@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Divider from "@mui/material/Divider";
 import SimpleTable from "@/components/main-layout/common/SimpleTable";
 import { useState } from "react";
-import CandidateAPI from "@/lib/api/candidate";
+import CandidateAPI from "@/api/CandidateAPI";
 import { dataUrlToBlob } from "@/lib/helpers/utils";
 import { useAppDispatch } from "@/lib/features/constants";
 import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";

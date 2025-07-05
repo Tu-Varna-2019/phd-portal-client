@@ -1,6 +1,6 @@
 import Log from "@/models/Log";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import DoctoralCenterAdminAPI from "@/api/doctoralCenterAdmin";
+import DoctoralCenterAdminAPI from "@/api/DoctoralCenterAdminAPI";
 import { getMonth, runPeriodically } from "@/helpers/utils";
 import HomeConstants from "../_constants/dashboardConstants";
 import Translate from "@/lib/helpers/Translate";

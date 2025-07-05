@@ -11,3 +11,20 @@ export async function GET(request) {
     request: request
   });
 }
+
+export async function POST(request) {
+  return await route({
+    url: url + "/commission",
+    method: "POST",
+    request: request
+  });
+}
+
+export async function PUT(request) {
+  return await route({
+    url: url + "/commission",
+    method: "PUT",
+    request: request,
+    queryParams: ["name"]
+  });
+}
