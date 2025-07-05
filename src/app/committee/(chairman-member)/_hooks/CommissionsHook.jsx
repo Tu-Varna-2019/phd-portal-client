@@ -63,6 +63,9 @@ export default function CommissionsHook() {
         committee.id = index;
         committee.role = tr(committee.role);
       });
+      committeesResponse.sort(
+        (prevCommittee, currCommittee) => prevCommittee.id > currCommittee.id
+      );
 
       setAllCommittees(committeesResponse);
     }
@@ -83,13 +86,17 @@ export default function CommissionsHook() {
     }
     setNewCommissionName(selectedCommission.name);
 
-    const selectedCommitteesIDs = [];
-    selectedCommission.committees.forEach((committee) => {
-      selectedCommitteesIDs.push(committee.id);
-    });
-    console.log(
-      `Selected Commission: ${JSON.stringify(selectedCommitteesIDs)}`
+    const selectedCommitteesOids = [];
+    selectedCommission.committees.forEach((committee) =>
+      selectedCommitteesOids.push(committee.oid)
     );
+
+    const selectedCommitteesIDs = [];
+    allCommittees
+      .filter((committee) => selectedCommitteesOids.includes(committee.oid))
+      .forEach((committee) => {
+        selectedCommitteesIDs.push(committee.id);
+      });
 
     setSelectedCommittees(selectedCommitteesIDs);
   }, [isModifyCommissionOpened, selectedCommission]);
