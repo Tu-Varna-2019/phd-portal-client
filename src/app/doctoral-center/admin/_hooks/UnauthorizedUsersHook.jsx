@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/features/constants";
 
 import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/lib/helpers/APIWrapper";
-import UnauthorizedUsers from "@/models/UnauthorizedUsers";
+import Unauthorized from "@/models/Unauthorized";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { UnauthorizedUsersColunms } from "../_constants/unauthorizedUsersColumns";
 import { runPeriodically } from "@/lib/helpers/utils";
@@ -83,7 +83,7 @@ export default function UnauthorizedUsersHook() {
 
   const authorizeUsers = async (unauthorizedUsers) => {
     const normalizedUnauthUsers =
-      UnauthorizedUsers.getServerFormatList(unauthorizedUsers);
+      Unauthorized.getServerFormatList(unauthorizedUsers);
     await setUnauthorizedUserGroup(normalizedUnauthUsers, groupOption);
   };
 
