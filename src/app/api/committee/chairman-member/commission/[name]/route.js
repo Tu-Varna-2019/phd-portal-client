@@ -1,5 +1,5 @@
 import ServerRoute from "@/lib/api/router/server";
-import { url } from "../../url";
+import { url } from "../../../url";
 
 const { route } = ServerRoute();
 

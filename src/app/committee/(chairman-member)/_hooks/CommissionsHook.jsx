@@ -142,11 +142,16 @@ export default function CommissionsHook() {
   };
 
   const onModifyCommissionOnClick = async () => {
-    await modifyCommission(
-      selectedCommission.name,
-      newCommissionName,
-      selectedCommission.committees
+    const committeesOids = allCommittees.filter((elem) =>
+      selectedCommittees.includes(elem.id)
     );
+    committeesOids.push({ oid: signedCommittee.oid });
+
+    await modifyCommission({
+      name: selectedCommission.name,
+      newName: newCommissionName,
+      committeOids: committeesOids
+    });
 
     logNotifyAlert({
       title:

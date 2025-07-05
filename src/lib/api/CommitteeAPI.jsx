@@ -65,12 +65,7 @@ export default function CommitteeAPI() {
     });
   };
 
-  const modifyCommission = async ({ name, newName, committees }) => {
-    const committeOids = [];
-    committees.forEach((committee) => {
-      committeOids.push({ oid: committee.oid });
-    });
-
+  const modifyCommission = async ({ name, newName, committeOids }) => {
     return await route({
       url: `${API_SHARED_URL}/commission?name=${newName}`,
       method: "PUT",
