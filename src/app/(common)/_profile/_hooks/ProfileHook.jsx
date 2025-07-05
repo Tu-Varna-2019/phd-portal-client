@@ -3,7 +3,7 @@ import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/helpers/APIWrapper";
 import { useState } from "react";
 import Auth from "@/lib/auth/auth";
-import FileAPI from "@/api/file";
+import FileAPI from "@/api/FileAPI";
 import { useAppDispatch } from "@/features/constants";
 import Translate from "@/lib/helpers/Translate";
 
