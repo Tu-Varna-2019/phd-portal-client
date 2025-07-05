@@ -49,7 +49,7 @@ export default function HomeConstants() {
       color: "hsl(220, 25%, 65%)"
     },
     {
-      name: tr("teacher"),
+      name: tr("committee"),
       value: 0,
       icon: <Groups2Icon />,
       color: "hsl(220, 25%, 45%)"
@@ -77,7 +77,7 @@ export default function HomeConstants() {
   const userGroupsPieChartStruct = [
     { label: tr("unauthorized"), value: 0 },
     { label: tr("phd"), value: 0 },
-    { label: tr("teacher"), value: 0 },
+    { label: tr("committee"), value: 0 },
     { label: tr("manager of doctoral center"), value: 0 },
     { label: tr("expert of doctoral center"), value: 0 },
     { label: tr("admins"), value: 0 }
