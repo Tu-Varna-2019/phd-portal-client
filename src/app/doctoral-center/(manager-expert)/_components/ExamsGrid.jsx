@@ -23,10 +23,14 @@ export default function ExamsGrid() {
     isExamOpened,
     setIsExamOpened,
     isCommissionOpened,
+    isModifyCommissionOpened,
+    showModifyCommissionPageOnClick,
     isSetCommitteeLoading,
     setIsCommissionOpened,
+    setIsModifyCommissionOpened,
     setSelectedCommission,
-    showCommissionPageOnClick
+    showCommissionPageOnClick,
+    setModifyCommissionOnClick
   } = ExamsHook();
   const { examColumns, commissionColumns } = CandidateConstants();
 
@@ -54,7 +58,7 @@ export default function ExamsGrid() {
       />
 
       <OverflowBox open={isExamOpened} setOpen={setIsExamOpened}>
-        {isExamOpened && !isCommissionOpened && (
+        {isExamOpened && (
           <>
             <Typography
               component="h2"
@@ -86,17 +90,17 @@ export default function ExamsGrid() {
                   variant="body1"
                   sx={{ color: "#555" }}
                 >
-                  <strong>{tr("name of the commission")}:</strong>{" "}
+                  <strong>{tr("Name of the commission")}:</strong>{" "}
                   {selectedExam.commission.name}
                 </Typography>
               )}
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("report")}:</strong> {selectedExam.report}
+                <strong>{tr("Report")}:</strong> {selectedExam.report}
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("subject")}:</strong> {selectedExam.subject}
+                <strong>{tr("Subject")}:</strong> {selectedExam.subject}
               </Typography>
 
               <Typography component="h1" variant="body2" sx={{ color: "#555" }}>
@@ -114,7 +118,7 @@ export default function ExamsGrid() {
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
                 <strong>{tr("Type")}:</strong>{" "}
-                {selectedExam.evaluatedUser.group}
+                {tr(selectedExam.evaluatedUser.group)}
               </Typography>
 
               {selectedExam.attachments != undefined && (
@@ -137,12 +141,20 @@ export default function ExamsGrid() {
                 </Typography>
               )}
             </Stack>
-            {selectedExam.commission == undefined && (
+            {selectedExam.commission == null && (
               <Button
                 onClick={() => showCommissionPageOnClick()}
                 loadingPosition="start"
               >
                 {tr("Set commission")}
+              </Button>
+            )}
+            {selectedExam.commission != undefined && (
+              <Button
+                onClick={() => showModifyCommissionPageOnClick()}
+                loadingPosition="start"
+              >
+                {tr("Modify commission")}
               </Button>
             )}
 
@@ -156,38 +168,73 @@ export default function ExamsGrid() {
             )}
           </>
         )}
+      </OverflowBox>
 
-        {isCommissionOpened && (
-          <>
-            <Table
-              rows={commissions}
-              columns={commissionColumns}
-              checkboxEnabled
-              onRowSelect={(index) => setSelectedCommission(commissions[index])}
-              density="comfortable"
-            />
+      <OverflowBox open={isCommissionOpened} setOpen={setIsCommissionOpened}>
+        <>
+          <Table
+            rows={commissions}
+            columns={commissionColumns}
+            checkboxEnabled
+            onRowSelect={(index) => setSelectedCommission(commissions[index])}
+            density="comfortable"
+          />
 
-            <ButtonGroup variant="outlined" aria-label="Set commission">
-              <Button
-                onClick={async () => await setCommissionOnClick()}
-                loadingPosition="start"
-                disabled={selectedCommission == null}
-                loading={isSetCommitteeLoading}
-              >
-                {tr("Confirm")}
-              </Button>
-              <Button
-                onClick={() => {
-                  setIsExamOpened(true);
-                  setIsCommissionOpened(false);
-                }}
-                loadingPosition="start"
-              >
-                {tr("Back")}
-              </Button>
-            </ButtonGroup>
-          </>
-        )}
+          <ButtonGroup variant="outlined" aria-label="Set commission">
+            <Button
+              onClick={async () => await setCommissionOnClick()}
+              loadingPosition="start"
+              disabled={selectedCommission == null}
+              loading={isSetCommitteeLoading}
+            >
+              {tr("Confirm")}
+            </Button>
+            <Button
+              onClick={() => {
+                setIsExamOpened(true);
+                setIsCommissionOpened(false);
+              }}
+              loadingPosition="start"
+            >
+              {tr("Back")}
+            </Button>
+          </ButtonGroup>
+        </>
+      </OverflowBox>
+
+      <OverflowBox
+        open={isModifyCommissionOpened}
+        setOpen={setIsModifyCommissionOpened}
+      >
+        <>
+          <Table
+            rows={commissions}
+            columns={commissionColumns}
+            checkboxEnabled
+            onRowSelect={(index) => setSelectedCommission(commissions[index])}
+            density="comfortable"
+          />
+
+          <ButtonGroup variant="outlined" aria-label="Set commission">
+            <Button
+              onClick={async () => await setModifyCommissionOnClick()}
+              loadingPosition="start"
+              disabled={selectedCommission == null}
+              loading={isSetCommitteeLoading}
+            >
+              {tr("Confirm")}
+            </Button>
+            <Button
+              onClick={() => {
+                setIsExamOpened(true);
+                setIsModifyCommissionOpened(false);
+              }}
+              loadingPosition="start"
+            >
+              {tr("Back")}
+            </Button>
+          </ButtonGroup>
+        </>
       </OverflowBox>
     </Box>
   );
