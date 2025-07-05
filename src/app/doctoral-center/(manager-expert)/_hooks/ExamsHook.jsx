@@ -122,7 +122,7 @@ export default function ExamsHook() {
       });
     }
 
-    setIsSetCommitteeLoading(true);
+    setIsSetCommitteeLoading(false);
   };
 
   const showCommissionPageOnClick = () => {
