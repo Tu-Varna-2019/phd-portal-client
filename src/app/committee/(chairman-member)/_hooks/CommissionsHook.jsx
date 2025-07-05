@@ -19,7 +19,7 @@ export default function CommissionsHook() {
     deleteCommission
   } = CommitteeAPI();
 
-  const [commissions, setCommisions] = useState();
+  const [commissions, setCommissions] = useState();
   const [allCommittees, setAllCommittees] = useState();
 
   const [newCommissionName, setNewCommissionName] = useState();
@@ -52,7 +52,7 @@ export default function CommissionsHook() {
       });
     });
 
-    setCommisions(commissionsResponse);
+    setCommissions(commissionsResponse);
   }, [language]);
 
   //TODO: Fetch only when needed (when user is in modify or create state)

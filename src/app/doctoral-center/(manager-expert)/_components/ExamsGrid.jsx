@@ -12,9 +12,9 @@ export default function ExamsGrid() {
   const { tr } = Translate();
   const {
     exams,
-    commisions,
+    commissions,
     openGradeAttachmentOnClick,
-    setCommisionOnClick,
+    setCommissionOnClick,
     onApproveCandidatePhdClick,
     onRejectCandidatePhdClick,
     selectedExam,
@@ -22,13 +22,13 @@ export default function ExamsGrid() {
     selectedCommission,
     isExamOpened,
     setIsExamOpened,
-    isCommisionOpened,
+    isCommissionOpened,
     isSetCommitteeLoading,
-    setIsCommisionOpened,
+    setIsCommissionOpened,
     setSelectedCommission,
-    showCommisionPageOnClick
+    showCommissionPageOnClick
   } = ExamsHook();
-  const { examColumns, commisionColumns } = CandidateConstants();
+  const { examColumns, commissionColumns } = CandidateConstants();
 
   return (
     <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
@@ -54,7 +54,7 @@ export default function ExamsGrid() {
       />
 
       <OverflowBox open={isExamOpened} setOpen={setIsExamOpened}>
-        {isExamOpened && !isCommisionOpened && (
+        {isExamOpened && !isCommissionOpened && (
           <>
             <Typography
               component="h2"
@@ -86,7 +86,7 @@ export default function ExamsGrid() {
                   variant="body1"
                   sx={{ color: "#555" }}
                 >
-                  <strong>{tr("name of the commision")}:</strong>{" "}
+                  <strong>{tr("name of the commission")}:</strong>{" "}
                   {selectedExam.commission.name}
                 </Typography>
               )}
@@ -139,16 +139,16 @@ export default function ExamsGrid() {
             </Stack>
             {selectedExam.commission == undefined && (
               <Button
-                onClick={() => showCommisionPageOnClick()}
+                onClick={() => showCommissionPageOnClick()}
                 loadingPosition="start"
               >
-                {tr("Set commision")}
+                {tr("Set commission")}
               </Button>
             )}
 
             {selectedExam.grade != undefined && (
               <Button
-                onClick={() => showCommisionPageOnClick()}
+                onClick={() => showCommissionPageOnClick()}
                 loadingPosition="start"
               >
                 {tr("Approve/Reject")}
@@ -157,19 +157,19 @@ export default function ExamsGrid() {
           </>
         )}
 
-        {isCommisionOpened && (
+        {isCommissionOpened && (
           <>
             <Table
-              rows={commisions}
-              columns={commisionColumns}
+              rows={commissions}
+              columns={commissionColumns}
               checkboxEnabled
-              onRowSelect={(index) => setSelectedCommission(commisions[index])}
+              onRowSelect={(index) => setSelectedCommission(commissions[index])}
               density="comfortable"
             />
 
-            <ButtonGroup variant="outlined" aria-label="Set commision">
+            <ButtonGroup variant="outlined" aria-label="Set commission">
               <Button
-                onClick={async () => await setCommisionOnClick()}
+                onClick={async () => await setCommissionOnClick()}
                 loadingPosition="start"
                 disabled={selectedCommission == null}
                 loading={isSetCommitteeLoading}
@@ -179,7 +179,7 @@ export default function ExamsGrid() {
               <Button
                 onClick={() => {
                   setIsExamOpened(true);
-                  setIsCommisionOpened(false);
+                  setIsCommissionOpened(false);
                 }}
                 loadingPosition="start"
               >

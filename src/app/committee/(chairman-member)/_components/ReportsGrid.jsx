@@ -66,7 +66,7 @@ export default function ReportsGrid() {
               </Typography>
 
               <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Name of the commision")}:</strong>{" "}
+                <strong>{tr("Name of the commission")}:</strong>{" "}
                 {selectedExam.commission.name}
               </Typography>
 

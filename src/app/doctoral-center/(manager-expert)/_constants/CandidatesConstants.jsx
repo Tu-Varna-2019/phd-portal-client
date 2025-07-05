@@ -126,8 +126,8 @@ export default function CandidateConstants() {
     },
     { field: "email", headerName: tr("email"), flex: 1.5, minWidth: 200 },
     {
-      field: "commision name",
-      headerName: tr("name of the commision"),
+      field: "commission name",
+      headerName: tr("name of the commission"),
       flex: 1,
       minWidth: 150
     },
@@ -149,7 +149,7 @@ export default function CandidateConstants() {
     }
   ];
 
-  const commisionColumns = [
+  const commissionColumns = [
     {
       field: "name",
       headerName: tr("name"),
@@ -163,6 +163,6 @@ export default function CandidateConstants() {
     columns,
     downloadBiography,
     examColumns,
-    commisionColumns
+    commissionColumns
   };
 }
