@@ -15,7 +15,7 @@
     "@azure/msal-browser": "^4.12.0",
     "@azure/msal-react": "^2.2.0",
     "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^6.2.1",
     "@mui/lab": "6.0.0-beta.24",
     "@mui/material": "^6.4.5",
