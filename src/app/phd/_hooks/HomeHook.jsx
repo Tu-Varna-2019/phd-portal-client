@@ -34,7 +34,7 @@ export default function HomeHook() {
     (examsStruct, pieChartKeyName) => {
       Object.entries(examsStruct).map(([_, value], index) => {
         examsStruct[index].value = exams.reduce((prev, currentValue) => {
-          if (currentValue.status == tr(value[pieChartKeyName], "en")) prev++;
+          if (currentValue.grade == tr(value[pieChartKeyName], "en")) prev++;
           return prev;
         }, 0);
       });

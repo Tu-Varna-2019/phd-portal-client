@@ -25,9 +25,9 @@ export const SideMenuConstants = () => {
       url: path + "/exams"
     },
     {
-      text: tr("Curriculums"),
+      text: tr("Curriculum"),
       icon: <AccountBalanceIcon />,
-      url: path + "/curriculums"
+      url: path + "/curriculum"
     }
   ];
 
