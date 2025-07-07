@@ -13,7 +13,16 @@ export default function PhdAPI() {
     });
   };
 
+  const setAttachmentsToGrade = async (id, attachments) => {
+    return await route({
+      url: `${API_URL}/grade/${id}`,
+      method: "PATCH",
+      body: attachments
+    });
+  };
+
   return {
-    getGrades
+    getGrades,
+    setAttachmentsToGrade
   };
 }
