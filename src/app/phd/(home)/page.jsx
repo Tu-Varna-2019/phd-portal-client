@@ -2,7 +2,7 @@
 import Layout from "@/components/main-layout/Layout";
 
 import { path } from "../_constants/pathConstant";
-import HomeGrid from "../../(manager-expert)/_components/HomeGrid";
+import HomeGrid from "../_components/HomeGrid";
 import { SideMenuConstants } from "../_constants/sideMenuConstants";
 import Translate from "@/lib/helpers/Translate";
 
