@@ -116,6 +116,7 @@ export default function ExamsGrid() {
                 {tr("Upload")}
                 <input
                   type="file"
+                  // TODO: Check if it works
                   onChange={(event) => uploadAttachment(event)}
                   hidden
                 />

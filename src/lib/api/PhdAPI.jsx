@@ -13,6 +13,13 @@ export default function PhdAPI() {
     });
   };
 
+  const getReports = async () => {
+    return await route({
+      url: `${API_URL}/reports`,
+      method: "GET"
+    });
+  };
+
   const setAttachmentsToGrade = async (id, attachments) => {
     return await route({
       url: `${API_URL}/grade/${id}`,
@@ -23,6 +30,7 @@ export default function PhdAPI() {
 
   return {
     getGrades,
+    getReports,
     setAttachmentsToGrade
   };
 }
