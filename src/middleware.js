@@ -74,10 +74,13 @@ const redirectByCookiePath = (url, groupCookie, roleCookie) => {
   let cookie = null;
 
   switch (groupCookie) {
-    case ("doctoral-center", "committee"):
+    case "doctoral-center":
       cookie = groupCookie + "/" + roleCookie;
       break;
-    case ("phd", "supervisor"):
+    case "committee":
+      cookie = groupCookie + "/" + roleCookie;
+      break;
+    case "phd":
       cookie = groupCookie;
       break;
     default:

@@ -63,7 +63,7 @@ export const getUserByGroup = () => {
   switch (group) {
     case "phd":
       user = {
-        name: phdStore.extractName(),
+        name: phdStore.name,
         email: phdStore.email,
         pictureBlob: phdStore.pictureBlob
       };
