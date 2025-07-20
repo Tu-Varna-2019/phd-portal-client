@@ -9,7 +9,7 @@ import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 
 export default function UserManagementHook() {
-  const { logNotifyAlert } = APIWrapper();
+  const { logNotifyAlert, logAlert } = APIWrapper();
   const { deleteAuthorizedUser } = DoctoralCenterAdminAPI();
   const doctoralCenter = useSelector(selectDoctoralCenter);
   const { getAuthorizedUsers } = DoctoralCenterAdminAPI();
@@ -73,25 +73,37 @@ export default function UserManagementHook() {
   );
 
   const buttonConfirmOnClick = async () => {
-    await deleteAuthorizedUser(selectedUser.oid, tr(selectedUser.group, "en"));
+    const result = await deleteAuthorizedUser(
+      selectedUser.oid,
+      tr(selectedUser.group, "en")
+    );
 
-    logNotifyAlert({
-      title: `Потребител ${selectedUser.name} е изтрит от системата`,
-      description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
-      message:
-        tr("the user") +
-        " " +
-        selectedUser.name +
-        " " +
-        tr("is deleted flom the system!"),
-      action: `Потребител ${selectedUser.name} е изтрит от системата`,
-      level: "success",
-      scope: "group",
-      group: "admin"
-    });
+    if (result.message != null) {
+      logNotifyAlert({
+        title: `Потребител ${selectedUser.name} е изтрит от системата`,
+        description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
+        message:
+          tr("the user") +
+          " " +
+          selectedUser.name +
+          " " +
+          tr("is deleted flom the system!"),
+        action: `Потребител ${selectedUser.name} е изтрит от системата`,
+        level: "success",
+        scope: "group",
+        group: "admin"
+      });
 
-    const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
-    setUsers(updatedRows);
+      const updatedRows = users.filter((elem) => elem.oid !== selectedUser.oid);
+      setUsers(updatedRows);
+    } else {
+      logAlert({
+        message: tr("Проблем при изтриване на удостоверен потребител"),
+        description: "Проблем при изтриване на удостоверен потребител",
+        action: "Проблем при изтриване на удостоверен потребител",
+        level: "error"
+      });
+    }
   };
 
   return {
