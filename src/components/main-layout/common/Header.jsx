@@ -36,9 +36,10 @@ export default function Header({ headerTitle, basePath }) {
       notif.creation = formatDateTime(notif.creation, DateTimeLocale[language]);
     });
 
-    if (!(JSON.stringify(result) === JSON.stringify(notifications))) {
+    if (result.length != notifications.length) {
       bellSound.current.play();
     }
+
     dispatch(setNotifications(result));
   }, []);
 
