@@ -28,6 +28,7 @@ export default function UserManagementHook() {
       user.id = index;
       user.group = tr(user.group);
     });
+
     setUsers(authUsersRes);
   }, [language]);
 
@@ -78,7 +79,7 @@ export default function UserManagementHook() {
       tr(selectedUser.group, "en")
     );
 
-    if (result.message != null) {
+    if (result.status != "error") {
       logNotifyAlert({
         title: `Потребител ${selectedUser.name} е изтрит от системата`,
         description: `Потребителят ${selectedUser.name} е изтрит от в системата от роля: ${selectedUser.group}`,
@@ -98,7 +99,7 @@ export default function UserManagementHook() {
       setUsers(updatedRows);
     } else {
       logAlert({
-        message: tr("Проблем при изтриване на удостоверен потребител"),
+        message: tr(result.message),
         description: "Проблем при изтриване на удостоверен потребител",
         action: "Проблем при изтриване на удостоверен потребител",
         level: "error"
