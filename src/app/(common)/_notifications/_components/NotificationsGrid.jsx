@@ -25,7 +25,9 @@ export default function NotificationsGrid() {
         rows={notifications}
         columns={columns}
         checkboxEnabled
-        onRowSelect={(selectedRows) => setSelectedRows(selectedRows)}
+        onRowSelect={(index) => {
+          setSelectedRows(notifications.filter((not) => not.id == index));
+        }}
       />
       <AlertBox />
 

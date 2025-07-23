@@ -31,6 +31,7 @@ export default function UnauthorizedUsersHook() {
     const unauthUsersResponse = await getUnauthorizedUsers();
     unauthUsersResponse.forEach((unauth) => {
       unauth.formattedTimestamp = formatDateTime(unauth.timestamp);
+      unauth.isAllowed = unauth.allowed;
     });
     setUnauthUsers(unauthUsersResponse);
   }, [language]);
@@ -55,7 +56,7 @@ export default function UnauthorizedUsersHook() {
   const changeIsAllowedOnClick = async (oid, email, isAllowed) => {
     const result = await setUnauthorizedUserIsAllowed(oid, isAllowed);
 
-    if (result != []) {
+    if (result.status == "success") {
       const allowedMsg = isAllowed ? tr("Allowed") : tr("Rejected");
 
       logNotifyAlert({
@@ -69,9 +70,7 @@ export default function UnauthorizedUsersHook() {
       });
     } else {
       logAlert({
-        message: tr(
-          "Problem when changing the enable status of an unauthenticated user"
-        ),
+        message: tr(result.message),
         description: `Проблем при сменяне на позволяване статуса на неудостоверен потребител`,
         action:
           "Пробем при смяна на позволяване статус неудостоверен потребител",

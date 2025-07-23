@@ -5,9 +5,12 @@ import DoctoralCenterAPI from "@/api/DoctoralCenterAPI";
 import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import { DashboardConstants } from "../_constants/dashboardConstants";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
 export default function HomeHook() {
   const { tr, language } = Translate();
+  const { logAlert } = APIWrapper();
+
   const { candidatesLabelStuct, candidatesPieChartStruct } =
     DashboardConstants();
 
@@ -17,7 +20,17 @@ export default function HomeHook() {
 
   const fetchCandidates = useCallback(async () => {
     const candidatesResponse = await getCandidates("status");
-    setCandidates(candidatesResponse);
+
+    if (candidatesResponse.status == "error") {
+      logAlert({
+        message: tr(candidatesResponse.message),
+        description: "Проблем при извличането на кандидати",
+        action: "Проблем при извличането на кандидати",
+        level: "error"
+      });
+    } else {
+      setCandidates(candidatesResponse);
+    }
   }, [language]);
 
   useEffect(() => {

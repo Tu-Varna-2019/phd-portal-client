@@ -1,8 +1,4 @@
-import Translate from "@/lib/helpers/Translate";
-
 export const HomeConstants = () => {
-  Translate();
-
   const examLabelStuct = [
     {
       name: 2,

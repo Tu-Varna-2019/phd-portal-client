@@ -12,7 +12,7 @@ export default function ExamsHook() {
   const doctoralCenter = useSelector(selectDoctoralCenter);
 
   const { setCommissionOnGrade } = DoctoralCenterAPI();
-  const { logNotifyAlert } = APIWrapper();
+  const { logNotifyAlert, logAlert } = APIWrapper();
   const { download } = FileAPI();
   const { language, tr } = Translate();
   const { getGrades, getCommissions } = DoctoralCenterAPI();
@@ -31,21 +31,39 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam, index) => {
-      exam.id = index;
-      exam.subject = tr(exam.subject);
-    });
 
-    setExams(examsResponse);
+    if (examsResponse.status == "error") {
+      logAlert({
+        message: tr(examsResponse.message),
+        description: "Проблем при извличането на изпити",
+        action: "Проблем при извличането на изпити",
+        level: "error"
+      });
+    } else {
+      examsResponse.forEach((exam, index) => {
+        exam.id = index;
+        exam.subject = tr(exam.subject);
+      });
+
+      setExams(examsResponse);
+    }
   }, [language]);
 
   const fetchCommissions = useCallback(async () => {
     const commissionsResponse = await getCommissions();
-
-    commissionsResponse.forEach((commission, index) => {
-      commission.id = index;
-    });
-    setCommissions(commissionsResponse);
+    if (commissionsResponse.status == "error") {
+      logAlert({
+        message: tr(commissionsResponse.message),
+        description: "Проблем при извличането на комисии",
+        action: "Проблем при извличането на комисии",
+        level: "error"
+      });
+    } else {
+      commissionsResponse.forEach((commission, index) => {
+        commission.id = index;
+      });
+      setCommissions(commissionsResponse);
+    }
   }, [language]);
 
   useEffect(() => {
@@ -73,7 +91,7 @@ export default function ExamsHook() {
     const name = selectedCommission.name;
 
     const result = await setCommissionOnGrade(id, name);
-    if (result != []) {
+    if (result.status == "success") {
       logNotifyAlert({
         title: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
         description: `Член на докторантски център ${doctoralCenter.name} зададе комитет: ${name} към оценка с id: ${id}`,
@@ -86,7 +104,7 @@ export default function ExamsHook() {
     } else {
       console.error("Error in setting commission to grade: " + id);
       logAlert({
-        message: tr("Проблем, моля пробвайте по-късно"),
+        message: tr(result.message),
         description: "Проблем, моля пробвайте по-късно",
         action: "Проблем, моля пробвайте по-късно",
         level: "error"
@@ -102,7 +120,7 @@ export default function ExamsHook() {
     const name = selectedCommission.name;
 
     const result = await setCommissionOnGrade(id, name);
-    if (result != []) {
+    if (result.status == "success") {
       logNotifyAlert({
         title: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
         description: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
@@ -115,7 +133,7 @@ export default function ExamsHook() {
     } else {
       console.error("Error in setting commission to grade: " + id);
       logAlert({
-        message: tr("Проблем, моля пробвайте по-късно"),
+        message: tr(result.message),
         description: "Проблем, моля пробвайте по-късно",
         action: "Проблем, моля пробвайте по-късно",
         level: "error"

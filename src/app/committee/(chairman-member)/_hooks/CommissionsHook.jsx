@@ -9,7 +9,7 @@ import { selectCommittee } from "@/lib/features/user/slices/userMemoSelector";
 export default function CommissionsHook() {
   const { language, tr } = Translate();
 
-  const { logNotifyAlert } = APIWrapper();
+  const { logNotifyAlert, logAlert } = APIWrapper();
   const signedCommittee = useSelector(selectCommittee);
   const {
     createCommission,
@@ -42,32 +42,51 @@ export default function CommissionsHook() {
 
   const fetchCommissions = useCallback(async () => {
     const commissionsResponse = await getCommissions();
-    commissionsResponse.forEach((commission, index) => {
-      commission.id = index;
-      commission.faculty = tr(commission.faculty);
 
-      commission.committees.forEach((committee, index) => {
-        committee.id = index;
-        committee.role = tr(committee.role);
+    if (commissionsResponse.status == "error") {
+      logAlert({
+        message: tr(commissionsResponse.message),
+        description: "Проблем при извличането на комисиитe",
+        action: "Проблем при извличането на комисиитe",
+        level: "error"
       });
-    });
+    } else {
+      commissionsResponse.forEach((commission, index) => {
+        commission.id = index;
+        commission.faculty = tr(commission.faculty);
 
-    setCommissions(commissionsResponse);
+        commission.committees.forEach((committee, index) => {
+          committee.id = index;
+          committee.role = tr(committee.role);
+        });
+      });
+
+      setCommissions(commissionsResponse);
+    }
   }, [language]);
 
   //TODO: Fetch only when needed (when user is in modify or create state)
   const fetchAllCommittees = useCallback(async () => {
     if (signedCommittee.role.role == "chairman") {
       const committeesResponse = await getCommittees();
-      committeesResponse.forEach((committee, index) => {
-        committee.id = index;
-        committee.role = tr(committee.role);
-      });
-      committeesResponse.sort(
-        (prevCommittee, currCommittee) => prevCommittee.id > currCommittee.id
-      );
 
-      setAllCommittees(committeesResponse);
+      if (committeesResponse.status == "error") {
+        logAlert({
+          message: tr(commissionsResponse.message),
+          description: "Проблем при извличането на комисиитe",
+          action: "Проблем при извличането на комисиитe",
+          level: "error"
+        });
+      } else {
+        committeesResponse.forEach((committee, index) => {
+          committee.id = index;
+          committee.role = tr(committee.role);
+        });
+        committeesResponse.sort(
+          (prevCommittee, currCommittee) => prevCommittee.id > currCommittee.id
+        );
+        setAllCommittees(committeesResponse);
+      }
     }
   }, [language]);
 
@@ -115,30 +134,39 @@ export default function CommissionsHook() {
     );
     committees.push({ oid: signedCommittee.oid });
 
-    await createCommission(newCommissionName, committees);
+    const result = await createCommission(newCommissionName, committees);
 
-    logNotifyAlert({
-      title:
-        `Член от комитета: ${signedCommittee.name} създаде комитет: ` +
-        selectedCommission.name,
-      description:
-        `Член от комитета: ${signedCommittee.name} създаде комитет: ` +
-        selectedCommission.name,
-      message:
-        tr("You have successfully") +
-        " " +
-        tr("created") +
-        " " +
-        tr("commission") +
-        " " +
-        selectedCommission.name,
-      action:
-        `Потребителят ${signedCommittee.name} създаде комитет: ` +
-        selectedCommission.name,
-      level: "success",
-      scope: "group",
-      group: "committee"
-    });
+    if (result.status == "success") {
+      logNotifyAlert({
+        title:
+          `Член от комитета: ${signedCommittee.name} създаде комитет: ` +
+          selectedCommission.name,
+        description:
+          `Член от комитета: ${signedCommittee.name} създаде комитет: ` +
+          selectedCommission.name,
+        message:
+          tr("You have successfully") +
+          " " +
+          tr("created") +
+          " " +
+          tr("commission") +
+          " " +
+          newCommissionName,
+        action:
+          `Потребителят ${signedCommittee.name} създаде комитет: ` +
+          selectedCommission.name,
+        level: "success",
+        scope: "group",
+        group: "committee"
+      });
+    } else {
+      logAlert({
+        message: tr(result.message),
+        description: "Проблем при създаването на комисия",
+        action: "Проблем при създаването на комисия",
+        level: "error"
+      });
+    }
   };
 
   const onModifyCommissionOnClick = async () => {
@@ -147,61 +175,79 @@ export default function CommissionsHook() {
     );
     committeesOids.push({ oid: signedCommittee.oid });
 
-    await modifyCommission({
+    const result = await modifyCommission({
       name: selectedCommission.name,
       newName: newCommissionName,
       committeOids: committeesOids
     });
 
-    logNotifyAlert({
-      title:
-        `Член от комитета: ${signedCommittee.name} промени комитет: ` +
-        selectedCommission.name,
-      description:
-        `Член от комитета: ${signedCommittee.name} промени комитет: ` +
-        selectedCommission.name,
-      message:
-        tr("You have successfully") +
-        " " +
-        tr("modified") +
-        " " +
-        tr("commission") +
-        " " +
-        selectedCommission.name,
-      action:
-        `Потребителят ${signedCommittee.name} промени комитет: ` +
-        selectedCommission.name,
-      level: "success",
-      scope: "group",
-      group: "committee"
-    });
+    if (result.status == "success") {
+      logNotifyAlert({
+        title:
+          `Член от комитета: ${signedCommittee.name} промени комитет: ` +
+          selectedCommission.name,
+        description:
+          `Член от комитета: ${signedCommittee.name} промени комитет: ` +
+          selectedCommission.name,
+        message:
+          tr("You have successfully") +
+          " " +
+          tr("modified") +
+          " " +
+          tr("commission") +
+          " " +
+          selectedCommission.name,
+        action:
+          `Потребителят ${signedCommittee.name} промени комитет: ` +
+          selectedCommission.name,
+        level: "success",
+        scope: "group",
+        group: "committee"
+      });
+    } else {
+      logAlert({
+        message: tr(result.message),
+        description: "Проблем при модификацията на комисия",
+        action: "Проблем при модификацията на комисия",
+        level: "error"
+      });
+    }
   };
 
   const onDeleteCommissionOnClick = async () => {
-    await deleteCommission(selectedCommission.name);
+    const result = await deleteCommission(selectedCommission.name);
 
-    logNotifyAlert({
-      title:
-        `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
-        selectedCommission.name,
-      description:
-        `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
-        selectedCommission.name,
-      message:
-        tr("You have successfully") +
-        " " +
-        tr("deleted") +
-        " " +
-        tr("commission") +
-        " " +
-        selectedCommission.name,
-      action:
-        `Потребителят ${signedCommittee.name} изтри комитет: ` +
-        selectedCommission.name,
-      level: "success",
-      scope: "group",
-      group: "committee"
-    });
+    if (result.status == "success") {
+      logNotifyAlert({
+        title:
+          `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
+          selectedCommission.name,
+        description:
+          `Член от комитета: ${signedCommittee.name} изтри комитет: ` +
+          selectedCommission.name,
+        message:
+          tr("You have successfully") +
+          " " +
+          tr("deleted") +
+          " " +
+          tr("commission") +
+          " " +
+          selectedCommission.name,
+        action:
+          `Потребителят ${signedCommittee.name} изтри комитет: ` +
+          selectedCommission.name,
+        level: "success",
+        scope: "group",
+        group: "committee"
+      });
+    } else {
+      logAlert({
+        message: tr(result.message),
+        description: "Проблем при изтриването на комисия",
+        action: "Проблем при изтриването на комисия",
+        level: "error"
+      });
+    }
   };
 
   return {

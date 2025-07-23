@@ -30,8 +30,7 @@ export default function Header({ headerTitle, basePath }) {
   const fetchNotifications = useCallback(async () => {
     const result = await getNotifications();
 
-    result.forEach((notif, index) => {
-      notif.id = index;
+    result.forEach((notif) => {
       notif.severity = tr(notif.severity);
       notif.creation = formatDateTime(notif.creation, DateTimeLocale[language]);
     });

@@ -8,8 +8,8 @@ import PhdAPI from "@/lib/api/PhdAPI";
 
 export default function ExamsHook() {
   const { language, tr } = Translate();
+  const { logAlert } = APIWrapper();
 
-  APIWrapper();
   const { getGrades, setAttachmentsToGrade } = PhdAPI();
   const { download } = FileAPI();
 
@@ -21,17 +21,28 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam, index) => {
-      exam.id = index;
-      exam.subject = tr(exam.subject);
 
-      exam.commission.committees.forEach((committee, index) => {
-        committee.id = index;
-        committee.role = tr(committee.role);
+    if (examsResponse.status == "error") {
+      logAlert({
+        message: tr(examsResponse.message),
+        description: "Проблем при извличането на изпити",
+        action: "Проблем при извличането на изпити",
+        level: "error"
       });
-    });
+    } else {
+      examsResponse.forEach((exam, index) => {
+        exam.id = index;
+        exam.subject = tr(exam.subject);
 
-    setExams(examsResponse);
+        if (exam.commission != null) {
+          exam.commission.committees.forEach((committee, index) => {
+            committee.id = index;
+            committee.role = tr(committee.role);
+          });
+        }
+      });
+      setExams(examsResponse);
+    }
   }, [language]);
 
   useEffect(() => {
@@ -44,11 +55,20 @@ export default function ExamsHook() {
   const openGradeAttachmentOnClick = async (attachment) => {
     const blobData = await download(`grades/${attachment}`);
 
-    const dataUrl = await createDataUrl({
-      file: blobData,
-      fileType: "blob"
-    });
-    window.open(dataUrl, "_blank", "noopener,noreferrer");
+    if (blobData.status == "success") {
+      const dataUrl = await createDataUrl({
+        file: blobData,
+        fileType: "blob"
+      });
+      window.open(dataUrl, "_blank", "noopener,noreferrer");
+    } else {
+      logAlert({
+        message: tr(blobData.message),
+        description: "Проблем при изтеглянето на файла",
+        action: "Проблем при изтеглянето на файла",
+        level: "error"
+      });
+    }
   };
 
   const uploadAttachment = async (event) => {
@@ -63,9 +83,8 @@ export default function ExamsHook() {
     formData.append("mimetype", type);
 
     const result = await upload(formData, "grades");
-    if (result != []) {
+    if (result.status == "success") {
       await setAttachmentsToGrade();
-
       logAlert({
         message: tr("You have successfully uploaded attachment!"),
         description:
@@ -78,7 +97,7 @@ export default function ExamsHook() {
     } else {
       dispatch(
         setAlertBox({
-          message: tr("Error when uploading"),
+          message: tr(result.message),
           severity: "error"
         })
       );

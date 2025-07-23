@@ -103,9 +103,27 @@ export default function ServerRoute() {
       case 401:
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
       case 400:
-        throw new Error("NextJS Api route client error");
+        const resultUnauth = await response.json();
+        console.error(`Nextjs Client side error ${resultUnauth.message}`);
+
+        return NextResponse.json(
+          {
+            message: resultUnauth.message
+          },
+          { status: 400 }
+        );
+      // throw new Error("NextJS Api route client error");
       case 403:
-        throw new Error("Forbidden!");
+        const resultForb = await response.json();
+        console.error(`Nextjs Client side error ${resultForb.message}`);
+
+        return NextResponse.json(
+          {
+            message: resultForb.message
+          },
+          { status: 403 }
+        );
+      // throw new Error("Forbidden!");
       case 500:
         throw new Error("Nextjs Server side error");
       case 200:
@@ -117,6 +135,7 @@ export default function ServerRoute() {
           if (method != "GET") {
             console.log(`API response: ${JSON.stringify(data)}`);
           }
+
           return NextResponse.json(data, {
             status: response.status
           });

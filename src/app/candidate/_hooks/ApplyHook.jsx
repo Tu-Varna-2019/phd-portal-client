@@ -5,8 +5,12 @@ import CandidateColumnConstants from "../_constants/columnsConstant";
 import { cleanColumns } from "@/lib/helpers/utils";
 import { useSelector } from "react-redux";
 import { selectCandidate } from "@/features/user/slices/userMemoSelector";
+import { useAppDispatch } from "@/lib/features/constants";
+import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 
 export default function AppllyHook() {
+  const dispatch = useAppDispatch();
+
   const [curriculumsByFaculty, setCurriculumsByFaculty] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [selectedCurriculum, setSelectedCurriculum] = useState();
@@ -19,26 +23,47 @@ export default function AppllyHook() {
 
   const fetchFaculties = useCallback(async () => {
     const facultiesRes = await getFaculty();
-    facultiesRes.forEach((faculty, index) => {
-      faculty.id = index;
-      faculty.name = tr(faculty.name);
-    });
-    setFaculties(facultiesRes);
+    if (facultiesRes.status == "error") {
+      dispatch(
+        setAlertBox({
+          message: tr("Error in retrieving faculties"),
+          level: "error"
+        })
+      );
+    } else {
+      facultiesRes.forEach((faculty, index) => {
+        faculty.id = index;
+        faculty.name = tr(faculty.name);
+      });
+      setFaculties(facultiesRes);
+    }
   }, [language]);
 
   const fetchCurriculumByFaculty = useCallback(async () => {
     const result = await getCurriculums();
-    result.filter((curriculum) => curriculum.faculty == selectedFaculty);
-    result.forEach((curriculum, index) => {
-      curriculum.id = index;
-      curriculum.name = tr(curriculum.name);
-      curriculum.mode = tr(cleanColumns(curriculum.mode));
-    });
-    setCurriculumsByFaculty(result);
 
-    if (localStorage.getItem("curriculum")) {
-      const curriculumLocalStg = JSON.parse(localStorage.getItem("curriculum"));
-      setSelectedCurriculum(curriculumLocalStg);
+    if (result.status == "error") {
+      dispatch(
+        setAlertBox({
+          message: tr("Error in retrieving curriculums"),
+          level: "error"
+        })
+      );
+    } else {
+      result.filter((curriculum) => curriculum.faculty == selectedFaculty);
+      result.forEach((curriculum, index) => {
+        curriculum.id = index;
+        curriculum.name = tr(curriculum.name);
+        curriculum.mode = tr(cleanColumns(curriculum.mode));
+      });
+      setCurriculumsByFaculty(result);
+
+      if (localStorage.getItem("curriculum")) {
+        const curriculumLocalStg = JSON.parse(
+          localStorage.getItem("curriculum")
+        );
+        setSelectedCurriculum(curriculumLocalStg);
+      }
     }
   }, [selectedFaculty, language]);
 

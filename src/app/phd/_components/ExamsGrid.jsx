@@ -90,37 +90,49 @@ export default function ExamsGrid() {
                 </Typography>
               )}
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Name of the commission")}:</strong>{" "}
-                {selectedExam.commission.name}
-              </Typography>
+              {selectedExam.commission != null && (
+                <>
+                  <Typography
+                    component="h3"
+                    variant="body1"
+                    sx={{ color: "#555" }}
+                  >
+                    <strong>{tr("Name of the commission")}:</strong>{" "}
+                    {selectedExam.commission.name}
+                  </Typography>
 
-              <Typography component="h3" variant="body1" sx={{ color: "#555" }}>
-                <strong>{tr("Committees")}:</strong>{" "}
-              </Typography>
+                  <Typography
+                    component="h3"
+                    variant="body1"
+                    sx={{ color: "#555" }}
+                  >
+                    <strong>{tr("Committees")}:</strong>{" "}
+                  </Typography>
 
-              <Table
-                rows={selectedExam.commission.committees}
-                columns={committeeColumns}
-                density="comfortable"
-              />
+                  <Table
+                    rows={selectedExam.commission.committees}
+                    columns={committeeColumns}
+                    density="comfortable"
+                  />
 
-              <Button
-                variant="outlined"
-                color="primary"
-                component="label"
-                loading={isAttachmentBtnClicked}
-                fullWidth
-                startIcon={<DraftsIcon />}
-              >
-                {tr("Upload")}
-                <input
-                  type="file"
-                  // TODO: Check if it works
-                  onChange={(event) => uploadAttachment(event)}
-                  hidden
-                />
-              </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    component="label"
+                    loading={isAttachmentBtnClicked}
+                    fullWidth
+                    startIcon={<DraftsIcon />}
+                  >
+                    {tr("Upload")}
+                    <input
+                      type="file"
+                      // TODO: Check if it works
+                      onChange={(event) => uploadAttachment(event)}
+                      hidden
+                    />
+                  </Button>
+                </>
+              )}
             </Stack>
           </>
         )}

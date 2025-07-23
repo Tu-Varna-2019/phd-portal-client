@@ -5,18 +5,30 @@ import { runPeriodically } from "@/lib/helpers/utils";
 import Translate from "@/lib/helpers/Translate";
 import { HomeConstants } from "../_constants/HomeConstants";
 import PhdAPI from "@/lib/api/PhdAPI";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
 export default function HomeHook() {
-  const { tr, language } = Translate();
-  const { examLabelStuct, examPieChartStruct } = HomeConstants();
-
   const phd = useSelector(selectPhd);
-  const [exams, setExams] = useState([]);
+  const { tr, language } = Translate();
   const { getGrades } = PhdAPI();
+  const { logAlert } = APIWrapper();
+
+  const { examLabelStuct, examPieChartStruct } = HomeConstants();
+  const [exams, setExams] = useState([]);
 
   const fetchGrades = useCallback(async () => {
     const examResponse = await getGrades();
-    setExams(examResponse);
+
+    if (examResponse.status == "error") {
+      logAlert({
+        message: tr(examResponse.message),
+        description: "Проблем при извличането на изпитите",
+        action: "Проблем при извличането на изпитите",
+        level: "error"
+      });
+    } else {
+      setExams(examResponse);
+    }
   }, [language]);
 
   useEffect(() => {

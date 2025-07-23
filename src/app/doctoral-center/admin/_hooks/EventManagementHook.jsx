@@ -23,12 +23,11 @@ export default function EventManagementHook() {
   const [filterState, setFilterState] = useState(initialFilterBtnVal);
 
   const flattenLogs = (logs) => {
-    let idCounter = 0;
     if (logs != []) {
       // TODO: Improve me!  Need to create a utils function for flattening object
       logs.flat();
-      logs.forEach((log) => {
-        log.id = idCounter++;
+      logs.forEach((log, index) => {
+        log.id = index;
         log.formattedTimestamp = formatDateTime(log.timestamp);
         log.oid = log.user.oid;
         log.name = log.user.name;

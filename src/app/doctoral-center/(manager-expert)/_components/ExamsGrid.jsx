@@ -157,15 +157,6 @@ export default function ExamsGrid() {
                 {tr("Modify commission")}
               </Button>
             )}
-
-            {selectedExam.grade != undefined && (
-              <Button
-                onClick={() => showCommissionPageOnClick()}
-                loadingPosition="start"
-              >
-                {tr("Approve/Reject")}
-              </Button>
-            )}
           </>
         )}
       </OverflowBox>

@@ -14,6 +14,7 @@ import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 import CandidateForm from "./CandidateForm";
 import CandidateApplyConfirmation from "./CandidateApplyConfirmation";
 import { modes } from "@/lib/helpers/utils";
+import AlertBox from "@/components/main-layout/common/AlertBox";
 
 export default function ApplyGrid() {
   const {
@@ -175,6 +176,7 @@ export default function ApplyGrid() {
         finishMsg={tr("Your application has been submitted successfully!")}
         nextBtnDisabled={disableNextBtn}
       >
+        <AlertBox />
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
           {tr("Apply for a Phd")}
         </Typography>
