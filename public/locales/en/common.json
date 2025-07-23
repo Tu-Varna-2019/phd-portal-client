@@ -1,6 +1,7 @@
 {
   "Здравей": "Hello",
   "Грешка при комуникация със сървъра! Моля, опитайте отново по -късно!": "Error with communicating with the server! Please try again later!",
+  "Потребителят с такъв OID не съществува!": "User with such oid doesn't exist!",
   "Начало": "Home",
   "Обявяване на конкурси": "Announcement of competitions",
   "Кандидатствай": "Candidate",

@@ -41,7 +41,7 @@ export default function ClientRoute() {
         // window.location.reload();
       } else if (response.status >= 400 && response.status < 500) {
         const result = await response.json();
-        console.error(`Client side error with message: ${response.message}`);
+        console.error(`Client side error with message: ${result.message}`);
 
         return { status: "error", message: result.message };
       } else if (response.status >= 500 && response.status < 600) {

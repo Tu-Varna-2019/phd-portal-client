@@ -104,6 +104,7 @@ export default function ServerRoute() {
         return NextResponse.redirect(new URL("/", "https://localhost:3000"));
       case 400:
         const resultUnauth = await response.json();
+        console.error(`Nextjs Client side error ${resultUnauth.message}`);
 
         return NextResponse.json(
           {
@@ -114,6 +115,7 @@ export default function ServerRoute() {
       // throw new Error("NextJS Api route client error");
       case 403:
         const resultForb = await response.json();
+        console.error(`Nextjs Client side error ${resultForb.message}`);
 
         return NextResponse.json(
           {
