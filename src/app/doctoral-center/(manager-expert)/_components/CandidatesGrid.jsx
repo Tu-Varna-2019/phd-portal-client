@@ -26,7 +26,7 @@ export default function CandidatesGrid() {
 
     if (status == "approved" || status == "rejected") {
       const result = await review(selectedCandidate.email, status);
-      if (result.length != 0) {
+      if (result.status == "success") {
         logNotifyAlert({
           title: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
           description: `Кандидат ${selectedCandidate.email} е ${tr(status)}`,
@@ -37,11 +37,8 @@ export default function CandidatesGrid() {
           group: "expert-manager"
         });
       } else {
-        //TODO: Don't hardcode this but get it from the server
         logAlert({
-          message: tr(
-            "Cannot move to to next step, because the commission hasn't evaluated the previous exams yet!"
-          ),
+          message: tr(result.message),
           description: "Грешка при приемането на изпит",
           action: "Грешка при приемането на изпит",
           level: "error"

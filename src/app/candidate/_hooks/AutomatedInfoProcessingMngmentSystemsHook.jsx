@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import CandidateAPI from "@/api/CandidateAPI";
 import Translate from "@/lib/helpers/Translate";
+import { useAppDispatch } from "@/lib/features/constants";
+import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
 
 export default function AutomatedInfoProcessingMngmentSystemsHook() {
+  const dispatch = useAppDispatch();
+  const { tr, language } = Translate();
+
   const [subjects, setSubjects] = useState([]);
   const { getSubjectsByCurriculumName } = CandidateAPI();
-  const { tr, language } = Translate();
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -13,15 +17,22 @@ export default function AutomatedInfoProcessingMngmentSystemsHook() {
         "Automated information processing and management systems"
       );
 
-      if (subjectsRes != []) {
+      if (subjectsRes.status == "error") {
+        dispatch(
+          setAlertBox({
+            message: tr("Error in retrieving faculties"),
+            level: "error"
+          })
+        );
+      } else {
         subjectsRes.forEach((subject, index) => {
           subject.id = index;
           subject.name = tr(subject.name);
         });
         setSubjects(subjectsRes);
       }
+      fetchSubjects();
     };
-    fetchSubjects();
   }, [language]);
 
   return {

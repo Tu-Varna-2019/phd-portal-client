@@ -1,11 +1,10 @@
 import { renderAvatar } from "@/components/cells-renderers/avatar";
 import FileAPI from "@/api/FileAPI";
 import Translate from "@/lib/helpers/Translate";
-import { createDataUrl } from "@/lib/helpers/utils";
 
 export default function ExamsConstants() {
   const { tr } = Translate();
-  const { download } = FileAPI();
+  FileAPI();
 
   // TODO: Move this to utils.jsx
 
@@ -26,7 +25,8 @@ export default function ExamsConstants() {
       field: "commission name",
       headerName: tr("Name of the commission"),
       renderCell: (param) => {
-        return param.row.commission.name;
+        const commission = param.row.commission;
+        return commission == null ? null : commission.name;
       },
       flex: 1,
       minWidth: 150

@@ -10,12 +10,15 @@ import CandidateAPI from "@/api/CandidateAPI";
 import { dataUrlToBlob } from "@/lib/helpers/utils";
 import { useAppDispatch } from "@/lib/features/constants";
 import { setAlertBox } from "@/lib/features/uiState/slices/uiStateSlice";
+import APIWrapper from "@/lib/helpers/APIWrapper";
 
 export default function CandidateApplyConfirmation() {
   const { tr } = Translate();
+  const { notificationAlert } = APIWrapper();
   const dispatch = useAppDispatch();
   const { apply, uploadBiography } = CandidateAPI();
   const [submitLoading, setSubmitLoading] = useState(false);
+
   const candidate = useSelector(selectCandidate);
 
   const handleApply = async () => {
@@ -36,7 +39,6 @@ export default function CandidateApplyConfirmation() {
     const responseBiography = await uploadBiography(formData);
 
     if (responseApplication.length == 0 || responseBiography.length == 0) {
-      // TODO: For some reason the toast bar isn't showing at all
       dispatch(
         setAlertBox({
           message: tr("Error, please try again later!"),

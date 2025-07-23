@@ -12,7 +12,7 @@ export default function ExamsHook() {
   const { language, tr } = Translate();
   const grades = [2, 3, 4, 5, 6];
 
-  const { logNotifyAlert } = APIWrapper();
+  const { logNotifyAlert, logAlert } = APIWrapper();
   const { getGrades, evaluateGrade } = CommitteeAPI();
   const { download } = FileAPI();
 
@@ -27,22 +27,31 @@ export default function ExamsHook() {
 
   const fetchExams = useCallback(async () => {
     const examsResponse = await getGrades();
-    examsResponse.forEach((exam, index) => {
-      exam.id = index;
-      exam.subject = tr(exam.subject);
 
-      exam.commission.committees.forEach((committee, index) => {
-        committee.id = index;
-        committee.role = tr(committee.role);
-
-        // NOTE: Check if the signed committee signed a grade or not
-        if (signedCommittee.oid == committee.oid && committee.grade != null) {
-          setIsSignedCommitteeEvalGrade(true);
-        }
+    if (examsResponse.status == "error") {
+      logAlert({
+        message: tr(examsResponse.message),
+        description: "Проблем при извличането на изпити",
+        action: "Проблем при извличането на изпити",
+        level: "error"
       });
-    });
+    } else {
+      examsResponse.forEach((exam, index) => {
+        exam.id = index;
+        exam.subject = tr(exam.subject);
 
-    setExams(examsResponse);
+        exam.commission.committees.forEach((committee, index) => {
+          committee.id = index;
+          committee.role = tr(committee.role);
+
+          // NOTE: Check if the signed committee signed a grade or not
+          if (signedCommittee.oid == committee.oid && committee.grade != null) {
+            setIsSignedCommitteeEvalGrade(true);
+          }
+        });
+      });
+      setExams(examsResponse);
+    }
   }, [language]);
 
   useEffect(() => {
@@ -54,46 +63,67 @@ export default function ExamsHook() {
 
   const openGradeAttachmentOnClick = async (attachment) => {
     const blobData = await download(`grades/${attachment}`);
-
-    const dataUrl = await createDataUrl({
-      file: blobData,
-      fileType: "blob"
-    });
-    window.open(dataUrl, "_blank", "noopener,noreferrer");
+    if (blobData.status == "success") {
+      const dataUrl = await createDataUrl({
+        file: blobData,
+        fileType: "blob"
+      });
+      window.open(dataUrl, "_blank", "noopener,noreferrer");
+    } else {
+      logAlert({
+        message: tr(blobData.message),
+        description: "Проблем при изтеглянето на файла",
+        action: "Проблем при изтеглянето на файла",
+        level: "error"
+      });
+    }
   };
 
   const onEvaluateExamOnClick = async () => {
-    await evaluateGrade(
+    const result = await evaluateGrade(
       selectedExam.evaluatedUser.group,
       parseFloat(gradeOption),
       tr(selectedExam.subject, "en"),
       selectedExam.evaluatedUser.pin
     );
 
-    logNotifyAlert({
-      title:
-        `Член от комитета: ${signedCommittee.name} оцени студнет: ` +
-        selectedExam.evaluatedUser.name +
-        " с оценка: " +
-        gradeOption,
-      description:
-        `Член от комитета: ${signedCommittee.name} оцени студнет: ` +
-        selectedExam.evaluatedUser.name +
-        " с оценка: " +
-        gradeOption,
-      message:
-        tr("You have successfull evaluated") +
-        " " +
-        tr(selectedExam.evaluatedUser.group) +
-        " " +
-        tr("to grade") +
-        " " +
-        gradeOption,
-      action: `Потребителят ${signedCommittee.name} е оценил студент с ЕГН: ${selectedExam.evaluatedUser.pin} с оценка ${gradeOption}`,
-      level: "success",
-      scope: "group",
-      group: "committee"
-    });
+    if (result.status == "success") {
+      logNotifyAlert({
+        title:
+          `Член от комитета: ${signedCommittee.name} оцени студнет: ` +
+          selectedExam.evaluatedUser.name +
+          " с оценка: " +
+          gradeOption,
+        description:
+          `Член от комитета: ${signedCommittee.name} оцени студнет: ` +
+          selectedExam.evaluatedUser.name +
+          " с оценка: " +
+          gradeOption,
+        message:
+          tr("You have successfull evaluated") +
+          " " +
+          tr(selectedExam.evaluatedUser.group) +
+          " " +
+          tr("to grade") +
+          " " +
+          gradeOption,
+        action: `Потребителят ${signedCommittee.name} е оценил студент с ЕГН: ${selectedExam.evaluatedUser.pin} с оценка ${gradeOption}`,
+        level: "success",
+        scope: "group",
+        group: "committee"
+      });
+    } else {
+      logAlert({
+        message: tr(result.message),
+        description:
+          "Проблем при оценяването на оценка за студент: " +
+          selectedExam.evaluatedUser.name,
+        action:
+          "Проблем при оценяването на оценка за студент: " +
+          selectedExam.evaluatedUser.name,
+        level: "error"
+      });
+    }
   };
 
   const onEvaluateGradeChange = async (value) => {

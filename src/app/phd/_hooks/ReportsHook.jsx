@@ -7,8 +7,7 @@ import PhdAPI from "@/lib/api/PhdAPI";
 
 export default function ReportsHook() {
   const { language, tr } = Translate();
-
-  APIWrapper();
+  const { logAlert } = APIWrapper();
   const { getReports } = PhdAPI();
 
   const [reports, setReports] = useState([]);
@@ -18,13 +17,23 @@ export default function ReportsHook() {
 
   const fetchReports = useCallback(async () => {
     const reportsResponse = await getReports();
-    reportsResponse.forEach((report, index) => {
-      report.id = index;
-      report.conduct = tr(report.conduct);
-      report.enrollmentDate = formatDateTime(report.enrollmentDate);
-    });
 
-    setReports(reportsResponse);
+    if (reportsResponse.status == "error") {
+      logAlert({
+        message: tr(reportsResponse.message),
+        description: "Проблем при извличането на отчетите",
+        action: "Проблем при извличането на отчетите",
+        level: "error"
+      });
+    } else {
+      reportsResponse.forEach((report, index) => {
+        report.id = index;
+        report.conduct = tr(report.conduct);
+        report.enrollmentDate = formatDateTime(report.enrollmentDate);
+      });
+
+      setReports(reportsResponse);
+    }
   }, [language]);
 
   useEffect(() => {
