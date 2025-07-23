@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function ClientRoute() {
   const sessionToken = useSelector(selectSessionToken);
-  const tr = Translate();
+  const { tr } = Translate();
 
   const route = async ({
     url,
