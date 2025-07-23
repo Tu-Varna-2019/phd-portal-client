@@ -120,7 +120,7 @@ export default function ExamsHook() {
     const name = selectedCommission.name;
 
     const result = await setCommissionOnGrade(id, name);
-    if (result == "success") {
+    if (result.status == "success") {
       logNotifyAlert({
         title: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,
         description: `Член на докторантски център ${doctoralCenter.name} промени комитет: ${name} към оценка с id: ${id}`,

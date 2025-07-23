@@ -36,3 +36,4 @@ yarn-error.log*
 .next
 
 certificates
+__tests__/app/doctoral-center/admin/profile/__snapshots__

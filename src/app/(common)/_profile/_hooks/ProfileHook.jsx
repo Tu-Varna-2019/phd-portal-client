@@ -1,5 +1,4 @@
 import { createDataUrl } from "@/helpers/utils";
-import { setAlertBox } from "@/features/uiState/slices/uiStateSlice";
 import APIWrapper from "@/helpers/APIWrapper";
 import { useState } from "react";
 import Auth from "@/lib/auth/auth";
@@ -28,7 +27,7 @@ export default function ProfileHook(setUser) {
     formData.append("mimetype", type);
 
     const result = await upload(formData, "avatar");
-    if (result != []) {
+    if (result.status == "success") {
       user.picture = result.data;
       user.pictureBlob = await createDataUrl({
         file: fileBytes,
@@ -43,12 +42,12 @@ export default function ProfileHook(setUser) {
         level: "success"
       });
     } else {
-      dispatch(
-        setAlertBox({
-          message: tr("Error when uploading a picture"),
-          severity: "error"
-        })
-      );
+      logAlert({
+        message: tr(result.message),
+        description: "Проблем при качването на снимка",
+        action: "Проблем при качването на снимка",
+        level: "error"
+      });
     }
 
     setIsImageLoading(false);
@@ -58,7 +57,7 @@ export default function ProfileHook(setUser) {
     setIsImageLoading(true);
 
     const result = await deleteFile({ filename: user.picture }, "avatar");
-    if (result != []) {
+    if (result.status == "success") {
       user.picture = "";
       user.pictureBlob = "";
       dispatch(setUser({ data: user }));
@@ -70,12 +69,12 @@ export default function ProfileHook(setUser) {
         level: "success"
       });
     } else {
-      dispatch(
-        setAlertBox({
-          message: tr("Error when deleting a picture"),
-          severity: "error"
-        })
-      );
+      logAlert({
+        message: tr(result.message),
+        description: "Проблем при изтриването на изпити",
+        action: "Проблем при изтриването на изпити",
+        level: "error"
+      });
     }
 
     setIsImageLoading(false);
